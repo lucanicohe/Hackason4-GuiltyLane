@@ -27,11 +27,8 @@ public class TeamBuilder : MonoBehaviour
     private int MinNobilityInheritance = 6;
     private int MinCitizenInheritance = 3;
     private int MinPrisonerInheritance = 0;
-    //--右の役職の名前--
-    private string RightSelectRole;
-
-    //--左の役職の名前--
-    private string LeftSelectRole;
+    
+    //--役職一覧--
     private List<string> Role = new List<string>()
     {
         "Royal(王族)",
@@ -41,76 +38,63 @@ public class TeamBuilder : MonoBehaviour
 
     };
 
-    //--右のランダムに決まる遺産・人数
-    int RightInheritance = 0;
-    int RightPersonnum = 0;
-    //--左のランダムに決まる遺産・人数
-    int LeftInheritance = 0;
-    int LeftPersonnum = 0;
-
-    //最終的なすべての遺産
-    int RightTotalInheritance = 0;
-    int LeftTotalInheritance = 0;
-
-
-    private void Start()
+    private class HitPersonData
     {
-        RightTeamBulid();
-        LeftTeamBuild();
+        //--役職の名前--
+        public string SelectRole;
+
+        //--ランダムに決まる遺産・人数
+        public List<int> Inheritance = new List<int>();
+        public int Personnum = 0;
+
+        //最終的なすべての遺産
+        public int TotalInheritance = 0;
+
     }
-    public void RightTeamBulid()
+
+    void Update()
     {
-        RightSelectRole = Role[UnityEngine.Random.Range(0, 3)];
-        switch (LeftSelectRole)
+        if (Input.GetKeyDown(KeyCode.Space))
         {
-            case "Royal(王族)":
-                RightPersonnum = UnityEngine.Random.Range(MinRoyaltynum, MaxRoyaltynum + 1);
-                RightInheritance = UnityEngine.Random.Range(MinRoyaltyInheritance, MaxRoyaltyInheritance + 1);
-                RightTotalInheritance = RightInheritance * RightPersonnum;
-                break;
-            case "Noble(貴族)":
-                RightPersonnum = UnityEngine.Random.Range(MinNobilitynum, MaxNobilitynum + 1);
-                RightInheritance = UnityEngine.Random.Range(MinNobilityInheritance, MaxNobilityInheritance + 1);
-                RightTotalInheritance = RightInheritance * RightPersonnum;
-                break;
-            case "Citizen(市民)":
-                RightPersonnum = UnityEngine.Random.Range(MinCitizennum, MaxCitizennum + 1);
-                RightInheritance = UnityEngine.Random.Range(MinCitizenInheritance, MaxCitizenInheritance + 1);
-                RightTotalInheritance = RightInheritance * RightPersonnum;
-                break;
-            case "Prisoner(囚人)":
-                RightPersonnum = UnityEngine.Random.Range(MinPrisonernum, MaxPrisonernum + 1);
-                RightInheritance = UnityEngine.Random.Range(MinPrisonerInheritance, MaxPrisonerInheritance + 1);
-                RightTotalInheritance = RightInheritance * RightPersonnum;
-                break;
+            var right = TeamBuild();
+            var left = TeamBuild();
+            Debug.Log($"rightrole:{right.SelectRole}\nrightperson:{right.Personnum}\nrightinheritance:{right.Inheritance}\nrighttotalinheritance:{right.TotalInheritance}");
+            Debug.Log($"leftrole:{left.SelectRole}\nleftperson:{left.Personnum}\nleftinheritance:{left.Inheritance}\nlefttotalinheritance:{left.TotalInheritance}");
         }
     }
-
-    private void LeftTeamBuild()
+    private HitPersonData TeamBuild()
     {
-        LeftSelectRole = Role[UnityEngine.Random.Range(0, 3)];
-        switch (RightSelectRole)
+        var data = new HitPersonData();
+        data.SelectRole = Role[UnityEngine.Random.Range(0, 4)];
+        switch (data.SelectRole)
         {
             case "Royal(王族)":
-                LeftPersonnum = UnityEngine.Random.Range(MinRoyaltynum, MaxRoyaltynum + 1);
-                LeftInheritance = UnityEngine.Random.Range(MinRoyaltyInheritance, MaxRoyaltyInheritance + 1);
-                LeftTotalInheritance = LeftInheritance * LeftPersonnum;
+                RoleInheritance(data, MinRoyaltynum, MaxRoyaltynum, MinRoyaltyInheritance, MaxRoyaltyInheritance);
                 break;
             case "Noble(貴族)":
-                LeftPersonnum = UnityEngine.Random.Range(MinNobilitynum, MaxNobilitynum + 1);
-                LeftInheritance = UnityEngine.Random.Range(MinNobilityInheritance, MaxNobilityInheritance + 1);
-                LeftTotalInheritance = LeftInheritance * LeftPersonnum;
+                RoleInheritance(data, MinNobilitynum, MaxNobilitynum, MinNobilityInheritance, MaxNobilityInheritance);
                 break;
             case "Citizen(市民)":
-                LeftPersonnum = UnityEngine.Random.Range(MinCitizennum, MaxCitizennum + 1);
-                LeftInheritance = UnityEngine.Random.Range(MinCitizenInheritance, MaxCitizenInheritance + 1);
-                LeftTotalInheritance = LeftInheritance * LeftPersonnum;
+                RoleInheritance(data, MinCitizennum, MaxCitizennum, MinCitizenInheritance, MaxCitizenInheritance);
                 break;
             case "Prisoner(囚人)":
-                LeftPersonnum = UnityEngine.Random.Range(MinPrisonernum, MaxPrisonernum + 1);
-                LeftInheritance = UnityEngine.Random.Range(MinPrisonerInheritance, MaxPrisonerInheritance + 1);
-                LeftTotalInheritance = LeftInheritance * LeftPersonnum;
+                RoleInheritance(data, MinPrisonernum, MaxPrisonernum, MinPrisonerInheritance, MaxPrisonerInheritance);
                 break;
+        }
+        return data;
+    }
+
+    private void RoleInheritance(HitPersonData data, int MinNum, int MaxNum, int MinInheritance, int MaxInheritance)
+    {
+        data.Personnum = UnityEngine.Random.Range(MinNum, MaxNum + 1);
+        for (int i = 0; i < data.Personnum; i++)
+        {
+            int InheritanceValues = UnityEngine.Random.Range(MinInheritance, MaxInheritance + 1);
+            data.Inheritance.Add(InheritanceValues);
+        }
+        for (int i = 0; i < data.Personnum; i++)
+        {
+            data.TotalInheritance += data.Inheritance[i];
         }
     }
 }
