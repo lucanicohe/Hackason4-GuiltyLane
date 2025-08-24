@@ -33,6 +33,7 @@ namespace EventBus
         public static void Raise<T>(T eventData) where T : EventData
         {
             var type = typeof(T);
+            Debug.Log($"{eventData} : {type}");
             if (eventTable.TryGetValue(type, out var del))
             {
                 if (del is Action<T> action)
