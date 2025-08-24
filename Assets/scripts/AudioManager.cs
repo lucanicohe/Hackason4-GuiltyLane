@@ -1,4 +1,3 @@
-
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -15,8 +14,21 @@ public class AudioManager : Singleton<AudioManager>
     private Dictionary<string, AudioSource> _SEdictionary = new Dictionary<string, AudioSource>();
     private string _audioSEPath = "Audios/SE";
 
-    void Awake()
+    public enum E_BGMType
     {
+        罪人の街,
+    }
+    public enum E_SEType
+    {
+        悲鳴,
+        悲鳴_2,
+        悲鳴_3,
+    }
+
+    public new void Awake()
+    {   
+        base.Awake();
+
         _arrayBGMClips = Resources.LoadAll<AudioClip>(_audioBGMPath);
         List<string> bgmNameList = new List<string>();
         foreach (var bgmClips in _arrayBGMClips)
@@ -30,7 +42,6 @@ public class AudioManager : Singleton<AudioManager>
             bgmNameList.Add(bgmClips.name);
         }
 
-
         _arraySEClips = Resources.LoadAll<AudioClip>(_audioSEPath);
         List<string> seNameList = new List<string>();
         foreach (var seClips in _arraySEClips)
@@ -43,10 +54,10 @@ public class AudioManager : Singleton<AudioManager>
             seNameList.Add(seClips.name);
         }
         
-#if UNITY_EDITOR
-        EnumCreater(bgmNameList, "E_BGMType");
-        EnumCreater(seNameList, "E_SEType");  
-#endif
+// #if UNITY_EDITOR
+//         EnumCreater(bgmNameList, "E_BGMType");
+//         EnumCreater(seNameList, "E_SEType");  
+// #endif
     }
 
     public void PlayBGM(E_BGMType bgmType, float volume = 0.3f)

@@ -7,7 +7,7 @@ public class Singleton<T> : MonoBehaviour where T : Singleton<T>
 {
     public static T Instance { get; private set; } = null;
 
-    private void Awake()
+    protected void Awake()
     {
         if (Instance == null)
         {
@@ -18,7 +18,7 @@ public class Singleton<T> : MonoBehaviour where T : Singleton<T>
         Destroy(gameObject);
     }
 
-    private void OnDestroy()
+    protected void OnDestroy()
     {
         if (Instance == this)
         {
