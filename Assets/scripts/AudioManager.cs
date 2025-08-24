@@ -25,7 +25,7 @@ public class AudioManager : Singleton<AudioManager>
         悲鳴_3,
     }
 
-    public new void Awake()
+    private new void Awake()
     {   
         base.Awake();
 
