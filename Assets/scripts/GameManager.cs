@@ -86,4 +86,8 @@ public class GameManager : Singleton<GameManager>
         //ラウンドが進む
     }
 
+    void Start()
+    {
+        AudioManager.Instance.PlayBGM(AudioManager.E_BGMType.罪人の街);
+    }
 }
