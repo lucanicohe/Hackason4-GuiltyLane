@@ -6,9 +6,14 @@ using UnityEngine.PlayerLoop;
 
 public class GameManager : Singleton<GameManager>
 {
+    [SerializeField]
+    TeamBuilder teamBuilder;
+    //自分が持っているお金
     public int Gold = 0;
-    public int GuiltyPercent = 0;
+    //給料
+    public int Salary = 12;
 
+    //ラウンド
     public enum RoundLevel
     {
         None,
@@ -20,6 +25,9 @@ public class GameManager : Singleton<GameManager>
         ToEnd,
     }
 
+    /// <summary>
+    /// ラウンドを変えます。
+    /// </summary>
     public RoundLevel _roundLevel = RoundLevel.None;
 
     void Update()
@@ -76,14 +84,31 @@ public class GameManager : Singleton<GameManager>
 
     private void MainGame()
     {
-        //右の人の役職、人数を決める
-        //左の人の役職、人数を決める
-        //右か左か選ばないかを決める
+        //右の人の役職、人数を決める-->ok
+        var Right = teamBuilder.TeamBuild();
+        //左の人の役職、人数を決める-->ok
+        var Left = teamBuilder.TeamBuild();
+        //右か左か選ばないかを決める-->
+        ChooseNothing();
         //右、左どちらかを選んだら、罪率が上がる＆所持金が上がる
-        //どちらも選ばない場合は、所持金が規定量増える
+        //どちらも選ばない場合は、所持金が規定量増える(給料)
         //これらの処理を1ラウンドに３回行う
         //３回行ったら、ショップに行ってアイテムを買う/使う
         //ラウンドが進む
+    }
+
+    /// <summary>
+    /// 右も左も選ばない場合
+    /// </summary>
+    private void ChooseNothing()
+    {
+        //給料がもらえる
+        int myGold = Gold;
+        if (myGold == Gold)
+        {
+            Gold += Salary;
+            return;
+        }
     }
 
     void Start()
