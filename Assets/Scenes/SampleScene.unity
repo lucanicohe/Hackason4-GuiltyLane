@@ -177,6 +177,7 @@ GameObject:
   - component: {fileID: 670250156}
   - component: {fileID: 670250155}
   - component: {fileID: 670250157}
+  - component: {fileID: 670250158}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -197,6 +198,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   teamBuilder: {fileID: 670250157}
+  prefabController: {fileID: 670250158}
   Gold: 0
   GuiltyPercent: 0
   Salary: 12
@@ -228,6 +230,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f8050d61cc9f4894f8c94f2a83337b2d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &670250158
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 670250154}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ebd98940a4ebaef4daf4df8702ce1131, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Royal: {fileID: 5844800730678536550, guid: 100560f01a1deb743b9353036aed506e, type: 3}
+  Noble: {fileID: 5844800730678536550, guid: a7a6f8323f6a8894a90c6bafce8f9929, type: 3}
+  Citizen: {fileID: 5844800730678536550, guid: ccb1a9f697c9af04d85f6b1afdae8fb6, type: 3}
+  Prisoner: {fileID: 5844800730678536550, guid: 12474a2f5d431ee4eb520e5a9590c02c, type: 3}
 --- !u!1 &705507993
 GameObject:
   m_ObjectHideFlags: 0

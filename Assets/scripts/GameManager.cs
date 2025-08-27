@@ -8,6 +8,10 @@ public class GameManager : Singleton<GameManager>
 {
     [SerializeField]
     TeamBuilder teamBuilder;
+
+    [SerializeField]
+    PrefabController prefabController;
+
     //自分が持っているお金
     public int Gold = 0;
     //罪率
@@ -92,6 +96,15 @@ public class GameManager : Singleton<GameManager>
             case RoundLevel.ToEnd:
                 break;
         }
+
+        if (_isRight)
+        {
+            prefabController.MoveRightPrefab();
+        }
+        if (_isLeft)
+        {
+            prefabController.MoveLeftPrefab();
+        }
     }
 
     /// <summary>
@@ -168,6 +181,9 @@ public class GameManager : Singleton<GameManager>
         //左の人の役職、人数を決める-->ok
         var Right = teamBuilder.TeamBuild();
         var Left = teamBuilder.TeamBuild();
+
+        prefabController.SetPrefabRole(Right, Left);
+        prefabController.MakePrefab();
 
         //右、左どちらかを選んだら、罪率が上がる＆所持金が上がる
         if (_isRight)
