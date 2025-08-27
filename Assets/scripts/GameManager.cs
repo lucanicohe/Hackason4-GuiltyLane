@@ -78,15 +78,15 @@ public class GameManager : Singleton<GameManager>
             MainGame();
         }
         //ラウンド内のMainGameの処理を３回行ったら
-            if (_problemCount >= 3)
-            {
-                //３回行ったら、ショップに行ってアイテムを買う/使う
-                //ラウンドが進む
-                ChangeRound();
-                Debug.Log($"ラウンド：{_roundLevel}");
-                _problemCount = 0;
-                return;
-            }
+        if (_problemCount >= 3)
+        {
+            //３回行ったら、ショップに行ってアイテムを買う/使う
+            //ラウンドが進む
+            ChangeRound();
+            Debug.Log($"ラウンド：{_roundLevel}");
+            _problemCount = 0;
+            return;
+        }
         switch (_roundLevel)
         {
             case RoundLevel.None:
@@ -161,34 +161,6 @@ public class GameManager : Singleton<GameManager>
 
     private void MainGame()
     {
-        // //右の人の役職、人数を決める-->ok
-        // //左の人の役職、人数を決める-->ok
-        // var Right = teamBuilder.TeamBuild();
-        // var Left = teamBuilder.TeamBuild();
-
-        // //右、左どちらかを選んだら、罪率が上がる＆所持金が上がる
-        // if (_isRight)
-        // {
-        //     // Debug.Log("右");
-        //     _TotalGuiltyPercent = _RightHPD.TotalGuiltyPercent;
-        //     _TotalInheritance = _RightHPD.TotalInheritance;
-        //     return;
-        // }
-        // else if (_isLeft)
-        // {
-        //     // Debug.Log("左");
-        //     _TotalGuiltyPercent = _LeftHPD.TotalGuiltyPercent;
-        //     _TotalInheritance = _LeftHPD.TotalInheritance;
-        //     return;
-        // }
-        // //右か左か選ばないかを決める-->ok-->SelectTeam
-        // //どちらも選ばない場合は、所持金が規定量増える(給料)
-        // else if (_isNothing)
-        // {
-        //     //Debug.Log("選ばない");
-        //     return;
-        // }
-
         if (Confirm)
         {
             if (_isRight)
@@ -205,11 +177,11 @@ public class GameManager : Singleton<GameManager>
                 Debug.Log("選ばない確定");
             }
             SelectSide(TotalGuiltyPercent, TotalInheritance);
-                ++_problemCount;
-                DecidedMainValue = false;
-                SelectTeam(false, false, false);
-                Confirm = false;
-                return;
+            ++_problemCount;
+            DecidedMainValue = false;
+            SelectTeam(false, false, false);
+            Confirm = false;
+            return;
         }
         //これらの処理を1ラウンドに３回行う
     }
@@ -235,13 +207,13 @@ public class GameManager : Singleton<GameManager>
         //右、左どちらかを選んだら、罪率が上がる＆所持金が上がる
         if (_isRight)
         {
-            // Debug.Log("右");
+            Debug.Log("右");
             _TotalGuiltyPercent = _RightHPD.TotalGuiltyPercent;
             _TotalInheritance = _RightHPD.TotalInheritance;
         }
         else if (_isLeft)
         {
-            // Debug.Log("左");
+            Debug.Log("左");
             _TotalGuiltyPercent = _LeftHPD.TotalGuiltyPercent;
             _TotalInheritance = _LeftHPD.TotalInheritance;
         }
@@ -249,15 +221,44 @@ public class GameManager : Singleton<GameManager>
         //どちらも選ばない場合は、所持金が規定量増える(給料)
         else if (_isNothing)
         {
-            //Debug.Log("選ばない");
+            Debug.Log("選ばない");
             _TotalGuiltyPercent = 0;
             _TotalInheritance = Salary;
         }
     }
 
+    /// <summary>
+    /// ボタンに取り付けてボタンをクリックしたときに処理する（右
+    /// </summary>
+    public void SelectRightTeamByMouse()
+    {
+        SelectTeam(true, false, false);
+        Confirm = true;
+        MainGame();
+    }
+
+    /// <summary>
+    /// ボタンに取り付けてボタンをクリックしたときに処理する（左
+    /// </summary>
+    public void SelectLeftTeamByMouse()
+    {
+        SelectTeam(false, true, false);
+        Confirm = true;
+        MainGame();
+    }
+
+    /// <summary>
+    /// ボタンに取り付けてボタンをクリックしたときに処理する（選ばない
+    /// </summary>
+    public void SelectNothingByMouse()
+    {
+        SelectTeam(false, false, true);
+        Confirm = true;
+        MainGame();
+    }
+
     void Start()
     {
         AudioManager.Instance.PlayBGM(AudioManager.E_BGMType.罪人の街);
-        //MainGame();
     }
 }
