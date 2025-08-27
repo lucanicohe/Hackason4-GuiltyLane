@@ -93,7 +93,7 @@ public class PrefabController : MonoBehaviour
     public void MoveRightPrefab()
     {
         Vector3 pos = _rightTeam.transform.position;
-        pos.z += 0.1f * -1;
+        pos.z += 1f * -1;
         _rightTeam.transform.position = pos;
         if (pos.z < _posEndRightTeam.z)
         {
@@ -105,7 +105,7 @@ public class PrefabController : MonoBehaviour
     public void MoveLeftPrefab()
     {
         Vector3 pos = _leftTeam.transform.position;
-        pos.z += 0.1f * -1;
+        pos.z += 1f * -1;
         _leftTeam.transform.position = pos;
         if (pos.z < _posEndLeftTeam.z)
         {
