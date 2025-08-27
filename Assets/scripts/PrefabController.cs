@@ -95,7 +95,7 @@ public class PrefabController : MonoBehaviour
         Vector3 pos = _rightTeam.transform.position;
         pos.z += 1f * -1;
         _rightTeam.transform.position = pos;
-        if (pos.z < _posEndRightTeam.z)
+        if (pos.z < _posEndRightTeam.z && _rightTeam != null)
         {
             Destroy(_rightTeam);
             Destroy(_leftTeam);
@@ -107,7 +107,7 @@ public class PrefabController : MonoBehaviour
         Vector3 pos = _leftTeam.transform.position;
         pos.z += 1f * -1;
         _leftTeam.transform.position = pos;
-        if (pos.z < _posEndLeftTeam.z)
+        if (pos.z < _posEndLeftTeam.z && _leftTeam != null)
         {
             Destroy(_rightTeam);
             Destroy(_leftTeam);
