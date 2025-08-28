@@ -176,7 +176,7 @@ public class GameManager : Singleton<GameManager>
             {
                 Debug.Log("選ばない確定");
             }
-            SelectSide(TotalGuiltyPercent, TotalInheritance);
+            SelectSide(_TotalGuiltyPercent, _TotalInheritance);
             ++_problemCount;
             DecidedMainValue = false;
             SelectTeam(false, false, false);
