@@ -46,19 +46,21 @@ public class TeamBuilder : MonoBehaviour
     private PeopleData _nobilityData;
     private PeopleData _citizenData;
     private PeopleData _prisonerData;
+    private const string PEOPLE_DATA_PATH = "Data/PeopleData";
 
     private void Awake()
-    {   
+    {
         LoadPeopleDataFromJson();
     }
 
     private void LoadPeopleDataFromJson()
     {
-        string Path = Application.dataPath + "/PeopleData.json";
-        PeopleList peopleList = SaveLoadManager.Instance.LoadDataFromJson<PeopleList>(Path);
+        TextAsset jsonFile = Resources.Load<TextAsset>(PEOPLE_DATA_PATH);
+        PeopleList peopleList = JsonUtility.FromJson<PeopleList>(jsonFile.text);
+        
         if (peopleList?.Data == null)
         {
-            Debug.Log($"not founded peopleList in {Path}");
+            Debug.Log($"not founded peopleList in Resouces/{PEOPLE_DATA_PATH}");
             return;
         }
         PeopleData[] peopleDatas = peopleList.Data;
