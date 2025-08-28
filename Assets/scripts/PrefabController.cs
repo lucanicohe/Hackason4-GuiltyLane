@@ -22,13 +22,16 @@ public class PrefabController : MonoBehaviour
     [SerializeField]
     public GameObject Prisoner;
 
+    // 役職が割り振られたか
     public bool IsRoleDecide = false;
+
+    // prefabがDestroyされたか
     public bool IsPrefabDestroy = true;
 
     private GameObject RightTeam;
-    private GameObject _rightTeam;
+    private GameObject _rightTeam; // Clone用
     private GameObject LeftTeam;
-    private GameObject _leftTeam;
+    private GameObject _leftTeam; // Clone用
 
     // 右側チームの生成地点 (値は適当)
     private Vector3 _posStartRightTeam = new Vector3(3f, 1.7f, 30f);
@@ -92,6 +95,7 @@ public class PrefabController : MonoBehaviour
         IsPrefabDestroy = false;
     }
 
+    // 右側のチームを列車に向かって移動させる
     public IEnumerator MoveRightPrefab()
     {
         Vector3 pos = _posStartRightTeam;
@@ -104,6 +108,7 @@ public class PrefabController : MonoBehaviour
             yield return null;
         }
 
+        // 列車に近づいたらどちらのチームもDestroyする
         Destroy(_rightTeam);
         Destroy(_leftTeam);
         _rightTeam = null;
@@ -111,8 +116,10 @@ public class PrefabController : MonoBehaviour
         IsRoleDecide = false;
     }
 
+    // 左側のチームを列車に向かって移動させる
     public IEnumerator MoveLeftPrefab()
     {
+        // 列車に向けて移動
         Vector3 pos = _posStartLeftTeam;
         while (pos.z > _posEndLeftTeam.z && _leftTeam != null)
         {
@@ -123,6 +130,7 @@ public class PrefabController : MonoBehaviour
             yield return null;
         }
 
+        // 列車に近づいたらどちらのチームもDestroyする
         Destroy(_leftTeam);
         Destroy(_rightTeam);
         _leftTeam = null;

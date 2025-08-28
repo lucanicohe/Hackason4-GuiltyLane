@@ -149,6 +149,7 @@ public class GameManager : Singleton<GameManager>
 
     private void MainValue()
     {
+        // prefabの生成 (この位置じゃないとうまく動かない)
         if (prefabController.IsRoleDecide && prefabController.IsPrefabDestroy)
         {
             prefabController.MakePrefab();
@@ -156,7 +157,7 @@ public class GameManager : Singleton<GameManager>
 
         if (DecidedMainValue)
         {
-            prefabController.SetPrefabRole(_RightHPD, _LeftHPD);
+            prefabController.SetPrefabRole(_RightHPD, _LeftHPD); // なんでここで動いているのかわからない
             return;
         }
         //右の人の役職、人数を決める-->ok
