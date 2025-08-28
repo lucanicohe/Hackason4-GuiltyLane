@@ -2,10 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Analytics;
 using UnityEngine.PlayerLoop;
 
 public class GameManager : Singleton<GameManager>
 {
+    private TeamBuilder.HitPersonData _RightHPD;
+    private TeamBuilder.HitPersonData _LeftHPD;
     [SerializeField]
     TeamBuilder teamBuilder;
 
@@ -34,6 +37,10 @@ public class GameManager : Singleton<GameManager>
 
     //ラウンド内の何回行うか-->子の変数が3以上になったら次のラウンドへ進む
     private int _problemCount = 0;
+    //_RightHPD,_LeftHPDの値を１回だけ作るため
+    private bool DecidedMainValue = false;
+    //右か、左か、選ばない、を選んだ後に確定するためのbool
+    private bool Confirm = false;
     //ラウンド
     public enum RoundLevel
     {
@@ -53,20 +60,25 @@ public class GameManager : Singleton<GameManager>
 
     void Update()
     {
+        MainValue();
+
         //Arrowキーを押したらSelectTeamのbool値を変えてmaingameの処理をする
         if (Input.GetKeyDown(KeyCode.RightArrow))
         {
             SelectTeam(true, false, false);
-            MainGame();
         }
         else if (Input.GetKeyDown(KeyCode.LeftArrow))
         {
             SelectTeam(false, true, false);
-            MainGame();
         }
         else if (Input.GetKeyDown(KeyCode.UpArrow))
         {
             SelectTeam(false, false, true);
+        }
+        //enterで確定
+        else if (Input.GetKeyDown(KeyCode.Return))
+        {
+            Confirm = true;
             MainGame();
         }
         //ラウンド内のMainGameの処理を３回行ったら
@@ -144,73 +156,44 @@ public class GameManager : Singleton<GameManager>
         }
     }
 
-    private void ChangeFirstRound()
+    private void MainValue()
     {
-        //ラウンドFirstに行く処理
-        _roundLevel = RoundLevel.First;
-    }
-    private void ChangeSecondRound()
-    {
-       　//secondラウンドに行く処理
-        _roundLevel = RoundLevel.Second;
-    }
-    private void ChangeThirdRound()
-    {
-        //thirdラウンドに行く処理
-        _roundLevel = RoundLevel.Third;
-    }
-    private void ChangeFourthRound()
-    {
-        //fourthラウンドに行く処理
-        _roundLevel = RoundLevel.Fourth;
-    }
-    private void ChangeFifthRound()
-    {
-        //fifthラウンドに行く処理
-        _roundLevel = RoundLevel.Fifth;
-    }
-    private void ChangeToEndRound()
-    {
-        //toendに行く処理
-        _roundLevel = RoundLevel.ToEnd;
+        if (DecidedMainValue) return;
+        //右の人の役職、人数を決める-->ok
+        //左の人の役職、人数を決める-->ok
+        _RightHPD = teamBuilder.TeamBuild();
+        _LeftHPD = teamBuilder.TeamBuild();
+        Debug.Log($"rightrole:{_RightHPD.SelectRole}\nrightperson:{_RightHPD.Personnum}\nrightinheritance:{_RightHPD.Inheritance}\nrighttotalinheritance:{_RightHPD.TotalInheritance}\nrightGuiltyPercent:{_RightHPD.GuiltyPercent}\nrighttotalGuiltypercent:{_RightHPD.TotalGuiltyPercent}");
+        Debug.Log($"leftrole:{_LeftHPD.SelectRole}\nleftperson:{_LeftHPD.Personnum}\nleftinheritance:{_LeftHPD.Inheritance}\nlefttotalinheritance:{_LeftHPD.TotalInheritance}\nleftGuiltyPercent:{_LeftHPD.GuiltyPercent}\nlefttotalGuiltypercent:{_LeftHPD.TotalGuiltyPercent}");
+        //役職が右と左で同じじゃないようにする
+        if (_RightHPD.SelectRole != _LeftHPD.SelectRole)
+        {
+            DecidedMainValue = true;
+        }
     }
 
     private void MainGame()
     {
-        //右の人の役職、人数を決める-->ok
-        //左の人の役職、人数を決める-->ok
-        var Right = teamBuilder.TeamBuild();
-        var Left = teamBuilder.TeamBuild();
+        if (Confirm)
+        {
+            if (_isRight)
+            {
+                Debug.Log("右確定");
 
-        prefabController.SetPrefabRole(Right, Left);
-        prefabController.MakePrefab();
-
-        //右、左どちらかを選んだら、罪率が上がる＆所持金が上がる
-        if (_isRight)
-        {
-            Debug.Log("右");
-            _TotalGuiltyPercent = Right.TotalGuiltyPercent;
-            _TotalInheritance = Right.TotalInheritance;
-            SelectSide(TotalGuiltyPercent, TotalInheritance);
+            }
+            else if (_isLeft)
+            {
+                Debug.Log("左確定");
+            }
+            else if (_isNothing)
+            {
+                Debug.Log("選ばない確定");
+            }
+            SelectSide(_TotalGuiltyPercent, _TotalInheritance);
             ++_problemCount;
-            return;
-        }
-        else if (_isLeft)
-        {
-            Debug.Log("左");
-            _TotalGuiltyPercent = Left.TotalGuiltyPercent;
-            _TotalInheritance = Left.TotalInheritance;
-            SelectSide(TotalGuiltyPercent, TotalInheritance);
-            ++_problemCount;
-            return;
-        }
-        //右か左か選ばないかを決める-->ok-->SelectTeam
-        //どちらも選ばない場合は、所持金が規定量増える(給料)
-        else if (_isNothing)
-        {
-            Debug.Log("選ばない");
-            Gold += Salary;
-            ++_problemCount;
+            DecidedMainValue = false;
+            SelectTeam(false, false, false);
+            Confirm = false;
             return;
         }
         //これらの処理を1ラウンドに３回行う
@@ -220,10 +203,11 @@ public class GameManager : Singleton<GameManager>
     {
         GuiltyPercent += TotalGuiltyPercent;
         Gold += TotalInheritance;
+        Debug.Log($"GuiltyPercent:{GuiltyPercent}\nGold:{Gold}");
         return;
     }
     /// <summary>
-    /// 選択肢を管理する
+    /// 選択肢を管理する＆選んだ時にゲッターに入れる
     /// </summary>
     /// <param name="isRight"></param>
     /// <param name="isLeft"></param>
@@ -233,6 +217,57 @@ public class GameManager : Singleton<GameManager>
         _isRight = isRight;
         _isLeft = isLeft;
         _isNothing = isNothing;
+        //右、左どちらかを選んだら、罪率が上がる＆所持金が上がる
+        if (_isRight)
+        {
+            Debug.Log("右");
+            _TotalGuiltyPercent = _RightHPD.TotalGuiltyPercent;
+            _TotalInheritance = _RightHPD.TotalInheritance;
+        }
+        else if (_isLeft)
+        {
+            Debug.Log("左");
+            _TotalGuiltyPercent = _LeftHPD.TotalGuiltyPercent;
+            _TotalInheritance = _LeftHPD.TotalInheritance;
+        }
+        //右か左か選ばないかを決める-->ok-->SelectTeam
+        //どちらも選ばない場合は、所持金が規定量増える(給料)
+        else if (_isNothing)
+        {
+            Debug.Log("選ばない");
+            _TotalGuiltyPercent = 0;
+            _TotalInheritance = Salary;
+        }
+    }
+
+    /// <summary>
+    /// ボタンに取り付けてボタンをクリックしたときに処理する（右
+    /// </summary>
+    public void SelectRightTeamByMouse()
+    {
+        SelectTeam(true, false, false);
+        Confirm = true;
+        MainGame();
+    }
+
+    /// <summary>
+    /// ボタンに取り付けてボタンをクリックしたときに処理する（左
+    /// </summary>
+    public void SelectLeftTeamByMouse()
+    {
+        SelectTeam(false, true, false);
+        Confirm = true;
+        MainGame();
+    }
+
+    /// <summary>
+    /// ボタンに取り付けてボタンをクリックしたときに処理する（選ばない
+    /// </summary>
+    public void SelectNothingByMouse()
+    {
+        SelectTeam(false, false, true);
+        Confirm = true;
+        MainGame();
     }
 
     void Start()
