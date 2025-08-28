@@ -22,7 +22,8 @@ public class PrefabController : MonoBehaviour
     [SerializeField]
     public GameObject Prisoner;
 
-    private GameManager gameManager;
+    public bool IsRoleDecide = false;
+    public bool IsPrefabDestroy = true;
 
     private GameObject RightTeam;
     private GameObject _rightTeam;
@@ -80,6 +81,7 @@ public class PrefabController : MonoBehaviour
                 LeftTeam = Prisoner;
                 break;
         }
+        IsRoleDecide = true;
     }
 
     // Prefabの生成
@@ -87,30 +89,44 @@ public class PrefabController : MonoBehaviour
     {
         _rightTeam = Instantiate(RightTeam, _posStartRightTeam, Quaternion.identity);
         _leftTeam = Instantiate(LeftTeam, _posStartLeftTeam, Quaternion.identity);
-        Debug.Log($"{LeftTeam} (左)と {RightTeam} (右)を生成");
+        IsPrefabDestroy = false;
     }
 
-    public void MoveRightPrefab()
+    public IEnumerator MoveRightPrefab()
     {
-        Vector3 pos = _rightTeam.transform.position;
-        pos.z += 1f * -1;
-        _rightTeam.transform.position = pos;
-        if (pos.z < _posEndRightTeam.z && _rightTeam != null)
+        Vector3 pos = _posStartRightTeam;
+        while (pos.z > _posEndRightTeam.z && _rightTeam != null)
         {
-            Destroy(_rightTeam);
-            Destroy(_leftTeam);
+            pos = _rightTeam.transform.position;
+            pos.z += 1.5f * 60f * -1 * Time.deltaTime;
+            _rightTeam.transform.position = pos;
+
+            yield return null;
         }
+
+        Destroy(_rightTeam);
+        Destroy(_leftTeam);
+        _rightTeam = null;
+        IsPrefabDestroy = true;
+        IsRoleDecide = false;
     }
 
-    public void MoveLeftPrefab()
+    public IEnumerator MoveLeftPrefab()
     {
-        Vector3 pos = _leftTeam.transform.position;
-        pos.z += 1f * -1;
-        _leftTeam.transform.position = pos;
-        if (pos.z < _posEndLeftTeam.z && _leftTeam != null)
+        Vector3 pos = _posStartLeftTeam;
+        while (pos.z > _posEndLeftTeam.z && _leftTeam != null)
         {
-            Destroy(_rightTeam);
-            Destroy(_leftTeam);
+            pos = _leftTeam.transform.position;
+            pos.z += 1.5f * 60f * -1 * Time.deltaTime;
+            _leftTeam.transform.position = pos;
+
+            yield return null;
         }
+
+        Destroy(_leftTeam);
+        Destroy(_rightTeam);
+        _leftTeam = null;
+        IsPrefabDestroy = true;
+        IsRoleDecide = false;
     }
 }
