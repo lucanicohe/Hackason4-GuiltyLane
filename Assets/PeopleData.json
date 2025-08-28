@@ -2,39 +2,39 @@
     "Data": [
         {
             "Name": "Royal",
-            "MaxNum": "2",
-            "minNum": "1",
-            "MaxInheritance": "30",
-            "MinInheritance": "15",
-            "MaxGuiltyPercent": "10",
-            "MinGuiltyPercent": "6"
+            "MaxNum": 2,
+            "MinNum": 1,
+            "MaxInheritance": 30,
+            "MinInheritance": 15,
+            "MaxGuiltyPercent": 10,
+            "MinGuiltyPercent": 6
         },
         {
             "Name": "Nobility",
-            "MaxNum": "4",
-            "minNum": "2",
-            "MaxInheritance": "12",
-            "MinInheritance": "6",
-            "MaxGuiltyPercent": "6",
-            "MinGuiltyPercent": "3"
+            "MaxNum": 4,
+            "MinNum": 2,
+            "MaxInheritance": 12,
+            "MinInheritance": 6,
+            "MaxGuiltyPercent": 6,
+            "MinGuiltyPercent": 3
         },
         {
             "Name": "Citizen",
-            "MaxNum": "5",
-            "minNum": "3",
-            "MaxInheritance": "8",
-            "MinInheritance": "3",
-            "MaxGuiltyPercent": "4",
-            "MinGuiltyPercent": "1"
+            "MaxNum": 5,
+            "MinNum": 3,
+            "MaxInheritance": 8,
+            "MinInheritance": 3,
+            "MaxGuiltyPercent": 4,
+            "MinGuiltyPercent": 1
         },
         {
             "Name": "Prisoner",
-            "MaxNum": "10",
-            "minNum": "5",
-            "MaxInheritance": "3",
-            "MinInheritance": "0",
-            "MaxGuiltyPercent": "2",
-            "MinGuiltyPercent": "0"
+            "MaxNum": 10,
+            "MinNum": 5,
+            "MaxInheritance": 3,
+            "MinInheritance": 0,
+            "MaxGuiltyPercent": 2,
+            "MinGuiltyPercent": 0
         }
     ]
 }

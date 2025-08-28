@@ -42,41 +42,43 @@ public class TeamBuilder : MonoBehaviour
     // private int MinCitizenGuiltyPercent = 1;
     // private int MinPrisonerGuiltyPercent = 0;
 
-    private PeopleData Royal;
-    private PeopleData Nobility;
-    private PeopleData Citizen;
-    private PeopleData Prisoner;
+    private PeopleData _royalData;
+    private PeopleData _nobilityData;
+    private PeopleData _citizenData;
+    private PeopleData _prisonerData;
 
-    private void Start()
-    {
+    private void Awake()
+    {   
         LoadPeopleDataFromJson();
     }
 
     private void LoadPeopleDataFromJson()
     {
-        string Path = Application.dataPath + "/PeopleDate.json";
+        string Path = Application.dataPath + "/PeopleData.json";
         PeopleList peopleList = SaveLoadManager.Instance.LoadDataFromJson<PeopleList>(Path);
-        if (peopleList == null)
+        if (peopleList?.Data == null)
         {
             Debug.Log($"not founded peopleList in {Path}");
             return;
         }
-        List<PeopleData> peopleDatas = peopleList.peopleDatas;
+        PeopleData[] peopleDatas = peopleList.Data;
         foreach (var people in peopleDatas)
         {
             string name = people.Name;
-            switch (name){
+            // Debug.Log($"name : {name}");
+            switch (name)
+            {
                 case "Royal":
-                    Royal = people;
+                    _royalData = people;
                     break;
                 case "Nobility":
-                    Nobility = people;
+                    _nobilityData = people;
                     break;
                 case "Citizen":
-                    Citizen = people;
+                    _citizenData = people;
                     break;
                 case "Prisoner":
-                    Prisoner = people;
+                    _prisonerData = people;
                     break;
             }
         }
@@ -112,16 +114,16 @@ public class TeamBuilder : MonoBehaviour
 
     }
 
-    void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            var right = TeamBuild();
-            var left = TeamBuild();
-            Debug.Log($"rightrole:{right.SelectRole}\nrightperson:{right.Personnum}\nrightinheritance:{right.Inheritance}\nrighttotalinheritance:{right.TotalInheritance}\nrightGuiltyPercent:{right.GuiltyPercent}\nrighttotalGuiltypercent:{right.TotalGuiltyPercent}");
-            Debug.Log($"leftrole:{left.SelectRole}\nleftperson:{left.Personnum}\nleftinheritance:{left.Inheritance}\nlefttotalinheritance:{left.TotalInheritance}\nleftGuiltyPercent:{left.GuiltyPercent}\nlefttotalGuiltypercent:{left.TotalGuiltyPercent}");
-        }
-    }
+    // void Update()
+    // {
+    //     if (Input.GetKeyDown(KeyCode.Space))
+    //     {
+    //         var right = TeamBuild();
+    //         var left = TeamBuild();
+    //         Debug.Log($"rightrole:{right.SelectRole}\nrightperson:{right.Personnum}\nrightinheritance:{right.Inheritance}\nrighttotalinheritance:{right.TotalInheritance}\nrightGuiltyPercent:{right.GuiltyPercent}\nrighttotalGuiltypercent:{right.TotalGuiltyPercent}");
+    //         Debug.Log($"leftrole:{left.SelectRole}\nleftperson:{left.Personnum}\nleftinheritance:{left.Inheritance}\nlefttotalinheritance:{left.TotalInheritance}\nleftGuiltyPercent:{left.GuiltyPercent}\nlefttotalGuiltypercent:{left.TotalGuiltyPercent}");
+    //     }
+    // }
 
     /// <summary>
     /// 役職と人数と罪率をランダムに生成する
@@ -134,16 +136,16 @@ public class TeamBuilder : MonoBehaviour
         switch (data.SelectRole)
         {
             case "Royal(王族)":
-                RoleInheritance(data, Royal);
+                RoleInheritance(data, _royalData);
                 break;
             case "Noble(貴族)":
-                RoleInheritance(data, Nobility);
+                RoleInheritance(data, _nobilityData);
                 break;
             case "Citizen(市民)":
-                RoleInheritance(data, Citizen);
+                RoleInheritance(data, _citizenData);
                 break;
             case "Prisoner(囚人)":
-                RoleInheritance(data, Prisoner);
+                RoleInheritance(data, _prisonerData);
                 break;
         }
         return data;

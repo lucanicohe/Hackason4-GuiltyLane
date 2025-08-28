@@ -1,5 +1,5 @@
-using System.Collections.Generic;
 
+[System.Serializable]
 public class PeopleData
 {
     public string Name;
@@ -11,7 +11,8 @@ public class PeopleData
     public int MinGuiltyPercent;
 }
 
+[System.Serializable]
 public class PeopleList
 {
-    public List<PeopleData> peopleDatas;
+    public PeopleData[] Data;
 }
