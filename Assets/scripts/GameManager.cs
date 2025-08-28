@@ -11,6 +11,10 @@ public class GameManager : Singleton<GameManager>
     private TeamBuilder.HitPersonData _LeftHPD;
     [SerializeField]
     TeamBuilder teamBuilder;
+
+    [SerializeField]
+    PrefabController prefabController;
+
     //自分が持っているお金
     public int Gold = 0;
     //罪率
@@ -145,7 +149,16 @@ public class GameManager : Singleton<GameManager>
 
     private void MainValue()
     {
-        if (DecidedMainValue) return;
+        if (prefabController.IsRoleDecide && prefabController.IsPrefabDestroy)
+        {
+            prefabController.MakePrefab();
+        }
+
+        if (DecidedMainValue)
+        {
+            prefabController.SetPrefabRole(_RightHPD, _LeftHPD);
+            return;
+        }
         //右の人の役職、人数を決める-->ok
         //左の人の役職、人数を決める-->ok
         _RightHPD = teamBuilder.TeamBuild();
@@ -157,6 +170,7 @@ public class GameManager : Singleton<GameManager>
         {
             DecidedMainValue = true;
         }
+
     }
 
     private void MainGame()
@@ -166,11 +180,12 @@ public class GameManager : Singleton<GameManager>
             if (_isRight)
             {
                 Debug.Log("右確定");
-                
+                StartCoroutine(prefabController.MoveRightPrefab());
             }
             else if (_isLeft)
             {
                 Debug.Log("左確定");
+                StartCoroutine(prefabController.MoveLeftPrefab());
             }
             else if (_isNothing)
             {
