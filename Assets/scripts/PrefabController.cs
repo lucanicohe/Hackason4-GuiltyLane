@@ -22,13 +22,20 @@ public class PrefabController : MonoBehaviour
     [SerializeField]
     public GameObject Prisoner;
 
-    public bool IsRoleDecide = false;
+    [SerializeField] // prefabが動く速度
+    private float _moveSpeed = 1f;
+
+    // prefabがDestroyされているか
     public bool IsPrefabDestroy = true;
 
     private GameObject RightTeam;
-    private GameObject _rightTeam;
+    private GameObject _cloneRightTeam;
     private GameObject LeftTeam;
-    private GameObject _leftTeam;
+    private GameObject _cloneLeftTeam;
+
+    // インスタンス化した複数のprefabを入れる配列
+    private List<GameObject> CloneRightArr = new List<GameObject>();
+    private List<GameObject> CloneLeftArr = new List<GameObject>();
 
     // 右側チームの生成地点 (値は適当)
     private Vector3 _posStartRightTeam = new Vector3(3f, 1.7f, 30f);
@@ -42,91 +49,109 @@ public class PrefabController : MonoBehaviour
     // 左側チームをDestroyする地点 (値は適当)
     private Vector3 _posEndLeftTeam = new Vector3(-2f, 1.7f, 5.5f);
 
+    private GameObject DivideRole(TeamBuilder.HitPersonData _team, GameObject _teamSide)
+    {
+        switch (_team.SelectRole)
+        {
+            case "Royal(王族)":
+                _teamSide = Royal;
+                break;
+            case "Noble(貴族)":
+                _teamSide = Noble;
+                break;
+            case "Citizen(市民)":
+                _teamSide = Citizen;
+                break;
+            case "Prisoner(囚人)":
+                _teamSide = Prisoner;
+                break;
+        }
 
-    /// <summary>
-    /// GameManagerによって決められたRoleに合わせて生成するPrefabを決める
-    /// </summary>
-    /// <param name="_roleRightTeam"></param>
-    /// <param name="_roleLeftTeam"></param>
+        return _teamSide;
+    }
+
     public void SetPrefabRole(TeamBuilder.HitPersonData _roleRightTeam, TeamBuilder.HitPersonData _roleLeftTeam)
     {
-        switch (_roleRightTeam.SelectRole)
-        {
-            case "Royal(王族)":
-                RightTeam = Royal;
-                break;
-            case "Noble(貴族)":
-                RightTeam = Noble;
-                break;
-            case "Citizen(市民)":
-                RightTeam = Citizen;
-                break;
-            case "Prisoner(囚人)":
-                RightTeam = Prisoner;
-                break;
-        }
-
-        switch (_roleLeftTeam.SelectRole)
-        {
-            case "Royal(王族)":
-                LeftTeam = Royal;
-                break;
-            case "Noble(貴族)":
-                LeftTeam = Noble;
-                break;
-            case "Citizen(市民)":
-                LeftTeam = Citizen;
-                break;
-            case "Prisoner(囚人)":
-                LeftTeam = Prisoner;
-                break;
-        }
-        IsRoleDecide = true;
+        RightTeam = DivideRole(_roleRightTeam, RightTeam);
+        LeftTeam = DivideRole(_roleLeftTeam, LeftTeam);
     }
 
     // Prefabの生成
-    public void MakePrefab()
+    public void MakePrefab(TeamBuilder.HitPersonData _personNumRight, TeamBuilder.HitPersonData _personNumLeft)
     {
-        _rightTeam = Instantiate(RightTeam, _posStartRightTeam, Quaternion.identity);
-        _leftTeam = Instantiate(LeftTeam, _posStartLeftTeam, Quaternion.identity);
+        CloneRightArr.Clear();
+        CloneLeftArr.Clear();
+        for (float i = 0; i < _personNumRight.Personnum; i++)
+        {
+            _cloneRightTeam = Instantiate(RightTeam, _posStartRightTeam + new Vector3(i * 1.5f, 0f, 0f), Quaternion.identity);
+            CloneRightArr.Add(_cloneRightTeam);
+        }
+
+        for (float i = 0; i < _personNumLeft.Personnum; i++)
+        {
+            _cloneLeftTeam = Instantiate(LeftTeam, _posStartLeftTeam + new Vector3(-i * 1.5f, 0f, 0f), Quaternion.identity);
+            CloneLeftArr.Add(_cloneLeftTeam);
+        }
         IsPrefabDestroy = false;
     }
 
-    public IEnumerator MoveRightPrefab()
+    public IEnumerator MoveRightPrefab(TeamBuilder.HitPersonData _personNumRight, TeamBuilder.HitPersonData _personNumLeft)
     {
-        Vector3 pos = _posStartRightTeam;
-        while (pos.z > _posEndRightTeam.z && _rightTeam != null)
+        for (int i = 0; i < _personNumRight.Personnum; i++) // prefabの人数分動かす
         {
-            pos = _rightTeam.transform.position;
-            pos.z += 1.5f * 60f * -1 * Time.deltaTime;
-            _rightTeam.transform.position = pos;
+            Vector3 pos = _posStartRightTeam;
 
-            yield return null;
+            while (pos.z > _posEndRightTeam.z && CloneRightArr[i] != null)
+            {
+                for (int j = 0; j < _personNumRight.Personnum; j++) // prefabたちの足並みを揃える
+                {
+                    if (CloneRightArr[j] != null) // nullチェック
+                    {
+                        pos = CloneRightArr[j].transform.position;
+                        pos.z += _moveSpeed * 60f * -1 * Time.deltaTime;
+                        CloneRightArr[j].transform.position = pos;
+                    }
+                }
+
+                yield return null;
+            }
+
+            Destroy(CloneRightArr[i]);
+            CloneRightArr[i] = null;
         }
 
-        Destroy(_rightTeam);
-        Destroy(_leftTeam);
-        _rightTeam = null;
+        for (int i = 0; i < _personNumLeft.Personnum; i++) Destroy(CloneLeftArr[i]);
+
         IsPrefabDestroy = true;
-        IsRoleDecide = false;
     }
 
-    public IEnumerator MoveLeftPrefab()
+    public IEnumerator MoveLeftPrefab(TeamBuilder.HitPersonData _personNumRight, TeamBuilder.HitPersonData _personNumLeft)
     {
-        Vector3 pos = _posStartLeftTeam;
-        while (pos.z > _posEndLeftTeam.z && _leftTeam != null)
+        for (int i = 0; i < _personNumLeft.Personnum; i++) // prefabの人数分動かす
         {
-            pos = _leftTeam.transform.position;
-            pos.z += 1.5f * 60f * -1 * Time.deltaTime;
-            _leftTeam.transform.position = pos;
+            Vector3 pos = _posStartLeftTeam;
 
-            yield return null;
+            while (pos.z > _posEndLeftTeam.z && CloneLeftArr[i] != null)
+            {
+                for (int j = 0; j < _personNumLeft.Personnum; j++) // prefabたちの足並みを揃える
+                {
+                    if (CloneLeftArr[j] != null) // nullチェック
+                    {
+                        pos = CloneLeftArr[j].transform.position;
+                        pos.z += _moveSpeed * 60f * -1 * Time.deltaTime;
+                        CloneLeftArr[j].transform.position = pos;
+                    }
+                }
+
+                yield return null;
+            }
+
+            Destroy(CloneLeftArr[i]);
+            CloneLeftArr[i] = null;
         }
 
-        Destroy(_leftTeam);
-        Destroy(_rightTeam);
-        _leftTeam = null;
+        for (int i = 0; i < _personNumRight.Personnum; i++) Destroy(CloneRightArr[i]);
+
         IsPrefabDestroy = true;
-        IsRoleDecide = false;
     }
 }

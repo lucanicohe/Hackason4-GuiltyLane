@@ -149,14 +149,15 @@ public class GameManager : Singleton<GameManager>
 
     private void MainValue()
     {
-        if (prefabController.IsRoleDecide && prefabController.IsPrefabDestroy)
-        {
-            prefabController.MakePrefab();
-        }
-
         if (DecidedMainValue)
         {
             prefabController.SetPrefabRole(_RightHPD, _LeftHPD);
+
+            if (prefabController.IsPrefabDestroy)
+            {
+                prefabController.MakePrefab(_RightHPD, _LeftHPD);
+            }
+
             return;
         }
         //右の人の役職、人数を決める-->ok
@@ -180,12 +181,12 @@ public class GameManager : Singleton<GameManager>
             if (_isRight)
             {
                 Debug.Log("右確定");
-                StartCoroutine(prefabController.MoveRightPrefab());
+                StartCoroutine(prefabController.MoveRightPrefab(_RightHPD, _LeftHPD));
             }
             else if (_isLeft)
             {
                 Debug.Log("左確定");
-                StartCoroutine(prefabController.MoveLeftPrefab());
+                StartCoroutine(prefabController.MoveLeftPrefab(_RightHPD, _LeftHPD));
             }
             else if (_isNothing)
             {
