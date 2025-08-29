@@ -1,5 +1,36 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &5043049616912191761
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8086846441498790819}
+  m_Layer: 0
+  m_Name: Domino Straight
+  m_TagString: Untagged
+  m_Icon: {fileID: 2488908585195742037, guid: 0000000000000000d000000000000000, type: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8086846441498790819
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5043049616912191761}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 215.78}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 7081424918354840564}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &6002859574927434387
 GameObject:
   m_ObjectHideFlags: 0
@@ -28,11 +59,11 @@ Transform:
   m_GameObject: {fileID: 6002859574927434387}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: 0.7071068, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: -1.75, y: -1.54, z: 36.1}
-  m_LocalScale: {x: 22, y: 1, z: 60}
+  m_LocalPosition: {x: -0.19444445, y: -0.1711111, z: 3.7555552}
+  m_LocalScale: {x: 2.3999999, y: 0.11111111, z: 6.6666665}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 7081424918354840564}
+  m_Father: {fileID: 5292535385371464199}
   m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
 --- !u!33 &5480564572581092825
 MeshFilter:
@@ -106,6 +137,37 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &6670935217211454599
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6730505116521270795}
+  m_Layer: 0
+  m_Name: Domino Fork
+  m_TagString: Untagged
+  m_Icon: {fileID: 2488908585195742037, guid: 0000000000000000d000000000000000, type: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6730505116521270795
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6670935217211454599}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -1.8, y: -1.5, z: 250.8}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 7081424918354840564}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &8413771811344740183
 GameObject:
   m_ObjectHideFlags: 0
@@ -116,6 +178,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7081424918354840564}
   - component: {fileID: 166512312820917820}
+  - component: {fileID: 5931525439020149141}
   m_Layer: 0
   m_Name: straight-track
   m_TagString: Untagged
@@ -136,8 +199,9 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 5242060429716853927}
   - {fileID: 5292535385371464199}
+  - {fileID: 8086846441498790819}
+  - {fileID: 6730505116521270795}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!65 &166512312820917820
@@ -159,8 +223,26 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 19.26, y: 31.86, z: 37.5}
-  m_Center: {x: -7.41, y: 6.8, z: 125.2}
+  m_Size: {x: 19.26, y: 31.86, z: 35.61}
+  m_Center: {x: -7.41, y: 6.8, z: -56.5}
+--- !u!114 &5931525439020149141
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8413771811344740183}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 07bb889bad44843b1ac7c3847b872e7a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _straightPrefab: {fileID: 8413771811344740183}
+  _forkPrefab: {fileID: 2652164112529584661, guid: 7c9c435113b924e58ab1722366245aa0, type: 3}
+  _spawnPointStraight: {fileID: 8086846441498790819}
+  _spawnPointFork: {fileID: 6730505116521270795}
+  _despawnDistance: 140
+  _newSprite: {fileID: 21300000, guid: a47dcecd39fc945aaaa55c00caf9b0ec, type: 3}
 --- !u!1001 &5690409837674706412
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -367,7 +449,10 @@ PrefabInstance:
       objectReference: {fileID: 2100000, guid: a40910bb7017b46c6a3bdad514769d88, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
-    m_AddedGameObjects: []
+    m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: -8679921383154817045, guid: dfdf903fcf7e042f8b3c3237801ac7e9, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 5242060429716853927}
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: dfdf903fcf7e042f8b3c3237801ac7e9, type: 3}
 --- !u!4 &5292535385371464199 stripped
