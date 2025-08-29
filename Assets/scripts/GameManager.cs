@@ -14,6 +14,8 @@ public class GameManager : Singleton<GameManager>
 
     [SerializeField]
     PrefabController prefabController;
+    [SerializeField]
+    HighlightChoice highlightChoice;
 
     //自分が持っているお金
     public int Gold = 0;
@@ -224,12 +226,14 @@ public class GameManager : Singleton<GameManager>
         if (_isRight)
         {
             Debug.Log("右");
+            highlightChoice.RightHighLight();
             _TotalGuiltyPercent = _RightHPD.TotalGuiltyPercent;
             _TotalInheritance = _RightHPD.TotalInheritance;
         }
         else if (_isLeft)
         {
             Debug.Log("左");
+            highlightChoice.LeftHighlight();
             _TotalGuiltyPercent = _LeftHPD.TotalGuiltyPercent;
             _TotalInheritance = _LeftHPD.TotalInheritance;
         }
@@ -237,6 +241,7 @@ public class GameManager : Singleton<GameManager>
         //どちらも選ばない場合は、所持金が規定量増える(給料)
         else if (_isNothing)
         {
+            highlightChoice.NothingHighlight();
             Debug.Log("選ばない");
             _TotalGuiltyPercent = 0;
             _TotalInheritance = Salary;
