@@ -49,6 +49,13 @@ public class PrefabController : MonoBehaviour
     // 左側チームをDestroyする地点 (値は適当)
     private Vector3 _posEndLeftTeam = new Vector3(-2f, 1.7f, 5.5f);
 
+    /// <summary>
+    /// HitPersonData.SelectRoleから、どのロールをインスタンス化するか仕分ける
+    /// TeamBuilder内に書くのもあるけど、複雑になりそうなのでやめました。
+    /// </summary>
+    /// <param name="_team"></param>
+    /// <param name="_teamSide"></param>
+    /// <returns></returns>
     private GameObject DivideRole(TeamBuilder.HitPersonData _team, GameObject _teamSide)
     {
         switch (_team.SelectRole)
