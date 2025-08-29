@@ -143,6 +143,32 @@ public class PrefabController : MonoBehaviour
         for (int i = 0; i < _personNumLeft.Personnum; i++) Destroy(CloneLeftArr[i]);
 
         IsPrefabDestroy = true;
+        
+        //　参考に
+        // bool isAllActive = true;
+        // while (isAllActive)
+        // {
+        //     isAllActive = false;
+        //     foreach (var prefab in CloneRightArr)
+        //     {
+        //         if (prefab == null) {continue;}
+        //         Vector3 pos = prefab.transform.position;
+        //         if (pos.z >= _posEndRightTeam.z)
+        //         {
+        //             pos.z += _moveSpeed * -1 * Time.deltaTime;
+        //             prefab.transform.position = pos;
+        //             isAllActive = true;
+        //         }
+        //         else
+        //         {
+        //             Destroy(prefab);
+        //             continue;
+        //         }
+        //     }
+        //     yield return null;
+        // }
+        // for (int i = 0; i < CloneLeftArr.Count; i++) Destroy(CloneLeftArr[i]);
+        // IsPrefabDestroy = true;
     }
 
     public IEnumerator MoveLeftPrefab(TeamBuilder.HitPersonData _personNumRight, TeamBuilder.HitPersonData _personNumLeft)
