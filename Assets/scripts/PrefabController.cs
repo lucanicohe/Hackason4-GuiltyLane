@@ -29,9 +29,9 @@ public class PrefabController : MonoBehaviour
     public bool IsPrefabDestroy = true;
 
     private GameObject RightTeam;
-    private GameObject _cloneRightTeam;
+    private GameObject _cloneRightTeam; // Clone用
     private GameObject LeftTeam;
-    private GameObject _cloneLeftTeam;
+    private GameObject _cloneLeftTeam; // Clone用
 
     // インスタンス化した複数のprefabを入れる配列
     private List<GameObject> CloneRightArr = new List<GameObject>();
@@ -83,11 +83,18 @@ public class PrefabController : MonoBehaviour
         LeftTeam = DivideRole(_roleLeftTeam, LeftTeam);
     }
 
-    // Prefabの生成
+    /// <summary>
+    /// Prefabの生成、それらを配列に入れる
+    /// </summary>
+    /// <param name="_personNumRight"></param>
+    /// <param name="_personNumLeft"></param>
     public void MakePrefab(TeamBuilder.HitPersonData _personNumRight, TeamBuilder.HitPersonData _personNumLeft)
     {
+        // 配列の初期化
         CloneRightArr.Clear();
         CloneLeftArr.Clear();
+
+        // 人数分のprefabの生成
         for (float i = 0; i < _personNumRight.Personnum; i++)
         {
             _cloneRightTeam = Instantiate(RightTeam, _posStartRightTeam + new Vector3(i * 1.5f, 0f, 0f), Quaternion.identity);
@@ -102,6 +109,12 @@ public class PrefabController : MonoBehaviour
         IsPrefabDestroy = false;
     }
 
+    /// <summary>
+    /// Prefabを電車に轢かれる感じの位置まで動かす
+    /// </summary>
+    /// <param name="_personNumRight"></param>
+    /// <param name="_personNumLeft"></param>
+    /// <returns></returns>
     public IEnumerator MoveRightPrefab(TeamBuilder.HitPersonData _personNumRight, TeamBuilder.HitPersonData _personNumLeft)
     {
         for (int i = 0; i < _personNumRight.Personnum; i++) // prefabの人数分動かす
