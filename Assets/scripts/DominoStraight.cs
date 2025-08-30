@@ -20,6 +20,7 @@ public class DominoStraight : MonoBehaviour
     [SerializeField] private GameObject _citizenPrefab;
     [SerializeField] private GameObject _royalPrefab;
     [SerializeField] private GameObject _noblePrefab;
+    [SerializeField] private GameObject _ConfirmfalsePrefab;
 
     private bool _spawnedNext;
     private static int _globalStraightCount;
@@ -65,7 +66,7 @@ public class DominoStraight : MonoBehaviour
         other.transform.rotation = Quaternion.identity;
         _spawnedNext = true;
 
-        if (_globalStraightCount < 2)
+        if (_globalStraightCount < 1) //もともと2だった
         {
             Instantiate(_straightPrefab, _spawnPointStraight.position, Quaternion.identity);
             _globalStraightCount++;
@@ -88,8 +89,8 @@ public class DominoStraight : MonoBehaviour
 
         if (_teamBuilder != null)
         {
-            var teamA = _teamBuilder.TeamBuild();
-            var teamB = _teamBuilder.TeamBuild();
+            var teamA = GameManager.Instance.RightHPD;
+            var teamB = GameManager.Instance.LeftHPD;
 
             string teamAText =
                 "processing...\n\nRIGHT\nRole: " + teamA.SelectRole +
@@ -138,32 +139,37 @@ public class DominoStraight : MonoBehaviour
             Destroy(gameObject);
     }
 
-private void SpawnTeamNearPoint(TeamBuilder.HitPersonData team, Transform spawnPoint)
-{
-    float offsetRadius = 5f;
-    Vector3 basePos = spawnPoint.position;
-
-    GameObject prefabToSpawn = team.SelectRole switch
+    private void SpawnTeamNearPoint(TeamBuilder.HitPersonData team, Transform spawnPoint)
     {
-        "Prisoner" => _prisonerPrefab,
-        "Citizen" => _citizenPrefab,
-        "Royal" => _royalPrefab,
-        "Noble" => _noblePrefab,
-        _ => null
-    };
+        float offsetRadius = 5f;
+        Vector3 basePos = spawnPoint.position;
 
-    if (prefabToSpawn == null) return;
+        GameObject prefabToSpawn = team.SelectRole switch
+        {
+            "Prisoner" => _prisonerPrefab,
+            "Citizen" => _citizenPrefab,
+            "Royal" => _royalPrefab,
+            "Noble" => _noblePrefab,
+            _ => null
+        };
 
-    for (int i = 0; i < team.Personnum; i++)
-    {
-        Vector3 randomOffset = new Vector3(
-            Random.Range(-offsetRadius, offsetRadius),
-            0f,
-            Random.Range(-offsetRadius, offsetRadius)
-        );
+        if (prefabToSpawn == null) return;
 
-        Instantiate(prefabToSpawn, basePos + randomOffset, Quaternion.identity);
+        for (int i = 0; i < team.Personnum; i++)
+        {
+            Vector3 randomOffset = new Vector3(
+                Random.Range(-offsetRadius, offsetRadius),
+                0f,
+                Random.Range(-offsetRadius, offsetRadius)
+            );
+
+            Instantiate(prefabToSpawn, basePos + randomOffset, Quaternion.identity);
+            if (i == team.Personnum)
+            {
+                Instantiate(_ConfirmfalsePrefab, basePos, Quaternion.identity);
+            }
+        }
+
     }
-}
 }
 

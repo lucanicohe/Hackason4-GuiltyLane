@@ -609,6 +609,8 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 587774448}
   m_CullTransparentMesh: 1
+  m_GameObject: {fileID: 587774448}
+  m_CullTransparentMesh: 1
 --- !u!1 &670250154
 GameObject:
   m_ObjectHideFlags: 0
@@ -639,11 +641,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f02633e92a92cf4fbe0a5eed904d688, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  total: {fileID: 587774450}
   teamBuilder: {fileID: 670250157}
-  prefabController: {fileID: 0}
+  trainController: {fileID: 1212175751}
   Gold: 0
   GuiltyPercent: 0
   Salary: 12
+  _confirm: 0
   _roundLevel: 0
 --- !u!4 &670250156
 Transform:
@@ -3169,6 +3173,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 5931525439020149141, guid: 27b1475b246e242ad977764ce072ded8, type: 3}
+      propertyPath: gameManager
+      value: 
+      objectReference: {fileID: 670250155}
     - target: {fileID: 7081424918354840564, guid: 27b1475b246e242ad977764ce072ded8, type: 3}
       propertyPath: m_LocalPosition.x
       value: 1.75
@@ -3231,6 +3239,9 @@ SceneRoots:
   - {fileID: 1212175754}
   - {fileID: 807012186}
   - {fileID: 2121749036}
+  - {fileID: 701904585}
+  - {fileID: 1625815511}
+  - {fileID: 670250156}
   - {fileID: 670250156}
   - {fileID: 701904585}
   - {fileID: 1625815511}
