@@ -17,8 +17,8 @@ public class DominoFork : MonoBehaviour
         TrainController train = other.GetComponent<TrainController>();
         if (train == null) return;
 
-        Transform spawnPoint = train._lastDirection == TrainController.Direction.Left 
-                               ? _spawnPointLeft 
+        Transform spawnPoint = train._lastDirection == TrainController.Direction.Left
+                               ? _spawnPointLeft
                                : _spawnPointRight;
         GameManager.Instance._confirm = true;
 
@@ -28,5 +28,10 @@ public class DominoFork : MonoBehaviour
             other.transform.Rotate(0f, -15f, 0f);
 
         _spawnedNext = true;
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        Destroy(gameObject);
     }
 }
