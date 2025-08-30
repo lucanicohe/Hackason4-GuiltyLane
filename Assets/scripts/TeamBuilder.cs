@@ -50,7 +50,8 @@ public class TeamBuilder : MonoBehaviour
 
     private void Awake()
     {
-        LoadPeopleDataFromJson();
+        // LoadPeopleDataFromJson();
+        LoadPeopleFromScriptableObjects();
     }
 
     private void LoadPeopleDataFromJson()
@@ -65,6 +66,31 @@ public class TeamBuilder : MonoBehaviour
         }
         PeopleData[] peopleDatas = peopleList.Data;
         foreach (var people in peopleDatas)
+        {
+            string name = people.Name;
+            // Debug.Log($"name : {name}");
+            switch (name)
+            {
+                case "Royal":
+                    _royalData = people;
+                    break;
+                case "Nobility":
+                    _nobilityData = people;
+                    break;
+                case "Citizen":
+                    _citizenData = people;
+                    break;
+                case "Prisoner":
+                    _prisonerData = people;
+                    break;
+            }
+        }
+    }
+
+    [SerializeField] private PeopleData[] _peopleDatas;
+    private void LoadPeopleFromScriptableObjects()
+    {
+        foreach (var people in _peopleDatas)
         {
             string name = people.Name;
             // Debug.Log($"name : {name}");

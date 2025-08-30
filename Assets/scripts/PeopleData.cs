@@ -1,5 +1,7 @@
-[System.Serializable]
-public class PeopleData
+using UnityEngine;
+
+[System.Serializable , CreateAssetMenu(fileName = "Data", menuName = "ScriptableObjects/PeopleData", order = 2)]
+public class PeopleData : ScriptableObject
 {
     public string Name;
     public int MaxNum;
@@ -10,8 +12,8 @@ public class PeopleData
     public int MinGuiltyPercent;
 }
 
-[System.Serializable]
-public class PeopleList
+[System.Serializable , CreateAssetMenu(fileName = "Data", menuName = "ScriptableObjects/PeopleList", order = 1)]
+public class PeopleList : ScriptableObject
 {
     public PeopleData[] Data;
 }
