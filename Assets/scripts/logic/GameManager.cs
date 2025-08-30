@@ -143,13 +143,6 @@ public class GameManager : Singleton<GameManager>
     {
         if (DecidedMainValue)
         {
-            prefabController.SetPrefabRole(_RightHPD, _LeftHPD);
-
-            if (prefabController.IsPrefabDestroy)
-            {
-                prefabController.MakePrefab(_RightHPD, _LeftHPD);
-            }
-
             return;
         }
         //右の人の役職、人数を決める-->ok
@@ -161,6 +154,12 @@ public class GameManager : Singleton<GameManager>
         //役職が右と左で同じじゃないようにする
         if (_RightHPD.SelectRole != _LeftHPD.SelectRole)
         {
+             prefabController.SetPrefabRole(_RightHPD, _LeftHPD);
+
+            if (prefabController.IsPrefabDestroy)
+            {
+                prefabController.MakePrefab(_RightHPD, _LeftHPD);
+            }
             DecidedMainValue = true;
         }
 
