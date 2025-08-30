@@ -1,19 +1,25 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using Unity.VisualScripting;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.Analytics;
 using UnityEngine.PlayerLoop;
 
 public class GameManager : Singleton<GameManager>
 {
+    [SerializeField]
+    TextMeshProUGUI total;
     private TeamBuilder.HitPersonData _RightHPD;
+    public TeamBuilder.HitPersonData RightHPD => _RightHPD;
+
     private TeamBuilder.HitPersonData _LeftHPD;
+    public TeamBuilder.HitPersonData LeftHPD => _LeftHPD;
     [SerializeField]
     TeamBuilder teamBuilder;
-
     [SerializeField]
-    PrefabController prefabController;
+    TrainController trainController;
 
     //自分が持っているお金
     public int Gold = 0;
@@ -21,9 +27,6 @@ public class GameManager : Singleton<GameManager>
     public int GuiltyPercent = 0;
     //給料
     public int Salary = 12;
-
-    //選択肢->0:no,1:right,2:left
-    private int _selectTeam = 0;
 
     //合計のGuiltyPercent
     private int _TotalGuiltyPercent;
@@ -38,7 +41,7 @@ public class GameManager : Singleton<GameManager>
     //_RightHPD,_LeftHPDの値を１回だけ作るため
     private bool DecidedMainValue = false;
     //右か、左か、選ばない、を選んだ後に確定するためのbool
-    private bool Confirm = false;
+    public bool _confirm = false;
     //ラウンド
     public enum RoundLevel
     {
@@ -57,20 +60,10 @@ public class GameManager : Singleton<GameManager>
     void Update()
     {
         MainValue();
-
-        //Arrowキーを押したらSelectTeamのbool値を変えてmaingameの処理をする
-        if (Input.GetKeyDown(KeyCode.D))
-        {
-            _selectTeam = 1;
-        }
-        else if (Input.GetKeyDown(KeyCode.A))
-        {
-            _selectTeam = 2;
-        }
         //Confirmをtrueにするのは、
-        // Confirm = true;
+        if(_confirm) MainGame();
         // ここの処理は、人を引いたあとに行う
-        //  MainGame();
+       
         //ラウンド内のMainGameの処理を３回行ったら
         if (_problemCount >= 3)
         {
@@ -154,12 +147,6 @@ public class GameManager : Singleton<GameManager>
         //役職が右と左で同じじゃないようにする
         if (_RightHPD.SelectRole != _LeftHPD.SelectRole)
         {
-             prefabController.SetPrefabRole(_RightHPD, _LeftHPD);
-
-            if (prefabController.IsPrefabDestroy)
-            {
-                prefabController.MakePrefab(_RightHPD, _LeftHPD);
-            }
             DecidedMainValue = true;
         }
 
@@ -167,28 +154,28 @@ public class GameManager : Singleton<GameManager>
 
     private void MainGame()
     {
-        if (Confirm)
+        if (_confirm)
         {
-            if (_selectTeam == 1)
+            if (trainController._lastDirection == TrainController.Direction.Right)
             {
                 Debug.Log("右確定");
                 _TotalGuiltyPercent = _RightHPD.TotalGuiltyPercent;
                 _TotalInheritance = _RightHPD.TotalInheritance;
-                StartCoroutine(prefabController.MoveRightPrefab(_RightHPD, _LeftHPD));
+                Debug.Log($"totalG:{TotalGuiltyPercent}totalI{TotalInheritance}");
             }
-            else if(_selectTeam == 2)
+            else if (trainController._lastDirection == TrainController.Direction.Left)
             {
                 Debug.Log("左確定");
                 _TotalGuiltyPercent = _LeftHPD.TotalGuiltyPercent;
                 _TotalInheritance = _LeftHPD.TotalInheritance;
-                StartCoroutine(prefabController.MoveLeftPrefab(_RightHPD, _LeftHPD));
             }
             //人を引いたあとに処理する↓
             SelectSide(_TotalGuiltyPercent, _TotalInheritance);
             ++_problemCount;
+            Debug.Log($"problem:{_problemCount}");
             DecidedMainValue = false;
-            _selectTeam = 0;
-            Confirm = false;
+            _confirm = false;
+            Debug.Log($"gold:{Gold}guilty:{GuiltyPercent}");
             return;
         }
         //これらの処理を1ラウンドに３回行う
@@ -198,11 +185,12 @@ public class GameManager : Singleton<GameManager>
     {
         GuiltyPercent += TotalGuiltyPercent;
         Gold += TotalInheritance;
+        total.text = $"Gold:{Gold}\nGuilt:{GuiltyPercent}";
         Debug.Log($"GuiltyPercent:{GuiltyPercent}\nGold:{Gold}");
         return;
     }
     void Start()
     {
-       
+
     }
 }

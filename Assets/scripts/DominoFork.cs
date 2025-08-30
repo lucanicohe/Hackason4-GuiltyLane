@@ -20,6 +20,7 @@ public class DominoFork : MonoBehaviour
         Transform spawnPoint = train._lastDirection == TrainController.Direction.Left 
                                ? _spawnPointLeft 
                                : _spawnPointRight;
+        GameManager.Instance._confirm = true;
 
         Instantiate(_straightPrefab, spawnPoint.position, Quaternion.identity);
 

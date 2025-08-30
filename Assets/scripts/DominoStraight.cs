@@ -65,7 +65,7 @@ public class DominoStraight : MonoBehaviour
         other.transform.rotation = Quaternion.identity;
         _spawnedNext = true;
 
-        if (_globalStraightCount < 2)
+        if (_globalStraightCount < 1) //もともと2だった
         {
             Instantiate(_straightPrefab, _spawnPointStraight.position, Quaternion.identity);
             _globalStraightCount++;
@@ -88,8 +88,8 @@ public class DominoStraight : MonoBehaviour
 
         if (_teamBuilder != null)
         {
-            var teamA = _teamBuilder.TeamBuild();
-            var teamB = _teamBuilder.TeamBuild();
+            var teamA = GameManager.Instance.RightHPD;
+            var teamB = GameManager.Instance.LeftHPD;
 
             string teamAText =
                 "processing...\n\nRIGHT\nRole: " + teamA.SelectRole +
