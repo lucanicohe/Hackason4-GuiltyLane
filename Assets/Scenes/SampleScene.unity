@@ -607,44 +607,8 @@ CanvasRenderer:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 654236264}
-  - component: {fileID: 654236263}
-  m_Layer: 0
-  m_Name: AudioManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &654236263
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 654236262}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a65124d04fe29fb4e80b5cd81f20c846, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!4 &654236264
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 654236262}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_GameObject: {fileID: 587774448}
+  m_CullTransparentMesh: 1
 --- !u!1 &670250154
 GameObject:
   m_ObjectHideFlags: 0
@@ -656,7 +620,6 @@ GameObject:
   - component: {fileID: 670250156}
   - component: {fileID: 670250155}
   - component: {fileID: 670250157}
-  - component: {fileID: 670250158}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -677,7 +640,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   teamBuilder: {fileID: 670250157}
-  prefabController: {fileID: 670250158}
+  prefabController: {fileID: 0}
   Gold: 0
   GuiltyPercent: 0
   Salary: 12
@@ -714,24 +677,6 @@ MonoBehaviour:
   - {fileID: 11400000, guid: f6ebc344ce0b05749abf1c3123e72021, type: 2}
   - {fileID: 11400000, guid: efc46064f882ed941b453e794a517822, type: 2}
   - {fileID: 11400000, guid: be448e54a351e1345a08f840b367de3e, type: 2}
---- !u!114 &670250158
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 670250154}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ebd98940a4ebaef4daf4df8702ce1131, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Royal: {fileID: 5844800730678536550, guid: 100560f01a1deb743b9353036aed506e, type: 3}
-  Noble: {fileID: 5844800730678536550, guid: a7a6f8323f6a8894a90c6bafce8f9929, type: 3}
-  Citizen: {fileID: 5844800730678536550, guid: ccb1a9f697c9af04d85f6b1afdae8fb6, type: 3}
-  Prisoner: {fileID: 5844800730678536550, guid: 12474a2f5d431ee4eb520e5a9590c02c, type: 3}
-  _moveSpeed: 1
-  IsPrefabDestroy: 1
 --- !u!1 &701904583
 GameObject:
   m_ObjectHideFlags: 0
@@ -3200,6 +3145,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f8050d61cc9f4894f8c94f2a83337b2d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _peopleDatas: []
 --- !u!4 &2121749036
 Transform:
   m_ObjectHideFlags: 0
@@ -3285,3 +3231,6 @@ SceneRoots:
   - {fileID: 1212175754}
   - {fileID: 807012186}
   - {fileID: 2121749036}
+  - {fileID: 670250156}
+  - {fileID: 701904585}
+  - {fileID: 1625815511}
