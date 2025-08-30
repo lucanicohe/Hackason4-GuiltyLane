@@ -38,16 +38,16 @@ public class PrefabController : MonoBehaviour
     private List<GameObject> CloneLeftArr = new List<GameObject>();
 
     // 右側チームの生成地点 (値は適当)
-    private Vector3 _posStartRightTeam = new Vector3(3f, 1.7f, 30f);
+    private Vector3 _posStartRightTeam = new Vector3(3f, 5.7f, 30f);
 
     // 左側チームの生成地点 (値は適当)
-    private Vector3 _posStartLeftTeam = new Vector3(-2f, 1.7f, 30f);
+    private Vector3 _posStartLeftTeam = new Vector3(-2f, 5.7f, 30f);
 
     // 右側チームをDestroyする地点 (値は適当)
-    private Vector3 _posEndRightTeam = new Vector3(3f, 1.7f, 5.5f);
+    private Vector3 _posEndRightTeam = new Vector3(3f, 5.7f, 5.5f);
 
     // 左側チームをDestroyする地点 (値は適当)
-    private Vector3 _posEndLeftTeam = new Vector3(-2f, 1.7f, 5.5f);
+    private Vector3 _posEndLeftTeam = new Vector3(-2f, 5.7f, 5.5f);
 
     /// <summary>
     /// HitPersonData.SelectRoleから、どのロールをインスタンス化するか仕分ける
@@ -109,6 +109,8 @@ public class PrefabController : MonoBehaviour
         IsPrefabDestroy = false;
     }
 
+    /**/
+
     /// <summary>
     /// Prefabを電車に轢かれる感じの位置まで動かす
     /// </summary>
@@ -143,7 +145,7 @@ public class PrefabController : MonoBehaviour
         for (int i = 0; i < _personNumLeft.Personnum; i++) Destroy(CloneLeftArr[i]);
 
         IsPrefabDestroy = true;
-        
+
         //　参考に
         // bool isAllActive = true;
         // while (isAllActive)
