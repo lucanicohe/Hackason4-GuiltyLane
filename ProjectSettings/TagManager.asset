@@ -7,6 +7,9 @@ TagManager:
   - TrackSection
   - UIImage
   - Numbers
+  - TeamLeft
+  - TeamRight
+  - TrackText
   layers:
   - Default
   - TransparentFX
