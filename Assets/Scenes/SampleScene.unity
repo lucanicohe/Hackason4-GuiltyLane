@@ -609,8 +609,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 587774448}
   m_CullTransparentMesh: 1
-  m_GameObject: {fileID: 587774448}
-  m_CullTransparentMesh: 1
 --- !u!1 &670250154
 GameObject:
   m_ObjectHideFlags: 0
@@ -699,7 +697,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!212 &701904584
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -780,6 +778,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bloodPrefab: {fileID: 2892909952877664613, guid: 2ae2600eb39cd425bb9ac1a1f0ad3b33, type: 3}
+  _destroyTime: 30
 --- !u!65 &701904587
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -3242,6 +3241,3 @@ SceneRoots:
   - {fileID: 701904585}
   - {fileID: 1625815511}
   - {fileID: 670250156}
-  - {fileID: 670250156}
-  - {fileID: 701904585}
-  - {fileID: 1625815511}
