@@ -6,6 +6,7 @@ TagManager:
   tags:
   - TrackSection
   - UIImage
+  - Numbers
   layers:
   - Default
   - TransparentFX

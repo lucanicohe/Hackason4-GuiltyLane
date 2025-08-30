@@ -275,6 +275,6 @@ public class GameManager : Singleton<GameManager>
 
     void Start()
     {
-        AudioManager.Instance.PlayBGM(AudioManager.E_BGMType.罪人の街);
+       
     }
 }
