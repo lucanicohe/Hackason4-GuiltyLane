@@ -60,16 +60,16 @@ public class PrefabController : MonoBehaviour
     {
         switch (_team.SelectRole)
         {
-            case "Royal(王族)":
+            case "Royal":
                 _teamSide = Royal;
                 break;
-            case "Noble(貴族)":
+            case "Noble":
                 _teamSide = Noble;
                 break;
-            case "Citizen(市民)":
+            case "Citizen":
                 _teamSide = Citizen;
                 break;
-            case "Prisoner(囚人)":
+            case "Prisoner":
                 _teamSide = Prisoner;
                 break;
         }
