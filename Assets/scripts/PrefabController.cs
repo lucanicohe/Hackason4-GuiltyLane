@@ -109,8 +109,6 @@ public class PrefabController : MonoBehaviour
         IsPrefabDestroy = false;
     }
 
-    /**/
-
     /// <summary>
     /// Prefabを電車に轢かれる感じの位置まで動かす
     /// </summary>
@@ -202,4 +200,44 @@ public class PrefabController : MonoBehaviour
 
         IsPrefabDestroy = true;
     }
+
+
+    /*
+    private bool IsFade = false;
+    [SerializeField]
+    private UnityEngine.UI.Image _fadeImage;
+
+    private float _fadeTime = 0.5f;
+
+    private float _elapsedTime = 0f;
+
+    private IEnumerator OnHitFade()
+    {
+        _fadeImage.raycastTarget = true;
+        while (_elapsedTime < _fadeTime)
+        {
+            _elapsedTime += Time.deltaTime;
+            float per = _elapsedTime / _fadeTime;
+
+            Color C = _fadeImage.color;
+            C.a = per;
+            _fadeImage.color = C;
+            yield return null;
+        }
+
+        _elapsedTime = 0f;
+
+        while (_elapsedTime < _fadeTime)
+        {
+            _elapsedTime += Time.deltaTime;
+            float per = 1 - (_elapsedTime / _fadeTime);
+
+            Color C = _fadeImage.color;
+            C.a = per;
+            _fadeImage.color = C;
+            yield return null;
+        }
+        _fadeImage.raycastTarget = false;
+    }
+    */
 }
