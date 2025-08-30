@@ -61,19 +61,23 @@ public class GameManager : Singleton<GameManager>
     {
         MainValue();
         //Confirmをtrueにするのは、
-        if(_confirm) MainGame();
-        // ここの処理は、人を引いたあとに行う
-       
-        //ラウンド内のMainGameの処理を３回行ったら
-        if (_problemCount >= 3)
+        if (_confirm)
         {
-            //３回行ったら、ショップに行ってアイテムを買う/使う
-            //ラウンドが進む
-            ChangeRound();
-            Debug.Log($"ラウンド：{_roundLevel}");
-            _problemCount = 0;
-            return;
+            _confirm = false;
+            MainGame();        
         }
+        // ここの処理は、人を引いたあとに行う
+
+            //ラウンド内のMainGameの処理を３回行ったら
+            if (_problemCount >= 3)
+            {
+                //３回行ったら、ショップに行ってアイテムを買う/使う
+                //ラウンドが進む
+                ChangeRound();
+                Debug.Log($"ラウンド：{_roundLevel}");
+                _problemCount = 0;
+                return;
+            }
         switch (_roundLevel)
         {
             case RoundLevel.None:
@@ -154,30 +158,26 @@ public class GameManager : Singleton<GameManager>
 
     private void MainGame()
     {
-        if (_confirm)
-        {
             if (trainController._lastDirection == TrainController.Direction.Right)
             {
                 Debug.Log("右確定");
                 _TotalGuiltyPercent = _RightHPD.TotalGuiltyPercent;
                 _TotalInheritance = _RightHPD.TotalInheritance;
-                Debug.Log($"totalG:{TotalGuiltyPercent}totalI{TotalInheritance}");
+                ++_problemCount;
             }
             else if (trainController._lastDirection == TrainController.Direction.Left)
             {
                 Debug.Log("左確定");
                 _TotalGuiltyPercent = _LeftHPD.TotalGuiltyPercent;
                 _TotalInheritance = _LeftHPD.TotalInheritance;
+                ++_problemCount;
             }
             //人を引いたあとに処理する↓
             SelectSide(_TotalGuiltyPercent, _TotalInheritance);
-            ++_problemCount;
             Debug.Log($"problem:{_problemCount}");
             DecidedMainValue = false;
-            _confirm = false;
             Debug.Log($"gold:{Gold}guilty:{GuiltyPercent}");
             return;
-        }
         //これらの処理を1ラウンドに３回行う
     }
 

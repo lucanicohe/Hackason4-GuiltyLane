@@ -16,6 +16,5 @@ public class KillController : MonoBehaviour
 
 
         Destroy(gameObject);
-        GameManager.Instance._confirm = true;
     }
 }
