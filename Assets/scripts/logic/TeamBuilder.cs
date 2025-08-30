@@ -115,10 +115,10 @@ public class TeamBuilder : MonoBehaviour
     //--役職一覧--
     private List<string> Role = new List<string>()
     {
-        "Royal(王族)",
-        "Noble(貴族)",
-        "Citizen(市民)",
-        "Prisoner(囚人)",
+        "Royal",
+        "Noble",
+        "Citizen",
+        "Prisoner",
 
     };
 
@@ -163,16 +163,16 @@ public class TeamBuilder : MonoBehaviour
         data.SelectRole = Role[UnityEngine.Random.Range(0, 4)];
         switch (data.SelectRole)
         {
-            case "Royal(王族)":
+            case "Royal":
                 RoleInheritance(data, _royalData);
                 break;
-            case "Noble(貴族)":
+            case "Noble":
                 RoleInheritance(data, _nobilityData);
                 break;
-            case "Citizen(市民)":
+            case "Citizen":
                 RoleInheritance(data, _citizenData);
                 break;
-            case "Prisoner(囚人)":
+            case "Prisoner":
                 RoleInheritance(data, _prisonerData);
                 break;
         }
