@@ -10,6 +10,7 @@ TagManager:
   - TeamLeft
   - TeamRight
   - TrackText
+  - confirmfalse
   layers:
   - Default
   - TransparentFX

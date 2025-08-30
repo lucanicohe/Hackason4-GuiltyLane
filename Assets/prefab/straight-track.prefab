@@ -312,6 +312,7 @@ MonoBehaviour:
   _citizenPrefab: {fileID: 2301980720392847892, guid: 1f0928fcd120145de8f6952c584c4242, type: 3}
   _royalPrefab: {fileID: 1897523036374663298, guid: 4fd73d728c3db417a88e5eaa5d18e0df, type: 3}
   _noblePrefab: {fileID: 6866488240512661751, guid: c1ec90bd3bd1149cba78676a5064889e, type: 3}
+  _ConfirmfalsePrefab: {fileID: 1790806901881938400, guid: 34f442472f176d840b948ac3706b9869, type: 3}
 --- !u!1001 &5690409837674706412
 PrefabInstance:
   m_ObjectHideFlags: 0
