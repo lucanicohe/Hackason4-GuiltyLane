@@ -26,8 +26,7 @@ public class PrefabController : MonoBehaviour
 
     [SerializeField] // prefabが動く速度
     private float _moveSpeed = 1f;
-
-    [NonSerialized]
+    
     // prefabがDestroyされているか
     public bool IsPrefabDestroy = true;
 
