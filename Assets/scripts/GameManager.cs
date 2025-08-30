@@ -14,8 +14,6 @@ public class GameManager : Singleton<GameManager>
 
     [SerializeField]
     PrefabController prefabController;
-    [SerializeField]
-    HighlightChoice highlightChoice;
 
     //自分が持っているお金
     public int Gold = 0;
@@ -24,10 +22,8 @@ public class GameManager : Singleton<GameManager>
     //給料
     public int Salary = 12;
 
-    //選択肢
-    private bool _isRight;
-    private bool _isLeft;
-    private bool _isNothing;
+    //選択肢->0:no,1:right,2:left
+    private int _selectTeam = 0;
 
     //合計のGuiltyPercent
     private int _TotalGuiltyPercent;
@@ -52,12 +48,10 @@ public class GameManager : Singleton<GameManager>
         Third,
         Fourth,
         Fifth,
+        Sixth,
         ToEnd,
     }
 
-    /// <summary>
-    /// ラウンドを変えます。
-    /// </summary>
     public RoundLevel _roundLevel = RoundLevel.None;
 
     void Update()
@@ -65,24 +59,18 @@ public class GameManager : Singleton<GameManager>
         MainValue();
 
         //Arrowキーを押したらSelectTeamのbool値を変えてmaingameの処理をする
-        if (Input.GetKeyDown(KeyCode.RightArrow))
+        if (Input.GetKeyDown(KeyCode.D))
         {
-            SelectTeam(true, false, false);
+            _selectTeam = 1;
         }
-        else if (Input.GetKeyDown(KeyCode.LeftArrow))
+        else if (Input.GetKeyDown(KeyCode.A))
         {
-            SelectTeam(false, true, false);
+            _selectTeam = 2;
         }
-        else if (Input.GetKeyDown(KeyCode.UpArrow))
-        {
-            SelectTeam(false, false, true);
-        }
-        //enterで確定
-        else if (Input.GetKeyDown(KeyCode.Return))
-        {
-            Confirm = true;
-            MainGame();
-        }
+        //Confirmをtrueにするのは、
+        // Confirm = true;
+        // ここの処理は、人を引いたあとに行う
+        //  MainGame();
         //ラウンド内のMainGameの処理を３回行ったら
         if (_problemCount >= 3)
         {
@@ -107,13 +95,15 @@ public class GameManager : Singleton<GameManager>
                 break;
             case RoundLevel.Fifth:
                 break;
+            case RoundLevel.Sixth:
+                break;
             case RoundLevel.ToEnd:
                 break;
         }
     }
 
     /// <summary>
-    /// ラウンドを変える処理
+    /// ラウンドを変える処理・一定のgoldが溜まっているなら通れる
     /// </summary>
     private void ChangeRound()
     {
@@ -180,24 +170,25 @@ public class GameManager : Singleton<GameManager>
     {
         if (Confirm)
         {
-            if (_isRight)
+            if (_selectTeam == 1)
             {
                 Debug.Log("右確定");
+                _TotalGuiltyPercent = _RightHPD.TotalGuiltyPercent;
+                _TotalInheritance = _RightHPD.TotalInheritance;
                 StartCoroutine(prefabController.MoveRightPrefab(_RightHPD, _LeftHPD));
             }
-            else if (_isLeft)
+            else if(_selectTeam == 2)
             {
                 Debug.Log("左確定");
+                _TotalGuiltyPercent = _LeftHPD.TotalGuiltyPercent;
+                _TotalInheritance = _LeftHPD.TotalInheritance;
                 StartCoroutine(prefabController.MoveLeftPrefab(_RightHPD, _LeftHPD));
             }
-            else if (_isNothing)
-            {
-                Debug.Log("選ばない確定");
-            }
+            //人を引いたあとに処理する↓
             SelectSide(_TotalGuiltyPercent, _TotalInheritance);
             ++_problemCount;
             DecidedMainValue = false;
-            SelectTeam(false, false, false);
+            _selectTeam = 0;
             Confirm = false;
             return;
         }
@@ -211,73 +202,6 @@ public class GameManager : Singleton<GameManager>
         Debug.Log($"GuiltyPercent:{GuiltyPercent}\nGold:{Gold}");
         return;
     }
-    /// <summary>
-    /// 選択肢を管理する＆選んだ時にゲッターに入れる
-    /// </summary>
-    /// <param name="isRight"></param>
-    /// <param name="isLeft"></param>
-    /// <param name="isNothing"></param>
-    private void SelectTeam(bool isRight, bool isLeft, bool isNothing)
-    {
-        _isRight = isRight;
-        _isLeft = isLeft;
-        _isNothing = isNothing;
-        //右、左どちらかを選んだら、罪率が上がる＆所持金が上がる
-        if (_isRight)
-        {
-            Debug.Log("右");
-            highlightChoice.RightHighLight();
-            _TotalGuiltyPercent = _RightHPD.TotalGuiltyPercent;
-            _TotalInheritance = _RightHPD.TotalInheritance;
-        }
-        else if (_isLeft)
-        {
-            Debug.Log("左");
-            highlightChoice.LeftHighlight();
-            _TotalGuiltyPercent = _LeftHPD.TotalGuiltyPercent;
-            _TotalInheritance = _LeftHPD.TotalInheritance;
-        }
-        //右か左か選ばないかを決める-->ok-->SelectTeam
-        //どちらも選ばない場合は、所持金が規定量増える(給料)
-        else if (_isNothing)
-        {
-            highlightChoice.NothingHighlight();
-            Debug.Log("選ばない");
-            _TotalGuiltyPercent = 0;
-            _TotalInheritance = Salary;
-        }
-    }
-
-    /// <summary>
-    /// ボタンに取り付けてボタンをクリックしたときに処理する（右
-    /// </summary>
-    public void SelectRightTeamByMouse()
-    {
-        SelectTeam(true, false, false);
-        Confirm = true;
-        MainGame();
-    }
-
-    /// <summary>
-    /// ボタンに取り付けてボタンをクリックしたときに処理する（左
-    /// </summary>
-    public void SelectLeftTeamByMouse()
-    {
-        SelectTeam(false, true, false);
-        Confirm = true;
-        MainGame();
-    }
-
-    /// <summary>
-    /// ボタンに取り付けてボタンをクリックしたときに処理する（選ばない
-    /// </summary>
-    public void SelectNothingByMouse()
-    {
-        SelectTeam(false, false, true);
-        Confirm = true;
-        MainGame();
-    }
-
     void Start()
     {
         AudioManager.Instance.PlayBGM(AudioManager.E_BGMType.罪人の街);
