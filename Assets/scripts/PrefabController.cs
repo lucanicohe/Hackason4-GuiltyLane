@@ -9,7 +9,7 @@ public class PrefabController : MonoBehaviour
     // "Noble(貴族)",
     // "Citizen(市民)",
     // "Prisoner(囚人)",
-
+    [Header("Prefabs")]
     [SerializeField]
     public GameObject Royal;
 
@@ -22,9 +22,12 @@ public class PrefabController : MonoBehaviour
     [SerializeField]
     public GameObject Prisoner;
 
+    [Header("Settings")]
+
     [SerializeField] // prefabが動く速度
     private float _moveSpeed = 1f;
 
+    [NonSerialized]
     // prefabがDestroyされているか
     public bool IsPrefabDestroy = true;
 
