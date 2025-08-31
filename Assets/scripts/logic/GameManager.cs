@@ -1,11 +1,6 @@
-using System.Collections;
-using System.Collections.Generic;
 using TMPro;
-using Unity.VisualScripting;
-using UnityEditor.Experimental.GraphView;
 using UnityEngine;
-using UnityEngine.Analytics;
-using UnityEngine.PlayerLoop;
+using UnityEngine.SceneManagement;
 
 public class GameManager : Singleton<GameManager>
 {
@@ -27,7 +22,7 @@ public class GameManager : Singleton<GameManager>
     public int GuiltyPercent = 0;
     //給料
     public int Salary = 12;
-    public int Toll = 0;
+    public int Toll = 15;
 
 
     //合計のGuiltyPercent
@@ -57,7 +52,7 @@ public class GameManager : Singleton<GameManager>
         ToEnd,
     }
 
-    public RoundLevel _roundLevel = RoundLevel.None;
+    public RoundLevel _roundLevel = RoundLevel.First;
 
     void Update()
     {
@@ -66,6 +61,12 @@ public class GameManager : Singleton<GameManager>
         if (_confirm)
         {
             _confirm = false;
+            if (GuiltyPercent >= 100)
+            {
+                Debug.Log("ゲームクリア");
+                SceneManager.LoadScene("ResultScene");
+                return;
+            }
             MainGame();        
         }
         // ここの処理は、人を引いたあとに行う
@@ -73,10 +74,18 @@ public class GameManager : Singleton<GameManager>
         //ラウンド内のMainGameの処理を３回行ったら
         if (_problemCount >= 3)
         {
-            //if(toll > Gold){
-            //ゲームオーバー
-            //}
+            if (Gold - Toll < 0)
+            {
+                Debug.Log("ゲームオーバー");
+                SceneManager.LoadScene("ResultScene");
+            }
+            else
+            {
+                Gold -= Toll;
+            }
             //３回行ったら、ショップに行ってアイテムを買う/使う
+
+
             //ラウンドが進む
             ChangeRound();
             Debug.Log($"ラウンド：{_roundLevel}");
@@ -108,43 +117,45 @@ public class GameManager : Singleton<GameManager>
     /// ラウンドを変える処理・一定のgoldが溜まっているなら通れる
     /// </summary>
     private void ChangeRound()
-    {
-        if (_roundLevel == RoundLevel.None)
-        {
-            //ラウンドFirstに行く処理
-            _roundLevel = RoundLevel.First;
-            Toll = 15;
-        }
-        else if (_roundLevel == RoundLevel.First)
-        {
-            //secondラウンドに行く処理
-            _roundLevel = RoundLevel.Second;
-            Toll = 30;
-        }
-        else if (_roundLevel == RoundLevel.Second)
-        {
-            //thirdラウンドに行く処理
-            _roundLevel = RoundLevel.Third;
-            Toll = 60;
-        }
-        else if (_roundLevel == RoundLevel.Third)
-        {
-            //fourthラウンドに行く処理
-            _roundLevel = RoundLevel.Fourth;
-            Toll = 120;
-        }
-        else if (_roundLevel == RoundLevel.Fourth)
-        {
-            //fifthラウンドに行く処理
-            _roundLevel = RoundLevel.Fifth;
-            Toll = 180;
-        }
-        else if (_roundLevel == RoundLevel.Fifth)
-        {
-            //toendに行く処理
-            _roundLevel = RoundLevel.ToEnd;
-            Toll = 300;
-        }
+    {   
+        _roundLevel++;
+        Toll += 30;
+        // if (_roundLevel == RoundLevel.None)
+        // {
+        //     //ラウンドFirstに行く処理
+        //     _roundLevel = RoundLevel.First;
+        //     Toll = 30;
+        // }
+        // else if (_roundLevel == RoundLevel.First)
+        // {
+        //     //secondラウンドに行く処理
+        //     _roundLevel = RoundLevel.Second;
+        //     Toll = 60;
+        // }
+        // else if (_roundLevel == RoundLevel.Second)
+        // {
+        //     //thirdラウンドに行く処理
+        //     _roundLevel = RoundLevel.Third;
+        //     Toll = 100;
+        // }
+        // else if (_roundLevel == RoundLevel.Third)
+        // {
+        //     //fourthラウンドに行く処理
+        //     _roundLevel = RoundLevel.Fourth;
+        //     Toll = 150;
+        // }
+        // else if (_roundLevel == RoundLevel.Fourth)
+        // {
+        //     //fifthラウンドに行く処理
+        //     _roundLevel = RoundLevel.Fifth;
+        //     Toll = 200;
+        // }
+        // else if (_roundLevel == RoundLevel.Fifth)
+        // {
+        //     //toendに行く処理
+        //     _roundLevel = RoundLevel.ToEnd;
+        //     Toll = 300;
+        // }
     }
 
     private void MainValue()
