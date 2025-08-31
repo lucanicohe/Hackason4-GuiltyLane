@@ -25,10 +25,7 @@ public class GameManager : Singleton<GameManager>
         }
         private set { }
     }
-
     private TeamBuilder.HitPersonData _LeftHPD;
-    [SerializeField]
-    private float GetGoldGuilty = 6;
     public TeamBuilder.HitPersonData LeftHPD
     {
         get
@@ -44,6 +41,8 @@ public class GameManager : Singleton<GameManager>
         private set { }
     }
 
+    [SerializeField]
+    private float GetGoldGuilty = 6;
     [SerializeField]
     TeamBuilder teamBuilder;
     [SerializeField]
