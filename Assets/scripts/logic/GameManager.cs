@@ -156,10 +156,6 @@ public class GameManager : Singleton<GameManager>
         //左の人の役職、人数を決める-->ok
         _RightHPD = teamBuilder.TeamBuild();
         _LeftHPD = teamBuilder.TeamBuild();
-        // Debug.Log($"rightrole:{_RightHPD.SelectRole}\nrightperson:{_RightHPD.Personnum}\nrightinheritance:{_RightHPD.Inheritance}\nrighttotalinheritance:{_RightHPD.TotalInheritance}\nrightGuiltyPercent:{_RightHPD.GuiltyPercent}\nrighttotalGuiltypercent:{_RightHPD.TotalGuiltyPercent}");
-        // Debug.Log($"leftrole:{_LeftHPD.SelectRole}\nleftperson:{_LeftHPD.Personnum}\nleftinheritance:{_LeftHPD.Inheritance}\nlefttotalinheritance:{_LeftHPD.TotalInheritance}\nleftGuiltyPercent:{_LeftHPD.GuiltyPercent}\nlefttotalGuiltypercent:{_LeftHPD.TotalGuiltyPercent}");
-        Debug.Log(JsonUtility.ToJson(_RightHPD,true));
-        Debug.Log(JsonUtility.ToJson(_LeftHPD,true));
         //役職が右と左で同じじゃないようにする
         if (_RightHPD.SelectRole != _LeftHPD.SelectRole)
         {
@@ -167,7 +163,24 @@ public class GameManager : Singleton<GameManager>
             ChooseDisguised = Random.value < 0.5;
             _RightHPD = InitialiZationOfersonData(_RightHPD);
             _LeftHPD = InitialiZationOfersonData(_LeftHPD);
+            Debug.Log(JsonUtility.ToJson(_RightHPD, true));
+            Debug.Log(JsonUtility.ToJson(_LeftHPD, true));
         }
+
+        //参考に
+        // do
+        // {
+        //     _RightHPD = teamBuilder.TeamBuild();
+        //     _LeftHPD = teamBuilder.TeamBuild();
+        // } while (_RightHPD.SelectRole == _LeftHPD.SelectRole){
+        //     _RightHPD = teamBuilder.TeamBuild();
+        //     _LeftHPD = teamBuilder.TeamBuild();
+        // };
+        // ChooseDisguised = Random.value < 0.5;
+        // _RightHPD = InitialiZationOfersonData(_RightHPD);
+        // _LeftHPD = InitialiZationOfersonData(_LeftHPD);
+        // Debug.Log(JsonUtility.ToJson(_RightHPD, true));
+        // Debug.Log(JsonUtility.ToJson(_LeftHPD, true));
     }
 
     private TeamBuilder.HitPersonData InitialiZationOfersonData(TeamBuilder.HitPersonData data)
