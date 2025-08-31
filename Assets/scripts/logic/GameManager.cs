@@ -13,9 +13,12 @@ public class GameManager : Singleton<GameManager>
     private TeamBuilder.HitPersonData _LeftHPD;
     public TeamBuilder.HitPersonData LeftHPD => _LeftHPD;
     [SerializeField]
+    private float GetGoldGuilty = 6;
+    [SerializeField]
     TeamBuilder teamBuilder;
     [SerializeField]
     TrainController trainController;
+    public bool _speedzero = false; //電車のスピードをゼロにする
 
     //自分が持っているお金
     public int Gold = 0;
@@ -215,10 +218,13 @@ public class GameManager : Singleton<GameManager>
         return;
     }
 
-
+    /// <summary>
+    /// Gold,Guiltyを受け取るタイミングを人を轢いたあとにした
+    /// </summary>
+    /// <returns></returns>
     private IEnumerator startmaingame()
     {
-        yield return new WaitForSeconds(6);
+        yield return new WaitForSeconds(GetGoldGuilty);
         MainGame();
     }
     void Start()
