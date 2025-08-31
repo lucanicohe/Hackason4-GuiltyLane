@@ -25,7 +25,7 @@ public class TrainController : MonoBehaviour
 
     private bool _cameraToggled = false;
     private Coroutine _cameraTransitionCoroutine;
-
+    
     void Start()
     {
         if (_directionLever != null)
@@ -64,14 +64,15 @@ public class TrainController : MonoBehaviour
         }
 
         // Change speed
-        if (Input.GetKeyDown(KeyCode.W))
+        if (Input.GetKeyDown(KeyCode.W) && !GameManager.Instance._speedzero)
         {
             _currentSpeed = _speed;
             if (_throttleLever != null)
                 _throttleLever.localPosition = _speedOnPos;
         }
-        else if (Input.GetKeyDown(KeyCode.S))
+        else if (Input.GetKeyDown(KeyCode.S) || GameManager.Instance._speedzero)
         {
+            GameManager.Instance._speedzero = false; //TODO:Qを押したように、とまったときにカメラを動かしたい→この行を消すとできるが、コルーチンがうまくいかないのか画面ががくがくする。
             _currentSpeed = 0f;
             if (_throttleLever != null)
                 _throttleLever.localPosition = _speedOffPos;
@@ -84,7 +85,7 @@ public class TrainController : MonoBehaviour
         //     if (_camera1 != null) _camera1.enabled = !_cameraToggled;
         //     if (_camera2 != null) _camera2.enabled = _cameraToggled;
         // }
-        if (Input.GetKeyDown(KeyCode.Q))
+        if (Input.GetKeyDown(KeyCode.Q) || GameManager.Instance._speedzero)
         {
             _cameraToggled = !_cameraToggled;
 
