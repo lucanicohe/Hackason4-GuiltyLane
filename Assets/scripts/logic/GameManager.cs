@@ -62,7 +62,7 @@ public class GameManager : Singleton<GameManager>
             {
                 return -1;
             }
-            return Gold;
+            return GuiltyPercent;
         }
     }
     //給料
