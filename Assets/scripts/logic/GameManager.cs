@@ -1,3 +1,4 @@
+using System.Collections;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -62,7 +63,7 @@ public class GameManager : Singleton<GameManager>
         if (_confirm)
         {
             _confirm = false;
-            MainGame(); 
+            StartCoroutine(startmaingame()); 
             if (GuiltyPercent >= 100)
             {
                 Debug.Log("ゲームクリア");
@@ -212,6 +213,13 @@ public class GameManager : Singleton<GameManager>
         total.text = $"Gold : {Gold}\nGuilt : {GuiltyPercent}\nNextToll : {Toll}\nRound : {_roundLevel}-{_problemCount}";
         Debug.Log($"GuiltyPercent:{GuiltyPercent}\nGold:{Gold}");
         return;
+    }
+
+
+    private IEnumerator startmaingame()
+    {
+        yield return new WaitForSeconds(6);
+        MainGame();
     }
     void Start()
     {
