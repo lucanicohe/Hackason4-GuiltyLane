@@ -153,8 +153,10 @@ public class GameManager : Singleton<GameManager>
         //左の人の役職、人数を決める-->ok
         _RightHPD = teamBuilder.TeamBuild();
         _LeftHPD = teamBuilder.TeamBuild();
-        Debug.Log($"rightrole:{_RightHPD.SelectRole}\nrightperson:{_RightHPD.Personnum}\nrightinheritance:{_RightHPD.Inheritance}\nrighttotalinheritance:{_RightHPD.TotalInheritance}\nrightGuiltyPercent:{_RightHPD.GuiltyPercent}\nrighttotalGuiltypercent:{_RightHPD.TotalGuiltyPercent}");
-        Debug.Log($"leftrole:{_LeftHPD.SelectRole}\nleftperson:{_LeftHPD.Personnum}\nleftinheritance:{_LeftHPD.Inheritance}\nlefttotalinheritance:{_LeftHPD.TotalInheritance}\nleftGuiltyPercent:{_LeftHPD.GuiltyPercent}\nlefttotalGuiltypercent:{_LeftHPD.TotalGuiltyPercent}");
+        // Debug.Log($"rightrole:{_RightHPD.SelectRole}\nrightperson:{_RightHPD.Personnum}\nrightinheritance:{_RightHPD.Inheritance}\nrighttotalinheritance:{_RightHPD.TotalInheritance}\nrightGuiltyPercent:{_RightHPD.GuiltyPercent}\nrighttotalGuiltypercent:{_RightHPD.TotalGuiltyPercent}");
+        // Debug.Log($"leftrole:{_LeftHPD.SelectRole}\nleftperson:{_LeftHPD.Personnum}\nleftinheritance:{_LeftHPD.Inheritance}\nlefttotalinheritance:{_LeftHPD.TotalInheritance}\nleftGuiltyPercent:{_LeftHPD.GuiltyPercent}\nlefttotalGuiltypercent:{_LeftHPD.TotalGuiltyPercent}");
+        Debug.Log(JsonUtility.ToJson(_RightHPD,true));
+        Debug.Log(JsonUtility.ToJson(_LeftHPD,true));
         //役職が右と左で同じじゃないようにする
         if (_RightHPD.SelectRole != _LeftHPD.SelectRole)
         {
@@ -164,7 +166,8 @@ public class GameManager : Singleton<GameManager>
     }
 
     private TeamBuilder.HitPersonData DisguisedPersonData(TeamBuilder.HitPersonData data)
-    {
+    {   
+        data.PersonnumToShow = data.Personnum;
         switch (_roundLevel)
         {
             case RoundLevel.First:
@@ -181,21 +184,11 @@ public class GameManager : Singleton<GameManager>
                 data.TotalInheritance = BE_DISGUISED_INT;
                 return data;
             case RoundLevel.Fourth:
-                data.SelectRole = BE_DISGUISED_STRING;
-                data.Personnum = BE_DISGUISED_INT;
-                data.TotalInheritance = BE_DISGUISED_INT;
-                data.TotalGuiltyPercent = BE_DISGUISED_INT;
-                return data;
             case RoundLevel.Fifth:
-                data.SelectRole = BE_DISGUISED_STRING;
-                data.Personnum = BE_DISGUISED_INT;
-                data.TotalInheritance = BE_DISGUISED_INT;
-                data.TotalGuiltyPercent = BE_DISGUISED_INT;
-                return data;
             case RoundLevel.Sixth:
                 //自分の罪率と金が分からなくなる
                 data.SelectRole = BE_DISGUISED_STRING;
-                data.Personnum = BE_DISGUISED_INT;
+                data.PersonnumToShow = BE_DISGUISED_INT;
                 data.TotalInheritance = BE_DISGUISED_INT;
                 data.TotalGuiltyPercent = BE_DISGUISED_INT;
                 return data;
@@ -217,13 +210,12 @@ public class GameManager : Singleton<GameManager>
             _TotalGuiltyPercent = _LeftHPD.TotalGuiltyPercent;
             _TotalInheritance = _LeftHPD.TotalInheritance;
         }
+        ++_problemCount;
         //人を引いたあとに処理する↓
         SelectSide(_TotalGuiltyPercent, _TotalInheritance);
         Debug.Log($"problem:{_problemCount}");
         DecidedMainValue = false;
         Debug.Log($"gold:{Gold}guilty:{GuiltyPercent}");
-
-        ++_problemCount;
 
         //これらの処理を1ラウンドに３回行う
     }
@@ -251,7 +243,7 @@ public class GameManager : Singleton<GameManager>
             Debug.Log($"ラウンド：{_roundLevel}");
             _problemCount = 1;
         }
-        total.text = $"Gold : {(GoldForShow == BE_DISGUISED_INT ? "???" : GoldForShow)}\nGuilt : {(GuiltyPercentForShow == BE_DISGUISED_INT ? "???" : GuiltyPercentForShow)}\nNextToll : {Toll}\nRound : {_roundLevel}-{_problemCount}";
+        total.text = $"Gold : {(GoldForShow == BE_DISGUISED_INT ? BE_DISGUISED_STRING : GoldForShow)}\nGuilt : {(GuiltyPercentForShow == BE_DISGUISED_INT ? BE_DISGUISED_STRING : GuiltyPercentForShow)}\nNextToll : {Toll}\nRound : {_roundLevel}-{_problemCount}";
         Debug.Log($"GuiltyPercent:{GuiltyPercent}\nGold:{Gold}");
         return;
     }
