@@ -16,11 +16,11 @@ public class GameManager : Singleton<GameManager>
         get
         {
             if (ChooseDisguised || _roundLevel == RoundLevel.Third
-            || _roundLevel == RoundLevel.Fifth
-            || _roundLevel == RoundLevel.Sixth)
-            {
-                return DisguisedPersonData(_RightHPD);
-            }
+                || _roundLevel == RoundLevel.Fifth
+                || _roundLevel == RoundLevel.Sixth)
+                {
+                    return DisguisedPersonData(_RightHPD);
+                }
             return _RightHPD;
         }
         private set { }
@@ -31,11 +31,11 @@ public class GameManager : Singleton<GameManager>
         get
         {
             if (!ChooseDisguised || _roundLevel == RoundLevel.Third
-            || _roundLevel == RoundLevel.Fifth
-            || _roundLevel == RoundLevel.Sixth)
-            {
-                return DisguisedPersonData(_LeftHPD);
-            }
+                || _roundLevel == RoundLevel.Fifth
+                || _roundLevel == RoundLevel.Sixth)
+                {
+                    return DisguisedPersonData(_LeftHPD);
+                }
             return _LeftHPD;
         }
         private set { }
@@ -165,12 +165,21 @@ public class GameManager : Singleton<GameManager>
         {
             DecidedMainValue = true;
             ChooseDisguised = Random.value < 0.5;
+            _RightHPD = InitialiZationOfersonData(_RightHPD);
+            _LeftHPD = InitialiZationOfersonData(_LeftHPD);
         }
     }
 
+    private TeamBuilder.HitPersonData InitialiZationOfersonData(TeamBuilder.HitPersonData data)
+    {
+        data.PersonnumToShow = data.Personnum;
+        data.TotalInheritanceToShow = data.TotalInheritance;
+        data.TotalGuiltyPercentToShow = data.TotalGuiltyPercent;
+        return data;   
+    }
     private TeamBuilder.HitPersonData DisguisedPersonData(TeamBuilder.HitPersonData data)
     {   
-        data.PersonnumToShow = data.Personnum;
+        data = InitialiZationOfersonData(data);
         switch (_roundLevel)
         {
             case RoundLevel.First:
@@ -179,12 +188,12 @@ public class GameManager : Singleton<GameManager>
                 //どちらかの身分が分からなくなる
                 //お金もわからくなる
                 data.SelectRole = BE_DISGUISED_STRING;
-                data.TotalInheritance = BE_DISGUISED_INT;
+                data.TotalInheritanceToShow = BE_DISGUISED_INT;
                 return data;
             case RoundLevel.Third:
                 //両方の身分が分からなくなる
                 data.SelectRole = BE_DISGUISED_STRING;
-                data.TotalInheritance = BE_DISGUISED_INT;
+                data.TotalInheritanceToShow = BE_DISGUISED_INT;
                 return data;
             case RoundLevel.Fourth:
             case RoundLevel.Fifth:
@@ -192,8 +201,8 @@ public class GameManager : Singleton<GameManager>
                 //自分の罪率と金が分からなくなる
                 data.SelectRole = BE_DISGUISED_STRING;
                 data.PersonnumToShow = BE_DISGUISED_INT;
-                data.TotalInheritance = BE_DISGUISED_INT;
-                data.TotalGuiltyPercent = BE_DISGUISED_INT;
+                data.TotalInheritanceToShow = BE_DISGUISED_INT;
+                data.TotalGuiltyPercentToShow = BE_DISGUISED_INT;
                 return data;
             default: return data;
         }
