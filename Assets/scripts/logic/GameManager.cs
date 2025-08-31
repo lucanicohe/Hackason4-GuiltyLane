@@ -155,32 +155,66 @@ public class GameManager : Singleton<GameManager>
         if (_RightHPD.SelectRole != _LeftHPD.SelectRole)
         {
             DecidedMainValue = true;
+            
         }
+    }
 
+    private static bool DecidePersonDataToBeDisguised;
+    private TeamBuilder.HitPersonData DisguisedPersonData(TeamBuilder.HitPersonData data)
+    {
+        switch (_roundLevel)
+        {
+            case RoundLevel.First:
+                return data;
+            case RoundLevel.Second:
+                //どちらかの身分が分からなくなる
+                data.SelectRole = "???";
+                return data;
+            case RoundLevel.Third:
+                //両方の身分が分からなくなる
+                data.SelectRole = "???";
+                return data;
+            case RoundLevel.Fourth:
+                //更にどちらかの人数も分からなくなる
+                data.SelectRole = "???";
+                data.Personnum = 0000;
+                return data;
+            case RoundLevel.Fifth:
+                data.SelectRole = "???";
+                data.Personnum = 0000;
+                return data;
+            case RoundLevel.Sixth:
+                //自分の罪率と金が分からなくなる
+                data.SelectRole = "???";
+                data.Personnum = 0000;
+                return data;
+            
+            default :return data;
+        }
     }
 
     private void MainGame()
     {
-            if (trainController._lastDirection == TrainController.Direction.Right)
-            {
-                Debug.Log("右確定");
-                _TotalGuiltyPercent = _RightHPD.TotalGuiltyPercent;
-                _TotalInheritance = _RightHPD.TotalInheritance;               
-            }
-            else if (trainController._lastDirection == TrainController.Direction.Left)
-            {
-                Debug.Log("左確定");
-                _TotalGuiltyPercent = _LeftHPD.TotalGuiltyPercent;
-                _TotalInheritance = _LeftHPD.TotalInheritance;
-            }
-            //人を引いたあとに処理する↓
-            SelectSide(_TotalGuiltyPercent, _TotalInheritance);
-            Debug.Log($"problem:{_problemCount}");
-            DecidedMainValue = false;
-            Debug.Log($"gold:{Gold}guilty:{GuiltyPercent}");
+        if (trainController._lastDirection == TrainController.Direction.Right)
+        {
+            Debug.Log("右確定");
+            _TotalGuiltyPercent = _RightHPD.TotalGuiltyPercent;
+            _TotalInheritance = _RightHPD.TotalInheritance;
+        }
+        else if (trainController._lastDirection == TrainController.Direction.Left)
+        {
+            Debug.Log("左確定");
+            _TotalGuiltyPercent = _LeftHPD.TotalGuiltyPercent;
+            _TotalInheritance = _LeftHPD.TotalInheritance;
+        }
+        //人を引いたあとに処理する↓
+        SelectSide(_TotalGuiltyPercent, _TotalInheritance);
+        Debug.Log($"problem:{_problemCount}");
+        DecidedMainValue = false;
+        Debug.Log($"gold:{Gold}guilty:{GuiltyPercent}");
 
-            ++_problemCount;
-            
+        ++_problemCount;
+
         //これらの処理を1ラウンドに３回行う
     }
 
