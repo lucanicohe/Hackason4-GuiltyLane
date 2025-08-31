@@ -473,63 +473,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!1001 &505965560
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 2667768086149168623, guid: 038f0d6b58b276040b1bf5a51c31f194, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 925.06
-      objectReference: {fileID: 0}
-    - target: {fileID: 2667768086149168623, guid: 038f0d6b58b276040b1bf5a51c31f194, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 518.66
-      objectReference: {fileID: 0}
-    - target: {fileID: 2667768086149168623, guid: 038f0d6b58b276040b1bf5a51c31f194, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 152.02425
-      objectReference: {fileID: 0}
-    - target: {fileID: 2667768086149168623, guid: 038f0d6b58b276040b1bf5a51c31f194, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2667768086149168623, guid: 038f0d6b58b276040b1bf5a51c31f194, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2667768086149168623, guid: 038f0d6b58b276040b1bf5a51c31f194, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2667768086149168623, guid: 038f0d6b58b276040b1bf5a51c31f194, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2667768086149168623, guid: 038f0d6b58b276040b1bf5a51c31f194, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2667768086149168623, guid: 038f0d6b58b276040b1bf5a51c31f194, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2667768086149168623, guid: 038f0d6b58b276040b1bf5a51c31f194, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5824933462020337304, guid: 038f0d6b58b276040b1bf5a51c31f194, type: 3}
-      propertyPath: m_Name
-      value: Fader
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 038f0d6b58b276040b1bf5a51c31f194, type: 3}
 --- !u!1 &587774448
 GameObject:
   m_ObjectHideFlags: 0
@@ -701,8 +644,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   total: {fileID: 587774450}
+  GetGoldGuilty: 6
   teamBuilder: {fileID: 670250157}
   trainController: {fileID: 1212175751}
+  _speedzero: 0
   Gold: 0
   GuiltyPercent: 0
   Salary: 12
@@ -3303,4 +3248,3 @@ SceneRoots:
   - {fileID: 701904585}
   - {fileID: 1625815511}
   - {fileID: 670250156}
-  - {fileID: 505965560}
