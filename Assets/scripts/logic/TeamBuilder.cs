@@ -130,7 +130,7 @@ public class TeamBuilder : MonoBehaviour
         //--ランダムに決まる遺産・人数
         public List<int> Inheritance = new List<int>();
         public int Personnum = 0;
-
+        public int PersonnumToShow = 0;
         //最終的なすべての遺産
         public int TotalInheritance = 0;
 
@@ -177,6 +177,7 @@ public class TeamBuilder : MonoBehaviour
                 RoleInheritance(data, _prisonerData);
                 break;
         }
+        data.PersonnumToShow = data.Personnum;
         return data;
     }
 
