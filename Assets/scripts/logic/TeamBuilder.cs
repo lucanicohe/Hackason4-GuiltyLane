@@ -133,12 +133,14 @@ public class TeamBuilder : MonoBehaviour
         public int PersonnumToShow = 0;
         //最終的なすべての遺産
         public int TotalInheritance = 0;
+        public int TotalInheritanceToShow = 0;
 
         //罪率
         public List<int> GuiltyPercent = new List<int>();
 
         //最終的なすべての罪率
         public int TotalGuiltyPercent = 0;
+        public int TotalGuiltyPercentToShow = 0;
 
     }
 
