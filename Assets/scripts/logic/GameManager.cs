@@ -108,6 +108,12 @@ public class GameManager : Singleton<GameManager>
 
     void Update()
     {
+        if (_roundLevel == RoundLevel.ToEnd)
+        {
+            Debug.Log("ゲームクリア");
+            SceneManager.LoadScene("ResultScene");
+            return;
+        }
         MainValue();
         //Confirmをtrueにするのは、
         if (_confirm)
@@ -116,7 +122,7 @@ public class GameManager : Singleton<GameManager>
             MainGame();
             if (GuiltyPercent >= 100)
             {
-                Debug.Log("ゲームクリア");
+                Debug.Log("ゲームオーバー");
                 SceneManager.LoadScene("ResultScene");
                 return;
             }
@@ -220,27 +226,13 @@ public class GameManager : Singleton<GameManager>
             case RoundLevel.Second:
                 //どちらかの身分が分からなくなる
                 //お金もわからくなる
-                data.SelectRole = "???";
-                data.TotalInheritance = -1;
-                return data;
             case RoundLevel.Third:
                 //両方の身分が分からなくなる
                 data.SelectRole = "???";
                 data.TotalInheritance = -1;
                 return data;
             case RoundLevel.Fourth:
-                //更にどちらかの人数も分からなくなる
-                data.SelectRole = "???";
-                data.Personnum = -1;
-                data.TotalInheritance = -1;
-                data.TotalGuiltyPercent = -1;
-                return data;
             case RoundLevel.Fifth:
-                data.SelectRole = "???";
-                data.Personnum = -1;
-                data.TotalInheritance = -1;
-                data.TotalGuiltyPercent = -1;
-                return data;
             case RoundLevel.Sixth:
                 //自分の罪率と金が分からなくなる
                 data.SelectRole = "???";
