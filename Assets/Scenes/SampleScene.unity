@@ -706,9 +706,9 @@ MonoBehaviour:
   Gold: 0
   GuiltyPercent: 0
   Salary: 12
-  Toll: 0
+  Toll: 15
   _confirm: 0
-  _roundLevel: 0
+  _roundLevel: 1
 --- !u!4 &670250156
 Transform:
   m_ObjectHideFlags: 0
