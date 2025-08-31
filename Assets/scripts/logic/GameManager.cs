@@ -27,6 +27,8 @@ public class GameManager : Singleton<GameManager>
     public int GuiltyPercent = 0;
     //給料
     public int Salary = 12;
+    public int Toll = 0;
+
 
     //合計のGuiltyPercent
     private int _TotalGuiltyPercent;
@@ -68,16 +70,19 @@ public class GameManager : Singleton<GameManager>
         }
         // ここの処理は、人を引いたあとに行う
 
-            //ラウンド内のMainGameの処理を３回行ったら
-            if (_problemCount >= 3)
-            {
-                //３回行ったら、ショップに行ってアイテムを買う/使う
-                //ラウンドが進む
-                ChangeRound();
-                Debug.Log($"ラウンド：{_roundLevel}");
-                _problemCount = 0;
-                return;
-            }
+        //ラウンド内のMainGameの処理を３回行ったら
+        if (_problemCount >= 3)
+        {
+            //if(toll > Gold){
+            //ゲームオーバー
+            //}
+            //３回行ったら、ショップに行ってアイテムを買う/使う
+            //ラウンドが進む
+            ChangeRound();
+            Debug.Log($"ラウンド：{_roundLevel}");
+            _problemCount = 0;
+            return;
+        }
         switch (_roundLevel)
         {
             case RoundLevel.None:
@@ -108,31 +113,37 @@ public class GameManager : Singleton<GameManager>
         {
             //ラウンドFirstに行く処理
             _roundLevel = RoundLevel.First;
+            Toll = 15;
         }
         else if (_roundLevel == RoundLevel.First)
         {
             //secondラウンドに行く処理
             _roundLevel = RoundLevel.Second;
+            Toll = 30;
         }
         else if (_roundLevel == RoundLevel.Second)
         {
             //thirdラウンドに行く処理
             _roundLevel = RoundLevel.Third;
+            Toll = 60;
         }
         else if (_roundLevel == RoundLevel.Third)
         {
             //fourthラウンドに行く処理
             _roundLevel = RoundLevel.Fourth;
+            Toll = 120;
         }
         else if (_roundLevel == RoundLevel.Fourth)
         {
             //fifthラウンドに行く処理
             _roundLevel = RoundLevel.Fifth;
+            Toll = 180;
         }
         else if (_roundLevel == RoundLevel.Fifth)
         {
             //toendに行く処理
             _roundLevel = RoundLevel.ToEnd;
+            Toll = 300;
         }
     }
 
@@ -185,7 +196,7 @@ public class GameManager : Singleton<GameManager>
     {
         GuiltyPercent += TotalGuiltyPercent;
         Gold += TotalInheritance;
-        total.text = $"Gold:{Gold}\nGuilt:{GuiltyPercent}";
+        total.text = $"Gold : {Gold}\nGuilt : {GuiltyPercent}\nToll : {Toll}\nRound : {_roundLevel}-{_problemCount}";
         Debug.Log($"GuiltyPercent:{GuiltyPercent}\nGold:{Gold}");
         return;
     }
