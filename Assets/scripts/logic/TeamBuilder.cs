@@ -119,13 +119,13 @@ public class TeamBuilder : MonoBehaviour
         "Noble",
         "Citizen",
         "Prisoner",
-
     };
 
     public class HitPersonData
     {
         //--役職の名前--
         public string SelectRole;
+        public int RoleID;
 
         //--ランダムに決まる遺産・人数
         public List<int> Inheritance = new List<int>();
@@ -160,7 +160,8 @@ public class TeamBuilder : MonoBehaviour
     public HitPersonData TeamBuild()
     {
         var data = new HitPersonData();
-        data.SelectRole = Role[UnityEngine.Random.Range(0, 4)];
+        data.RoleID = UnityEngine.Random.Range(0, 4);
+        data.SelectRole = Role[data.RoleID];
         switch (data.SelectRole)
         {
             case "Royal":
