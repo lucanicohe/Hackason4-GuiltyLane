@@ -649,6 +649,7 @@ MonoBehaviour:
   Gold: 0
   GuiltyPercent: 0
   Salary: 12
+  Toll: 0
   _confirm: 0
   _roundLevel: 0
 --- !u!4 &670250156
@@ -2401,9 +2402,7 @@ MonoBehaviour:
   _directionLever: {fileID: 1579505388}
   _throttleLever: {fileID: 280158560}
   _camera1: {fileID: 963194227}
-  _camera1Postion: {x: -3.089999, y: 9.9, z: -4.359997}
   _camera2: {fileID: 911146846}
-  _camera2Postion: {x: -4.6, y: 7.5, z: 0.3}
 --- !u!54 &1212175752
 Rigidbody:
   m_ObjectHideFlags: 0

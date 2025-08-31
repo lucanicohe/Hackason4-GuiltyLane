@@ -27,6 +27,7 @@ public class GameManager : Singleton<GameManager>
     public int GuiltyPercent = 0;
     //給料
     public int Salary = 12;
+    //通行料
     public int Toll = 0;
 
 
@@ -74,8 +75,11 @@ public class GameManager : Singleton<GameManager>
         if (_problemCount >= 3)
         {
             //if(toll > Gold){
-            //ゲームオーバー
+            //  ゲームオーバー
+            //}else{
+            //  ショップ
             //}
+
             //３回行ったら、ショップに行ってアイテムを買う/使う
             //ラウンドが進む
             ChangeRound();

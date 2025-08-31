@@ -3,21 +3,27 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class TitleManager : MonoBehaviour 
+public class TitleManager : MonoBehaviour
 {
     [SerializeField]
     public Fade fade;
 
-    void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.P))
-        {
-            fade.FadeIn(1f);
-        }
+    private System.Action titleAction;
+    private System.Action mainGameAction;
 
-        if (Input.GetKeyDown(KeyCode.O))
-        {
-            fade.FadeOut(1f);
-        }
+    private void Start()
+    {
+        titleAction = () => SceneManager.LoadScene("TitleScene");
+        mainGameAction = () => SceneManager.LoadScene("SampleScene");
+    }
+
+    public void FadeInToTitleScene()
+    {
+        fade.FadeIn(2.0f, titleAction);
+    }
+    
+    public void FadeInToMainGameScene()
+    {
+        fade.FadeIn(2.0f, mainGameAction);
     }
 }
