@@ -159,7 +159,6 @@ public class GameManager : Singleton<GameManager>
         }
     }
 
-    private static bool DecidePersonDataToBeDisguised;
     private TeamBuilder.HitPersonData DisguisedPersonData(TeamBuilder.HitPersonData data)
     {
         switch (_roundLevel)
