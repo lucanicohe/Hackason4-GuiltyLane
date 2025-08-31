@@ -143,7 +143,7 @@ public class PrefabController : MonoBehaviour
         for (int i = 0; i < _personNumLeft.Personnum; i++) Destroy(CloneLeftArr[i]);
 
         IsPrefabDestroy = true;
-        
+
         //　参考に
         // bool isAllActive = true;
         // while (isAllActive)
