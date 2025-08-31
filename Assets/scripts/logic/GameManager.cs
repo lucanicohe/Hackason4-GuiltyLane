@@ -8,7 +8,8 @@ public class GameManager : Singleton<GameManager>
     TextMeshProUGUI total;
     public static bool ChooseDisguised;
     private TeamBuilder.HitPersonData _RightHPD;
-    public TeamBuilder.HitPersonData RightHPD {
+    public TeamBuilder.HitPersonData RightHPD
+    {
         get
         {
             if (ChooseDisguised || _roundLevel == RoundLevel.Third
@@ -19,11 +20,12 @@ public class GameManager : Singleton<GameManager>
             }
             return _RightHPD;
         }
-        private set {}
+        private set { }
     }
 
     private TeamBuilder.HitPersonData _LeftHPD;
-    public TeamBuilder.HitPersonData LeftHPD{
+    public TeamBuilder.HitPersonData LeftHPD
+    {
         get
         {
             if (!ChooseDisguised || _roundLevel == RoundLevel.Third
@@ -34,7 +36,7 @@ public class GameManager : Singleton<GameManager>
             }
             return _LeftHPD;
         }
-        private set {}
+        private set { }
     }
 
     [SerializeField]
@@ -44,8 +46,10 @@ public class GameManager : Singleton<GameManager>
 
     //自分が持っているお金
     public int Gold = 0;
-    private int GoldForShow {
-        get{
+    private int GoldForShow
+    {
+        get
+        {
             if (_roundLevel == RoundLevel.Sixth)
             {
                 return -1;
@@ -53,11 +57,13 @@ public class GameManager : Singleton<GameManager>
             return Gold;
         }
     }
-    
+
     //罪率
     public int GuiltyPercent = 0;
-    private int GuiltyPercentForShow{
-        get{
+    private int GuiltyPercentForShow
+    {
+        get
+        {
             if (_roundLevel == RoundLevel.Sixth)
             {
                 return -1;
@@ -68,7 +74,7 @@ public class GameManager : Singleton<GameManager>
     //給料
     public int Salary = 12;
     public int Toll = 15;
-    private int[] TollArray = new int[]{ 0, 15, 30, 60, 100, 150, 200 };
+    private int[] TollArray = new int[] { 0, 15, 30, 60, 100, 150, 200 };
 
 
     //合計のGuiltyPercent
@@ -101,13 +107,13 @@ public class GameManager : Singleton<GameManager>
     public RoundLevel _roundLevel = RoundLevel.First;
 
     void Update()
-    {   
+    {
         MainValue();
         //Confirmをtrueにするのは、
         if (_confirm)
         {
             _confirm = false;
-            MainGame(); 
+            MainGame();
             if (GuiltyPercent >= 100)
             {
                 Debug.Log("ゲームクリア");
@@ -117,7 +123,7 @@ public class GameManager : Singleton<GameManager>
         }
         // ここの処理は、人を引いたあとに行う
 
-        
+
         // switch (_roundLevel)
         // {
         //     case RoundLevel.None:
@@ -146,7 +152,7 @@ public class GameManager : Singleton<GameManager>
     {
         _roundLevel++;
         Toll = TollArray[(int)_roundLevel];
-        
+
         // if (_roundLevel == RoundLevel.None)
         // {
         //     //ラウンドFirstに行く処理
@@ -242,8 +248,8 @@ public class GameManager : Singleton<GameManager>
                 data.TotalInheritance = -1;
                 data.TotalGuiltyPercent = -1;
                 return data;
-            
-            default :return data;
+
+            default: return data;
         }
     }
 
