@@ -6,11 +6,37 @@ public class GameManager : Singleton<GameManager>
 {
     [SerializeField]
     TextMeshProUGUI total;
+    public static bool ChooseDisguised;
     private TeamBuilder.HitPersonData _RightHPD;
-    public TeamBuilder.HitPersonData RightHPD => _RightHPD;
+    public TeamBuilder.HitPersonData RightHPD {
+        get
+        {
+            if (ChooseDisguised || _roundLevel == RoundLevel.Third
+            || _roundLevel == RoundLevel.Fifth
+            || _roundLevel == RoundLevel.Sixth)
+            {
+                return DisguisedPersonData(_RightHPD);
+            }
+            return _RightHPD;
+        }
+        private set {}
+    }
 
     private TeamBuilder.HitPersonData _LeftHPD;
-    public TeamBuilder.HitPersonData LeftHPD => _LeftHPD;
+    public TeamBuilder.HitPersonData LeftHPD{
+        get
+        {
+            if (!ChooseDisguised || _roundLevel == RoundLevel.Third
+            || _roundLevel == RoundLevel.Fifth
+            || _roundLevel == RoundLevel.Sixth)
+            {
+                return DisguisedPersonData(_LeftHPD);
+            }
+            return _LeftHPD;
+        }
+        private set {}
+    }
+
     [SerializeField]
     TeamBuilder teamBuilder;
     [SerializeField]
@@ -18,8 +44,27 @@ public class GameManager : Singleton<GameManager>
 
     //自分が持っているお金
     public int Gold = 0;
+    private int GoldForShow {
+        get{
+            if (_roundLevel == RoundLevel.Sixth)
+            {
+                return -1;
+            }
+            return Gold;
+        }
+    }
+    
     //罪率
     public int GuiltyPercent = 0;
+    private int GuiltyPercentForShow{
+        get{
+            if (_roundLevel == RoundLevel.Sixth)
+            {
+                return -1;
+            }
+            return Gold;
+        }
+    }
     //給料
     public int Salary = 12;
     public int Toll = 15;
@@ -98,9 +143,10 @@ public class GameManager : Singleton<GameManager>
     /// ラウンドを変える処理・一定のgoldが溜まっているなら通れる
     /// </summary>
     private void ChangeRound()
-    {   
+    {
         _roundLevel++;
         Toll = TollArray[(int)_roundLevel];
+        
         // if (_roundLevel == RoundLevel.None)
         // {
         //     //ラウンドFirstに行く処理
@@ -155,7 +201,7 @@ public class GameManager : Singleton<GameManager>
         if (_RightHPD.SelectRole != _LeftHPD.SelectRole)
         {
             DecidedMainValue = true;
-            
+            ChooseDisguised = Random.value < 0.5;
         }
     }
 
@@ -167,25 +213,34 @@ public class GameManager : Singleton<GameManager>
                 return data;
             case RoundLevel.Second:
                 //どちらかの身分が分からなくなる
+                //お金もわからくなる
                 data.SelectRole = "???";
+                data.TotalInheritance = -1;
                 return data;
             case RoundLevel.Third:
                 //両方の身分が分からなくなる
                 data.SelectRole = "???";
+                data.TotalInheritance = -1;
                 return data;
             case RoundLevel.Fourth:
                 //更にどちらかの人数も分からなくなる
                 data.SelectRole = "???";
-                data.Personnum = 0000;
+                data.Personnum = -1;
+                data.TotalInheritance = -1;
+                data.TotalGuiltyPercent = -1;
                 return data;
             case RoundLevel.Fifth:
                 data.SelectRole = "???";
-                data.Personnum = 0000;
+                data.Personnum = -1;
+                data.TotalInheritance = -1;
+                data.TotalGuiltyPercent = -1;
                 return data;
             case RoundLevel.Sixth:
                 //自分の罪率と金が分からなくなる
                 data.SelectRole = "???";
-                data.Personnum = 0000;
+                data.Personnum = -1;
+                data.TotalInheritance = -1;
+                data.TotalGuiltyPercent = -1;
                 return data;
             
             default :return data;
@@ -235,19 +290,17 @@ public class GameManager : Singleton<GameManager>
                 Gold += Salary;
             }
             //３回行ったら、ショップに行ってアイテムを買う/使う
-
-
             //ラウンドが進む
             ChangeRound();
             Debug.Log($"ラウンド：{_roundLevel}");
             _problemCount = 1;
         }
-        total.text = $"Gold : {Gold}\nGuilt : {GuiltyPercent}\nNextToll : {Toll}\nRound : {_roundLevel}-{_problemCount}";
+        total.text = $"Gold : {(GoldForShow == -1 ? "???" : GoldForShow)}\nGuilt : {(GuiltyPercentForShow == -1 ? "???" : GuiltyPercentForShow)}\nNextToll : {Toll}\nRound : {_roundLevel}-{_problemCount}";
         Debug.Log($"GuiltyPercent:{GuiltyPercent}\nGold:{Gold}");
         return;
     }
     void Start()
     {
-        total.text = $"Gold : {Gold}\nGuilt : {GuiltyPercent}\nNextToll : {Toll}\nRound : {_roundLevel}-{_problemCount}";
+        total.text = $"Gold : {GoldForShow}\nGuilt : {GuiltyPercentForShow}\nNextToll : {Toll}\nRound : {_roundLevel}-{_problemCount}";
     }
 }
