@@ -16,6 +16,6 @@ MonoBehaviour:
   MaxNum: 10
   MinNum: 5
   MaxInheritance: 3
-  MinInheritance: 0
+  MinInheritance: 1
   MaxGuiltyPercent: 2
-  MinGuiltyPercent: 0
+  MinGuiltyPercent: 1

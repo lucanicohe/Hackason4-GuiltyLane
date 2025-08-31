@@ -19,8 +19,12 @@ public class TrainController : MonoBehaviour
     private Vector3 _speedOffPos = new Vector3(1.20625f, 0.75f, -0.266f);
 
     [SerializeField] private Camera _camera1;
+    private Vector3 _camera1LocalPostion;
     [SerializeField] private Camera _camera2;
+    private Vector3 _camera2LocalPostion;
+
     private bool _cameraToggled = false;
+    private Coroutine _cameraTransitionCoroutine;
 
     void Start()
     {
@@ -33,9 +37,11 @@ public class TrainController : MonoBehaviour
         _lastDirection = Direction.Right;
         _currentSpeed = 0f;
 
-       
+
         if (_camera1 != null) _camera1.enabled = true;
         if (_camera2 != null) _camera2.enabled = false;
+        _camera1LocalPostion = _camera1.transform.localPosition;
+        _camera2LocalPostion = _camera2.transform.localPosition;
     }
 
     void Update()
@@ -72,11 +78,36 @@ public class TrainController : MonoBehaviour
         }
 
         // Switch cameras
+        // if (Input.GetKeyDown(KeyCode.Q))
+        // {
+        //     _cameraToggled = !_cameraToggled;
+        //     if (_camera1 != null) _camera1.enabled = !_cameraToggled;
+        //     if (_camera2 != null) _camera2.enabled = _cameraToggled;
+        // }
         if (Input.GetKeyDown(KeyCode.Q))
         {
             _cameraToggled = !_cameraToggled;
-            if (_camera1 != null) _camera1.enabled = !_cameraToggled;
-            if (_camera2 != null) _camera2.enabled = _cameraToggled;
+
+            if (_cameraTransitionCoroutine != null)
+                StopCoroutine(_cameraTransitionCoroutine);
+
+            Vector3 targetLocalPos = _cameraToggled ? _camera2LocalPostion : _camera1LocalPostion;
+            _cameraTransitionCoroutine = StartCoroutine(TransitionCameraPosition(targetLocalPos, 0.5f));
         }
+    }
+
+    private IEnumerator TransitionCameraPosition(Vector3 targetLocalPos, float duration)
+    {
+        float elapsedTime = 0f;
+        Vector3 startLocalPos = _camera1.transform.localPosition;
+        while (elapsedTime < duration)
+        {
+            elapsedTime += Time.deltaTime;
+            _camera1.transform.localPosition = Vector3.Lerp(startLocalPos, targetLocalPos, elapsedTime / duration);
+            yield return null;
+        }
+
+        _camera1.transform.localPosition = targetLocalPos;
+        _cameraTransitionCoroutine = null;
     }
 }

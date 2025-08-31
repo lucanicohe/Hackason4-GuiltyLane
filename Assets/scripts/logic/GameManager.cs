@@ -1,11 +1,6 @@
-using System.Collections;
-using System.Collections.Generic;
 using TMPro;
-using Unity.VisualScripting;
-using UnityEditor.Experimental.GraphView;
 using UnityEngine;
-using UnityEngine.Analytics;
-using UnityEngine.PlayerLoop;
+using UnityEngine.SceneManagement;
 
 public class GameManager : Singleton<GameManager>
 {
@@ -27,6 +22,9 @@ public class GameManager : Singleton<GameManager>
     public int GuiltyPercent = 0;
     //給料
     public int Salary = 12;
+    public int Toll = 15;
+    private int[] TollArray = new int[]{ 0, 15, 30, 60, 100, 150, 200 };
+
 
     //合計のGuiltyPercent
     private int _TotalGuiltyPercent;
@@ -37,7 +35,7 @@ public class GameManager : Singleton<GameManager>
     public int TotalInheritance => _TotalInheritance;
 
     //ラウンド内の何回行うか-->子の変数が3以上になったら次のラウンドへ進む
-    private int _problemCount = 0;
+    private int _problemCount = 1;
     //_RightHPD,_LeftHPDの値を１回だけ作るため
     private bool DecidedMainValue = false;
     //右か、左か、選ばない、を選んだ後に確定するためのbool
@@ -55,85 +53,90 @@ public class GameManager : Singleton<GameManager>
         ToEnd,
     }
 
-    public RoundLevel _roundLevel = RoundLevel.None;
+    public RoundLevel _roundLevel = RoundLevel.First;
 
     void Update()
-    {
+    {   
         MainValue();
         //Confirmをtrueにするのは、
         if (_confirm)
         {
             _confirm = false;
-            MainGame();        
+            MainGame(); 
+            if (GuiltyPercent >= 100)
+            {
+                Debug.Log("ゲームクリア");
+                SceneManager.LoadScene("ResultScene");
+                return;
+            }
         }
         // ここの処理は、人を引いたあとに行う
 
-            //ラウンド内のMainGameの処理を３回行ったら
-            if (_problemCount >= 3)
-            {
-                //３回行ったら、ショップに行ってアイテムを買う/使う
-                //ラウンドが進む
-                ChangeRound();
-                Debug.Log($"ラウンド：{_roundLevel}");
-                _problemCount = 0;
-                return;
-            }
-        switch (_roundLevel)
-        {
-            case RoundLevel.None:
-                break;
-            case RoundLevel.First:
-                break;
-            case RoundLevel.Second:
-                break;
-            case RoundLevel.Third:
-                break;
-            case RoundLevel.Fourth:
-                break;
-            case RoundLevel.Fifth:
-                break;
-            case RoundLevel.Sixth:
-                break;
-            case RoundLevel.ToEnd:
-                break;
-        }
+        
+        // switch (_roundLevel)
+        // {
+        //     case RoundLevel.None:
+        //         break;
+        //     case RoundLevel.First:
+        //         break;
+        //     case RoundLevel.Second:
+        //         break;
+        //     case RoundLevel.Third:
+        //         break;
+        //     case RoundLevel.Fourth:
+        //         break;
+        //     case RoundLevel.Fifth:
+        //         break;
+        //     case RoundLevel.Sixth:
+        //         break;
+        //     case RoundLevel.ToEnd:
+        //         break;
+        // }
     }
 
     /// <summary>
     /// ラウンドを変える処理・一定のgoldが溜まっているなら通れる
     /// </summary>
     private void ChangeRound()
-    {
-        if (_roundLevel == RoundLevel.None)
-        {
-            //ラウンドFirstに行く処理
-            _roundLevel = RoundLevel.First;
-        }
-        else if (_roundLevel == RoundLevel.First)
-        {
-            //secondラウンドに行く処理
-            _roundLevel = RoundLevel.Second;
-        }
-        else if (_roundLevel == RoundLevel.Second)
-        {
-            //thirdラウンドに行く処理
-            _roundLevel = RoundLevel.Third;
-        }
-        else if (_roundLevel == RoundLevel.Third)
-        {
-            //fourthラウンドに行く処理
-            _roundLevel = RoundLevel.Fourth;
-        }
-        else if (_roundLevel == RoundLevel.Fourth)
-        {
-            //fifthラウンドに行く処理
-            _roundLevel = RoundLevel.Fifth;
-        }
-        else if (_roundLevel == RoundLevel.Fifth)
-        {
-            //toendに行く処理
-            _roundLevel = RoundLevel.ToEnd;
-        }
+    {   
+        _roundLevel++;
+        Toll = TollArray[(int)_roundLevel];
+        // if (_roundLevel == RoundLevel.None)
+        // {
+        //     //ラウンドFirstに行く処理
+        //     _roundLevel = RoundLevel.First;
+        //     Toll = 30;
+        // }
+        // else if (_roundLevel == RoundLevel.First)
+        // {
+        //     //secondラウンドに行く処理
+        //     _roundLevel = RoundLevel.Second;
+        //     Toll = 60;
+        // }
+        // else if (_roundLevel == RoundLevel.Second)
+        // {
+        //     //thirdラウンドに行く処理
+        //     _roundLevel = RoundLevel.Third;
+        //     Toll = 100;
+        // }
+        // else if (_roundLevel == RoundLevel.Third)
+        // {
+        //     //fourthラウンドに行く処理
+        //     _roundLevel = RoundLevel.Fourth;
+        //     Toll = 150;
+        // }
+        // else if (_roundLevel == RoundLevel.Fourth)
+        // {
+        //     //fifthラウンドに行く処理
+        //     _roundLevel = RoundLevel.Fifth;
+        //     Toll = 200;
+        // }
+        // else if (_roundLevel == RoundLevel.Fifth)
+        // {
+        //     //toendに行く処理
+        //     _roundLevel = RoundLevel.ToEnd;
+        //     Toll = 300;
+        // }
     }
 
     private void MainValue()
@@ -162,22 +165,22 @@ public class GameManager : Singleton<GameManager>
             {
                 Debug.Log("右確定");
                 _TotalGuiltyPercent = _RightHPD.TotalGuiltyPercent;
-                _TotalInheritance = _RightHPD.TotalInheritance;
-                ++_problemCount;
+                _TotalInheritance = _RightHPD.TotalInheritance;               
             }
             else if (trainController._lastDirection == TrainController.Direction.Left)
             {
                 Debug.Log("左確定");
                 _TotalGuiltyPercent = _LeftHPD.TotalGuiltyPercent;
                 _TotalInheritance = _LeftHPD.TotalInheritance;
-                ++_problemCount;
             }
             //人を引いたあとに処理する↓
             SelectSide(_TotalGuiltyPercent, _TotalInheritance);
             Debug.Log($"problem:{_problemCount}");
             DecidedMainValue = false;
             Debug.Log($"gold:{Gold}guilty:{GuiltyPercent}");
-            return;
+
+            ++_problemCount;
+            
         //これらの処理を1ラウンドに３回行う
     }
 
@@ -185,12 +188,33 @@ public class GameManager : Singleton<GameManager>
     {
         GuiltyPercent += TotalGuiltyPercent;
         Gold += TotalInheritance;
-        total.text = $"Gold:{Gold}\nGuilt:{GuiltyPercent}";
+        //ラウンド内のMainGameの処理を３回行ったら
+        if (_problemCount > 3)
+        {
+            if (Gold - Toll < 0)
+            {
+                Debug.Log("ゲームオーバー");
+                SceneManager.LoadScene("ResultScene");
+            }
+            else
+            {
+                Gold -= Toll;
+                Gold += Salary;
+            }
+            //３回行ったら、ショップに行ってアイテムを買う/使う
+
+
+            //ラウンドが進む
+            ChangeRound();
+            Debug.Log($"ラウンド：{_roundLevel}");
+            _problemCount = 1;
+        }
+        total.text = $"Gold : {Gold}\nGuilt : {GuiltyPercent}\nNextToll : {Toll}\nRound : {_roundLevel}-{_problemCount}";
         Debug.Log($"GuiltyPercent:{GuiltyPercent}\nGold:{Gold}");
         return;
     }
     void Start()
     {
-
+        total.text = $"Gold : {Gold}\nGuilt : {GuiltyPercent}\nNextToll : {Toll}\nRound : {_roundLevel}-{_problemCount}";
     }
 }
