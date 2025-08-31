@@ -1,3 +1,4 @@
+using System.Collections;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -12,9 +13,12 @@ public class GameManager : Singleton<GameManager>
     private TeamBuilder.HitPersonData _LeftHPD;
     public TeamBuilder.HitPersonData LeftHPD => _LeftHPD;
     [SerializeField]
+    private float GetGoldGuilty = 6;
+    [SerializeField]
     TeamBuilder teamBuilder;
     [SerializeField]
     TrainController trainController;
+    public bool _speedzero = false; //電車のスピードをゼロにする
 
     //自分が持っているお金
     public int Gold = 0;
@@ -62,7 +66,7 @@ public class GameManager : Singleton<GameManager>
         if (_confirm)
         {
             _confirm = false;
-            MainGame(); 
+            StartCoroutine(startmaingame()); 
             if (GuiltyPercent >= 100)
             {
                 Debug.Log("ゲームクリア");
@@ -212,6 +216,16 @@ public class GameManager : Singleton<GameManager>
         total.text = $"Gold : {Gold}\nGuilt : {GuiltyPercent}\nNextToll : {Toll}\nRound : {_roundLevel}-{_problemCount}";
         Debug.Log($"GuiltyPercent:{GuiltyPercent}\nGold:{Gold}");
         return;
+    }
+
+    /// <summary>
+    /// Gold,Guiltyを受け取るタイミングを人を轢いたあとにした
+    /// </summary>
+    /// <returns></returns>
+    private IEnumerator startmaingame()
+    {
+        yield return new WaitForSeconds(GetGoldGuilty);
+        MainGame();
     }
     void Start()
     {
