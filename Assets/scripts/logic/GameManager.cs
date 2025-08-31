@@ -82,6 +82,7 @@ public class GameManager : Singleton<GameManager>
             else
             {
                 Gold -= Toll;
+                Gold += Salary;
             }
             //３回行ったら、ショップに行ってアイテムを買う/使う
 
@@ -213,6 +214,6 @@ public class GameManager : Singleton<GameManager>
     }
     void Start()
     {
-
+        total.text = $"Gold : {Gold}\nGuilt : {GuiltyPercent}\nToll : {Toll}\nRound : {_roundLevel}-{_problemCount}";
     }
 }
