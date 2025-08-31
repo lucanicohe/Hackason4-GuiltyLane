@@ -1,12 +1,14 @@
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-
 public class GameManager : Singleton<GameManager>
 {
+    public const int BE_DISGUISED_INT = -1;
+    public const string BE_DISGUISED_STRING = "■■■■";
     [SerializeField]
     TextMeshProUGUI total;
     public static bool ChooseDisguised;
+    
     private TeamBuilder.HitPersonData _RightHPD;
     public TeamBuilder.HitPersonData RightHPD
     {
@@ -52,7 +54,7 @@ public class GameManager : Singleton<GameManager>
         {
             if (_roundLevel == RoundLevel.Sixth)
             {
-                return -1;
+                return BE_DISGUISED_INT;
             }
             return Gold;
         }
@@ -66,14 +68,16 @@ public class GameManager : Singleton<GameManager>
         {
             if (_roundLevel == RoundLevel.Sixth)
             {
-                return -1;
+                return BE_DISGUISED_INT;
             }
             return GuiltyPercent;
         }
     }
     //給料
     public int Salary = 12;
+    //通行料
     public int Toll = 15;
+    //ラウンドごとの給料
     private int[] TollArray = new int[] { 0, 15, 30, 60, 100, 150, 200 };
 
 
@@ -128,27 +132,6 @@ public class GameManager : Singleton<GameManager>
             }
         }
         // ここの処理は、人を引いたあとに行う
-
-
-        // switch (_roundLevel)
-        // {
-        //     case RoundLevel.None:
-        //         break;
-        //     case RoundLevel.First:
-        //         break;
-        //     case RoundLevel.Second:
-        //         break;
-        //     case RoundLevel.Third:
-        //         break;
-        //     case RoundLevel.Fourth:
-        //         break;
-        //     case RoundLevel.Fifth:
-        //         break;
-        //     case RoundLevel.Sixth:
-        //         break;
-        //     case RoundLevel.ToEnd:
-        //         break;
-        // }
     }
 
     /// <summary>
@@ -158,43 +141,6 @@ public class GameManager : Singleton<GameManager>
     {
         _roundLevel++;
         Toll = TollArray[(int)_roundLevel];
-
-        // if (_roundLevel == RoundLevel.None)
-        // {
-        //     //ラウンドFirstに行く処理
-        //     _roundLevel = RoundLevel.First;
-        //     Toll = 30;
-        // }
-        // else if (_roundLevel == RoundLevel.First)
-        // {
-        //     //secondラウンドに行く処理
-        //     _roundLevel = RoundLevel.Second;
-        //     Toll = 60;
-        // }
-        // else if (_roundLevel == RoundLevel.Second)
-        // {
-        //     //thirdラウンドに行く処理
-        //     _roundLevel = RoundLevel.Third;
-        //     Toll = 100;
-        // }
-        // else if (_roundLevel == RoundLevel.Third)
-        // {
-        //     //fourthラウンドに行く処理
-        //     _roundLevel = RoundLevel.Fourth;
-        //     Toll = 150;
-        // }
-        // else if (_roundLevel == RoundLevel.Fourth)
-        // {
-        //     //fifthラウンドに行く処理
-        //     _roundLevel = RoundLevel.Fifth;
-        //     Toll = 200;
-        // }
-        // else if (_roundLevel == RoundLevel.Fifth)
-        // {
-        //     //toendに行く処理
-        //     _roundLevel = RoundLevel.ToEnd;
-        //     Toll = 300;
-        // }
     }
 
     private void MainValue()
@@ -226,21 +172,33 @@ public class GameManager : Singleton<GameManager>
             case RoundLevel.Second:
                 //どちらかの身分が分からなくなる
                 //お金もわからくなる
+                data.SelectRole = BE_DISGUISED_STRING;
+                data.TotalInheritance = BE_DISGUISED_INT;
+                return data;
             case RoundLevel.Third:
                 //両方の身分が分からなくなる
-                data.SelectRole = "???";
-                data.TotalInheritance = -1;
+                data.SelectRole = BE_DISGUISED_STRING;
+                data.TotalInheritance = BE_DISGUISED_INT;
                 return data;
             case RoundLevel.Fourth:
+                data.SelectRole = BE_DISGUISED_STRING;
+                data.Personnum = BE_DISGUISED_INT;
+                data.TotalInheritance = BE_DISGUISED_INT;
+                data.TotalGuiltyPercent = BE_DISGUISED_INT;
+                return data;
             case RoundLevel.Fifth:
+                data.SelectRole = BE_DISGUISED_STRING;
+                data.Personnum = BE_DISGUISED_INT;
+                data.TotalInheritance = BE_DISGUISED_INT;
+                data.TotalGuiltyPercent = BE_DISGUISED_INT;
+                return data;
             case RoundLevel.Sixth:
                 //自分の罪率と金が分からなくなる
-                data.SelectRole = "???";
-                data.Personnum = -1;
-                data.TotalInheritance = -1;
-                data.TotalGuiltyPercent = -1;
+                data.SelectRole = BE_DISGUISED_STRING;
+                data.Personnum = BE_DISGUISED_INT;
+                data.TotalInheritance = BE_DISGUISED_INT;
+                data.TotalGuiltyPercent = BE_DISGUISED_INT;
                 return data;
-
             default: return data;
         }
     }
@@ -293,7 +251,7 @@ public class GameManager : Singleton<GameManager>
             Debug.Log($"ラウンド：{_roundLevel}");
             _problemCount = 1;
         }
-        total.text = $"Gold : {(GoldForShow == -1 ? "???" : GoldForShow)}\nGuilt : {(GuiltyPercentForShow == -1 ? "???" : GuiltyPercentForShow)}\nNextToll : {Toll}\nRound : {_roundLevel}-{_problemCount}";
+        total.text = $"Gold : {(GoldForShow == BE_DISGUISED_INT ? "???" : GoldForShow)}\nGuilt : {(GuiltyPercentForShow == BE_DISGUISED_INT ? "???" : GuiltyPercentForShow)}\nNextToll : {Toll}\nRound : {_roundLevel}-{_problemCount}";
         Debug.Log($"GuiltyPercent:{GuiltyPercent}\nGold:{Gold}");
         return;
     }
