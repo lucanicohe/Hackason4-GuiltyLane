@@ -94,16 +94,16 @@ public class DominoStraight : MonoBehaviour
 
             string teamAText =
                 "processing...\n\nRIGHT\nRole: " + teamA.SelectRole +
-                "\nMembers: " + (teamA.Personnum == -1 ? "???" : teamA.Personnum) +
-                "\nInheritance: " /*+ string.Join(", ", teamA.Inheritance) + "  (Total "*/ + (teamA.TotalInheritance == -1 ? "???" : teamA.TotalInheritance) /*+ ")" */+
-                "\nGuilty %: " /*+ string.Join(", ", teamA.GuiltyPercent) + "  (Total "*/ + (teamA.TotalGuiltyPercent == -1 ? "???" : teamA.TotalGuiltyPercent) /*+ ")" */+
+                "\nMembers: " + (teamA.Personnum == GameManager.BE_DISGUISED_INT ? GameManager.BE_DISGUISED_STRING : teamA.Personnum) +
+                "\nInheritance: " /*+ string.Join(", ", teamA.Inheritance) + "  (Total "*/ + (teamA.TotalInheritance == GameManager.BE_DISGUISED_INT ? GameManager.BE_DISGUISED_STRING : teamA.TotalInheritance) /*+ ")" */+
+                "\nGuilty %: " /*+ string.Join(", ", teamA.GuiltyPercent) + "  (Total "*/ + (teamA.TotalGuiltyPercent == GameManager.BE_DISGUISED_INT ? GameManager.BE_DISGUISED_STRING : teamA.TotalGuiltyPercent) /*+ ")" */+
                 "\n\nuser choice required...";
 
             string teamBText =
                 "processing...\n\nLEFT\nRole: " + teamB.SelectRole +
-                "\nMembers: " + (teamB.Personnum == -1 ? "???" : teamB.Personnum) +
-                "\nInheritance: " /*+ string.Join(", ", teamB.Inheritance) + "  (Total " */+ (teamB.TotalInheritance == -1 ? "???" : teamB.TotalInheritance) /*+ ")" */ +
-                "\nGuilty %: " /*+ string.Join(", ", teamB.GuiltyPercent) + "  (Total " */+ (teamB.TotalGuiltyPercent == -1 ? "???" : teamB.TotalGuiltyPercent) /*+ ")" */ +
+                "\nMembers: " + (teamB.Personnum == GameManager.BE_DISGUISED_INT ? GameManager.BE_DISGUISED_STRING : teamB.Personnum) +
+                "\nInheritance: " /*+ string.Join(", ", teamB.Inheritance) + "  (Total " */+ (teamB.TotalInheritance == GameManager.BE_DISGUISED_INT ? GameManager.BE_DISGUISED_STRING : teamB.TotalInheritance) /*+ ")" */ +
+                "\nGuilty %: " /*+ string.Join(", ", teamB.GuiltyPercent) + "  (Total " */+ (teamB.TotalGuiltyPercent == GameManager.BE_DISGUISED_INT ? GameManager.BE_DISGUISED_STRING : teamB.TotalGuiltyPercent) /*+ ")" */ +
                 "\n\nuser choice required...";
 
             foreach (var text in _teamRightTexts)
@@ -146,10 +146,10 @@ public class DominoStraight : MonoBehaviour
 
         GameObject prefabToSpawn = team.RoleID switch
         {
-            3 => _prisonerPrefab,
-            2 => _citizenPrefab,
             0 => _royalPrefab,
             1 => _noblePrefab,
+            2 => _citizenPrefab,
+            3 => _prisonerPrefab,
             _ => null
         };
 
