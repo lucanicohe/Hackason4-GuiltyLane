@@ -9,7 +9,7 @@ public class GameManager : Singleton<GameManager>
     [SerializeField]
     TextMeshProUGUI total;
     public static bool ChooseDisguised;
-    
+
     private TeamBuilder.HitPersonData _RightHPD;
     public TeamBuilder.HitPersonData RightHPD
     {
@@ -18,9 +18,9 @@ public class GameManager : Singleton<GameManager>
             if (ChooseDisguised || _roundLevel == RoundLevel.Third
                 || _roundLevel == RoundLevel.Fifth
                 || _roundLevel == RoundLevel.Sixth)
-                {
-                    return DisguisedPersonData(_RightHPD);
-                }
+            {
+                return DisguisedPersonData(_RightHPD);
+            }
             return _RightHPD;
         }
         private set { }
@@ -33,9 +33,9 @@ public class GameManager : Singleton<GameManager>
             if (!ChooseDisguised || _roundLevel == RoundLevel.Third
                 || _roundLevel == RoundLevel.Fifth
                 || _roundLevel == RoundLevel.Sixth)
-                {
-                    return DisguisedPersonData(_LeftHPD);
-                }
+            {
+                return DisguisedPersonData(_LeftHPD);
+            }
             return _LeftHPD;
         }
         private set { }
@@ -47,6 +47,8 @@ public class GameManager : Singleton<GameManager>
     TeamBuilder teamBuilder;
     [SerializeField]
     TrainController trainController;
+    [SerializeField]
+    Fade fade;
     public bool _speedzero = false; //電車のスピードをゼロにする
 
     //自分が持っているお金
@@ -117,8 +119,7 @@ public class GameManager : Singleton<GameManager>
     {
         if (_roundLevel == RoundLevel.ToEnd)
         {
-            Debug.Log("ゲームクリア");
-            SceneManager.LoadScene("ResultScene");
+            HandleGameOver(true);
             return;
         }
         MainValue();
@@ -126,13 +127,7 @@ public class GameManager : Singleton<GameManager>
         if (_confirm)
         {
             _confirm = false;
-            StartCoroutine(startmaingame()); 
-            if (GuiltyPercent >= 100)
-            {
-                Debug.Log("ゲームオーバー");
-                SceneManager.LoadScene("ResultScene");
-                return;
-            }
+            StartCoroutine(startmaingame());
         }
         // ここの処理は、人を引いたあとに行う
     }
@@ -160,27 +155,12 @@ public class GameManager : Singleton<GameManager>
         if (_RightHPD.SelectRole != _LeftHPD.SelectRole)
         {
             DecidedMainValue = true;
-            ChooseDisguised = Random.value < 0.5;
+            ChooseDisguised = UnityEngine.Random.value < 0.5;
             _RightHPD = InitialiZationOfersonData(_RightHPD);
             _LeftHPD = InitialiZationOfersonData(_LeftHPD);
             Debug.Log(JsonUtility.ToJson(_RightHPD, true));
             Debug.Log(JsonUtility.ToJson(_LeftHPD, true));
         }
-
-        //参考に
-        // do
-        // {
-        //     _RightHPD = teamBuilder.TeamBuild();
-        //     _LeftHPD = teamBuilder.TeamBuild();
-        // } while (_RightHPD.SelectRole == _LeftHPD.SelectRole){
-        //     _RightHPD = teamBuilder.TeamBuild();
-        //     _LeftHPD = teamBuilder.TeamBuild();
-        // };
-        // ChooseDisguised = Random.value < 0.5;
-        // _RightHPD = InitialiZationOfersonData(_RightHPD);
-        // _LeftHPD = InitialiZationOfersonData(_LeftHPD);
-        // Debug.Log(JsonUtility.ToJson(_RightHPD, true));
-        // Debug.Log(JsonUtility.ToJson(_LeftHPD, true));
     }
 
     private TeamBuilder.HitPersonData InitialiZationOfersonData(TeamBuilder.HitPersonData data)
@@ -188,10 +168,10 @@ public class GameManager : Singleton<GameManager>
         data.PersonnumToShow = data.Personnum;
         data.TotalInheritanceToShow = data.TotalInheritance;
         data.TotalGuiltyPercentToShow = data.TotalGuiltyPercent;
-        return data;   
+        return data;
     }
     private TeamBuilder.HitPersonData DisguisedPersonData(TeamBuilder.HitPersonData data)
-    {   
+    {
         data = InitialiZationOfersonData(data);
         switch (_roundLevel)
         {
@@ -250,12 +230,17 @@ public class GameManager : Singleton<GameManager>
         GuiltyPercent += TotalGuiltyPercent;
         Gold += TotalInheritance;
         //ラウンド内のMainGameの処理を３回行ったら
+        if (GuiltyPercent >= 100)
+        {
+            HandleGameOver(false);
+            return;
+        }
         if (_problemCount > 3)
         {
             if (Gold - Toll < 0)
             {
-                Debug.Log("ゲームオーバー");
-                SceneManager.LoadScene("ResultScene");
+                HandleGameOver(false);
+                return;
             }
             else
             {
@@ -285,5 +270,19 @@ public class GameManager : Singleton<GameManager>
     void Start()
     {
         total.text = $"Gold : {GoldForShow}\nGuilt : {GuiltyPercentForShow}\nNextToll : {Toll}\nRound : {_roundLevel}-{_problemCount}";
+    }
+
+    private void HandleGameOver(bool isGameClear)
+    {
+        if (isGameClear)
+        {
+            Debug.Log("ゲームクリア");
+        }
+        else
+        {
+            Debug.Log("ゲームオーバー");
+        }
+        _speedzero = true;
+        fade.FadeIn(2, () => {SceneManager.LoadScene("ResultScene");});
     }
 }
