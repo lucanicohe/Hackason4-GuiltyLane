@@ -647,6 +647,7 @@ MonoBehaviour:
   GetGoldGuilty: 6
   teamBuilder: {fileID: 670250157}
   trainController: {fileID: 1212175751}
+  fade: {fileID: 1543738132}
   _speedzero: 0
   Gold: 0
   GuiltyPercent: 0
@@ -2595,7 +2596,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 11486218, guid: 53c22e1773be7f84aad8ed8b7b58fa6e, type: 3}
       propertyPath: m_Color.b
-      value: 0.18658274
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 11486218, guid: 53c22e1773be7f84aad8ed8b7b58fa6e, type: 3}
       propertyPath: m_Color.g
@@ -2603,7 +2604,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 11486218, guid: 53c22e1773be7f84aad8ed8b7b58fa6e, type: 3}
       propertyPath: m_Color.r
-      value: 0.025834544
+      value: 0.4
       objectReference: {fileID: 0}
     - target: {fileID: 11486218, guid: 53c22e1773be7f84aad8ed8b7b58fa6e, type: 3}
       propertyPath: m_Enabled
