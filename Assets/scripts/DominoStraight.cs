@@ -66,7 +66,7 @@ public class DominoStraight : MonoBehaviour
         other.transform.rotation = Quaternion.identity;
         _spawnedNext = true;
 
-        if (_globalStraightCount < 1) //もともと2だった
+        if (_globalStraightCount < 2) //もともと2だった
         {
             Instantiate(_straightPrefab, _spawnPointStraight.position, Quaternion.identity);
             _globalStraightCount++;

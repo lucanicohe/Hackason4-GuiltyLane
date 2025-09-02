@@ -51,5 +51,5 @@
         "temp/": true,
         "Temp/": true
     },
-    "dotnet.defaultSolution": "Hackason4-GuiltyLane.sln"
+    "dotnet.defaultSolution": "GuiltyLane.sln"
 }
