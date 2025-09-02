@@ -73,6 +73,7 @@ public class TrainController : MonoBehaviour
         {
             _currentSpeed = _speed;
             AudioManager.Instance.PlayBGM(AudioManager.BGMType.railway_train_339502);
+            AudioManager.Instance.StopPlayBGM(AudioManager.BGMType.電車停車中);
             if (_throttleLever != null)
                 _throttleLever.localPosition = _speedOnPos;
         }
@@ -80,6 +81,7 @@ public class TrainController : MonoBehaviour
         {
             GameManager.Instance._speedzero = false; //TODO:Qを押したように、とまったときにカメラを動かしたい→この行を消すとできるが、コルーチンがうまくいかないのか画面ががくがくする。
             AudioManager.Instance.StopPlayBGM(AudioManager.BGMType.railway_train_339502);
+            AudioManager.Instance.PlayBGM(AudioManager.BGMType.電車停車中);
             _currentSpeed = 0f;
             if (_throttleLever != null)
                 _throttleLever.localPosition = _speedOffPos;

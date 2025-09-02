@@ -129,9 +129,11 @@ public class DominoStraight : MonoBehaviour
         textComponent.text = "";
         foreach (char c in fullText)
         {
+            AudioManager.Instance.PlaySE(AudioManager.SEType.キーボード1);
             textComponent.text += c;
             yield return new WaitForSeconds(delay);
         }
+        AudioManager.Instance.PlaySE(AudioManager.SEType.キーボード2);
     }
 
     private void Update()

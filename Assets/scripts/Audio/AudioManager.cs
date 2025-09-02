@@ -7,6 +7,7 @@ public class AudioManager : Singleton<AudioManager>
     {
         罪人の街,
         railway_train_339502,
+        電車停車中,
     }
     public enum SEType
     {
@@ -14,6 +15,8 @@ public class AudioManager : Singleton<AudioManager>
         悲鳴_2,
         悲鳴_3,
         hit,
+        キーボード1,
+        キーボード2,
     }
 
     private AudioClip[] _arrayBGMClips;
