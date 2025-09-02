@@ -23,9 +23,7 @@ public class TrainController : MonoBehaviour
     [SerializeField] private Camera _camera2;
     private Vector3 _camera2LocalPostion;
     [SerializeField] private Camera _camera3;
-
-
-
+    
     [SerializeField] private AudioSource _train;
     private Vector3 _camera3LocalPostion;
 
@@ -85,7 +83,7 @@ public class TrainController : MonoBehaviour
         else if (Input.GetKeyDown(KeyCode.S) || GameManager.Instance._speedzero)
         {
             GameManager.Instance._speedzero = false; //TODO:Qを押したように、とまったときにカメラを動かしたい→この行を消すとできるが、コルーチンがうまくいかないのか画面ががくがくする。
-                                                     //AudioManager.Instance.StopPlayBGM(AudioManager.BGMType.railway_train_339502);
+            //AudioManager.Instance.StopPlayBGM(AudioManager.BGMType.railway_train_339502);
             AudioManager.Instance.PlayBGM(AudioManager.BGMType.電車停車中);
             _train.Stop(); 
             _currentSpeed = 0f;
