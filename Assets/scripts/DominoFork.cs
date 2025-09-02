@@ -21,7 +21,18 @@ public class DominoFork : MonoBehaviour
                                ? _spawnPointLeft
                                : _spawnPointRight;
         GameManager.Instance._confirm = true;
-
+        switch (Random.Range(0, 2))
+        {
+            case 0:
+                AudioManager.Instance.PlaySE(AudioManager.SEType.悲鳴);
+                break;
+            case 1:
+                AudioManager.Instance.PlaySE(AudioManager.SEType.悲鳴_2);
+                break;
+            case 2:
+                AudioManager.Instance.PlaySE(AudioManager.SEType.悲鳴_3);
+                break;
+        }
         Instantiate(_straightPrefab, spawnPoint.position, Quaternion.identity);
 
         if (train._lastDirection == TrainController.Direction.Left)
