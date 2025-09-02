@@ -11,11 +11,21 @@ public class KillController : MonoBehaviour
     {
         if (!other.CompareTag("Player")) return;
 
-
         if (bloodPrefab != null)
+        {
             Instantiate(bloodPrefab, transform.position, Quaternion.identity);
-
-
+            switch (Random.Range(0, 2)){
+                case 0:
+                    AudioManager.Instance.PlaySE(AudioManager.SEType.悲鳴);
+                    break;
+                case 1:
+                    AudioManager.Instance.PlaySE(AudioManager.SEType.悲鳴_2);
+                    break;
+                case 2:
+                    AudioManager.Instance.PlaySE(AudioManager.SEType.悲鳴_3);
+                    break;
+            }
+        }
         Destroy(gameObject);
     }
 
