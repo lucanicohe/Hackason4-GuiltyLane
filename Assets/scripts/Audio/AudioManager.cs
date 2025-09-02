@@ -2,16 +2,18 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class AudioManager : Singleton<AudioManager>
-{   
+{
     public enum BGMType
     {
-       罪人の街,
+        罪人の街,
+        railway_train_339502,
     }
     public enum SEType
     {
         悲鳴,
         悲鳴_2,
         悲鳴_3,
+        hit,
     }
 
     private AudioClip[] _arrayBGMClips;
