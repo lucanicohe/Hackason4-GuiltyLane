@@ -829,7 +829,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 182}
-  m_SizeDelta: {x: 750, y: 50}
+  m_SizeDelta: {x: 800, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1300972757
 MonoBehaviour:
@@ -851,7 +851,9 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: ResultData
+  m_text: "Your Data\nRound:\t\t\tFourth-3\nRoyal Killed:\t\t0000\nCitizen Killed:\t\t0000\nNoble
+    Killed:\t\t0000\nPrisoner Killed:\t\t0000\nGold Earned:\t\t0000\nGuiltyPercent
+    Earned:\t0000\nToll Payed:\t\t0000"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: b1cb76cd54ecd488b8d1bb93a712e90b, type: 2}
   m_sharedMaterial: {fileID: -4413077246024341773, guid: b1cb76cd54ecd488b8d1bb93a712e90b, type: 2}
