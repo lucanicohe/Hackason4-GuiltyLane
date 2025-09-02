@@ -7,7 +7,10 @@ public class GameManager : Singleton<GameManager>
     public const int BE_DISGUISED_INT = -1;
     public const string BE_DISGUISED_STRING = "■■■■";
     [SerializeField]
-    TextMeshProUGUI total;
+    TextMeshProUGUI _goldGuiltText;
+    [SerializeField]
+    TextMeshProUGUI _tollForkText;
+
     public static bool ChooseDisguised;
 
     private TeamBuilder.HitPersonData _RightHPD;
@@ -253,8 +256,8 @@ public class GameManager : Singleton<GameManager>
             Debug.Log($"ラウンド：{_roundLevel}");
             _problemCount = 1;
         }
-        total.text = $"Gold : {(GoldForShow == BE_DISGUISED_INT ? BE_DISGUISED_STRING : GoldForShow)}\nGuilt : {(GuiltyPercentForShow == BE_DISGUISED_INT ? BE_DISGUISED_STRING : GuiltyPercentForShow)}\nNextToll : {Toll}\nRound : {_roundLevel}-{_problemCount}";
-        Debug.Log($"GuiltyPercent:{GuiltyPercent}\nGold:{Gold}");
+        _goldGuiltText.text = $"Gold : {(GoldForShow == BE_DISGUISED_INT ? BE_DISGUISED_STRING : GoldForShow)}\nGuilt : {(GuiltyPercentForShow == BE_DISGUISED_INT ? BE_DISGUISED_STRING : GuiltyPercentForShow)}%";
+        _tollForkText.text = $"Toll\n{Toll}\n\nFork\n{(int)_roundLevel}-{_problemCount}";
         return;
     }
 
@@ -269,7 +272,8 @@ public class GameManager : Singleton<GameManager>
     }
     void Start()
     {
-        total.text = $"Gold : {GoldForShow}\nGuilt : {GuiltyPercentForShow}\nNextToll : {Toll}\nRound : {_roundLevel}-{_problemCount}";
+        _goldGuiltText.text = $"Gold  : {GoldForShow}\nGuilt : {GuiltyPercentForShow}%";
+        _tollForkText.text = $"Toll\n{Toll}\n\nFork\n{(int)_roundLevel}-{_problemCount}";
     }
 
     private void HandleGameOver(bool isGameClear)
