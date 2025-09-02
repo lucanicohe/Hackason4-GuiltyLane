@@ -6,8 +6,8 @@ public class FadeController : MonoBehaviour
 {
     [SerializeField]
     private Fade fade;
-    [SerializeField]
-    private float _fadeTime = 1f;
+    // [SerializeField]
+    // private float _fadeTime = 1f;
     void Update()
     {
         // if (Input.GetKeyDown(KeyCode.O))
