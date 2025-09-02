@@ -530,7 +530,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Gold : 000
+  m_text: 'Gold  : 000
 
     Guilt : 00%
 
@@ -641,7 +641,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f02633e92a92cf4fbe0a5eed904d688, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  total: {fileID: 587774450}
+  _goldGuiltText: {fileID: 587774450}
+  _tollForkText: {fileID: 1368647466}
   GetGoldGuilty: 6
   teamBuilder: {fileID: 670250157}
   trainController: {fileID: 1212175751}
@@ -2775,9 +2776,14 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Toll : 000
+  m_text: 'Toll
 
-    Fork : 0-0'
+    000
+
+
+    Fork
+
+    0-0'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: b1cb76cd54ecd488b8d1bb93a712e90b, type: 2}
   m_sharedMaterial: {fileID: -4413077246024341773, guid: b1cb76cd54ecd488b8d1bb93a712e90b, type: 2}
@@ -2811,7 +2817,7 @@ MonoBehaviour:
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 0
-  m_HorizontalAlignment: 1
+  m_HorizontalAlignment: 16
   m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
