@@ -272,6 +272,7 @@ public class GameManager : Singleton<GameManager>
     }
     void Start()
     {
+        AudioManager.Instance.PlayBGM(AudioManager.BGMType.罪人の街);
         _goldGuiltText.text = $"Gold  : {GoldForShow}\nGuilt : {GuiltyPercentForShow}%";
         _tollForkText.text = $"Toll\n{Toll}\n\nFork\n{(int)_roundLevel}-{_problemCount}";
     }
