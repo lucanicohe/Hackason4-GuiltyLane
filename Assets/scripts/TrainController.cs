@@ -22,8 +22,11 @@ public class TrainController : MonoBehaviour
     private Vector3 _camera1LocalPostion;
     [SerializeField] private Camera _camera2;
     private Vector3 _camera2LocalPostion;
+    [SerializeField] private Camera _camera3;
+    private Vector3 _camera3LocalPostion;
 
-    private bool _cameraToggled = false;
+    private bool _camera01Toggled = false;
+    private bool _camera02Toggled = false;
     private Coroutine _cameraTransitionCoroutine;
     
     void Start()
@@ -40,8 +43,10 @@ public class TrainController : MonoBehaviour
 
         if (_camera1 != null) _camera1.enabled = true;
         if (_camera2 != null) _camera2.enabled = false;
+        if (_camera3 != null) _camera3.enabled = false;
         _camera1LocalPostion = _camera1.transform.localPosition;
         _camera2LocalPostion = _camera2.transform.localPosition;
+        _camera3LocalPostion = _camera3.transform.localPosition;
     }
 
     void Update()
@@ -87,14 +92,25 @@ public class TrainController : MonoBehaviour
         // }
         if (Input.GetKeyDown(KeyCode.Q) || GameManager.Instance._speedzero)
         {
-            _cameraToggled = !_cameraToggled;
+            _camera01Toggled = !_camera01Toggled;
 
             if (_cameraTransitionCoroutine != null)
                 StopCoroutine(_cameraTransitionCoroutine);
 
-            Vector3 targetLocalPos = _cameraToggled ? _camera2LocalPostion : _camera1LocalPostion;
+            Vector3 targetLocalPos = _camera01Toggled ? _camera2LocalPostion : _camera1LocalPostion;
             _cameraTransitionCoroutine = StartCoroutine(TransitionCameraPosition(targetLocalPos, 0.5f));
         }
+        if (Input.GetKeyDown(KeyCode.P) || GameManager.Instance._speedzero)
+        {
+            _camera02Toggled = !_camera02Toggled;
+
+            if (_cameraTransitionCoroutine != null)
+                StopCoroutine(_cameraTransitionCoroutine);
+
+            Vector3 targetLocalPos = _camera02Toggled ? _camera3LocalPostion : _camera1LocalPostion;
+            _cameraTransitionCoroutine = StartCoroutine(TransitionCameraPosition(targetLocalPos, 0.5f));
+        }
+
     }
 
     private IEnumerator TransitionCameraPosition(Vector3 targetLocalPos, float duration)
