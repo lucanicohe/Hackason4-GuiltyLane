@@ -14,7 +14,9 @@ public class KillController : MonoBehaviour
         if (bloodPrefab != null)
         {
             Instantiate(bloodPrefab, transform.position, Quaternion.identity);
-            switch (Random.Range(0, 2)){
+            AudioManager.Instance.PlaySE(AudioManager.SEType.hit);
+            switch (Random.Range(0, 2))
+            {
                 case 0:
                     AudioManager.Instance.PlaySE(AudioManager.SEType.悲鳴);
                     break;
