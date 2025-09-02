@@ -51,5 +51,9 @@
         "temp/": true,
         "Temp/": true
     },
-    "dotnet.defaultSolution": "GuiltyLane.sln"
+    "dotnet.defaultSolution": "Hackason4-GuiltyLane.sln",
+    "workbench.colorCustomizations": {
+        "minimap.background": "#11111100",
+        "scrollbar.shadow": "#11111100"
+    }
 }
