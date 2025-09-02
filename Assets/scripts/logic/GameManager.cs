@@ -1,6 +1,5 @@
 using System.Collections;
 using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 public class GameManager : Singleton<GameManager>
@@ -53,7 +52,6 @@ public class GameManager : Singleton<GameManager>
     TrainController trainController;
     [SerializeField]
     Fade fade;
-    [SerializeField] GameObject _titleText;
     public bool _speedzero = false; //電車のスピードをゼロにする
 
     //自分が持っているお金
@@ -143,26 +141,7 @@ public class GameManager : Singleton<GameManager>
     private void ChangeRound()
     {
         _roundLevel++;
-        if (_roundLevel == RoundLevel.Second)
-        {
-            //title
-            StartCoroutine(TitleShow());
-        }
         Toll = TollArray[(int)_roundLevel];
-    }
-
-    private IEnumerator TitleShow()
-    {
-        AudioManager.Instance.StopAllBGM();
-        AudioManager.Instance.StopAllSE();
-        _titleText.SetActive(true);
-        Animation animation = _titleText.GetComponent<Animation>();
-        animation.Play();
-        while (animation.IsPlaying("TitleRise"))
-        {
-            yield return new WaitForSecondsRealtime(1);
-        }
-        _titleText.SetActive(false);
     }
 
     private void MainValue()
