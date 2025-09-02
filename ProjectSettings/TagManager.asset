@@ -12,6 +12,7 @@ TagManager:
   - TrackText
   - confirmfalse
   - ZoomCamera
+  - Scream
   layers:
   - Default
   - TransparentFX

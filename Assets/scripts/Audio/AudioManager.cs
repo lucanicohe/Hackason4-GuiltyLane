@@ -49,10 +49,10 @@ public class AudioManager : Singleton<AudioManager>
 
             _SEdictionary.Add(SEClips.name, source);
         }
-        
+
     }
 
-    public void PlayBGM(BGMType BGMName,float volume = 0.3f)
+    public void PlayBGM(BGMType BGMName, float volume = 0.3f)
     {
         string Name = BGMName.ToString();
 
@@ -60,8 +60,8 @@ public class AudioManager : Singleton<AudioManager>
         _BGMdictionary[Name].Play();
     }
 
-    public void PlaySE(SEType SEName,float volume = 0.7f)
-    {     
+    public void PlaySE(SEType SEName, float volume = 0.7f)
+    {
         string Name = SEName.ToString();
 
         _SEdictionary[Name].volume = volume;
@@ -69,14 +69,29 @@ public class AudioManager : Singleton<AudioManager>
     }
 
     public void StopPlayBGM(BGMType BGMName)
-    {   
+    {
         string Name = BGMName.ToString();
         _BGMdictionary[Name].Stop();
     }
 
     public void StopPlaySE(SEType SEName)
-    {   
+    {
         string Name = SEName.ToString();
         _SEdictionary[Name].Stop();
     }
+    public void StopAllBGM()
+    {
+        foreach (var source in _BGMdictionary.Values)
+        {
+            source.Stop();
+        }
+    }
+    public void StopAllSE()
+    {
+        foreach (var source in _SEdictionary.Values)
+        {
+            source.Stop();
+        }
+    }
+
 }
