@@ -10,14 +10,14 @@ public class FadeController : MonoBehaviour
     private float _fadeTime = 1f;
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.O))
-        {
-            fade.FadeIn(_fadeTime);
-        }
+        // if (Input.GetKeyDown(KeyCode.O))
+        // {
+        //     fade.FadeIn(_fadeTime);
+        // }
 
-        if (Input.GetKeyDown(KeyCode.P))
-        {
-            fade.FadeOut(_fadeTime);
-        }
+        // if (Input.GetKeyDown(KeyCode.P))
+        // {
+        //     fade.FadeOut(_fadeTime);
+        // }
     }
 }

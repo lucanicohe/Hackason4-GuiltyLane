@@ -2,32 +2,91 @@ using System.Collections;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-
 public class GameManager : Singleton<GameManager>
 {
+    public const int BE_DISGUISED_INT = -1;
+    public const string BE_DISGUISED_STRING = "■■■■";
     [SerializeField]
-    TextMeshProUGUI total;
-    private TeamBuilder.HitPersonData _RightHPD;
-    public TeamBuilder.HitPersonData RightHPD => _RightHPD;
+    TextMeshProUGUI _goldGuiltText;
+    [SerializeField]
+    TextMeshProUGUI _tollForkText;
 
+    public static bool ChooseDisguised;
+
+    private TeamBuilder.HitPersonData _RightHPD;
+    public TeamBuilder.HitPersonData RightHPD
+    {
+        get
+        {
+            if (ChooseDisguised || _roundLevel == RoundLevel.Third
+                || _roundLevel == RoundLevel.Fifth
+                || _roundLevel == RoundLevel.Sixth)
+            {
+                return DisguisedPersonData(_RightHPD);
+            }
+            return _RightHPD;
+        }
+        private set { }
+    }
     private TeamBuilder.HitPersonData _LeftHPD;
-    public TeamBuilder.HitPersonData LeftHPD => _LeftHPD;
+    public TeamBuilder.HitPersonData LeftHPD
+    {
+        get
+        {
+            if (!ChooseDisguised || _roundLevel == RoundLevel.Third
+                || _roundLevel == RoundLevel.Fifth
+                || _roundLevel == RoundLevel.Sixth)
+            {
+                return DisguisedPersonData(_LeftHPD);
+            }
+            return _LeftHPD;
+        }
+        private set { }
+    }
+
     [SerializeField]
     private float GetGoldGuilty = 6;
     [SerializeField]
     TeamBuilder teamBuilder;
     [SerializeField]
     TrainController trainController;
+    [SerializeField]
+    Fade fade;
     public bool _speedzero = false; //電車のスピードをゼロにする
 
     //自分が持っているお金
     public int Gold = 0;
+    private int GoldForShow
+    {
+        get
+        {
+            if (_roundLevel == RoundLevel.Sixth)
+            {
+                return BE_DISGUISED_INT;
+            }
+            return Gold;
+        }
+    }
+
     //罪率
     public int GuiltyPercent = 0;
+    private int GuiltyPercentForShow
+    {
+        get
+        {
+            if (_roundLevel == RoundLevel.Sixth)
+            {
+                return BE_DISGUISED_INT;
+            }
+            return GuiltyPercent;
+        }
+    }
     //給料
     public int Salary = 12;
+    //通行料
     public int Toll = 15;
-    private int[] TollArray = new int[]{ 0, 15, 30, 60, 100, 150, 200 };
+    //ラウンドごとの給料
+    private int[] TollArray = new int[] { 0, 15, 30, 60, 100, 150, 200 };
 
 
     //合計のGuiltyPercent
@@ -60,87 +119,29 @@ public class GameManager : Singleton<GameManager>
     public RoundLevel _roundLevel = RoundLevel.First;
 
     void Update()
-    {   
+    {
+        if (_roundLevel == RoundLevel.ToEnd)
+        {
+            HandleGameOver(true);
+            return;
+        }
         MainValue();
         //Confirmをtrueにするのは、
         if (_confirm)
         {
             _confirm = false;
-            StartCoroutine(startmaingame()); 
-            if (GuiltyPercent >= 100)
-            {
-                Debug.Log("ゲームクリア");
-                SceneManager.LoadScene("ResultScene");
-                return;
-            }
+            StartCoroutine(startmaingame());
         }
         // ここの処理は、人を引いたあとに行う
-
-        
-        // switch (_roundLevel)
-        // {
-        //     case RoundLevel.None:
-        //         break;
-        //     case RoundLevel.First:
-        //         break;
-        //     case RoundLevel.Second:
-        //         break;
-        //     case RoundLevel.Third:
-        //         break;
-        //     case RoundLevel.Fourth:
-        //         break;
-        //     case RoundLevel.Fifth:
-        //         break;
-        //     case RoundLevel.Sixth:
-        //         break;
-        //     case RoundLevel.ToEnd:
-        //         break;
-        // }
     }
 
     /// <summary>
     /// ラウンドを変える処理・一定のgoldが溜まっているなら通れる
     /// </summary>
     private void ChangeRound()
-    {   
+    {
         _roundLevel++;
         Toll = TollArray[(int)_roundLevel];
-        // if (_roundLevel == RoundLevel.None)
-        // {
-        //     //ラウンドFirstに行く処理
-        //     _roundLevel = RoundLevel.First;
-        //     Toll = 30;
-        // }
-        // else if (_roundLevel == RoundLevel.First)
-        // {
-        //     //secondラウンドに行く処理
-        //     _roundLevel = RoundLevel.Second;
-        //     Toll = 60;
-        // }
-        // else if (_roundLevel == RoundLevel.Second)
-        // {
-        //     //thirdラウンドに行く処理
-        //     _roundLevel = RoundLevel.Third;
-        //     Toll = 100;
-        // }
-        // else if (_roundLevel == RoundLevel.Third)
-        // {
-        //     //fourthラウンドに行く処理
-        //     _roundLevel = RoundLevel.Fourth;
-        //     Toll = 150;
-        // }
-        // else if (_roundLevel == RoundLevel.Fourth)
-        // {
-        //     //fifthラウンドに行く処理
-        //     _roundLevel = RoundLevel.Fifth;
-        //     Toll = 200;
-        // }
-        // else if (_roundLevel == RoundLevel.Fifth)
-        // {
-        //     //toendに行く処理
-        //     _roundLevel = RoundLevel.ToEnd;
-        //     Toll = 300;
-        // }
     }
 
     private void MainValue()
@@ -153,38 +154,77 @@ public class GameManager : Singleton<GameManager>
         //左の人の役職、人数を決める-->ok
         _RightHPD = teamBuilder.TeamBuild();
         _LeftHPD = teamBuilder.TeamBuild();
-        Debug.Log($"rightrole:{_RightHPD.SelectRole}\nrightperson:{_RightHPD.Personnum}\nrightinheritance:{_RightHPD.Inheritance}\nrighttotalinheritance:{_RightHPD.TotalInheritance}\nrightGuiltyPercent:{_RightHPD.GuiltyPercent}\nrighttotalGuiltypercent:{_RightHPD.TotalGuiltyPercent}");
-        Debug.Log($"leftrole:{_LeftHPD.SelectRole}\nleftperson:{_LeftHPD.Personnum}\nleftinheritance:{_LeftHPD.Inheritance}\nlefttotalinheritance:{_LeftHPD.TotalInheritance}\nleftGuiltyPercent:{_LeftHPD.GuiltyPercent}\nlefttotalGuiltypercent:{_LeftHPD.TotalGuiltyPercent}");
         //役職が右と左で同じじゃないようにする
         if (_RightHPD.SelectRole != _LeftHPD.SelectRole)
         {
             DecidedMainValue = true;
+            ChooseDisguised = UnityEngine.Random.value < 0.5;
+            _RightHPD = InitialiZationOfersonData(_RightHPD);
+            _LeftHPD = InitialiZationOfersonData(_LeftHPD);
+            Debug.Log(JsonUtility.ToJson(_RightHPD, true));
+            Debug.Log(JsonUtility.ToJson(_LeftHPD, true));
         }
+    }
 
+    private TeamBuilder.HitPersonData InitialiZationOfersonData(TeamBuilder.HitPersonData data)
+    {
+        data.PersonnumToShow = data.Personnum;
+        data.TotalInheritanceToShow = data.TotalInheritance;
+        data.TotalGuiltyPercentToShow = data.TotalGuiltyPercent;
+        return data;
+    }
+    private TeamBuilder.HitPersonData DisguisedPersonData(TeamBuilder.HitPersonData data)
+    {
+        data = InitialiZationOfersonData(data);
+        switch (_roundLevel)
+        {
+            case RoundLevel.First:
+                return data;
+            case RoundLevel.Second:
+                //どちらかの身分が分からなくなる
+                //お金もわからくなる
+                data.SelectRole = BE_DISGUISED_STRING;
+                data.TotalInheritanceToShow = BE_DISGUISED_INT;
+                return data;
+            case RoundLevel.Third:
+                //両方の身分が分からなくなる
+                data.SelectRole = BE_DISGUISED_STRING;
+                data.TotalInheritanceToShow = BE_DISGUISED_INT;
+                return data;
+            case RoundLevel.Fourth:
+            case RoundLevel.Fifth:
+            case RoundLevel.Sixth:
+                //自分の罪率と金が分からなくなる
+                data.SelectRole = BE_DISGUISED_STRING;
+                data.PersonnumToShow = BE_DISGUISED_INT;
+                data.TotalInheritanceToShow = BE_DISGUISED_INT;
+                data.TotalGuiltyPercentToShow = BE_DISGUISED_INT;
+                return data;
+            default: return data;
+        }
     }
 
     private void MainGame()
     {
-            if (trainController._lastDirection == TrainController.Direction.Right)
-            {
-                Debug.Log("右確定");
-                _TotalGuiltyPercent = _RightHPD.TotalGuiltyPercent;
-                _TotalInheritance = _RightHPD.TotalInheritance;               
-            }
-            else if (trainController._lastDirection == TrainController.Direction.Left)
-            {
-                Debug.Log("左確定");
-                _TotalGuiltyPercent = _LeftHPD.TotalGuiltyPercent;
-                _TotalInheritance = _LeftHPD.TotalInheritance;
-            }
-            //人を引いたあとに処理する↓
-            SelectSide(_TotalGuiltyPercent, _TotalInheritance);
-            Debug.Log($"problem:{_problemCount}");
-            DecidedMainValue = false;
-            Debug.Log($"gold:{Gold}guilty:{GuiltyPercent}");
+        if (trainController._lastDirection == TrainController.Direction.Right)
+        {
+            Debug.Log("右確定");
+            _TotalGuiltyPercent = _RightHPD.TotalGuiltyPercent;
+            _TotalInheritance = _RightHPD.TotalInheritance;
+        }
+        else if (trainController._lastDirection == TrainController.Direction.Left)
+        {
+            Debug.Log("左確定");
+            _TotalGuiltyPercent = _LeftHPD.TotalGuiltyPercent;
+            _TotalInheritance = _LeftHPD.TotalInheritance;
+        }
+        ++_problemCount;
+        //人を引いたあとに処理する↓
+        SelectSide(_TotalGuiltyPercent, _TotalInheritance);
+        Debug.Log($"problem:{_problemCount}");
+        DecidedMainValue = false;
+        Debug.Log($"gold:{Gold}guilty:{GuiltyPercent}");
 
-            ++_problemCount;
-            
         //これらの処理を1ラウンドに３回行う
     }
 
@@ -193,12 +233,17 @@ public class GameManager : Singleton<GameManager>
         GuiltyPercent += TotalGuiltyPercent;
         Gold += TotalInheritance;
         //ラウンド内のMainGameの処理を３回行ったら
+        if (GuiltyPercent >= 100)
+        {
+            HandleGameOver(false);
+            return;
+        }
         if (_problemCount > 3)
         {
             if (Gold - Toll < 0)
             {
-                Debug.Log("ゲームオーバー");
-                SceneManager.LoadScene("ResultScene");
+                HandleGameOver(false);
+                return;
             }
             else
             {
@@ -206,15 +251,13 @@ public class GameManager : Singleton<GameManager>
                 Gold += Salary;
             }
             //３回行ったら、ショップに行ってアイテムを買う/使う
-
-
             //ラウンドが進む
             ChangeRound();
             Debug.Log($"ラウンド：{_roundLevel}");
             _problemCount = 1;
         }
-        total.text = $"Gold : {Gold}\nGuilt : {GuiltyPercent}\nNextToll : {Toll}\nRound : {_roundLevel}-{_problemCount}";
-        Debug.Log($"GuiltyPercent:{GuiltyPercent}\nGold:{Gold}");
+        _goldGuiltText.text = $"Gold : {(GoldForShow == BE_DISGUISED_INT ? BE_DISGUISED_STRING : GoldForShow)}\nGuilt : {(GuiltyPercentForShow == BE_DISGUISED_INT ? BE_DISGUISED_STRING : GuiltyPercentForShow)}%";
+        _tollForkText.text = $"Toll\n{Toll}\n\nFork\n{(int)_roundLevel}-{_problemCount}";
         return;
     }
 
@@ -229,6 +272,21 @@ public class GameManager : Singleton<GameManager>
     }
     void Start()
     {
-        total.text = $"Gold : {Gold}\nGuilt : {GuiltyPercent}\nNextToll : {Toll}\nRound : {_roundLevel}-{_problemCount}";
+        _goldGuiltText.text = $"Gold  : {GoldForShow}\nGuilt : {GuiltyPercentForShow}%";
+        _tollForkText.text = $"Toll\n{Toll}\n\nFork\n{(int)_roundLevel}-{_problemCount}";
+    }
+
+    private void HandleGameOver(bool isGameClear)
+    {
+        if (isGameClear)
+        {
+            Debug.Log("ゲームクリア");
+        }
+        else
+        {
+            Debug.Log("ゲームオーバー");
+        }
+        _speedzero = true;
+        fade.FadeIn(2, () => {SceneManager.LoadScene("ResultScene");});
     }
 }

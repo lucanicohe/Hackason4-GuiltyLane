@@ -119,26 +119,28 @@ public class TeamBuilder : MonoBehaviour
         "Noble",
         "Citizen",
         "Prisoner",
-
     };
 
     public class HitPersonData
     {
         //--役職の名前--
         public string SelectRole;
+        public int RoleID;
 
         //--ランダムに決まる遺産・人数
         public List<int> Inheritance = new List<int>();
         public int Personnum = 0;
-
+        public int PersonnumToShow = 0;
         //最終的なすべての遺産
         public int TotalInheritance = 0;
+        public int TotalInheritanceToShow = 0;
 
         //罪率
         public List<int> GuiltyPercent = new List<int>();
 
         //最終的なすべての罪率
         public int TotalGuiltyPercent = 0;
+        public int TotalGuiltyPercentToShow = 0;
 
     }
 
@@ -160,7 +162,8 @@ public class TeamBuilder : MonoBehaviour
     public HitPersonData TeamBuild()
     {
         var data = new HitPersonData();
-        data.SelectRole = Role[UnityEngine.Random.Range(0, 4)];
+        data.RoleID = UnityEngine.Random.Range(0, 4);
+        data.SelectRole = Role[data.RoleID];
         switch (data.SelectRole)
         {
             case "Royal":
@@ -176,6 +179,7 @@ public class TeamBuilder : MonoBehaviour
                 RoleInheritance(data, _prisonerData);
                 break;
         }
+        data.PersonnumToShow = data.Personnum;
         return data;
     }
 

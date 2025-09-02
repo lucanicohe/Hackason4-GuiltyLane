@@ -1,28 +1,36 @@
-using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class Singleton<T> : MonoBehaviour where T : Singleton<T>
 {
-    public static T Instance { get; private set; } = null;
-
-    protected void Awake()
+    private static T _instance;
+    public static T Instance
     {
-        if (Instance == null)
+        get
         {
-            Instance = this as T;
-            DontDestroyOnLoad(gameObject);
-            return;
+            if (_instance == null)
+            {
+                _instance = FindObjectOfType<T>();
+
+                if (_instance == null)
+                {
+                    var s = new GameObject(typeof(T).Name);
+                    _instance = s.AddComponent<T>();
+                }
+            }
+            return _instance;
         }
-        Destroy(gameObject);
     }
 
-    protected void OnDestroy()
+    protected virtual void Awake()
     {
-        if (Instance == this)
+        if (_instance == null)
         {
-            Instance = null;
+            _instance = this as T;
+            DontDestroyOnLoad(gameObject);
+        }
+        else if (_instance != this)
+        {
+            Destroy(gameObject);
         }
     }
 }
