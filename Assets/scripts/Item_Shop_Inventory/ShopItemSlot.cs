@@ -34,8 +34,14 @@ public class ShopItemSlot : MonoBehaviour, IPointerClickHandler
     public void AddItem()
     {
         int leftOverItems = _inventoryManager.AddItem(itemName, quantity, itemSprite, itemDescription);
-        if (leftOverItems <= 0) ;
-        else quantity = leftOverItems;
+        if (leftOverItems <= 0)
+        {
+            
+        }
+        else
+        {
+            quantity = leftOverItems;
+        }
     }
 
     public void OnPointerClick(PointerEventData eventData)
