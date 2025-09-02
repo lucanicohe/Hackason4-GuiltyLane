@@ -15,18 +15,6 @@ public class KillController : MonoBehaviour
         {
             Instantiate(bloodPrefab, transform.position, Quaternion.identity);
             AudioManager.Instance.PlaySE(AudioManager.SEType.hit);
-            switch (Random.Range(0, 2))
-            {
-                case 0:
-                    AudioManager.Instance.PlaySE(AudioManager.SEType.悲鳴);
-                    break;
-                case 1:
-                    AudioManager.Instance.PlaySE(AudioManager.SEType.悲鳴_2);
-                    break;
-                case 2:
-                    AudioManager.Instance.PlaySE(AudioManager.SEType.悲鳴_3);
-                    break;
-            }
         }
         Destroy(gameObject);
     }
