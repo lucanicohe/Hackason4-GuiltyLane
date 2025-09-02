@@ -820,6 +820,51 @@ MonoBehaviour:
   - {fileID: 11400000, guid: f6ebc344ce0b05749abf1c3123e72021, type: 2}
   - {fileID: 11400000, guid: efc46064f882ed941b453e794a517822, type: 2}
   - {fileID: 11400000, guid: be448e54a351e1345a08f840b367de3e, type: 2}
+--- !u!1 &683366383
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 683366384}
+  - component: {fileID: 683366385}
+  m_Layer: 0
+  m_Name: UIController
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &683366384
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 683366383}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -5.88, y: 7.58, z: -49.34}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &683366385
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 683366383}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1da53fa142b2eae4c88411dcc2661c9b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  InstructionImage: {fileID: 719045475}
 --- !u!1 &692155152
 GameObject:
   m_ObjectHideFlags: 0
@@ -902,7 +947,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 692155155}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 683366385}
+        m_TargetAssemblyTypeName: GameInstructionController, Assembly-CSharp
+        m_MethodName: StartMainGame
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &692155155
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1770,9 +1827,9 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "A,D \tfor Left,Right\nW,S\tfor Move Train\nQ\tfor information for poeple
-    \nP\tfor Shop\n\n----------------------------------------------\n\nyou have to
-    pay a toll after passing 3 forks\nDon\u2019t forget that people\u2019s lives
+  m_text: "A,D \tchoose Left or Right fork\nW\tMove Train\nS\tstop train\nQ\tinformation
+    of poeple \nP\tShop\n----------------------------------------------\n\nyou have
+    to pay a toll after passing 3 forks\nDon\u2019t forget that people\u2019s lives
     are at stake\ngood luck !!"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: b1cb76cd54ecd488b8d1bb93a712e90b, type: 2}
@@ -4256,7 +4313,8 @@ SceneRoots:
   - {fileID: 2121749036}
   - {fileID: 701904585}
   - {fileID: 1350647570}
+  - {fileID: 719045479}
   - {fileID: 1625815511}
   - {fileID: 670250156}
   - {fileID: 1728804411}
-  - {fileID: 719045479}
+  - {fileID: 683366384}
