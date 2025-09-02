@@ -23,6 +23,10 @@ public class TrainController : MonoBehaviour
     [SerializeField] private Camera _camera2;
     private Vector3 _camera2LocalPostion;
     [SerializeField] private Camera _camera3;
+
+
+
+    [SerializeField] private AudioSource _train;
     private Vector3 _camera3LocalPostion;
 
     private bool _camera01Toggled = false;
@@ -72,14 +76,16 @@ public class TrainController : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.W) && !GameManager.Instance._speedzero)
         {
             _currentSpeed = _speed;
-            AudioManager.Instance.PlayBGM(AudioManager.BGMType.railway_train_339502);
+            _train.Play();
+            //AudioManager.Instance.PlayBGM(AudioManager.BGMType.railway_train_339502);
             if (_throttleLever != null)
                 _throttleLever.localPosition = _speedOnPos;
         }
         else if (Input.GetKeyDown(KeyCode.S) || GameManager.Instance._speedzero)
         {
             GameManager.Instance._speedzero = false; //TODO:Qを押したように、とまったときにカメラを動かしたい→この行を消すとできるが、コルーチンがうまくいかないのか画面ががくがくする。
-            AudioManager.Instance.StopPlayBGM(AudioManager.BGMType.railway_train_339502);
+                                                     //AudioManager.Instance.StopPlayBGM(AudioManager.BGMType.railway_train_339502);
+            _train.Stop(); 
             _currentSpeed = 0f;
             if (_throttleLever != null)
                 _throttleLever.localPosition = _speedOffPos;
