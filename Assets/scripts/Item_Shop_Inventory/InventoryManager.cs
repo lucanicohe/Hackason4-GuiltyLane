@@ -14,30 +14,41 @@ public class InventoryManager : MonoBehaviour
 
     public int AddItem(string itemName, int quantity, Sprite itemSprite, string itemDescription)
     {
-        var leftOverItems = 4;
-        return leftOverItems;
+        int remaining = quantity;
+
+        // 既存の同じアイテムにスタックできるか確認
+        for (int i = 0; i < inventoryItemSlot.Length; i++)
+        {
+            var slot = inventoryItemSlot[i];
+            if (slot.itemName == itemName && !slot.isFull)
+            {
+                remaining = slot.AddItem(itemName, remaining, itemSprite, itemDescription);
+                if (remaining <= 0) return 0; // 全て入りきった
+            }
+        }
+
+        // 空きスロットに追加
+        for (int i = 0; i < inventoryItemSlot.Length; i++)
+        {
+            var slot = inventoryItemSlot[i];
+            if (slot.itemName == "" || slot.quantity == 0)
+            {
+                remaining = slot.AddItem(itemName, remaining, itemSprite, itemDescription);
+                if (remaining <= 0) return 0;
+            }
+        }
+
+        // ここまでで入りきらなかった分を返す
+        return remaining;
     }
+
 
     void Start()
     {
-        if (_inventoryActivated && !_goldAndGuiltActivated)
-        {
-            _inventory.SetActive(false);
-            _inventoryActivated = false;
-
-            _goldAndGuilt.SetActive(true);
-            _goldAndGuiltActivated = true;
-        }
-        else if (!_goldAndGuiltActivated && !_inventoryActivated)
-        {
-            _goldAndGuilt.SetActive(true);
-            _goldAndGuiltActivated = true;
-        }
-        else if (_goldAndGuiltActivated && _inventoryActivated)
-        {
-            _inventory.SetActive(false);
-            _inventoryActivated = false;
-        }
+        _inventory.SetActive(false);
+        _inventoryActivated = false;
+        _goldAndGuilt.SetActive(true);
+        _goldAndGuiltActivated = true;
     }
 
     void Update()
