@@ -31,11 +31,9 @@ public class ShopItemSlot : MonoBehaviour, IPointerClickHandler
     [SerializeField] private InventoryManager _inventoryManager;
     public bool thisItemSelected;
 
-    public void AddItem()
+    public void AddItem() 
     {
-        int leftOverItems = _inventoryManager.AddItem(itemName, quantity, itemSprite, itemDescription);
-        if (leftOverItems <= 0) ;
-        else quantity = leftOverItems;
+        _inventoryManager.AddItem(itemName, quantity, itemSprite, itemDescription);
     }
 
     public void OnPointerClick(PointerEventData eventData)

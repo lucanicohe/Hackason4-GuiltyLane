@@ -1,11 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class InventoryManager : MonoBehaviour
 {
     [SerializeField] private GameObject _inventory;
     [SerializeField] private GameObject _goldAndGuilt;
+    [SerializeField, Header("Item Slot List")] public InventoryItemSlot[] inventoryItemSlot;
+
     private bool _inventoryActivated;
     private bool _goldAndGuiltActivated;
 
@@ -33,7 +36,7 @@ public class InventoryManager : MonoBehaviour
         else if (_goldAndGuiltActivated && _inventoryActivated)
         {
             _inventory.SetActive(false);
-            _inventoryActivated = false;        
+            _inventoryActivated = false;
         }
     }
 
@@ -56,6 +59,15 @@ public class InventoryManager : MonoBehaviour
 
             _goldAndGuilt.SetActive(true);
             _goldAndGuiltActivated = true;
+        }
+    }
+
+    public void DeselectAllSlots()
+    {
+        for (int i = 0; i < inventoryItemSlot.Length; i++)
+        {
+            inventoryItemSlot[i].selectedShader.SetActive(false);
+            inventoryItemSlot[i].thisItemSelected = false;
         }
     }
 }
