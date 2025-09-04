@@ -20,3 +20,4 @@ MonoBehaviour:
     of prisoners killed. (Permanent effect.)
   price: 10
   selectItemEffect: 2
+  permanent: 1

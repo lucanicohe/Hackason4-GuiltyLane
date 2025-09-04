@@ -19,3 +19,4 @@ MonoBehaviour:
     increases by your crime rate. Permanent effect.)
   price: 10
   selectItemEffect: 12
+  permanent: 1

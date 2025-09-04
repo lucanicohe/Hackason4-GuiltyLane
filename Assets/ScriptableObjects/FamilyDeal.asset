@@ -19,3 +19,4 @@ MonoBehaviour:
     victims. However, public guilt increases by 10%. (Permanent effect.) '
   price: 10
   selectItemEffect: 11
+  permanent: 1
