@@ -6,6 +6,7 @@ public class TrainController : MonoBehaviour
 {
     [SerializeField] private float _speed = 30f;
     private float _currentSpeed = 0f;
+    private float _accelerationTime = 3f;
 
     public enum Direction { Right, Left }
     public Direction _lastDirection = Direction.Right;
@@ -23,14 +24,14 @@ public class TrainController : MonoBehaviour
     [SerializeField] private Camera _camera2;
     private Vector3 _camera2LocalPostion;
     [SerializeField] private Camera _camera3;
-    
+
     [SerializeField] private AudioSource _train;
     private Vector3 _camera3LocalPostion;
 
     private bool _camera01Toggled = false;
     private bool _camera02Toggled = false;
     private Coroutine _cameraTransitionCoroutine;
-    
+
     void Start()
     {
         if (_directionLever != null)
@@ -73,7 +74,7 @@ public class TrainController : MonoBehaviour
         // Change speed
         if (Input.GetKeyDown(KeyCode.W) && !GameManager.Instance._speedzero)
         {
-            _currentSpeed = _speed;
+            StartCoroutine(TrainDepature());
             _train.Play();
             //AudioManager.Instance.PlayBGM(AudioManager.BGMType.railway_train_339502);
             AudioManager.Instance.StopPlayBGM(AudioManager.BGMType.電車停車中);
@@ -85,8 +86,8 @@ public class TrainController : MonoBehaviour
             GameManager.Instance._speedzero = false; //TODO:Qを押したように、とまったときにカメラを動かしたい→この行を消すとできるが、コルーチンがうまくいかないのか画面ががくがくする。
             //AudioManager.Instance.StopPlayBGM(AudioManager.BGMType.railway_train_339502);
             AudioManager.Instance.PlayBGM(AudioManager.BGMType.電車停車中);
-            _train.Stop(); 
-            _currentSpeed = 0f;
+            _train.Stop();
+            StartCoroutine(TrainStop());
             if (_throttleLever != null)
                 _throttleLever.localPosition = _speedOffPos;
         }
@@ -134,5 +135,31 @@ public class TrainController : MonoBehaviour
 
         _camera1.transform.localPosition = targetLocalPos;
         _cameraTransitionCoroutine = null;
+    }
+
+    private IEnumerator TrainDepature()
+    {
+        float _elapsedTime = 0f;
+        while (_elapsedTime < _accelerationTime)
+        {
+            _elapsedTime += Time.deltaTime;
+            float per = _elapsedTime / _accelerationTime;
+            _currentSpeed = Mathf.Lerp(0f, _speed, per);
+
+            yield return null;
+        }
+    }
+
+    private IEnumerator TrainStop()
+    {
+        float _elapsedTime = 0f;
+        while (_elapsedTime < _accelerationTime)
+        {
+            _elapsedTime += Time.deltaTime;
+            float per = _elapsedTime / _accelerationTime;
+            _currentSpeed = Mathf.Lerp(_speed, 0f, per);
+
+            yield return null;
+        }
     }
 }
