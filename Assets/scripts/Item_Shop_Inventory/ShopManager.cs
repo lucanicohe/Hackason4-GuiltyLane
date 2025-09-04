@@ -41,6 +41,11 @@ public class ShopManager : MonoBehaviour
         {
             if (shopItemSlot[i].thisItemSelected)
             {
+                if (_gameManager.Gold < shopItemSlot[i].itemPrice)
+                {
+                    Debug.Log("Wallet says: nope.");
+                    return;
+                }
                 _gameManager.Gold -= shopItemSlot[i].itemPrice;
 
                 int leftOverItems = _inventoryManager.AddItem(
