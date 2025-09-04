@@ -23,6 +23,15 @@ public class ItemSO : ScriptableObject
                 （ 「1回のみ使用可能、※使用後は再購入が必要です。」と書いてあったが、
                 面倒であれば無しでよいし、この内容が本当に必要か要相談。
             */
+            if (GameManager.Instance.OfficialIdentityHint())
+            {
+                Debug.Log($"{selectItemEffect} success");
+            }
+            else
+            {
+                Debug.Log($"{selectItemEffect} failed , no object to effect");
+            }
+
         }
         else if (selectItemEffect == SelectItemEffect.OfficialNumberHint)
         {
@@ -31,6 +40,15 @@ public class ItemSO : ScriptableObject
                 選択肢の中から1人の犠牲者の番号(人数？)を明らかにする
                 （1回のみ使用可能 <-- 同上）
             */
+            if (GameManager.Instance.OfficialNumberHint())
+            {
+                Debug.Log($"{selectItemEffect} success");
+            }
+            else
+            {
+                Debug.Log($"{selectItemEffect} failed , no object to effect");
+            }
+
         }
         else if (selectItemEffect == SelectItemEffect.Deal)
         {
@@ -38,13 +56,23 @@ public class ItemSO : ScriptableObject
             /*
                 囚人(身分)は囚人(身分)の人数分だけ遺産が増える(永続)
             */
+            if (GameManager.Instance.Deal())
+            {
+                Debug.Log($"{selectItemEffect} success");
+            }
+            else
+            {
+                Debug.Log($"already used {selectItemEffect}");
+            }
         }
         else if (selectItemEffect == SelectItemEffect.InheritanceSystem)
         {
             Debug.Log($"Player used {selectItemEffect}");
             /*
                 囚人(身分)のシンボル：囚人(身分)の遺産と罪率が1.5倍増加する(永続)
+                DATA　は　int形だから　2倍にする
             */
+
         }
         else if (selectItemEffect == SelectItemEffect.Guarantee)
         {
