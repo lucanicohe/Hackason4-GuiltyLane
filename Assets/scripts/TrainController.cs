@@ -31,6 +31,7 @@ public class TrainController : MonoBehaviour
     private bool _camera01Toggled = false;
     private bool _camera02Toggled = false;
     private Coroutine _cameraTransitionCoroutine;
+    private Coroutine _TrainCoroutine;
 
     void Start()
     {
@@ -74,7 +75,11 @@ public class TrainController : MonoBehaviour
         // Change speed
         if (Input.GetKeyDown(KeyCode.W) && !GameManager.Instance._speedzero)
         {
-            StartCoroutine(TrainDepature());
+            if (_TrainCoroutine != null)
+            {
+                StopCoroutine(_TrainCoroutine);
+            }
+            _TrainCoroutine = StartCoroutine(TrainDepature());
             _train.Play();
             //AudioManager.Instance.PlayBGM(AudioManager.BGMType.railway_train_339502);
             AudioManager.Instance.StopPlayBGM(AudioManager.BGMType.電車停車中);
@@ -87,7 +92,11 @@ public class TrainController : MonoBehaviour
             //AudioManager.Instance.StopPlayBGM(AudioManager.BGMType.railway_train_339502);
             AudioManager.Instance.PlayBGM(AudioManager.BGMType.電車停車中);
             _train.Stop();
-            StartCoroutine(TrainStop());
+            if (_TrainCoroutine != null)
+            {
+                StopCoroutine(_TrainCoroutine);
+            }
+            _TrainCoroutine = StartCoroutine(TrainStop());
             if (_throttleLever != null)
                 _throttleLever.localPosition = _speedOffPos;
         }
@@ -144,7 +153,7 @@ public class TrainController : MonoBehaviour
         {
             _elapsedTime += Time.deltaTime;
             float per = _elapsedTime / _accelerationTime;
-            _currentSpeed = Mathf.Lerp(0f, _speed, per);
+            _currentSpeed = Mathf.Lerp(0f, _speed, per*per);
 
             yield return null;
         }
@@ -157,7 +166,7 @@ public class TrainController : MonoBehaviour
         {
             _elapsedTime += Time.deltaTime;
             float per = _elapsedTime / _accelerationTime;
-            _currentSpeed = Mathf.Lerp(_speed, 0f, per);
+            _currentSpeed = Mathf.Lerp(_speed, 0f, per*per);
 
             yield return null;
         }
