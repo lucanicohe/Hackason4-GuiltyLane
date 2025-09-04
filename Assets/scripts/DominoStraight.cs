@@ -94,14 +94,14 @@ public class DominoStraight : MonoBehaviour
             GameManager.Instance._speedzero = true; //TrainController._currentSpeedを0にする
 
             string teamAText =
-                "processing...\n\nRIGHT\nRole: " + teamA.SelectRole +
+                "processing...\n\nRIGHT\nRole: " + teamA.SelectRoleToShow +
                 "\nMembers: " + (teamA.PersonnumToShow == GameManager.BE_DISGUISED_INT ? GameManager.BE_DISGUISED_STRING : teamA.PersonnumToShow) +
                 "\nInheritance: " /*+ string.Join(", ", teamA.Inheritance) + "  (Total "*/ + (teamA.TotalInheritanceToShow == GameManager.BE_DISGUISED_INT ? GameManager.BE_DISGUISED_STRING : teamA.TotalInheritanceToShow) /*+ ")" */+
                 "\nGuilty %: " /*+ string.Join(", ", teamA.GuiltyPercent) + "  (Total "*/ + (teamA.TotalGuiltyPercentToShow == GameManager.BE_DISGUISED_INT ? GameManager.BE_DISGUISED_STRING : teamA.TotalGuiltyPercentToShow) /*+ ")" */+
                 "\n\nuser choice required...";
 
             string teamBText =
-                "processing...\n\nLEFT\nRole: " + teamB.SelectRole +
+                "processing...\n\nLEFT\nRole: " + teamB.SelectRoleToShow +
                 "\nMembers: " + (teamB.PersonnumToShow == GameManager.BE_DISGUISED_INT ? GameManager.BE_DISGUISED_STRING : teamB.PersonnumToShow) +
                 "\nInheritance: " /*+ string.Join(", ", teamB.Inheritance) + "  (Total " */+ (teamB.TotalInheritanceToShow == GameManager.BE_DISGUISED_INT ? GameManager.BE_DISGUISED_STRING : teamB.TotalInheritanceToShow) /*+ ")" */ +
                 "\nGuilty %: " /*+ string.Join(", ", teamB.GuiltyPercent) + "  (Total " */+ (teamB.TotalGuiltyPercentToShow == GameManager.BE_DISGUISED_INT ? GameManager.BE_DISGUISED_STRING : teamB.TotalGuiltyPercentToShow) /*+ ")" */ +
