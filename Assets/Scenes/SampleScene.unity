@@ -1444,7 +1444,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f02633e92a92cf4fbe0a5eed904d688, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _goldGuiltText: {fileID: 0}
+  _goldGuiltText: {fileID: 587774450}
   _tollForkText: {fileID: 1368647466}
   GetGoldGuilty: 6
   teamBuilder: {fileID: 670250157}
