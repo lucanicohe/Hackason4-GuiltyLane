@@ -125,6 +125,7 @@ public class TeamBuilder : MonoBehaviour
     {
         //--役職の名前--
         public string SelectRole;
+        public string SelectRoleToShow;
         public int RoleID;
 
         //--ランダムに決まる遺産・人数
