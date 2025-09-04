@@ -19,3 +19,4 @@ MonoBehaviour:
     if conditions change. (Permanent effect.)
   price: 10
   selectItemEffect: 6
+  permanent: 1

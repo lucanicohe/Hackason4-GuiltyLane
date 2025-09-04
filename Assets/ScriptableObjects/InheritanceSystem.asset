@@ -20,3 +20,4 @@ MonoBehaviour:
     effect.) "
   price: 10
   selectItemEffect: 3
+  permanent: 1

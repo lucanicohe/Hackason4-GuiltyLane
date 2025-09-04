@@ -10,6 +10,7 @@ public class ItemSO : ScriptableObject
     [TextArea] public string itemDescription;
     [SerializeField] public int price;
     [SerializeField] public SelectItemEffect selectItemEffect = new SelectItemEffect();
+    [SerializeField] public bool permanent;
 
     public void UseItem()
     {
