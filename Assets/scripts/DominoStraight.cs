@@ -66,7 +66,7 @@ public class DominoStraight : MonoBehaviour
         other.transform.rotation = Quaternion.identity;
         _spawnedNext = true;
 
-        if (_globalStraightCount < 1) //もともと2だった
+        if (_globalStraightCount < 2) //もともと2だった
         {
             Instantiate(_straightPrefab, _spawnPointStraight.position, Quaternion.identity);
             _globalStraightCount++;
@@ -129,9 +129,11 @@ public class DominoStraight : MonoBehaviour
         textComponent.text = "";
         foreach (char c in fullText)
         {
+            AudioManager.Instance.PlaySE(AudioManager.SEType.キーボード1,0.4f);
             textComponent.text += c;
             yield return new WaitForSeconds(delay);
         }
+        AudioManager.Instance.PlaySE(AudioManager.SEType.キーボード2,0.4f);
     }
 
     private void Update()

@@ -211,12 +211,42 @@ public class GameManager : Singleton<GameManager>
             Debug.Log("右確定");
             _TotalGuiltyPercent = _RightHPD.TotalGuiltyPercent;
             _TotalInheritance = _RightHPD.TotalInheritance;
+            switch (_RightHPD.RoleID)
+            {
+                case 0:
+                    ResultData.TotleRoyalKilledNum += _RightHPD.Personnum;
+                    break;
+                case 1:
+                    ResultData.TotleNobleKilledNum += _RightHPD.Personnum;
+                    break;
+                case 2:
+                    ResultData.TotleCitizenKilledNum += _RightHPD.Personnum;
+                    break;
+                case 3:
+                    ResultData.TotlePrisonerKilledNum += _RightHPD.Personnum;
+                    break;
+            }
         }
         else if (trainController._lastDirection == TrainController.Direction.Left)
         {
             Debug.Log("左確定");
             _TotalGuiltyPercent = _LeftHPD.TotalGuiltyPercent;
             _TotalInheritance = _LeftHPD.TotalInheritance;
+            switch (_RightHPD.RoleID)
+            {
+                case 0:
+                    ResultData.TotleRoyalKilledNum += _RightHPD.Personnum;
+                    break;
+                case 1:
+                    ResultData.TotleNobleKilledNum += _RightHPD.Personnum;
+                    break;
+                case 2:
+                    ResultData.TotleCitizenKilledNum += _RightHPD.Personnum;
+                    break;
+                case 3:
+                    ResultData.TotlePrisonerKilledNum += _RightHPD.Personnum;
+                    break;
+            }
         }
         ++_problemCount;
         //人を引いたあとに処理する↓
@@ -232,6 +262,9 @@ public class GameManager : Singleton<GameManager>
     {
         GuiltyPercent += TotalGuiltyPercent;
         Gold += TotalInheritance;
+        ResultData.TotalGuiltyPercentEarned += TotalGuiltyPercent;
+        ResultData.TotleGoldEarned += TotalInheritance;
+
         //ラウンド内のMainGameの処理を３回行ったら
         if (GuiltyPercent >= 100)
         {
@@ -249,6 +282,8 @@ public class GameManager : Singleton<GameManager>
             {
                 Gold -= Toll;
                 Gold += Salary;
+                ResultData.TotleGoldEarned += Salary;
+                ResultData.TotalTollPayed += Toll;
             }
             //３回行ったら、ショップに行ってアイテムを買う/使う
             //ラウンドが進む
@@ -287,6 +322,23 @@ public class GameManager : Singleton<GameManager>
             Debug.Log("ゲームオーバー");
         }
         _speedzero = true;
-        fade.FadeIn(2, () => {SceneManager.LoadScene("ResultScene");});
+        AudioManager.Instance.StopAllBGM();
+        AudioManager.Instance.StopAllSE();
+        ResultData.RoundLevel = _roundLevel;
+        ResultData.problemCount = _problemCount;
+        fade.FadeIn(2, () => { SceneManager.LoadScene("ResultScene"); });
     }
+}
+
+public static class ResultData
+{
+    public static int TotleRoyalKilledNum = 0;
+    public static int TotleNobleKilledNum = 0;
+    public static int TotleCitizenKilledNum = 0;
+    public static int TotlePrisonerKilledNum = 0;
+    public static int TotleGoldEarned = 0;
+    public static int TotalGuiltyPercentEarned = 0;
+    public static GameManager.RoundLevel RoundLevel  = GameManager.RoundLevel.First;
+    public static int problemCount = 0;
+    public static int TotalTollPayed = 0;
 }

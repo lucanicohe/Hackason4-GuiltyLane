@@ -2,19 +2,23 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class KillController : MonoBehaviour
+public class DespawnController : MonoBehaviour
 {
-    [SerializeField] private GameObject bloodPrefab;
     [SerializeField] private float _destroyTime = 30.0f;
+    [SerializeField] private GameObject _bloodPrefab;
 
     private void OnTriggerEnter(Collider other)
     {
         if (!other.CompareTag("Player")) return;
 
+        Instantiate(_bloodPrefab, transform.position, Quaternion.identity);
 
-        if (bloodPrefab != null)
-            Instantiate(bloodPrefab, transform.position, Quaternion.identity);
-
+        
+        GameObject screamObj = GameObject.FindGameObjectWithTag("Scream");
+        if (screamObj != null)
+        {
+            Destroy(screamObj);
+        }
 
         Destroy(gameObject);
     }

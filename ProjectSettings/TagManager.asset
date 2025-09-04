@@ -11,6 +11,8 @@ TagManager:
   - TeamRight
   - TrackText
   - confirmfalse
+  - ZoomCamera
+  - Scream
   layers:
   - Default
   - TransparentFX
