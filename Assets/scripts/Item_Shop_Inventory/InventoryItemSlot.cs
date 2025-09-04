@@ -88,6 +88,7 @@ public class InventoryItemSlot : MonoBehaviour, IPointerClickHandler
         _inventoryManager.DeselectAllSlots();
         selectedShader.SetActive(true);
         thisItemSelected = true;
+        _inventoryManager.itemSlotCurrentSelectItemName = itemName;
         ItemDescriptionNameText.text = itemName;
         ItemDescriptionText.text = itemDescription;
         ItemDescriptionImage.sprite = itemSprite;

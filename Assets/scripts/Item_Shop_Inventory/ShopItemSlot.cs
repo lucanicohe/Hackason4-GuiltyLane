@@ -9,13 +9,39 @@ public class ShopItemSlot : MonoBehaviour, IPointerClickHandler
 {
     // public Sprite emptySprite;
 
-    //== Item Data ==//  
-    [SerializeField] public string itemName;
-    [SerializeField] public int itemPrice;
-    [SerializeField] public int quantity = 1;
-    [SerializeField] public Sprite itemSprite;
-    [TextArea]
-    [SerializeField] public string itemDescription;
+    //== Item Data ==//
+    [SerializeField,Header("Item Data")]
+    public string itemName;
+    public int itemPrice;
+    public int quantity = 1;
+    public Sprite itemSprite;
+    public string itemDescription;
+    [SerializeField,Header("Settings")] private ItemSO[] _itemSoElements;
+    [SerializeField] private SelectItem _selectedItem = new SelectItem();
+
+    private enum SelectItem
+    {
+        // GOV.
+        OfficialIdentityHint,
+        OfficialNumberHint,
+        // Prison
+        Deal,
+        InheritanceSystem,
+        Guarantee,
+        // Law
+        DefenseAttorney,
+        FinancialLawyer,
+        FinancialExpert,
+        // Church
+        BlessingOfThePriest,
+        ChurchsBlessing,
+        PapalAmnesty,
+        // Corp.
+        FamilyDeal,
+        Collector,
+        Investment,
+        GoldLoan,
+    }
 
     //== Item SLOT ==//  
     [SerializeField] private Image _itemImage;
@@ -31,9 +57,21 @@ public class ShopItemSlot : MonoBehaviour, IPointerClickHandler
     [SerializeField] private InventoryManager _inventoryManager;
     public bool thisItemSelected;
 
-    public void AddItem() 
+    void Start()
     {
-        _inventoryManager.AddItem(itemName, quantity, itemSprite, itemDescription);
+        string selectedName = _selectedItem.ToString();
+        foreach (var item in _itemSoElements)
+        {
+            if (item.itemName == selectedName)
+            {
+                itemName = item.itemName;
+                itemPrice = item.price;
+                itemSprite = item.itemSprite;
+                itemDescription = item.itemDescription;
+                _itemImage.sprite = item.itemSprite;
+                break;
+            }
+        }
     }
 
     public void OnPointerClick(PointerEventData eventData)
