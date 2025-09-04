@@ -8,6 +8,7 @@ public class ShopManager : MonoBehaviour
     private bool _shopActivated;
     [SerializeField, Header("Item Slot List")] public ShopItemSlot[] shopItemSlot;
     [SerializeField] private GameManager _gameManager;
+    [SerializeField] private InventoryManager _inventoryManager;
 
 
     void Update()
@@ -40,8 +41,25 @@ public class ShopManager : MonoBehaviour
         {
             if (shopItemSlot[i].thisItemSelected)
             {
-                // _gameManager.gold -= shopItemSlot[i].itemPrice;
-                shopItemSlot[i].AddItem();
+                _gameManager.Gold -= shopItemSlot[i].itemPrice;
+
+                int leftOverItems = _inventoryManager.AddItem(
+                    shopItemSlot[i].itemName,
+                    1,
+                    shopItemSlot[i].itemSprite,
+                    shopItemSlot[i].itemDescription
+                );
+
+                if (leftOverItems <= 0)
+                {
+                    Debug.Log("Purchase success. No leftOverItems");
+                }
+                else
+                {
+                    Debug.Log($"leftOverItems is {leftOverItems}");
+                    shopItemSlot[i].quantity = leftOverItems;
+                }
+
                 shopItemSlot[i].selectedShader.SetActive(false);
                 shopItemSlot[i].thisItemSelected = false;
             }
