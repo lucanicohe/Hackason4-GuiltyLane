@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bb3addd8cf55680419f36d6cf7f8bfe8, type: 3}
+  m_Name: ChurchsBlessing
+  m_EditorClassIdentifier: 
+  itemSprite: {fileID: 21300000, guid: 9602530c63e5c1242bc2c729a1efa5cf, type: 3}
+  itemName: ChurchsBlessing
+  itemDescription: 'Public Forgiveness If a choice would spike public guilt by 50%
+    or more, the church intervenes and resets guilt to zero. (One-time use.) '
+  price: 10
+  selectItemEffect: 9

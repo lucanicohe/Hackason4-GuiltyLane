@@ -11,23 +11,24 @@ public class InventoryManager : MonoBehaviour
 
     private bool _inventoryActivated;
     private bool _goldAndGuiltActivated;
+    public string itemSlotCurrentSelectItemName;
+
+    [SerializeField, Header("ItemSOs")] public ItemSO[] itemSOs;
 
     public int AddItem(string itemName, int quantity, Sprite itemSprite, string itemDescription)
     {
         int remaining = quantity;
 
-        // 既存の同じアイテムにスタックできるか確認
         for (int i = 0; i < inventoryItemSlot.Length; i++)
         {
             var slot = inventoryItemSlot[i];
             if (slot.itemName == itemName && !slot.isFull)
             {
                 remaining = slot.AddItem(itemName, remaining, itemSprite, itemDescription);
-                if (remaining <= 0) return 0; // 全て入りきった
+                if (remaining <= 0) return 0;
             }
         }
 
-        // 空きスロットに追加
         for (int i = 0; i < inventoryItemSlot.Length; i++)
         {
             var slot = inventoryItemSlot[i];
@@ -38,8 +39,19 @@ public class InventoryManager : MonoBehaviour
             }
         }
 
-        // ここまでで入りきらなかった分を返す
         return remaining;
+    }
+
+    public void OnUseItem()
+    {
+        Debug.Log("OnUseItem");
+        for (int i = 0; i < itemSOs.Length; i++)
+        {
+            if (itemSOs[i].itemName == itemSlotCurrentSelectItemName)
+            {
+                itemSOs[i].UseItem();
+            }
+        }
     }
 
 

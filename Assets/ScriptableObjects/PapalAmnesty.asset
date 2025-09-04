@@ -10,9 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: bb3addd8cf55680419f36d6cf7f8bfe8, type: 3}
-  m_Name: itemTest
+  m_Name: PapalAmnesty
   m_EditorClassIdentifier: 
-  itemName: 
-  itemSprite: {fileID: 0}
-  itemDescription: 
-  selectItemEffect: 0
+  itemSprite: {fileID: 21300000, guid: 183e8bba4863db242bd344010e3ba3aa, type: 3}
+  itemName: PapalAmnesty
+  itemDescription: ' Holy Absolution Through papal pardon, your current guilt is
+    reduced by 10%.'
+  price: 10
+  selectItemEffect: 10
