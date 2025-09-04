@@ -10,7 +10,7 @@ public class InventoryItemSlot : MonoBehaviour, IPointerClickHandler
     // public Sprite emptySprite;
 
     //== Item Data ==//  
-    [SerializeField,Header("・Item data")]
+    [SerializeField, Header("・Item data")]
     public string itemName;
     public int itemPrice;
     public int quantity;
@@ -31,7 +31,7 @@ public class InventoryItemSlot : MonoBehaviour, IPointerClickHandler
     [SerializeField] public TMP_Text ItemDescriptionQuantity;
 
     //== Other ==//
-    [SerializeField,Header("・Other")] private ShopManager _shopManager;
+    [SerializeField, Header("・Other")] private ShopManager _shopManager;
     [SerializeField] private InventoryManager _inventoryManager;
     public bool thisItemSelected;
     public bool isFull;
@@ -88,7 +88,9 @@ public class InventoryItemSlot : MonoBehaviour, IPointerClickHandler
         _inventoryManager.DeselectAllSlots();
         selectedShader.SetActive(true);
         thisItemSelected = true;
-        _inventoryManager.itemSlotCurrentSelectItemName = itemName;
+
+        _inventoryManager.currentSelectedSlot = this;
+
         ItemDescriptionNameText.text = itemName;
         ItemDescriptionText.text = itemDescription;
         ItemDescriptionImage.sprite = itemSprite;
@@ -99,6 +101,27 @@ public class InventoryItemSlot : MonoBehaviour, IPointerClickHandler
     public void OnRightClick()
     {
 
+    }
+
+    public void ReduceQuantity(int amount)
+    {
+        quantity -= amount;
+        if (quantity <= 0)
+        {
+            quantity = 0;
+            itemName = "";
+            itemDescription = "";
+            itemSprite = null;
+            _itemImage.sprite = null;
+            _quantityText.enabled = false;
+            isFull = false;
+        }
+        else
+        {
+            _quantityText.text = $"x{quantity}";
+        }
+
+        ItemDescriptionQuantity.text = $"x{quantity}";        
     }
 }
 

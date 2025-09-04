@@ -11,7 +11,7 @@ public class InventoryManager : MonoBehaviour
 
     private bool _inventoryActivated;
     private bool _goldAndGuiltActivated;
-    public string itemSlotCurrentSelectItemName;
+    public InventoryItemSlot currentSelectedSlot;
 
     [SerializeField, Header("ItemSOs")] public ItemSO[] itemSOs;
 
@@ -45,11 +45,15 @@ public class InventoryManager : MonoBehaviour
     public void OnUseItem()
     {
         Debug.Log("OnUseItem");
+        if (currentSelectedSlot == null) return;
+
         for (int i = 0; i < itemSOs.Length; i++)
         {
-            if (itemSOs[i].itemName == itemSlotCurrentSelectItemName)
+            if (itemSOs[i].itemName == currentSelectedSlot.itemName)
             {
                 itemSOs[i].UseItem();
+
+                currentSelectedSlot.ReduceQuantity(1);
             }
         }
     }
