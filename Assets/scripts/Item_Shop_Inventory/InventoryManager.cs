@@ -5,6 +5,7 @@ using UnityEngine;
 public class InventoryManager : MonoBehaviour
 {
     [SerializeField] private GameObject _inventory;      // The inventory panel
+    [SerializeField] private AudioSource _usesound; 
     [SerializeField, Header("Item Slot List")] public InventoryItemSlot[] inventoryItemSlot;
 
     public InventoryItemSlot currentSelectedSlot;
@@ -59,6 +60,7 @@ public class InventoryManager : MonoBehaviour
             if (itemSO.itemName == currentSelectedSlot.itemName)
             {
                 itemSO.UseItem();
+                _usesound.Play(); 
                 currentSelectedSlot.ReduceQuantity(1);
             }
         }

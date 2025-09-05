@@ -9,6 +9,9 @@ public class ShopManager : MonoBehaviour
     [SerializeField] private GameManager _gameManager;
     [SerializeField] private InventoryManager _inventoryManager;
 
+    [SerializeField] private AudioSource _nomoneysound;
+    [SerializeField] private AudioSource _buysound; 
+
     private void Start()
     {
         // Always keep shop disabled at start
@@ -50,6 +53,7 @@ public class ShopManager : MonoBehaviour
                 if (_gameManager.Gold < shopItemSlot[i].itemPrice)
                 {
                     Debug.Log("Wallet says: nope.");
+                    _nomoneysound.Play(); 
                     return;
                 }
 
@@ -63,7 +67,13 @@ public class ShopManager : MonoBehaviour
                 );
 
                 if (leftOverItems <= 0)
+                {
                     Debug.Log("Purchase success. No leftOverItems");
+                    _buysound.Play(); 
+
+                }
+
+
                 else
                     shopItemSlot[i].quantity = leftOverItems;
 

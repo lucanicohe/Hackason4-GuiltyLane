@@ -11,6 +11,8 @@ public class GameManager : Singleton<GameManager>
     [SerializeField]
     TextMeshProUGUI _tollForkText;
 
+    [SerializeField] private AudioSource _goldsound; 
+
     public static bool ChooseDisguised;
 
     private TeamBuilder.HitPersonData _RightHPD;
@@ -316,6 +318,7 @@ public class GameManager : Singleton<GameManager>
         Debug.Log($"problem:{_problemCount}");
         DecidedMainValue = false;
         Debug.Log($"gold:{Gold}guilty:{GuiltyPercent}");
+        _goldsound.Play();
 
         //これらの処理を1ラウンドに３回行う
     }
