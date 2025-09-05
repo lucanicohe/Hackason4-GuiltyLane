@@ -100,6 +100,17 @@ public void AddPermanentItem(string itemName, Sprite itemSprite, string itemDesc
         }
     }
 
+    public void OnPurchasePermanentItem(string itemName)
+    {
+        foreach (var itemSO in itemSOs)
+        {
+            if (itemSO.itemName == itemName)
+            {
+                itemSO.UseItem();
+            }
+        }
+    }
+
     private void Start()
     {
         if (_inventory != null) _inventory.SetActive(true);

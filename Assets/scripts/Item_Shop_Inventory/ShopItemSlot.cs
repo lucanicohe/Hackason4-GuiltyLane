@@ -18,6 +18,7 @@ public class ShopItemSlot : MonoBehaviour, IPointerClickHandler
     public string itemDescription;
     public bool permanent;
     [SerializeField, Header("Settings")] private ItemSO[] _itemSoElements;
+    public ItemSO[] itemSoElements => _itemSoElements;
     [SerializeField] private SelectItem _selectedItem = new SelectItem();
 
     private enum SelectItem
