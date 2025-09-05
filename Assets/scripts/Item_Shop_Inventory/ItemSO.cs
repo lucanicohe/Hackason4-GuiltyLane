@@ -176,7 +176,8 @@ public class ItemSO : ScriptableObject
             if (GameManager.Instance.PapalAmnesty())
             {
                 Debug.Log($"{selectItemEffect} success");
-            }else
+            }
+            else
             {
                 Debug.Log($"GuiltyPercent is to low");
             }
@@ -188,6 +189,14 @@ public class ItemSO : ScriptableObject
                 犠牲者に前払いして沈黙と相続を確保します。生存者も自分の取り分を渡し、
                 選ばれなかった犠牲者からはゴールドを得られます。ただし、公の罪悪感は10%増加します。（恒久効果）
             */
+            if (GameManager.Instance.FamilyDeal())
+            {
+                Debug.Log($"{selectItemEffect} success");
+            }
+            else
+            {
+                Debug.Log($"already used {selectItemEffect}");
+            }
         }
         else if (selectItemEffect == SelectItemEffect.Collector)
         {
@@ -196,6 +205,14 @@ public class ItemSO : ScriptableObject
                 コレクターが犠牲者から1コインずつ絞り取ります。
                 犯罪率が高いほど、相続から得られる金額も増えます。（相続増加は犯罪率に依存。恒久効果）
             */
+            if (GameManager.Instance.Collector())
+            {
+                Debug.Log($"{selectItemEffect} success");
+            }
+            else
+            {
+                Debug.Log($"already used {selectItemEffect}");
+            }
         }
         else if (selectItemEffect == SelectItemEffect.Investment)
         {
@@ -203,6 +220,14 @@ public class ItemSO : ScriptableObject
             /*
                 危険な事業に参加します：相続が5倍になる確率は10%です。（1回のみ使用）
             */
+            if (GameManager.Instance.Investment())
+            {
+                Debug.Log($"{selectItemEffect} success");
+            }
+            else
+            {
+                Debug.Log($"{selectItemEffect} fail");
+            }
         }
         else if (selectItemEffect == SelectItemEffect.GoldLoan)
         {
@@ -210,6 +235,8 @@ public class ItemSO : ScriptableObject
             /*
                 怪しい利率で迅速なローンを受けます。購入価格の0.8〜1.5倍のゴールドを得られます。（1回のみ使用）
             */
+            var profit = GameManager.Instance.GoldLoan(price);
+            Debug.Log($"{selectItemEffect} success, you earn {profit}");
         }
 
     }
