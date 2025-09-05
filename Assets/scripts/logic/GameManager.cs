@@ -371,9 +371,46 @@ public class GameManager : Singleton<GameManager>
         }
         _goldGuiltText.text = $"Gold : {(GoldForShow == BE_DISGUISED_INT ? BE_DISGUISED_STRING : GoldForShow)}\nGuilt : {(GuiltyPercentForShow == BE_DISGUISED_INT ? BE_DISGUISED_STRING : GuiltyPercentForShow)}%";
         _tollForkText.text = $"Toll\n{Toll}\n\nFork\n{(int)_roundLevel}-{_problemCount}";
-        return;
+
+        StartCoroutine(ShopSequenceCoroutine());
+        
     }
 
+    private IEnumerator ShopSequenceCoroutine()
+    {
+        // if (_shopAlertImage != null) _shopAlertImage.SetActive(true);
+        // yield return new WaitForSeconds(3f);
+        // if (_shopAlertImage != null) _shopAlertImage.SetActive(false);
+
+        // // Disable inventory when shop opens
+        // if (_inventoryManager != null) _inventoryManager.InventoryActive = false;
+        // if (_shopManager != null) _shopManager.shop.SetActive(true);
+
+        // // Enable countdown text
+        // if (_shopCountdownText != null)
+        // {
+        //     _shopCountdownText.gameObject.SetActive(true);
+        //     float timer = _shopOpenTime;
+        //     while (timer > 0f)
+        //     {
+        //         _shopCountdownText.text = $"Shop closes in: {Mathf.Ceil(timer)}";
+        //         timer -= Time.deltaTime;
+        //         yield return null;
+        //     }
+        //     _shopCountdownText.text = "Shop closed!";
+        //     _shopCountdownText.gameObject.SetActive(false);
+        // }
+        // else
+        // {
+        //     yield return new WaitForSeconds(_shopOpenTime);
+        // }
+
+        // // Close shop and re-enable inventory
+        // if (_shopManager != null) _shopManager.shop.SetActive(false);
+        // if (_inventoryManager != null) _inventoryManager.InventoryActive = true;
+        yield return null;
+    }
+    
     /// <summary>
     /// Gold,Guiltyを受け取るタイミングを人を轢いたあとにした
     /// </summary>
