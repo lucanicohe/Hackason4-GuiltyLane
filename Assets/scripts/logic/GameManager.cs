@@ -257,7 +257,7 @@ public class GameManager : Singleton<GameManager>
     }
 
     private void MainGame()
-    {   
+    {
         var tempTotalGuiltyPercent = 0;
         var tempTotalInheritance = 0;
         if (trainController._lastDirection == TrainController.Direction.Right)
@@ -308,7 +308,7 @@ public class GameManager : Singleton<GameManager>
         }
         ++_problemCount;
         //人を引いたあとに処理する↓
-        SelectSide(_TotalGuiltyPercent, _TotalInheritance ,tempTotalGuiltyPercent, tempTotalInheritance);
+        SelectSide(_TotalGuiltyPercent, _TotalInheritance, tempTotalGuiltyPercent, tempTotalInheritance);
         Debug.Log($"problem:{_problemCount}");
         DecidedMainValue = false;
         Debug.Log($"gold:{Gold}guilty:{GuiltyPercent}");
@@ -316,25 +316,31 @@ public class GameManager : Singleton<GameManager>
         //これらの処理を1ラウンドに３回行う
     }
 
-    private void SelectSide(int TotalGuiltyPercent, int TotalInheritance , int otherTotalGuiltyPercent, int otherTotalInheritance)
+    private void SelectSide(int TotalGuiltyPercent, int TotalInheritance, int otherTotalGuiltyPercent, int otherTotalInheritance)
     {
-        if (_isDefenseAttorneyEffect)
-        {
-            Gold += Mathf.RoundToInt(TotalInheritance * 1.2f);
-        }
-        else
-        {
-            Gold += TotalInheritance;
-        }
+        var tempGuiltyPercent = TotalGuiltyPercent;
+        var tempInheritance = TotalInheritance;
+
         if (_isFamilyDealEffect)
         {
-            Gold += otherTotalInheritance;
-            GuiltyPercent += Mathf.RoundToInt(TotalGuiltyPercent * 1.1f);
+            tempInheritance += otherTotalInheritance;
+            tempGuiltyPercent += Mathf.RoundToInt(TotalGuiltyPercent * 1.1f);
         }
-        else
+        if (_isDefenseAttorneyEffect)
         {
-            GuiltyPercent += TotalGuiltyPercent;
+            tempInheritance += Mathf.RoundToInt(tempInheritance * 1.2f);
         }
+        if (_isCollectorEffect)
+        {
+            tempInheritance += Mathf.RoundToInt(tempInheritance * (1 + GuiltyPercent * 0.01f));
+        }
+        if (_isInvestmentEffect)
+        {
+            tempInheritance += Mathf.RoundToInt(tempInheritance * 5.0f);
+        }
+        Gold += tempInheritance;
+        GuiltyPercent += tempGuiltyPercent;
+
         ResultData.TotalGuiltyPercentEarned += TotalGuiltyPercent;
         ResultData.TotleGoldEarned += TotalInheritance;
 
@@ -414,6 +420,7 @@ public class GameManager : Singleton<GameManager>
         _isFinancialExpertEffect = false;
         _isBlessingOfThePriestEffect = false;
         _isChurchsBlessingEffect = false;
+        _isInvestmentEffect = false;
     }
     private bool _isOfficialIdentityHintEffect = false;
     private bool _isOfficialNumberHintEffect = false;
@@ -425,6 +432,8 @@ public class GameManager : Singleton<GameManager>
     private bool _isBlessingOfThePriestEffect = false;
     private bool _isChurchsBlessingEffect = false;
     private bool _isFamilyDealEffect = false; //恒久効果
+    private bool _isCollectorEffect = false; //恒久効果
+    private bool _isInvestmentEffect = false;
 
 
 
@@ -543,9 +552,41 @@ public class GameManager : Singleton<GameManager>
 
     public bool FamilyDeal()
     {
+        if (_isFamilyDealEffect)
+        {
+            return false;
+        }
+        _isFamilyDealEffect = true;
+        return true;
+    }
+
+    public bool Collector()
+    {
+        if (_isCollectorEffect)
+        {
+            return false;
+        }
+        _isCollectorEffect = true;
         return false;
     }
 
+    public bool Investment()
+    {
+        var temp = UnityEngine.Random.value;
+        if (temp < 0.1f)
+        {
+            _isInvestmentEffect = true;
+            return true;
+        }
+        return false;
+    }
+
+    public int GoldLoan(int price)
+    {
+        price = Mathf.RoundToInt(price * Random.Range(0.8f, 1.5f));
+        Gold += price;
+        return price;
+    }
 
     #endregion
 }
