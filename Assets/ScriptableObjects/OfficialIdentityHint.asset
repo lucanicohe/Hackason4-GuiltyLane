@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemSprite: {fileID: 21300000, guid: bf4cc8e31fd0ec040bf8e03a702a140a, type: 3}
   itemName: OfficialIdentityHint
-  itemDescription: 'Official Identity Hint: The government of Lemuria by authorization
-    of the church allows you to gain insight through official channels: Reveal one
-    of the victims from the choices (1 time). Once used, you must buy it again.'
+  itemDescription: 'Obtain verified data: Reveal one of the victims from the choices
+    (1 time). '
   price: 10
   selectItemEffect: 0
+  permanent: 0
