@@ -1,24 +1,31 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.EventSystems;
 
 public class InventoryManager : MonoBehaviour
 {
-    [SerializeField] private GameObject _inventory;
-    [SerializeField] private GameObject _goldAndGuilt;
+    [SerializeField] private GameObject _inventory;      // The inventory panel
     [SerializeField, Header("Item Slot List")] public InventoryItemSlot[] inventoryItemSlot;
 
-    private bool _inventoryActivated;
-    private bool _goldAndGuiltActivated;
     public InventoryItemSlot currentSelectedSlot;
 
     [SerializeField, Header("ItemSOs")] public ItemSO[] itemSOs;
+
+    // Public property to show/hide inventory
+    public bool InventoryActive
+    {
+        get => _inventory.activeSelf;
+        set
+        {
+            if (_inventory != null) _inventory.SetActive(value);
+        }
+    }
 
     public int AddItem(string itemName, int quantity, Sprite itemSprite, string itemDescription)
     {
         int remaining = quantity;
 
+        // Try adding to existing slots first
         for (int i = 0; i < inventoryItemSlot.Length; i++)
         {
             var slot = inventoryItemSlot[i];
@@ -29,6 +36,7 @@ public class InventoryManager : MonoBehaviour
             }
         }
 
+        // Add to empty slots
         for (int i = 0; i < inventoryItemSlot.Length; i++)
         {
             var slot = inventoryItemSlot[i];
@@ -44,49 +52,21 @@ public class InventoryManager : MonoBehaviour
 
     public void OnUseItem()
     {
-        Debug.Log("OnUseItem");
         if (currentSelectedSlot == null) return;
 
-        for (int i = 0; i < itemSOs.Length; i++)
+        foreach (var itemSO in itemSOs)
         {
-            if (itemSOs[i].itemName == currentSelectedSlot.itemName)
+            if (itemSO.itemName == currentSelectedSlot.itemName)
             {
-                itemSOs[i].UseItem();
-
+                itemSO.UseItem();
                 currentSelectedSlot.ReduceQuantity(1);
             }
         }
     }
 
-
-    void Start()
+    private void Start()
     {
-        _inventory.SetActive(false);
-        _inventoryActivated = false;
-        _goldAndGuilt.SetActive(true);
-        _goldAndGuiltActivated = true;
-    }
-
-    void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.E) && !_inventoryActivated)
-        {
-            if (_goldAndGuiltActivated)
-            {
-                _goldAndGuilt.SetActive(false);
-                _goldAndGuiltActivated = false;
-            }
-            _inventory.SetActive(true);
-            _inventoryActivated = true;
-        }
-        else if (Input.GetKeyDown(KeyCode.E) && _inventoryActivated)
-        {
-            _inventory.SetActive(false);
-            _inventoryActivated = false;
-
-            _goldAndGuilt.SetActive(true);
-            _goldAndGuiltActivated = true;
-        }
+        if (_inventory != null) _inventory.SetActive(true);
     }
 
     public void DeselectAllSlots()

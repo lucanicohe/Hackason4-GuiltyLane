@@ -14,7 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemSprite: {fileID: 21300000, guid: 9602530c63e5c1242bc2c729a1efa5cf, type: 3}
   itemName: ChurchsBlessing
-  itemDescription: 'Public Forgiveness If a choice would spike public guilt by 50%
-    or more, the church intervenes and resets guilt to zero. (One-time use.) '
+  itemDescription: 'If a choice would spike public guilt by 50% or more, guilt will
+    be reset to 0. (One-time use.) '
   price: 10
   selectItemEffect: 9
+  permanent: 0

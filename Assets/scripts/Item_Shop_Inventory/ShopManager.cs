@@ -4,28 +4,34 @@ using UnityEngine;
 
 public class ShopManager : MonoBehaviour
 {
-    public GameObject shop;
-    private bool _shopActivated;
+    public GameObject shop; // The shop panel
     [SerializeField, Header("Item Slot List")] public ShopItemSlot[] shopItemSlot;
     [SerializeField] private GameManager _gameManager;
     [SerializeField] private InventoryManager _inventoryManager;
 
-
-    void Update()
+    private void Start()
     {
-        // == Shop SetActive toggle ==//
-        if (Input.GetKeyDown(KeyCode.P) && _shopActivated)
-        {
-            shop.SetActive(false);
-            _shopActivated = false;
-        }
-        else if (Input.GetKeyDown(KeyCode.P) && !_shopActivated)
-        {
-            shop.SetActive(true);
-            _shopActivated = true;
-        }
+        // Always keep shop disabled at start
+        if (shop != null) shop.SetActive(false);
     }
 
+    // --- Methods for GameManager to control shop --- //
+    public void OpenShop()
+    {
+        if (shop != null) shop.SetActive(true);
+    }
+
+    public void CloseShop()
+    {
+        if (shop != null) shop.SetActive(false);
+    }
+
+    public bool IsShopOpen()
+    {
+        return shop != null && shop.activeSelf;
+    }
+
+    // --- Other existing methods --- //
     public void DeselectAllSlots()
     {
         for (int i = 0; i < shopItemSlot.Length; i++)
@@ -46,6 +52,7 @@ public class ShopManager : MonoBehaviour
                     Debug.Log("Wallet says: nope.");
                     return;
                 }
+
                 _gameManager.Gold -= shopItemSlot[i].itemPrice;
 
                 int leftOverItems = _inventoryManager.AddItem(
@@ -56,14 +63,9 @@ public class ShopManager : MonoBehaviour
                 );
 
                 if (leftOverItems <= 0)
-                {
                     Debug.Log("Purchase success. No leftOverItems");
-                }
                 else
-                {
-                    Debug.Log($"leftOverItems is {leftOverItems}");
                     shopItemSlot[i].quantity = leftOverItems;
-                }
 
                 shopItemSlot[i].selectedShader.SetActive(false);
                 shopItemSlot[i].thisItemSelected = false;
