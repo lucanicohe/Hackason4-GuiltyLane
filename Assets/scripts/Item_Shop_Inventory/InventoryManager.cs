@@ -82,15 +82,31 @@ public void AddPermanentItem(string itemName, Sprite itemSprite, string itemDesc
         {
             if (itemSO.itemName == currentSelectedSlot.itemName)
             {
+                if (currentSelectedSlot.permanent) return;
+                
                 itemSO.UseItem();
-                if (!currentSelectedSlot.permanent)
-                {
-                    currentSelectedSlot.ReduceQuantity(1);
-                }
-                else
-                {
-                    Debug.Log("This item is permanent.");
-                }
+                currentSelectedSlot.ReduceQuantity(1);
+
+                // itemSO.UseItem();
+                // if (!currentSelectedSlot.permanent)
+                // {
+                //     currentSelectedSlot.ReduceQuantity(1);
+                // }
+                // else
+                // {
+                //     Debug.Log("This item is permanent.");
+                // }
+            }
+        }
+    }
+
+    public void OnPurchasePermanentItem(string itemName)
+    {
+        foreach (var itemSO in itemSOs)
+        {
+            if (itemSO.itemName == itemName)
+            {
+                itemSO.UseItem();
             }
         }
     }

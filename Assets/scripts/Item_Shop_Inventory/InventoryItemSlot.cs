@@ -34,6 +34,7 @@ public class InventoryItemSlot : MonoBehaviour, IPointerClickHandler
     //== Other ==//
     [SerializeField, Header("・Other")] private ShopManager _shopManager;
     [SerializeField] private InventoryManager _inventoryManager;
+    [SerializeField] private GameObject _useButton;
     public bool thisItemSelected;
     public bool isFull;
 
@@ -111,13 +112,21 @@ public class InventoryItemSlot : MonoBehaviour, IPointerClickHandler
         _inventoryManager.DeselectAllSlots();
         selectedShader.SetActive(true);
         thisItemSelected = true;
-
         _inventoryManager.currentSelectedSlot = this;
 
         ItemDescriptionNameText.text = itemName;
         ItemDescriptionText.text = itemDescription;
         ItemDescriptionImage.sprite = itemSprite;
-        ItemDescriptionQuantity.text = $"x{this.quantity}";
+        if (permanent)
+        {
+            _useButton.SetActive(false);
+            ItemDescriptionQuantity.text = $"Permanent Item";
+        }
+        else
+        {
+            ItemDescriptionQuantity.text = $"x{this.quantity}";
+            _useButton.SetActive(true);
+        }
         // if (ItemDescriptionImage.sprite == null) ItemDescriptionImage.sprite = emptySprite;
     }
 
