@@ -22,6 +22,14 @@ public class GameManager : Singleton<GameManager>
                 || _roundLevel == RoundLevel.Fifth
                 || _roundLevel == RoundLevel.Sixth)
             {
+                if (_isOfficialIdentityHintEffect && ChooseDisguised)
+                {
+                    _RightHPD.SelectRoleToShow = _RightHPD.SelectRole;
+                }
+                if (_isOfficialNumberHintEffect && ChooseDisguised)
+                {
+                    _RightHPD.PersonnumToShow = _RightHPD.Personnum;
+                }
                 return DisguisedPersonData(_RightHPD);
             }
             return _RightHPD;
@@ -37,6 +45,14 @@ public class GameManager : Singleton<GameManager>
                 || _roundLevel == RoundLevel.Fifth
                 || _roundLevel == RoundLevel.Sixth)
             {
+                if (_isOfficialIdentityHintEffect && !ChooseDisguised)
+                {
+                    _LeftHPD.SelectRoleToShow = _LeftHPD.SelectRole;
+                }
+                if (_isOfficialNumberHintEffect && !ChooseDisguised)
+                {
+                    _RightHPD.PersonnumToShow = _RightHPD.Personnum;
+                }
                 return DisguisedPersonData(_LeftHPD);
             }
             return _LeftHPD;
@@ -158,9 +174,32 @@ public class GameManager : Singleton<GameManager>
         if (_RightHPD.SelectRole != _LeftHPD.SelectRole)
         {
             DecidedMainValue = true;
+            InitialiZationOfItem();
             ChooseDisguised = UnityEngine.Random.value < 0.5;
             _RightHPD = InitialiZationOfersonData(_RightHPD);
             _LeftHPD = InitialiZationOfersonData(_LeftHPD);
+            if (_isDealEffect)
+            {
+                if (_RightHPD.RoleID == 3)
+                {
+                    _RightHPD.TotalInheritance += _RightHPD.Personnum;
+                }
+                if (_LeftHPD.RoleID == 3)
+                {
+                    _RightHPD.TotalInheritance += _RightHPD.Personnum;
+                }
+            }
+            if (_isInheritanceSystemEffect)
+            {
+                if (_RightHPD.RoleID == 3)
+                {
+                    _RightHPD.TotalInheritance *= 2;
+                }
+                if (_LeftHPD.RoleID == 3)
+                {
+                    _RightHPD.TotalInheritance *= 2;
+                }
+            }
             Debug.Log(JsonUtility.ToJson(_RightHPD, true));
             Debug.Log(JsonUtility.ToJson(_LeftHPD, true));
         }
@@ -183,19 +222,19 @@ public class GameManager : Singleton<GameManager>
             case RoundLevel.Second:
                 //どちらかの身分が分からなくなる
                 //お金もわからくなる
-                data.SelectRole = BE_DISGUISED_STRING;
+                data.SelectRoleToShow = BE_DISGUISED_STRING;
                 data.TotalInheritanceToShow = BE_DISGUISED_INT;
                 return data;
             case RoundLevel.Third:
                 //両方の身分が分からなくなる
-                data.SelectRole = BE_DISGUISED_STRING;
+                data.SelectRoleToShow = BE_DISGUISED_STRING;
                 data.TotalInheritanceToShow = BE_DISGUISED_INT;
                 return data;
             case RoundLevel.Fourth:
             case RoundLevel.Fifth:
             case RoundLevel.Sixth:
                 //自分の罪率と金が分からなくなる
-                data.SelectRole = BE_DISGUISED_STRING;
+                data.SelectRoleToShow = BE_DISGUISED_STRING;
                 data.PersonnumToShow = BE_DISGUISED_INT;
                 data.TotalInheritanceToShow = BE_DISGUISED_INT;
                 data.TotalGuiltyPercentToShow = BE_DISGUISED_INT;
@@ -328,6 +367,62 @@ public class GameManager : Singleton<GameManager>
         ResultData.problemCount = _problemCount;
         fade.FadeIn(2, () => { SceneManager.LoadScene("ResultScene"); });
     }
+
+
+    #region itemMethod
+
+    private void InitialiZationOfItem()
+    {
+        _isOfficialIdentityHintEffect = false;
+        _isOfficialNumberHintEffect = false;
+    }
+    private bool _isOfficialIdentityHintEffect = false;
+    private bool _isOfficialNumberHintEffect = false;
+    private bool _isDealEffect = false;
+    private bool _isInheritanceSystemEffect = false;
+
+    public bool OfficialIdentityHint()
+    {
+        if (RightHPD.SelectRoleToShow.Equals(BE_DISGUISED_STRING)
+        || LeftHPD.SelectRoleToShow.Equals(BE_DISGUISED_STRING))
+        {
+            _isOfficialIdentityHintEffect = true;
+            return true;
+        }
+        return false;
+    }
+
+    public bool OfficialNumberHint()
+    {
+        if (RightHPD.PersonnumToShow == BE_DISGUISED_INT
+        || LeftHPD.PersonnumToShow == BE_DISGUISED_INT)
+        {
+            _isOfficialNumberHintEffect = true;
+            return true;
+        }
+        return false;
+    }
+
+    public bool Deal()
+    {
+        if (_isDealEffect)
+        {
+            return false;
+        }
+        _isDealEffect = true;
+        return true;
+    }
+
+    public bool InheritanceSystem()
+    {
+        if (_isInheritanceSystemEffect)
+        {
+            return false;
+        }
+        _isInheritanceSystemEffect = true;
+        return true;
+    }
+    #endregion
 }
 
 public static class ResultData
