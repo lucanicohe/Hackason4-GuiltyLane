@@ -184,18 +184,8 @@ public class GameManager : Singleton<GameManager>
         {
             return;
         }
-        //右の人の役職、人数を決める-->ok
-        //左の人の役職、人数を決める-->ok
-        if (DecidedMainValue)
-        {
-            return;
-        }
-        //右の人の役職、人数を決める-->ok
-        //左の人の役職、人数を決める-->ok
         _RightHPD = teamBuilder.TeamBuild();
         _LeftHPD = teamBuilder.TeamBuild();
-        //役職が右と左で同じじゃないようにする
-        //役職が右と左で同じじゃないようにする
         if (_RightHPD.SelectRole != _LeftHPD.SelectRole)
         {
             if (_isGuaranteeEffect
@@ -244,7 +234,6 @@ public class GameManager : Singleton<GameManager>
     }
     private TeamBuilder.HitPersonData DisguisedPersonData(TeamBuilder.HitPersonData data)
     {
-        data = InitialiZationOfersonData(data);
         data = InitialiZationOfersonData(data);
         switch (_roundLevel)
         {
@@ -394,27 +383,6 @@ public class GameManager : Singleton<GameManager>
             _problemCount = 1;
         }
         GoldAndGuiltTextUpdate();
-        if (_problemCount > 3)
-        {
-            if (Gold - Toll < 0)
-            {
-                HandleGameOver(false);
-                return;
-            }
-            else
-            {
-                Gold -= Toll;
-                Gold += Salary;
-                ResultData.TotleGoldEarned += Salary;
-                ResultData.TotalTollPayed += Toll;
-            }
-            //３回行ったら、ショップに行ってアイテムを買う/使う
-            //ラウンドが進む
-            ChangeRound();
-            Debug.Log($"ラウンド：{_roundLevel}");
-            _problemCount = 1;
-        }
-        GoldAndGuiltTextUpdate();
         StartCoroutine(ShopSequenceCoroutine());
     }
 
@@ -495,8 +463,6 @@ public class GameManager : Singleton<GameManager>
         AudioManager.Instance.StopAllBGM();
         AudioManager.Instance.StopAllSE();
         ResultData.RoundLevel = _roundLevel;
-        ResultData.problemCount = _problemCount;
-        fade.FadeIn(2, () => { SceneManager.LoadScene("ResultScene"); });
         ResultData.problemCount = _problemCount;
         fade.FadeIn(2, () => { SceneManager.LoadScene("ResultScene"); });
     }
