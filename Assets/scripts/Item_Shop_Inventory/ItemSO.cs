@@ -70,7 +70,6 @@ public class ItemSO : ScriptableObject
             Debug.Log($"Player used {selectItemEffect}");
             /*
                 囚人(身分)のシンボル：囚人(身分)の遺産と罪率が1.5倍増加する(永続)
-                DATA　は　int形だから　2倍にする
             */
             if (GameManager.Instance.InheritanceSystem())
             {
@@ -87,6 +86,14 @@ public class ItemSO : ScriptableObject
             /*
                 次のラウンドで必ず囚人(身分)がでる。
             */
+            if (GameManager.Instance.Guarantee())
+            {
+                Debug.Log($"{selectItemEffect} success");
+            }
+            else
+            {
+                Debug.Log($"already used {selectItemEffect}");
+            }
         }
         else if (selectItemEffect == SelectItemEffect.DefenseAttorney)
         {
@@ -96,6 +103,14 @@ public class ItemSO : ScriptableObject
 
                 次のラウンドで得られる遺産が20%増える
             */
+            if (GameManager.Instance.DefenseAttorney())
+            {
+                Debug.Log($"{selectItemEffect} success");
+            }
+            else
+            {
+                Debug.Log($"already used {selectItemEffect}");
+            }
         }
         else if (selectItemEffect == SelectItemEffect.FinancialLawyer)
         {
@@ -111,8 +126,16 @@ public class ItemSO : ScriptableObject
         {
             Debug.Log($"Player used {selectItemEffect}");
             /*
-                虫眼鏡：次のラウンドで得られる遺産が20%増える
+                虫眼鏡：次のラウンドの通行料が20%減る
             */
+            if (GameManager.Instance.FinancialExpert())
+            {
+                Debug.Log($"{selectItemEffect} success");
+            }
+            else
+            {
+                Debug.Log($"already used {selectItemEffect} or not time to pay toll");
+            }
         }
         else if (selectItemEffect == SelectItemEffect.BlessingOfThePriest)
         {
@@ -120,6 +143,14 @@ public class ItemSO : ScriptableObject
             /*
                 次のラウンドでは罪率が半減される
             */
+            if (GameManager.Instance.BlessingOfThePriest())
+            {
+                Debug.Log($"{selectItemEffect} success");
+            }
+            else
+            {
+                Debug.Log($"already used {selectItemEffect}");
+            }
         }
         else if (selectItemEffect == SelectItemEffect.ChurchsBlessing)
         {
@@ -127,6 +158,14 @@ public class ItemSO : ScriptableObject
             /*
                 選択によって公の罪悪感が50%以上急上昇する場合、教会が介入し罪悪感を0にリセットします。（1回のみ使用）
             */
+            if (GameManager.Instance.ChurchsBlessing())
+            {
+                Debug.Log($"{selectItemEffect} success");
+            }
+            else
+            {
+                Debug.Log($"already used {selectItemEffect} or GuiltyPercent <= 50");
+            }
         }
         else if (selectItemEffect == SelectItemEffect.PapalAmnesty)
         {
@@ -134,6 +173,13 @@ public class ItemSO : ScriptableObject
             /*
                 教皇の恩赦により、現在の罪悪感が10%減少します。
             */
+            if (GameManager.Instance.PapalAmnesty())
+            {
+                Debug.Log($"{selectItemEffect} success");
+            }else
+            {
+                Debug.Log($"GuiltyPercent is to low");
+            }
         }
         else if (selectItemEffect == SelectItemEffect.FamilyDeal)
         {
