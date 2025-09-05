@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: FinancialExpert
   m_EditorClassIdentifier: 
   itemSprite: {fileID: 21300000, guid: 21a077fbe0d072441b3e575f88f3f728, type: 3}
-  itemName: FinancialExpert
-  itemDescription: "Cost Reduction Our experts cut through loopholes and expenses.
-    The toll fee after the next trial is reduced by 20%. \r"
+  itemName: 'Trickery '
+  itemDescription: "The toll fee after the next trial is reduced by 20%. \r"
   price: 10
   selectItemEffect: 7
+  permanent: 0

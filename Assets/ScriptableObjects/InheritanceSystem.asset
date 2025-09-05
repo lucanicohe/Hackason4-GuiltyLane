@@ -13,11 +13,9 @@ MonoBehaviour:
   m_Name: InheritanceSystem
   m_EditorClassIdentifier: 
   itemSprite: {fileID: 21300000, guid: db9aa9ea4f4c4684287f7a2cba3f5efa, type: 3}
-  itemName: InheritanceSystem
-  itemDescription: "Through the Bars Our connections inside ensure that every prisoner
-    victim\u2019s inheritance goes directly to you. However, the church condemns
-    this practice as sinful, and your guilt will increase by 1.5\xD7. (Permanent
-    effect.) "
+  itemName: Prison Benefits
+  itemDescription: "Every prisoner victim\u2019s inheritance goes directly to you.
+    However, your guilt will increase by 1.5\xD7. (Permanent effect.) "
   price: 10
   selectItemEffect: 3
   permanent: 1

@@ -13,11 +13,9 @@ MonoBehaviour:
   m_Name: Deal
   m_EditorClassIdentifier: 
   itemSprite: {fileID: 21300000, guid: 7490ea53f8a1b714ebc026031342fa16, type: 3}
-  itemName: Deal
-  itemDescription: Overcrowded Profits Prisons are overflowing, and we know how to
-    turn tragedy into opportunity. With our prison program, every prisoner victim
-    killed earns you bonus gold on top of their inheritance, multiplied by the number
-    of prisoners killed. (Permanent effect.)
+  itemName: Help the Prison
+  itemDescription: Every prisoner victim killed earns you bonus gold on top of their
+    inheritance, multiplied by the number of prisoners killed. (Permanent effect.)
   price: 10
   selectItemEffect: 2
   permanent: 1

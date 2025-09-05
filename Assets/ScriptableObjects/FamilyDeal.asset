@@ -13,10 +13,9 @@ MonoBehaviour:
   m_Name: FamilyDeal
   m_EditorClassIdentifier: 
   itemSprite: {fileID: 21300000, guid: 13f0201eea5de174cadde0181d560f94, type: 3}
-  itemName: FamilyDeal
-  itemDescription: 'Blood Money Pay victims upfront to secure their silence and inheritance.
-    Survivors will also hand over their share, while you pocket gold from unchosen
-    victims. However, public guilt increases by 10%. (Permanent effect.) '
+  itemName: Make a Deal
+  itemDescription: 'Survivors will also hand over their share, however, public guilt
+    increases by 10%. (Permanent effect.) '
   price: 10
   selectItemEffect: 11
   permanent: 1
