@@ -72,7 +72,14 @@ public class ItemSO : ScriptableObject
                 囚人(身分)のシンボル：囚人(身分)の遺産と罪率が1.5倍増加する(永続)
                 DATA　は　int形だから　2倍にする
             */
-
+            if (GameManager.Instance.InheritanceSystem())
+            {
+                Debug.Log($"{selectItemEffect} success");
+            }
+            else
+            {
+                Debug.Log($"already used {selectItemEffect}");
+            }
         }
         else if (selectItemEffect == SelectItemEffect.Guarantee)
         {
