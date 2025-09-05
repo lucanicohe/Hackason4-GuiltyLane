@@ -161,6 +161,10 @@ public class GameManager : Singleton<GameManager>
     {
         _roundLevel++;
         Toll = TollArray[(int)_roundLevel];
+        if (_isFinancialExpertEffect)
+        {
+            Toll = Mathf.RoundToInt(Toll * 0.8f);
+        }
     }
 
     private void MainValue()
@@ -176,6 +180,11 @@ public class GameManager : Singleton<GameManager>
         //役職が右と左で同じじゃないようにする
         if (_RightHPD.SelectRole != _LeftHPD.SelectRole)
         {
+            if (_isGuaranteeEffect
+            && (RightHPD.SelectRole != "Prisoner" || LeftHPD.SelectRole != "Prisoner"))
+            {
+                return;
+            }
             DecidedMainValue = true;
             InitialiZationOfItem();
             ChooseDisguised = UnityEngine.Random.value < 0.5;
@@ -196,11 +205,11 @@ public class GameManager : Singleton<GameManager>
             {
                 if (_RightHPD.RoleID == 3)
                 {
-                    _RightHPD.TotalInheritance *= 2;
+                    _RightHPD.TotalInheritance = Mathf.RoundToInt(_RightHPD.TotalInheritance * 1.5f);
                 }
                 if (_LeftHPD.RoleID == 3)
                 {
-                    _RightHPD.TotalInheritance *= 2;
+                    _LeftHPD.TotalInheritance = Mathf.RoundToInt(_LeftHPD.TotalInheritance * 1.5f);
                 }
             }
             Debug.Log(JsonUtility.ToJson(_RightHPD, true));
@@ -209,7 +218,7 @@ public class GameManager : Singleton<GameManager>
     }
 
     private TeamBuilder.HitPersonData InitialiZationOfersonData(TeamBuilder.HitPersonData data)
-    {   
+    {
         data.SelectRoleToShow = data.SelectRole;
         data.PersonnumToShow = data.Personnum;
         data.TotalInheritanceToShow = data.TotalInheritance;
@@ -248,12 +257,16 @@ public class GameManager : Singleton<GameManager>
     }
 
     private void MainGame()
-    {
+    {   
+        var tempTotalGuiltyPercent = 0;
+        var tempTotalInheritance = 0;
         if (trainController._lastDirection == TrainController.Direction.Right)
         {
             Debug.Log("右確定");
             _TotalGuiltyPercent = _RightHPD.TotalGuiltyPercent;
             _TotalInheritance = _RightHPD.TotalInheritance;
+            tempTotalGuiltyPercent = _LeftHPD.TotalGuiltyPercent;
+            tempTotalInheritance = _LeftHPD.TotalInheritance;
             switch (_RightHPD.RoleID)
             {
                 case 0:
@@ -275,6 +288,8 @@ public class GameManager : Singleton<GameManager>
             Debug.Log("左確定");
             _TotalGuiltyPercent = _LeftHPD.TotalGuiltyPercent;
             _TotalInheritance = _LeftHPD.TotalInheritance;
+            tempTotalGuiltyPercent = _RightHPD.TotalGuiltyPercent;
+            tempTotalInheritance = _RightHPD.TotalInheritance;
             switch (_RightHPD.RoleID)
             {
                 case 0:
@@ -293,7 +308,7 @@ public class GameManager : Singleton<GameManager>
         }
         ++_problemCount;
         //人を引いたあとに処理する↓
-        SelectSide(_TotalGuiltyPercent, _TotalInheritance);
+        SelectSide(_TotalGuiltyPercent, _TotalInheritance ,tempTotalGuiltyPercent, tempTotalInheritance);
         Debug.Log($"problem:{_problemCount}");
         DecidedMainValue = false;
         Debug.Log($"gold:{Gold}guilty:{GuiltyPercent}");
@@ -301,10 +316,25 @@ public class GameManager : Singleton<GameManager>
         //これらの処理を1ラウンドに３回行う
     }
 
-    private void SelectSide(int TotalGuiltyPercent, int TotalInheritance)
+    private void SelectSide(int TotalGuiltyPercent, int TotalInheritance , int otherTotalGuiltyPercent, int otherTotalInheritance)
     {
-        GuiltyPercent += TotalGuiltyPercent;
-        Gold += TotalInheritance;
+        if (_isDefenseAttorneyEffect)
+        {
+            Gold += Mathf.RoundToInt(TotalInheritance * 1.2f);
+        }
+        else
+        {
+            Gold += TotalInheritance;
+        }
+        if (_isFamilyDealEffect)
+        {
+            Gold += otherTotalInheritance;
+            GuiltyPercent += Mathf.RoundToInt(TotalGuiltyPercent * 1.1f);
+        }
+        else
+        {
+            GuiltyPercent += TotalGuiltyPercent;
+        }
         ResultData.TotalGuiltyPercentEarned += TotalGuiltyPercent;
         ResultData.TotleGoldEarned += TotalInheritance;
 
@@ -379,11 +409,24 @@ public class GameManager : Singleton<GameManager>
     {
         _isOfficialIdentityHintEffect = false;
         _isOfficialNumberHintEffect = false;
+        _isGuaranteeEffect = false;
+        _isDefenseAttorneyEffect = false;
+        _isFinancialExpertEffect = false;
+        _isBlessingOfThePriestEffect = false;
+        _isChurchsBlessingEffect = false;
     }
     private bool _isOfficialIdentityHintEffect = false;
     private bool _isOfficialNumberHintEffect = false;
-    private bool _isDealEffect = false;
-    private bool _isInheritanceSystemEffect = false;
+    private bool _isDealEffect = false;//恒久効果
+    private bool _isInheritanceSystemEffect = false;//恒久効果
+    private bool _isGuaranteeEffect = false;
+    private bool _isDefenseAttorneyEffect = false;
+    private bool _isFinancialExpertEffect = false;
+    private bool _isBlessingOfThePriestEffect = false;
+    private bool _isChurchsBlessingEffect = false;
+    private bool _isFamilyDealEffect = false; //恒久効果
+
+
 
     public bool OfficialIdentityHint()
     {
@@ -426,6 +469,84 @@ public class GameManager : Singleton<GameManager>
         _isInheritanceSystemEffect = true;
         return true;
     }
+
+    public bool Guarantee()
+    {
+        if (_isGuaranteeEffect)
+        {
+            return false;
+        }
+        _isGuaranteeEffect = true;
+        return true;
+    }
+
+    public bool DefenseAttorney()
+    {
+        if (_isDefenseAttorneyEffect)
+        {
+            return false;
+        }
+        _isDefenseAttorneyEffect = true;
+        return true;
+    }
+
+    public bool FinancialExpert()
+    {
+        if (_isFinancialExpertEffect)
+        {
+            return false;
+        }
+        if (_problemCount != 3)
+        {
+            return false;
+        }
+        _isDefenseAttorneyEffect = true;
+        return true;
+    }
+
+    public bool BlessingOfThePriest()
+    {
+        if (_isBlessingOfThePriestEffect)
+        {
+            return false;
+        }
+        GuiltyPercent = Mathf.RoundToInt(GuiltyPercent / 2f);
+        _isBlessingOfThePriestEffect = true;
+        return true;
+    }
+
+    public bool ChurchsBlessing()
+    {
+        if (_isChurchsBlessingEffect)
+        {
+            return false;
+        }
+        if (GuiltyPercent <= 50)
+        {
+            return false;
+        }
+        _isChurchsBlessingEffect = true;
+        GuiltyPercent = 0;
+        return true;
+    }
+
+    public bool PapalAmnesty()
+    {
+        var temp = Mathf.RoundToInt(GuiltyPercent * 0.9f);
+        if (temp <= 0)
+        {
+            return false;
+        }
+        GuiltyPercent = temp;
+        return true;
+    }
+
+    public bool FamilyDeal()
+    {
+        return false;
+    }
+
+
     #endregion
 }
 
