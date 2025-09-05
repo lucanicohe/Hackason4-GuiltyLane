@@ -121,6 +121,7 @@ public class ItemSO : ScriptableObject
 
                 （手錠：全ての身分の遺産が(一時的に増えた場合でも)減らなくなる(永続)）
             */
+            
         }
         else if (selectItemEffect == SelectItemEffect.FinancialExpert)
         {
