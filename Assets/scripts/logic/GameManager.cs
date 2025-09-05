@@ -10,7 +10,7 @@ public class GameManager : Singleton<GameManager>
     TextMeshProUGUI _goldGuiltText;
     [SerializeField]
     TextMeshProUGUI _tollForkText;
-
+    [SerializeField]
     public static bool ChooseDisguised;
 
     private TeamBuilder.HitPersonData _RightHPD;
@@ -140,6 +140,7 @@ public class GameManager : Singleton<GameManager>
     }
 
     public RoundLevel _roundLevel = RoundLevel.First;
+    //ラウンド
 
     void Update()
     {
@@ -162,8 +163,7 @@ public class GameManager : Singleton<GameManager>
     private void GoldAndGuiltTextUpdate() {
         _goldGuiltText.text = $"Gold : {(GoldForShow == BE_DISGUISED_INT ? BE_DISGUISED_STRING : GoldForShow)}\nGuilt : {(GuiltyPercentForShow == BE_DISGUISED_INT ? BE_DISGUISED_STRING : GuiltyPercentForShow)}%";
         _tollForkText.text = $"Toll\n{Toll}\n\nFork\n{(int)_roundLevel}-{_problemCount}";
-    }
-    
+    }  
 
     /// <summary>
     /// ラウンドを変える処理・一定のgoldが溜まっているなら通れる
@@ -186,8 +186,15 @@ public class GameManager : Singleton<GameManager>
         }
         //右の人の役職、人数を決める-->ok
         //左の人の役職、人数を決める-->ok
+        if (DecidedMainValue)
+        {
+            return;
+        }
+        //右の人の役職、人数を決める-->ok
+        //左の人の役職、人数を決める-->ok
         _RightHPD = teamBuilder.TeamBuild();
         _LeftHPD = teamBuilder.TeamBuild();
+        //役職が右と左で同じじゃないようにする
         //役職が右と左で同じじゃないようにする
         if (_RightHPD.SelectRole != _LeftHPD.SelectRole)
         {
@@ -227,7 +234,6 @@ public class GameManager : Singleton<GameManager>
             Debug.Log(JsonUtility.ToJson(_LeftHPD, true));
         }
     }
-
     private TeamBuilder.HitPersonData InitialiZationOfersonData(TeamBuilder.HitPersonData data)
     {
         data.SelectRoleToShow = data.SelectRole;
@@ -238,6 +244,7 @@ public class GameManager : Singleton<GameManager>
     }
     private TeamBuilder.HitPersonData DisguisedPersonData(TeamBuilder.HitPersonData data)
     {
+        data = InitialiZationOfersonData(data);
         data = InitialiZationOfersonData(data);
         switch (_roundLevel)
         {
@@ -360,11 +367,33 @@ public class GameManager : Singleton<GameManager>
         ResultData.TotleGoldEarned += TotalInheritance;
 
         //ラウンド内のMainGameの処理を３回行ったら
+        //ラウンド内のMainGameの処理を３回行ったら
         if (GuiltyPercent >= 100)
         {
             HandleGameOver(false);
             return;
         }
+        if (_problemCount > 3)
+        {
+            if (Gold - Toll < 0)
+            {
+                HandleGameOver(false);
+                return;
+            }
+            else
+            {
+                Gold -= Toll;
+                Gold += Salary;
+                ResultData.TotleGoldEarned += Salary;
+                ResultData.TotalTollPayed += Toll;
+            }
+            //３回行ったら、ショップに行ってアイテムを買う/使う
+            //ラウンドが進む
+            ChangeRound();
+            Debug.Log($"ラウンド：{_roundLevel}");
+            _problemCount = 1;
+        }
+        GoldAndGuiltTextUpdate();
         if (_problemCount > 3)
         {
             if (Gold - Toll < 0)
@@ -395,6 +424,7 @@ public class GameManager : Singleton<GameManager>
     [SerializeField] private InventoryManager _inventoryManager;
     [SerializeField] private TMP_Text _shopCountdownText;
     [SerializeField] private float _shopOpenTime = 30;
+
     private IEnumerator ShopSequenceCoroutine()
     {
         if (_shopAlertImage != null) _shopAlertImage.SetActive(true);
@@ -453,10 +483,20 @@ public class GameManager : Singleton<GameManager>
         {
             Debug.Log("ゲームオーバー");
         }
+        if (isGameClear)
+        {
+            Debug.Log("ゲームクリア");
+        }
+        else
+        {
+            Debug.Log("ゲームオーバー");
+        }
         _speedzero = true;
         AudioManager.Instance.StopAllBGM();
         AudioManager.Instance.StopAllSE();
         ResultData.RoundLevel = _roundLevel;
+        ResultData.problemCount = _problemCount;
+        fade.FadeIn(2, () => { SceneManager.LoadScene("ResultScene"); });
         ResultData.problemCount = _problemCount;
         fade.FadeIn(2, () => { SceneManager.LoadScene("ResultScene"); });
     }
@@ -487,8 +527,6 @@ public class GameManager : Singleton<GameManager>
     private bool _isFamilyDealEffect = false; //恒久効果
     private bool _isCollectorEffect = false; //恒久効果
     private bool _isInvestmentEffect = false;
-
-
 
     public bool OfficialIdentityHint()
     {
@@ -631,16 +669,19 @@ public class GameManager : Singleton<GameManager>
             _isInvestmentEffect = true;
             return true;
         }
-        return false;
+        if (_isFamilyDealEffect)
+        {
+            return false;
+        }
+        _isFamilyDealEffect = true;
+        return true;
     }
-
     public int GoldLoan(int price)
     {
         price = Mathf.RoundToInt(price * Random.Range(0.8f, 1.5f));
         Gold += price;
         return price;
     }
-
     #endregion
 }
 
@@ -656,3 +697,4 @@ public static class ResultData
     public static int problemCount = 0;
     public static int TotalTollPayed = 0;
 }
+
