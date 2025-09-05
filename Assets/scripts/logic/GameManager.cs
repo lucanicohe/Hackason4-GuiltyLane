@@ -143,6 +143,7 @@ public class GameManager : Singleton<GameManager>
 
     void Update()
     {
+        GoldAndGuiltTextUpdate();
         if (_roundLevel == RoundLevel.ToEnd)
         {
             HandleGameOver(true);
@@ -157,6 +158,12 @@ public class GameManager : Singleton<GameManager>
         }
         // ここの処理は、人を引いたあとに行う
     }
+
+    private void GoldAndGuiltTextUpdate() {
+        _goldGuiltText.text = $"Gold : {(GoldForShow == BE_DISGUISED_INT ? BE_DISGUISED_STRING : GoldForShow)}\nGuilt : {(GuiltyPercentForShow == BE_DISGUISED_INT ? BE_DISGUISED_STRING : GuiltyPercentForShow)}%";
+        _tollForkText.text = $"Toll\n{Toll}\n\nFork\n{(int)_roundLevel}-{_problemCount}";
+    }
+    
 
     /// <summary>
     /// ラウンドを変える処理・一定のgoldが溜まっているなら通れる
@@ -374,11 +381,8 @@ public class GameManager : Singleton<GameManager>
             Debug.Log($"ラウンド：{_roundLevel}");
             _problemCount = 1;
         }
-        _goldGuiltText.text = $"Gold : {(GoldForShow == BE_DISGUISED_INT ? BE_DISGUISED_STRING : GoldForShow)}\nGuilt : {(GuiltyPercentForShow == BE_DISGUISED_INT ? BE_DISGUISED_STRING : GuiltyPercentForShow)}%";
-        _tollForkText.text = $"Toll\n{Toll}\n\nFork\n{(int)_roundLevel}-{_problemCount}";
-
+        GoldAndGuiltTextUpdate();
         StartCoroutine(ShopSequenceCoroutine());
-
     }
 
     [Header("Shop")]
@@ -432,8 +436,7 @@ public class GameManager : Singleton<GameManager>
     }
     void Start()
     {
-        _goldGuiltText.text = $"Gold  : {GoldForShow}\nGuilt : {GuiltyPercentForShow}%";
-        _tollForkText.text = $"Toll\n{Toll}\n\nFork\n{(int)_roundLevel}-{_problemCount}";
+        GoldAndGuiltTextUpdate();
     }
 
     private void HandleGameOver(bool isGameClear)
