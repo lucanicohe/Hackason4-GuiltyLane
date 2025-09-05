@@ -120,7 +120,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 152cea20cff3f4ec59693ac366453df1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _destroyTime: 30
   _bloodPrefab: {fileID: 2892909952877664613, guid: 2ae2600eb39cd425bb9ac1a1f0ad3b33, type: 3}
 --- !u!1 &6338758513907517407
 GameObject:
