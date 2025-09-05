@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Data.Common;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -22,15 +23,16 @@ public class GameManager : Singleton<GameManager>
                 || _roundLevel == RoundLevel.Fifth
                 || _roundLevel == RoundLevel.Sixth)
             {
+                TeamBuilder.HitPersonData data = DisguisedPersonData(_RightHPD);
                 if (_isOfficialIdentityHintEffect && ChooseDisguised)
                 {
-                    _RightHPD.SelectRoleToShow = _RightHPD.SelectRole;
+                    data.SelectRoleToShow = data.SelectRole;
                 }
                 if (_isOfficialNumberHintEffect && ChooseDisguised)
                 {
-                    _RightHPD.PersonnumToShow = _RightHPD.Personnum;
+                    data.PersonnumToShow = data.Personnum;
                 }
-                return DisguisedPersonData(_RightHPD);
+                return data;
             }
             return _RightHPD;
         }
@@ -45,15 +47,16 @@ public class GameManager : Singleton<GameManager>
                 || _roundLevel == RoundLevel.Fifth
                 || _roundLevel == RoundLevel.Sixth)
             {
-                if (_isOfficialIdentityHintEffect && !ChooseDisguised)
+                TeamBuilder.HitPersonData data = DisguisedPersonData(_LeftHPD);
+                if (_isOfficialIdentityHintEffect && ChooseDisguised)
                 {
-                    _LeftHPD.SelectRoleToShow = _LeftHPD.SelectRole;
+                    data.SelectRoleToShow = data.SelectRole;
                 }
-                if (_isOfficialNumberHintEffect && !ChooseDisguised)
+                if (_isOfficialNumberHintEffect && ChooseDisguised)
                 {
-                    _RightHPD.PersonnumToShow = _RightHPD.Personnum;
+                    data.PersonnumToShow = data.Personnum;
                 }
-                return DisguisedPersonData(_LeftHPD);
+                return data;
             }
             return _LeftHPD;
         }
@@ -206,7 +209,8 @@ public class GameManager : Singleton<GameManager>
     }
 
     private TeamBuilder.HitPersonData InitialiZationOfersonData(TeamBuilder.HitPersonData data)
-    {
+    {   
+        data.SelectRoleToShow = data.SelectRole;
         data.PersonnumToShow = data.Personnum;
         data.TotalInheritanceToShow = data.TotalInheritance;
         data.TotalGuiltyPercentToShow = data.TotalGuiltyPercent;
