@@ -1874,12 +1874,12 @@ MonoBehaviour:
   trainController: {fileID: 1212175751}
   fade: {fileID: 1543738132}
   _speedzero: 0
-  Gold: 0
+  Gold: 100
   GuiltyPercent: 0
   Salary: 12
   Toll: 15
   _confirm: 0
-  _roundLevel: 1
+  _roundLevel: 2
 --- !u!4 &670250156
 Transform:
   m_ObjectHideFlags: 0
@@ -10736,7 +10736,7 @@ MonoBehaviour:
   - {fileID: 5264528840726348891}
   - {fileID: 7837547229442391868}
   - {fileID: 5764481489769283972}
-  itemSlotCurrentSelectItemName: 
+  currentSelectedSlot: {fileID: 0}
   itemSOs:
   - {fileID: 11400000, guid: 02372b3819fb57c42833b27f48105216, type: 2}
   - {fileID: 11400000, guid: 7f4c2e19d706cbb4da67063e289dbcdd, type: 2}
