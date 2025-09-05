@@ -31,7 +31,7 @@ public class TrainController : MonoBehaviour
     [SerializeField] private AudioSource _stop;
 
     private bool _camera01Toggled = false;
-    private bool _camera02Toggled = false;
+    // private bool _camera02Toggled = false;
     private Coroutine _cameraTransitionCoroutine;
     private Coroutine _TrainCoroutine;
 
@@ -105,16 +105,16 @@ public class TrainController : MonoBehaviour
             Vector3 targetLocalPos = _camera01Toggled ? _camera2LocalPostion : _camera1LocalPostion;
             _cameraTransitionCoroutine = StartCoroutine(TransitionCameraPosition(targetLocalPos, 0.5f));
         }
-        if (Input.GetKeyDown(KeyCode.P) || GameManager.Instance._speedzero)
-        {
-            _camera02Toggled = !_camera02Toggled;
+        // if (Input.GetKeyDown(KeyCode.E) || GameManager.Instance._speedzero)
+        // {
+        //     _camera02Toggled = !_camera02Toggled;
 
-            if (_cameraTransitionCoroutine != null)
-                StopCoroutine(_cameraTransitionCoroutine);
+        //     if (_cameraTransitionCoroutine != null)
+        //         StopCoroutine(_cameraTransitionCoroutine);
 
-            Vector3 targetLocalPos = _camera02Toggled ? _camera3LocalPostion : _camera1LocalPostion;
-            _cameraTransitionCoroutine = StartCoroutine(TransitionCameraPosition(targetLocalPos, 0.5f));
-        }
+        //     Vector3 targetLocalPos = _camera02Toggled ? _camera3LocalPostion : _camera1LocalPostion;
+        //     _cameraTransitionCoroutine = StartCoroutine(TransitionCameraPosition(targetLocalPos, 0.5f));
+        // }
 
         // Zoom out with mouse click only if zoomed in (except Display 3 which uses exit buttons)
         if (_isZoomedIn && Input.GetMouseButtonDown(0) && (_exitZoomButtonsParent == null || !_exitZoomButtonsParent.activeSelf))
