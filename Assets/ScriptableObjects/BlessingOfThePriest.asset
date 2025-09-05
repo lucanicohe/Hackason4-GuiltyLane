@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: BlessingOfThePriest
   m_EditorClassIdentifier: 
   itemSprite: {fileID: 21300000, guid: 790b8580a31b20a4eb49ffcfabd079a0, type: 3}
-  itemName: Priest's Blessing
+  itemName: BlessingOfThePriest
   itemDescription: Your guilt is cut in half during the next trial.
   price: 10
   selectItemEffect: 8

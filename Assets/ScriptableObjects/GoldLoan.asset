@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: GoldLoan
   m_EditorClassIdentifier: 
   itemSprite: {fileID: 21300000, guid: 9ecb1f2852541e64e81263abd5b61a4a, type: 3}
-  itemName: Gold Loan
+  itemName: GoldLoan
   itemDescription: "Gain 0.8\u20131.5\xD7 the purchase price in gold. (One-time use.)"
   price: 10
   selectItemEffect: 14

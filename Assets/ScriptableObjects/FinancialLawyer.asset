@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: FinancialLawyer
   m_EditorClassIdentifier: 
   itemSprite: {fileID: 21300000, guid: 7b4e17daba032a74cbb8520d3b6bf59b, type: 3}
-  itemName: Lawyer
+  itemName: FinancialLawyer
   itemDescription: Once inheritance is increased, it can never decrease, even if
     conditions change. (Permanent effect.)
   price: 10

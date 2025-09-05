@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: OfficialIdentityHint
   m_EditorClassIdentifier: 
   itemSprite: {fileID: 21300000, guid: bf4cc8e31fd0ec040bf8e03a702a140a, type: 3}
-  itemName: Identity Hint
+  itemName: OfficialIdentityHint
   itemDescription: 'Obtain verified data: Reveal one of the victims from the choices
     (1 time). '
   price: 10

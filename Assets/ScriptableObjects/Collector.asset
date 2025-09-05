@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Collector
   m_EditorClassIdentifier: 
   itemSprite: {fileID: 21300000, guid: bef5bfdb8a99b184b8873ab2a2b0dde2, type: 3}
-  itemName: Debt Collector
+  itemName: Collector
   itemDescription: The higher your guilt, the more inheritance gained. ( Permanent
     effect.)
   price: 10
