@@ -22,6 +22,11 @@ public class DominoStraight : MonoBehaviour
     [SerializeField] private GameObject _noblePrefab;
     [SerializeField] private GameObject _ConfirmfalsePrefab;
 
+    private AudioSource _typingAudio;
+    private AudioSource _typingEndAudio;
+    
+    
+
     private bool _spawnedNext;
     private static int _globalStraightCount;
     private Transform _player;
@@ -32,6 +37,10 @@ public class DominoStraight : MonoBehaviour
 
     private void Start()
     {
+        _typingAudio = GameObject.FindGameObjectWithTag("Typing")?.GetComponent<AudioSource>();
+        _typingEndAudio = GameObject.FindGameObjectWithTag("TypingEnd")?.GetComponent<AudioSource>();
+
+
         _player = GameObject.FindGameObjectWithTag("Player").transform;
         _trackText = GameObject.FindGameObjectWithTag("TrackText")?.GetComponent<TextMeshProUGUI>();
         _trackText.color = Color.green;
@@ -127,13 +136,17 @@ public class DominoStraight : MonoBehaviour
     private IEnumerator TypewriterEffect(TextMeshProUGUI textComponent, string fullText, float delay)
     {
         textComponent.text = "";
+        
         foreach (char c in fullText)
         {
-            AudioManager.Instance.PlaySE(AudioManager.SEType.キーボード1,0.4f);
+            //AudioManager.Instance.PlaySE(AudioManager.SEType.キーボード1,0.4f);
             textComponent.text += c;
+            if (_typingAudio != null) 
+            _typingAudio.Play(); 
             yield return new WaitForSeconds(delay);
         }
-        AudioManager.Instance.PlaySE(AudioManager.SEType.キーボード2,0.4f);
+        if (_typingEndAudio != null) _typingEndAudio.Play();
+        //AudioManager.Instance.PlaySE(AudioManager.SEType.キーボード2,0.4f);
     }
 
     private void Update()
