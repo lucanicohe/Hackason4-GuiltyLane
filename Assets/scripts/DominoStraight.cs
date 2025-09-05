@@ -91,7 +91,7 @@ public class DominoStraight : MonoBehaviour
         {
             var teamA = GameManager.Instance.RightHPD;
             var teamB = GameManager.Instance.LeftHPD;
-            GameManager.Instance._speedzero = true; //TrainController._currentSpeedを0にする
+            //GameManager.Instance._speedzero = true; //TrainController._currentSpeedを0にする
 
             string teamAText =
                 "processing...\n\nRIGHT\nRole: " + teamA.SelectRoleToShow +
