@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 7828780511877995577}
   m_Layer: 0
   m_Name: Prisoner
-  m_TagString: Untagged
+  m_TagString: Peoples
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

@@ -167,11 +167,10 @@ public class DominoStraight : MonoBehaviour
             );
 
             Instantiate(prefabToSpawn, basePos + randomOffset, Quaternion.identity);
-            if (i == team.Personnum)
+            if (i == team.Personnum -1)
             {
                 Instantiate(_ConfirmfalsePrefab, basePos, Quaternion.identity);
             }
         }
-
     }
 }
