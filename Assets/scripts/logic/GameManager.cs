@@ -1,5 +1,6 @@
 using System.Collections;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 public class GameManager : Singleton<GameManager>
@@ -102,7 +103,12 @@ public class GameManager : Singleton<GameManager>
     //給料
     public int Salary = 12;
     //通行料
-    public int Toll = 15;
+    public int Toll {
+        get
+        {
+            return TollArray[(int)_roundLevel];
+        }
+        private set { } }
     //ラウンドごとの給料
     private int[] TollArray = new int[] { 0, 15, 30, 60, 100, 150, 200 };
 
@@ -373,7 +379,7 @@ public class GameManager : Singleton<GameManager>
         _tollForkText.text = $"Toll\n{Toll}\n\nFork\n{(int)_roundLevel}-{_problemCount}";
 
         StartCoroutine(ShopSequenceCoroutine());
-        
+
     }
 
     private IEnumerator ShopSequenceCoroutine()
