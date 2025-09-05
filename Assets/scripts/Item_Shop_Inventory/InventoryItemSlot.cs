@@ -16,6 +16,7 @@ public class InventoryItemSlot : MonoBehaviour, IPointerClickHandler
     public int quantity;
     public Sprite itemSprite;
     public string itemDescription;
+    public bool permanent;
 
     [SerializeField] private int _maxNumberOfItems;
 
@@ -48,6 +49,8 @@ public class InventoryItemSlot : MonoBehaviour, IPointerClickHandler
         this.itemSprite = itemSprite;
         _itemImage.sprite = itemSprite;
 
+        // Update Permanent
+
         // Update Description
         this.itemDescription = itemDescription;
 
@@ -69,6 +72,26 @@ public class InventoryItemSlot : MonoBehaviour, IPointerClickHandler
         _quantityText.enabled = true;
 
         return 0;
+    }
+
+    public void AddPermanentItem(string itemName, Sprite itemSprite, string itemDescription, bool permanent)
+    {
+        //Check to see if the slot is already full
+        if (isFull) return;
+
+        // Update Name
+        this.itemName = itemName;
+
+        // Update Image
+        this.itemSprite = itemSprite;
+        _itemImage.sprite = itemSprite;
+
+        // Update Description
+        this.itemDescription = itemDescription;
+
+        this.quantity = 1;
+        this.permanent = permanent;
+        isFull = true;     
     }
 
     public void OnPointerClick(PointerEventData eventData)

@@ -2,15 +2,18 @@ using UnityEngine;
 
 public class GameInstructionController : MonoBehaviour
 {
-    [SerializeField] private GameObject InstructionImage;
-    void Awake()
+    [SerializeField] private GameObject _instructionImage;
+
+    void Start()
     {
-        Time.timeScale = 0;
+        
+        _instructionImage.SetActive(true);
+        Time.timeScale = 0f; 
     }
 
     public void StartMainGame()
     {
-        Time.timeScale = 1;
-        InstructionImage.SetActive(false);
+        Time.timeScale = 1f; 
+        _instructionImage.SetActive(false);
     }
 }

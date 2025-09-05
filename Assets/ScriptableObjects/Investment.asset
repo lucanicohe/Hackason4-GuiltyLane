@@ -14,7 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemSprite: {fileID: 21300000, guid: 9ced7abf99036214981978e15d237776, type: 3}
   itemName: Investment
-  itemDescription: "High-Risk Gamble Enter our risky venture: a 10% chance to make
-    your inheritance skyrocket to 5\xD7. (One-time use.)"
+  itemDescription: "Enter our risky venture: a 10% chance to make your inheritance
+    skyrocket to 5\xD7. (One-time use.)"
   price: 10
   selectItemEffect: 13
+  permanent: 0

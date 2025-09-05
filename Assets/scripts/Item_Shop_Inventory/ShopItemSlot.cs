@@ -16,7 +16,8 @@ public class ShopItemSlot : MonoBehaviour, IPointerClickHandler
     public int quantity = 1;
     public Sprite itemSprite;
     public string itemDescription;
-    [SerializeField,Header("Settings")] private ItemSO[] _itemSoElements;
+    public bool permanent;
+    [SerializeField, Header("Settings")] private ItemSO[] _itemSoElements;
     [SerializeField] private SelectItem _selectedItem = new SelectItem();
 
     private enum SelectItem
@@ -69,6 +70,7 @@ public class ShopItemSlot : MonoBehaviour, IPointerClickHandler
                 itemSprite = item.itemSprite;
                 itemDescription = item.itemDescription;
                 _itemImage.sprite = item.itemSprite;
+                permanent = item.permanent;
                 break;
             }
         }

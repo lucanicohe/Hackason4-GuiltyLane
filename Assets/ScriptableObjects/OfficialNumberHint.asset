@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemSprite: {fileID: 21300000, guid: 5961c66a8bdfaff40a30ced14f028b54, type: 3}
   itemName: OfficialNumberHint
-  itemDescription: 'The government of Lemuria by authorization of the church allows
-    you to obtain verified data: Reveal the number of one of the victims from the
-    choices (1 time).'
+  itemDescription: 'Obtain verified data: Reveal the number of one of the victims
+    from the choices (1 time).'
   price: 10
   selectItemEffect: 1
+  permanent: 0

@@ -23,6 +23,15 @@ public class ItemSO : ScriptableObject
                 （ 「1回のみ使用可能、※使用後は再購入が必要です。」と書いてあったが、
                 面倒であれば無しでよいし、この内容が本当に必要か要相談。
             */
+            if (GameManager.Instance.OfficialIdentityHint())
+            {
+                Debug.Log($"{selectItemEffect} success");
+            }
+            else
+            {
+                Debug.Log($"{selectItemEffect} failed , no object to effect");
+            }
+
         }
         else if (selectItemEffect == SelectItemEffect.OfficialNumberHint)
         {
@@ -31,6 +40,15 @@ public class ItemSO : ScriptableObject
                 選択肢の中から1人の犠牲者の番号(人数？)を明らかにする
                 （1回のみ使用可能 <-- 同上）
             */
+            if (GameManager.Instance.OfficialNumberHint())
+            {
+                Debug.Log($"{selectItemEffect} success");
+            }
+            else
+            {
+                Debug.Log($"{selectItemEffect} failed , no object to effect");
+            }
+
         }
         else if (selectItemEffect == SelectItemEffect.Deal)
         {
@@ -38,6 +56,14 @@ public class ItemSO : ScriptableObject
             /*
                 囚人(身分)は囚人(身分)の人数分だけ遺産が増える(永続)
             */
+            if (GameManager.Instance.Deal())
+            {
+                Debug.Log($"{selectItemEffect} success");
+            }
+            else
+            {
+                Debug.Log($"already used {selectItemEffect}");
+            }
         }
         else if (selectItemEffect == SelectItemEffect.InheritanceSystem)
         {
@@ -45,6 +71,14 @@ public class ItemSO : ScriptableObject
             /*
                 囚人(身分)のシンボル：囚人(身分)の遺産と罪率が1.5倍増加する(永続)
             */
+            if (GameManager.Instance.InheritanceSystem())
+            {
+                Debug.Log($"{selectItemEffect} success");
+            }
+            else
+            {
+                Debug.Log($"already used {selectItemEffect}");
+            }
         }
         else if (selectItemEffect == SelectItemEffect.Guarantee)
         {
@@ -52,6 +86,14 @@ public class ItemSO : ScriptableObject
             /*
                 次のラウンドで必ず囚人(身分)がでる。
             */
+            if (GameManager.Instance.Guarantee())
+            {
+                Debug.Log($"{selectItemEffect} success");
+            }
+            else
+            {
+                Debug.Log($"already used {selectItemEffect}");
+            }
         }
         else if (selectItemEffect == SelectItemEffect.DefenseAttorney)
         {
@@ -61,6 +103,14 @@ public class ItemSO : ScriptableObject
 
                 次のラウンドで得られる遺産が20%増える
             */
+            if (GameManager.Instance.DefenseAttorney())
+            {
+                Debug.Log($"{selectItemEffect} success");
+            }
+            else
+            {
+                Debug.Log($"already used {selectItemEffect}");
+            }
         }
         else if (selectItemEffect == SelectItemEffect.FinancialLawyer)
         {
@@ -76,8 +126,16 @@ public class ItemSO : ScriptableObject
         {
             Debug.Log($"Player used {selectItemEffect}");
             /*
-                虫眼鏡：次のラウンドで得られる遺産が20%増える
+                虫眼鏡：次のラウンドの通行料が20%減る
             */
+            if (GameManager.Instance.FinancialExpert())
+            {
+                Debug.Log($"{selectItemEffect} success");
+            }
+            else
+            {
+                Debug.Log($"already used {selectItemEffect} or not time to pay toll");
+            }
         }
         else if (selectItemEffect == SelectItemEffect.BlessingOfThePriest)
         {
@@ -85,6 +143,14 @@ public class ItemSO : ScriptableObject
             /*
                 次のラウンドでは罪率が半減される
             */
+            if (GameManager.Instance.BlessingOfThePriest())
+            {
+                Debug.Log($"{selectItemEffect} success");
+            }
+            else
+            {
+                Debug.Log($"already used {selectItemEffect}");
+            }
         }
         else if (selectItemEffect == SelectItemEffect.ChurchsBlessing)
         {
@@ -92,6 +158,14 @@ public class ItemSO : ScriptableObject
             /*
                 選択によって公の罪悪感が50%以上急上昇する場合、教会が介入し罪悪感を0にリセットします。（1回のみ使用）
             */
+            if (GameManager.Instance.ChurchsBlessing())
+            {
+                Debug.Log($"{selectItemEffect} success");
+            }
+            else
+            {
+                Debug.Log($"already used {selectItemEffect} or GuiltyPercent <= 50");
+            }
         }
         else if (selectItemEffect == SelectItemEffect.PapalAmnesty)
         {
@@ -99,6 +173,14 @@ public class ItemSO : ScriptableObject
             /*
                 教皇の恩赦により、現在の罪悪感が10%減少します。
             */
+            if (GameManager.Instance.PapalAmnesty())
+            {
+                Debug.Log($"{selectItemEffect} success");
+            }
+            else
+            {
+                Debug.Log($"GuiltyPercent is to low");
+            }
         }
         else if (selectItemEffect == SelectItemEffect.FamilyDeal)
         {
@@ -107,6 +189,14 @@ public class ItemSO : ScriptableObject
                 犠牲者に前払いして沈黙と相続を確保します。生存者も自分の取り分を渡し、
                 選ばれなかった犠牲者からはゴールドを得られます。ただし、公の罪悪感は10%増加します。（恒久効果）
             */
+            if (GameManager.Instance.FamilyDeal())
+            {
+                Debug.Log($"{selectItemEffect} success");
+            }
+            else
+            {
+                Debug.Log($"already used {selectItemEffect}");
+            }
         }
         else if (selectItemEffect == SelectItemEffect.Collector)
         {
@@ -115,6 +205,14 @@ public class ItemSO : ScriptableObject
                 コレクターが犠牲者から1コインずつ絞り取ります。
                 犯罪率が高いほど、相続から得られる金額も増えます。（相続増加は犯罪率に依存。恒久効果）
             */
+            if (GameManager.Instance.Collector())
+            {
+                Debug.Log($"{selectItemEffect} success");
+            }
+            else
+            {
+                Debug.Log($"already used {selectItemEffect}");
+            }
         }
         else if (selectItemEffect == SelectItemEffect.Investment)
         {
@@ -122,6 +220,14 @@ public class ItemSO : ScriptableObject
             /*
                 危険な事業に参加します：相続が5倍になる確率は10%です。（1回のみ使用）
             */
+            if (GameManager.Instance.Investment())
+            {
+                Debug.Log($"{selectItemEffect} success");
+            }
+            else
+            {
+                Debug.Log($"{selectItemEffect} fail");
+            }
         }
         else if (selectItemEffect == SelectItemEffect.GoldLoan)
         {
@@ -129,6 +235,8 @@ public class ItemSO : ScriptableObject
             /*
                 怪しい利率で迅速なローンを受けます。購入価格の0.8〜1.5倍のゴールドを得られます。（1回のみ使用）
             */
+            var profit = GameManager.Instance.GoldLoan(price);
+            Debug.Log($"{selectItemEffect} success, you earn {profit}");
         }
 
     }

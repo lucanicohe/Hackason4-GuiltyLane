@@ -1,27 +1,35 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.EventSystems;
 
 public class InventoryManager : MonoBehaviour
 {
-    [SerializeField] private GameObject _inventory;
-    [SerializeField] private GameObject _goldAndGuilt;
-    [SerializeField, Header("Item Slot List")] public InventoryItemSlot[] inventoryItemSlot;
+    [SerializeField] private GameObject _inventory;      // The inventory panel
+    [SerializeField, Header("Item Slot List")] public InventoryItemSlot[] inventoryItemSlots;
+    [SerializeField] public InventoryItemSlot[] permanentInventoryItemSlots;
 
-    private bool _inventoryActivated;
-    private bool _goldAndGuiltActivated;
     public InventoryItemSlot currentSelectedSlot;
 
     [SerializeField, Header("ItemSOs")] public ItemSO[] itemSOs;
+
+    // Public property to show/hide inventory
+    public bool InventoryActive
+    {
+        get => _inventory.activeSelf;
+        set
+        {
+            if (_inventory != null) _inventory.SetActive(value);
+        }
+    }
 
     public int AddItem(string itemName, int quantity, Sprite itemSprite, string itemDescription)
     {
         int remaining = quantity;
 
-        for (int i = 0; i < inventoryItemSlot.Length; i++)
+        // Try adding to existing slots first
+        for (int i = 0; i < inventoryItemSlots.Length; i++)
         {
-            var slot = inventoryItemSlot[i];
+            var slot = inventoryItemSlots[i];
             if (slot.itemName == itemName && !slot.isFull)
             {
                 remaining = slot.AddItem(itemName, remaining, itemSprite, itemDescription);
@@ -29,9 +37,10 @@ public class InventoryManager : MonoBehaviour
             }
         }
 
-        for (int i = 0; i < inventoryItemSlot.Length; i++)
+        // Add to empty slots
+        for (int i = 0; i < inventoryItemSlots.Length; i++)
         {
-            var slot = inventoryItemSlot[i];
+            var slot = inventoryItemSlots[i];
             if (slot.itemName == "" || slot.quantity == 0)
             {
                 remaining = slot.AddItem(itemName, remaining, itemSprite, itemDescription);
@@ -42,59 +51,66 @@ public class InventoryManager : MonoBehaviour
         return remaining;
     }
 
+public void AddPermanentItem(string itemName, Sprite itemSprite, string itemDescription, bool permanent)
+{
+    for (int i = 0; i < permanentInventoryItemSlots.Length; i++)
+    {
+        var slot = permanentInventoryItemSlots[i];
+        if (slot.itemName == itemName)
+        {
+            slot.AddPermanentItem(itemName, itemSprite, itemDescription, permanent);
+            return;
+        }
+    }
+
+    for (int i = 0; i < permanentInventoryItemSlots.Length; i++)
+    {
+        var slot = permanentInventoryItemSlots[i];
+        if (string.IsNullOrEmpty(slot.itemName))
+        {
+            slot.AddPermanentItem(itemName, itemSprite, itemDescription, permanent);
+            return;
+        }
+    }
+}
+
+
     public void OnUseItem()
     {
-        Debug.Log("OnUseItem");
         if (currentSelectedSlot == null) return;
-
-        for (int i = 0; i < itemSOs.Length; i++)
+        foreach (var itemSO in itemSOs)
         {
-            if (itemSOs[i].itemName == currentSelectedSlot.itemName)
+            if (itemSO.itemName == currentSelectedSlot.itemName)
             {
-                itemSOs[i].UseItem();
-
-                currentSelectedSlot.ReduceQuantity(1);
+                itemSO.UseItem();
+                if (!currentSelectedSlot.permanent)
+                {
+                    currentSelectedSlot.ReduceQuantity(1);
+                }
+                else
+                {
+                    Debug.Log("This item is permanent.");
+                }
             }
         }
     }
 
-
-    void Start()
+    private void Start()
     {
-        _inventory.SetActive(false);
-        _inventoryActivated = false;
-        _goldAndGuilt.SetActive(true);
-        _goldAndGuiltActivated = true;
-    }
-
-    void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.E) && !_inventoryActivated)
-        {
-            if (_goldAndGuiltActivated)
-            {
-                _goldAndGuilt.SetActive(false);
-                _goldAndGuiltActivated = false;
-            }
-            _inventory.SetActive(true);
-            _inventoryActivated = true;
-        }
-        else if (Input.GetKeyDown(KeyCode.E) && _inventoryActivated)
-        {
-            _inventory.SetActive(false);
-            _inventoryActivated = false;
-
-            _goldAndGuilt.SetActive(true);
-            _goldAndGuiltActivated = true;
-        }
+        if (_inventory != null) _inventory.SetActive(true);
     }
 
     public void DeselectAllSlots()
     {
-        for (int i = 0; i < inventoryItemSlot.Length; i++)
+        for (int i = 0; i < inventoryItemSlots.Length; i++)
         {
-            inventoryItemSlot[i].selectedShader.SetActive(false);
-            inventoryItemSlot[i].thisItemSelected = false;
+            inventoryItemSlots[i].selectedShader.SetActive(false);
+            inventoryItemSlots[i].thisItemSelected = false;
+        }
+        for (int i = 0; i < permanentInventoryItemSlots.Length; i++)
+        {
+            permanentInventoryItemSlots[i].selectedShader.SetActive(false);
+            permanentInventoryItemSlots[i].thisItemSelected = false;
         }
     }
 }

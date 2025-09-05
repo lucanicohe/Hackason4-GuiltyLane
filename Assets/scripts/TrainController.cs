@@ -1,12 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI; 
 
 public class TrainController : MonoBehaviour
 {
     [SerializeField] private float _speed = 30f;
     private float _currentSpeed = 0f;
-    private float _accelerationTime = 3f;
+    [SerializeField] private float _accelerationTime = 1f;
 
     public enum Direction { Right, Left }
     public Direction _lastDirection = Direction.Right;
@@ -24,14 +25,29 @@ public class TrainController : MonoBehaviour
     [SerializeField] private Camera _camera2;
     private Vector3 _camera2LocalPostion;
     [SerializeField] private Camera _camera3;
-
-    [SerializeField] private AudioSource _train;
     private Vector3 _camera3LocalPostion;
 
+    [SerializeField] private AudioSource _train;
+    [SerializeField] private AudioSource _stop;
+
     private bool _camera01Toggled = false;
-    private bool _camera02Toggled = false;
+    // private bool _camera02Toggled = false;
     private Coroutine _cameraTransitionCoroutine;
     private Coroutine _TrainCoroutine;
+
+    // Zoom variables
+    private bool _isZoomedIn = false;
+    private Vector3 _defaultCameraPos;
+
+    // Parent for all normal buttons
+    [SerializeField] private GameObject _buttonParent;
+
+    // Special exit buttons only for Display 3
+    [SerializeField] private GameObject _exitZoomButtonsParent;
+
+    // State toggles
+    private bool _trainRunning = false;   
+    private bool _directionIsLeft = false; 
 
     void Start()
     {
@@ -44,13 +60,18 @@ public class TrainController : MonoBehaviour
         _lastDirection = Direction.Right;
         _currentSpeed = 0f;
 
-
         if (_camera1 != null) _camera1.enabled = true;
         if (_camera2 != null) _camera2.enabled = false;
         if (_camera3 != null) _camera3.enabled = false;
+
         _camera1LocalPostion = _camera1.transform.localPosition;
         _camera2LocalPostion = _camera2.transform.localPosition;
         _camera3LocalPostion = _camera3.transform.localPosition;
+
+        _defaultCameraPos = _camera1.transform.localPosition;
+
+        if (_exitZoomButtonsParent != null)
+            _exitZoomButtonsParent.SetActive(false); // hide at start
     }
 
     void Update()
@@ -58,56 +79,22 @@ public class TrainController : MonoBehaviour
         // Move train forward
         transform.Translate(Vector3.forward * _currentSpeed * Time.deltaTime);
 
-        // Change direction
+        // Change direction with keyboard
         if (Input.GetKeyDown(KeyCode.A))
-        {
-            _lastDirection = Direction.Left;
-            if (_directionLever != null)
-                _directionLever.localPosition = _leftLeverPos;
-        }
+            SetDirection(Direction.Left);
         else if (Input.GetKeyDown(KeyCode.D))
-        {
-            _lastDirection = Direction.Right;
-            if (_directionLever != null)
-                _directionLever.localPosition = _rightLeverPos;
-        }
+            SetDirection(Direction.Right);
 
-        // Change speed
+        // Change speed with keyboard
         if (Input.GetKeyDown(KeyCode.W) && !GameManager.Instance._speedzero)
-        {
-            if (_TrainCoroutine != null)
-            {
-                StopCoroutine(_TrainCoroutine);
-            }
-            _TrainCoroutine = StartCoroutine(TrainDepature());
-            _train.Play();
-            //AudioManager.Instance.PlayBGM(AudioManager.BGMType.railway_train_339502);
-            AudioManager.Instance.StopPlayBGM(AudioManager.BGMType.電車停車中);
-            if (_throttleLever != null)
-                _throttleLever.localPosition = _speedOnPos;
-        }
+            StartTrain();
         else if (Input.GetKeyDown(KeyCode.S) || GameManager.Instance._speedzero)
         {
-            GameManager.Instance._speedzero = false; //TODO:Qを押したように、とまったときにカメラを動かしたい→この行を消すとできるが、コルーチンがうまくいかないのか画面ががくがくする。
-            //AudioManager.Instance.StopPlayBGM(AudioManager.BGMType.railway_train_339502);
-            AudioManager.Instance.PlayBGM(AudioManager.BGMType.電車停車中);
-            _train.Stop();
-            if (_TrainCoroutine != null)
-            {
-                StopCoroutine(_TrainCoroutine);
-            }
-            _TrainCoroutine = StartCoroutine(TrainStop());
-            if (_throttleLever != null)
-                _throttleLever.localPosition = _speedOffPos;
+            GameManager.Instance._speedzero = false;
+            StopTrain();
         }
 
-        // Switch cameras
-        // if (Input.GetKeyDown(KeyCode.Q))
-        // {
-        //     _cameraToggled = !_cameraToggled;
-        //     if (_camera1 != null) _camera1.enabled = !_cameraToggled;
-        //     if (_camera2 != null) _camera2.enabled = _cameraToggled;
-        // }
+        // Switch cameras (debug / keyboard)
         if (Input.GetKeyDown(KeyCode.Q) || GameManager.Instance._speedzero)
         {
             _camera01Toggled = !_camera01Toggled;
@@ -118,17 +105,22 @@ public class TrainController : MonoBehaviour
             Vector3 targetLocalPos = _camera01Toggled ? _camera2LocalPostion : _camera1LocalPostion;
             _cameraTransitionCoroutine = StartCoroutine(TransitionCameraPosition(targetLocalPos, 0.5f));
         }
-        if (Input.GetKeyDown(KeyCode.P) || GameManager.Instance._speedzero)
+        // if (Input.GetKeyDown(KeyCode.E) || GameManager.Instance._speedzero)
+        // {
+        //     _camera02Toggled = !_camera02Toggled;
+
+        //     if (_cameraTransitionCoroutine != null)
+        //         StopCoroutine(_cameraTransitionCoroutine);
+
+        //     Vector3 targetLocalPos = _camera02Toggled ? _camera3LocalPostion : _camera1LocalPostion;
+        //     _cameraTransitionCoroutine = StartCoroutine(TransitionCameraPosition(targetLocalPos, 0.5f));
+        // }
+
+        // Zoom out with mouse click only if zoomed in (except Display 3 which uses exit buttons)
+        if (_isZoomedIn && Input.GetMouseButtonDown(0) && (_exitZoomButtonsParent == null || !_exitZoomButtonsParent.activeSelf))
         {
-            _camera02Toggled = !_camera02Toggled;
-
-            if (_cameraTransitionCoroutine != null)
-                StopCoroutine(_cameraTransitionCoroutine);
-
-            Vector3 targetLocalPos = _camera02Toggled ? _camera3LocalPostion : _camera1LocalPostion;
-            _cameraTransitionCoroutine = StartCoroutine(TransitionCameraPosition(targetLocalPos, 0.5f));
+            ExitZoom();
         }
-
     }
 
     private IEnumerator TransitionCameraPosition(Vector3 targetLocalPos, float duration)
@@ -153,7 +145,7 @@ public class TrainController : MonoBehaviour
         {
             _elapsedTime += Time.deltaTime;
             float per = _elapsedTime / _accelerationTime;
-            _currentSpeed = Mathf.Lerp(0f, _speed, per*per);
+            _currentSpeed = Mathf.Lerp(0f, _speed, per * per);
 
             yield return null;
         }
@@ -166,9 +158,119 @@ public class TrainController : MonoBehaviour
         {
             _elapsedTime += Time.deltaTime;
             float per = _elapsedTime / _accelerationTime;
-            _currentSpeed = Mathf.Lerp(_speed, 0f, per*per);
+            _currentSpeed = Mathf.Lerp(_speed, 0f, per * per);
 
             yield return null;
         }
+    }
+
+    // =======================
+    // UI Button Functions
+    // =======================
+
+    public void ButtonTogglePower()
+    {
+        if (_trainRunning)
+            StopTrain();
+        else
+            StartTrain();
+
+        _trainRunning = !_trainRunning;
+    }
+
+    private void StartTrain()
+    {
+        if (_TrainCoroutine != null)
+            StopCoroutine(_TrainCoroutine);
+        _TrainCoroutine = StartCoroutine(TrainDepature());
+        _train.Play();
+        _stop.Stop();
+        if (_throttleLever != null)
+            _throttleLever.localPosition = _speedOnPos;
+    }
+
+    private void StopTrain()
+    {
+        if (_TrainCoroutine != null)
+            StopCoroutine(_TrainCoroutine);
+        _TrainCoroutine = StartCoroutine(TrainStop());
+        _train.Stop();
+        _stop.Play();
+        if (_throttleLever != null)
+            _throttleLever.localPosition = _speedOffPos;
+    }
+
+    public void ButtonToggleDirection()
+    {
+        _directionIsLeft = !_directionIsLeft;
+
+        if (_directionIsLeft)
+            SetDirection(Direction.Left);
+        else
+            SetDirection(Direction.Right);
+    }
+
+    private void SetDirection(Direction dir)
+    {
+        _lastDirection = dir;
+        if (_directionLever != null)
+            _directionLever.localPosition = (dir == Direction.Left) ? _leftLeverPos : _rightLeverPos;
+    }
+
+    // =======================
+    // Zoom buttons
+    // =======================
+
+    public void ButtonZoomToCamera2()
+    {
+        if (_cameraTransitionCoroutine != null)
+            StopCoroutine(_cameraTransitionCoroutine);
+
+        _cameraTransitionCoroutine = StartCoroutine(TransitionCameraPosition(_camera2LocalPostion, 0.5f));
+        _isZoomedIn = true;
+
+        if (_buttonParent != null)
+            _buttonParent.SetActive(false);
+    }
+
+    public void ButtonZoomToCamera3()
+    {
+        if (_cameraTransitionCoroutine != null)
+            StopCoroutine(_cameraTransitionCoroutine);
+
+        _cameraTransitionCoroutine = StartCoroutine(TransitionCameraPosition(_camera3LocalPostion, 0.5f));
+        _isZoomedIn = true;
+
+        // Hide normal buttons, show special exit buttons
+        if (_buttonParent != null)
+            _buttonParent.SetActive(false);
+        if (_exitZoomButtonsParent != null)
+            _exitZoomButtonsParent.SetActive(true);
+    }
+
+    public void ButtonSwitchCamera1()
+    {
+        ExitZoom();
+    }
+
+    // Called when exiting zoom (Display 2 with click, or Display 3 with buttons)
+    public void ExitZoom()
+    {
+        if (_cameraTransitionCoroutine != null)
+            StopCoroutine(_cameraTransitionCoroutine);
+
+        _cameraTransitionCoroutine = StartCoroutine(TransitionCameraPosition(_camera1LocalPostion, 0.5f));
+        _isZoomedIn = false;
+
+        if (_buttonParent != null)
+            _buttonParent.SetActive(true);
+        if (_exitZoomButtonsParent != null)
+            _exitZoomButtonsParent.SetActive(false);
+    }
+
+    // Specific exit for Display 3’s buttons
+    public void ExitZoomFromDisplay3()
+    {
+        ExitZoom();
     }
 }
