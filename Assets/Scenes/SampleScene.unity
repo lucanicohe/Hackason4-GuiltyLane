@@ -873,7 +873,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 544578f9e3aa840e297c37b1e5015fb2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _mainCamera: {fileID: 963194227}
 --- !u!65 &75241823
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1632,7 +1631,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 544578f9e3aa840e297c37b1e5015fb2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _mainCamera: {fileID: 963194227}
 --- !u!65 &381034635
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -2066,7 +2064,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 544578f9e3aa840e297c37b1e5015fb2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _mainCamera: {fileID: 963194227}
 --- !u!65 &460394440
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -2595,12 +2592,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _goldGuiltText: {fileID: 6649040543609178747}
   _tollForkText: {fileID: 1368647466}
-  _shopManager: {fileID: 1342014721889632404}
-  _inventoryManager: {fileID: 1685961403020146056}
-  _shopAlertImage: {fileID: 1951017234}
   GetGoldGuilty: 6
-  _shopCountdownText: {fileID: 1845699021}
-  _shopOpenTime: 30
   teamBuilder: {fileID: 670250157}
   trainController: {fileID: 1212175751}
   fade: {fileID: 1543738132}
@@ -2608,10 +2600,13 @@ MonoBehaviour:
   Gold: 100
   GuiltyPercent: 0
   Salary: 12
-  Toll: 15
-  _problemCount: 1
   _confirm: 0
   _roundLevel: 2
+  _shopAlertImage: {fileID: 1951017234}
+  _shopManager: {fileID: 1342014721889632404}
+  _inventoryManager: {fileID: 1685961403020146056}
+  _shopCountdownText: {fileID: 1845699021}
+  _shopOpenTime: 30
 --- !u!4 &670250156
 Transform:
   m_ObjectHideFlags: 0
@@ -6195,7 +6190,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 544578f9e3aa840e297c37b1e5015fb2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _mainCamera: {fileID: 963194227}
 --- !u!65 &1295121470
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -8847,7 +8841,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1951017235
 RectTransform:
   m_ObjectHideFlags: 0
@@ -15537,7 +15531,7 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2272892876459613859}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0.2}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -15550,7 +15544,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 2.2, y: 0.1}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &3535792668907072186
@@ -18681,7 +18675,7 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6482226176887166734}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0.00010004405}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -18693,7 +18687,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -1.800003, y: 0.00008259061}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &5418804474796342471
