@@ -11086,7 +11086,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!81 &963194226
 AudioListener:
   m_ObjectHideFlags: 0
@@ -15875,9 +15875,10 @@ GameObject:
   - component: {fileID: 1382765888}
   - component: {fileID: 1382765886}
   - component: {fileID: 1382765885}
+  - component: {fileID: 1382765889}
   m_Layer: 0
   m_Name: DisplayCamera
-  m_TagString: Untagged
+  m_TagString: MainCamera
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -15948,9 +15949,9 @@ Camera:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1382765883}
-  m_Enabled: 0
+  m_Enabled: 1
   serializedVersion: 2
-  m_ClearFlags: 3
+  m_ClearFlags: 1
   m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
@@ -15992,6 +15993,14 @@ Camera:
   m_OcclusionCulling: 1
   m_StereoConvergence: 10
   m_StereoSeparation: 0.022
+--- !u!81 &1382765889
+AudioListener:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1382765883}
+  m_Enabled: 1
 --- !u!1 &1389269362
 GameObject:
   m_ObjectHideFlags: 0
@@ -27432,7 +27441,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _displayCamera: {fileID: 1382765888}
-  _moveSpeed: 10
+  _moveSpeed: 20
 --- !u!222 &6479288389428497915
 CanvasRenderer:
   m_ObjectHideFlags: 0
