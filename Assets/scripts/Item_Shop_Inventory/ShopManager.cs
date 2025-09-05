@@ -94,6 +94,8 @@ public class ShopManager : MonoBehaviour
                     _soldOutPermanentItems = _soldOutPermanentItems.Append(
                         shopItemSlot[i].itemName
                         ).ToArray();
+
+                    shopItemSlot[i].
                 }
                 else
                 {
