@@ -13,6 +13,7 @@ TagManager:
   - confirmfalse
   - ZoomCamera
   - Scream
+  - Peoples
   layers:
   - Default
   - TransparentFX
