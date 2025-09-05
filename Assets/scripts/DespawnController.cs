@@ -1,10 +1,7 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class DespawnController : MonoBehaviour
 {
-    [SerializeField] private float _destroyTime = 30.0f;
     [SerializeField] private GameObject _bloodPrefab;
 
     private void OnTriggerEnter(Collider other)
@@ -13,22 +10,18 @@ public class DespawnController : MonoBehaviour
 
         Instantiate(_bloodPrefab, transform.position, Quaternion.identity);
 
-        
+
         GameObject screamObj = GameObject.FindGameObjectWithTag("Scream");
         if (screamObj != null)
         {
             Destroy(screamObj);
         }
 
-        Destroy(gameObject);
-    }
-
-    void Update()
-    {
-        _destroyTime -= Time.deltaTime;
-        if (_destroyTime <= 0)
+        GameObject[] peoples = GameObject.FindGameObjectsWithTag("Peoples");
+        foreach (var people in peoples)
         {
-            Destroy(gameObject);
+            Destroy(people);
         }
+        Destroy(gameObject);
     }
 }
