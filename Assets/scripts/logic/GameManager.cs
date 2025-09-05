@@ -337,6 +337,10 @@ public class GameManager : Singleton<GameManager>
             tempInheritance += otherTotalInheritance;
             tempGuiltyPercent += Mathf.RoundToInt(TotalGuiltyPercent * 1.1f);
         }
+        if (_isBlessingOfThePriestEffect)
+        {
+            tempGuiltyPercent *= Mathf.RoundToInt(GuiltyPercent * 0.5f);
+        }
         if (_isDefenseAttorneyEffect)
         {
             tempInheritance += Mathf.RoundToInt(tempInheritance * 1.2f);
@@ -568,7 +572,7 @@ public class GameManager : Singleton<GameManager>
         {
             return false;
         }
-        GuiltyPercent = Mathf.RoundToInt(GuiltyPercent / 2f);
+        // GuiltyPercent = Mathf.RoundToInt(GuiltyPercent / 2f);
         _isBlessingOfThePriestEffect = true;
         return true;
     }
