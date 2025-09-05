@@ -23,19 +23,18 @@ public class CameraController : MonoBehaviour
         // == Display1 enabled toggle ==//
         if (Input.GetKeyDown(KeyCode.Alpha1) && _display1Activated)
         {
-            _displayCamera.enabled = false;
-            _display1Activated = false;
+            // _displayCamera.enabled = false;
+            // _display1Activated = false;
+            MainCamPos();
         }
         else if (Input.GetKeyDown(KeyCode.Alpha1) && !_display1Activated)
         {
-            if (_display2Activated || _display3Activated)
-            {
-                _display2Activated = false;
-                _display3Activated = false;
-            }
+            _display2Activated = false;
+            _display3Activated = false;
+
             _targetPosition = new Vector3(-6.43f,
-                _displayCamera.transform.localPosition.y,
-                _displayCamera.transform.localPosition.z);
+                7.154907f,
+                1.870422f);
 
             _displayCamera.enabled = true;
             _display1Activated = true;
@@ -44,19 +43,18 @@ public class CameraController : MonoBehaviour
         // == Display2 enabled toggle ==//
         if (Input.GetKeyDown(KeyCode.Alpha2) && _display2Activated)
         {
-            _displayCamera.enabled = false;
-            _display2Activated = false;
+            // _displayCamera.enabled = false;
+            // _display2Activated = false;
+            MainCamPos();
         }
         else if (Input.GetKeyDown(KeyCode.Alpha2) && !_display2Activated)
         {
-            if (_display1Activated || _display3Activated)
-            {
-                _display1Activated = false;
-                _display3Activated = false;
-            }
+            _display1Activated = false;
+            _display3Activated = false;
+
             _targetPosition = new Vector3(-4f,
-                _displayCamera.transform.localPosition.y,
-                _displayCamera.transform.localPosition.z);
+                7.154907f,
+                1.870422f);
 
             _displayCamera.enabled = true;
             _display2Activated = true;
@@ -65,19 +63,18 @@ public class CameraController : MonoBehaviour
         // == Display3 enabled toggle ==//
         if (Input.GetKeyDown(KeyCode.Alpha3) && _display3Activated)
         {
-            _displayCamera.enabled = false;
-            _display3Activated = false;
+            // _displayCamera.enabled = false;
+            // _display3Activated = false;
+            MainCamPos();
         }
         else if (Input.GetKeyDown(KeyCode.Alpha3) && !_display3Activated)
         {
-            if (_display1Activated || _display2Activated)
-            {
-                _display1Activated = false;
-                _display2Activated = false;
-            }
+            _display1Activated = false;
+            _display2Activated = false;
+
             _targetPosition = new Vector3(-1.785f,
-                _displayCamera.transform.localPosition.y,
-                _displayCamera.transform.localPosition.z);
+                7.154907f,
+                1.870422f);
 
             _displayCamera.enabled = true;
             _display3Activated = true;
@@ -90,6 +87,17 @@ public class CameraController : MonoBehaviour
                 _targetPosition,
                 _moveSpeed * Time.deltaTime
             );
+    }
+
+    public void MainCamPos()
+    {
+        _display1Activated = false;
+        _display2Activated = false;
+        _display3Activated = false;
+
+        _targetPosition = new Vector3(-3.089999f,
+                9.9f,
+                -4.359997f);
     }
 }
 
