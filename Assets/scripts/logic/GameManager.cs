@@ -381,39 +381,44 @@ public class GameManager : Singleton<GameManager>
 
     }
 
+    [Header("Shop")]
+    [SerializeField] private GameObject _shopAlertImage;
+    [SerializeField] private ShopManager _shopManager;
+    [SerializeField] private InventoryManager _inventoryManager;
+    [SerializeField] private TMP_Text _shopCountdownText;
+    [SerializeField] private float _shopOpenTime = 30;
     private IEnumerator ShopSequenceCoroutine()
     {
-        // if (_shopAlertImage != null) _shopAlertImage.SetActive(true);
-        // yield return new WaitForSeconds(3f);
-        // if (_shopAlertImage != null) _shopAlertImage.SetActive(false);
+        if (_shopAlertImage != null) _shopAlertImage.SetActive(true);
+        yield return new WaitForSeconds(3f);
+        if (_shopAlertImage != null) _shopAlertImage.SetActive(false);
 
-        // // Disable inventory when shop opens
-        // if (_inventoryManager != null) _inventoryManager.InventoryActive = false;
-        // if (_shopManager != null) _shopManager.shop.SetActive(true);
+        // Disable inventory when shop opens
+        if (_inventoryManager != null) _inventoryManager.InventoryActive = false;
+        if (_shopManager != null) _shopManager.shop.SetActive(true);
 
-        // // Enable countdown text
-        // if (_shopCountdownText != null)
-        // {
-        //     _shopCountdownText.gameObject.SetActive(true);
-        //     float timer = _shopOpenTime;
-        //     while (timer > 0f)
-        //     {
-        //         _shopCountdownText.text = $"Shop closes in: {Mathf.Ceil(timer)}";
-        //         timer -= Time.deltaTime;
-        //         yield return null;
-        //     }
-        //     _shopCountdownText.text = "Shop closed!";
-        //     _shopCountdownText.gameObject.SetActive(false);
-        // }
-        // else
-        // {
-        //     yield return new WaitForSeconds(_shopOpenTime);
-        // }
+        // Enable countdown text
+        if (_shopCountdownText != null)
+        {
+            _shopCountdownText.gameObject.SetActive(true);
+            float timer = _shopOpenTime;
+            while (timer > 0f)
+            {
+                _shopCountdownText.text = $"Shop closes in: {Mathf.Ceil(timer)}";
+                timer -= Time.deltaTime;
+                yield return null;
+            }
+            _shopCountdownText.text = "Shop closed!";
+            _shopCountdownText.gameObject.SetActive(false);
+        }
+        else
+        {
+            yield return new WaitForSeconds(_shopOpenTime);
+        }
 
-        // // Close shop and re-enable inventory
-        // if (_shopManager != null) _shopManager.shop.SetActive(false);
-        // if (_inventoryManager != null) _inventoryManager.InventoryActive = true;
-        yield return null;
+        // Close shop and re-enable inventory
+        if (_shopManager != null) _shopManager.shop.SetActive(false);
+        if (_inventoryManager != null) _inventoryManager.InventoryActive = true;
     }
     
     /// <summary>
