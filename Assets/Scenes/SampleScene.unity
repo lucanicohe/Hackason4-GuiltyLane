@@ -4824,7 +4824,7 @@ AudioListener:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 963194225}
-  m_Enabled: 0
+  m_Enabled: 1
 --- !u!20 &963194227
 Camera:
   m_ObjectHideFlags: 0
@@ -6110,7 +6110,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9ae27a8767cc849309e05e61903faad1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _speed: 50
+  _speed: 30
   _accelerationTime: 1
   _lastDirection: 0
   _directionLever: {fileID: 1579505388}
@@ -14078,7 +14078,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 1685961403020146056}
         m_TargetAssemblyTypeName: InventoryManager, Assembly-CSharp
         m_MethodName: OnUseItem
         m_Mode: 1
@@ -23265,8 +23265,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5561e53457e342e47b40cbb7e69ea117, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _displayCamera: {fileID: 1382765888}
-  _moveSpeed: 20
+  mainCamera: {fileID: 963194227}
+  displayCamera: {fileID: 1382765888}
+  _moveSpeed: 5
 --- !u!222 &6479288389428497915
 CanvasRenderer:
   m_ObjectHideFlags: 0

@@ -50,8 +50,10 @@ public class TrainController : MonoBehaviour
 
 
     // State toggles
-    // private bool _trainRunning = false;   
-    // private bool _directionIsLeft = false; 
+    private bool _trainRunning = false;   
+    private bool _directionIsLeft = false;
+
+    private bool _isrunning = false; 
 
     void Start()
     {
@@ -99,30 +101,23 @@ public class TrainController : MonoBehaviour
 
 
         // Change speed with keyboard
-        if (Input.GetKeyDown(KeyCode.W) && !GameManager.Instance._speedzero)
+        if (Input.GetKeyDown(KeyCode.W) && !GameManager.Instance._speedzero && !_isrunning)
         {
             _leverpower.Play();
             StartTrain();
+            _isrunning = true;
         }
 
         else if (Input.GetKeyDown(KeyCode.S) || GameManager.Instance._speedzero)
         {
             GameManager.Instance._speedzero = false;
             StopTrain();
-            _leverpower.Play(); 
+            _leverpower.Play();
+            _isrunning = false; 
         }
 
         // Switch cameras (debug / keyboard)
-        // if (Input.GetKeyDown(KeyCode.Q) || GameManager.Instance._speedzero)
-        // {
-        //     _camera01Toggled = !_camera01Toggled;
-
-        //     if (_cameraTransitionCoroutine != null)
-        //         StopCoroutine(_cameraTransitionCoroutine);
-
-        //     Vector3 targetLocalPos = _camera01Toggled ? _camera2LocalPostion : _camera1LocalPostion;
-        //     _cameraTransitionCoroutine = StartCoroutine(TransitionCameraPosition(targetLocalPos, 0.5f));
-        // }
+       
         // if (Input.GetKeyDown(KeyCode.E) || GameManager.Instance._speedzero)
         // {
         //     _camera02Toggled = !_camera02Toggled;
