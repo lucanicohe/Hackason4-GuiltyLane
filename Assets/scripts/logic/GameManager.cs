@@ -467,6 +467,15 @@ public class GameManager : Singleton<GameManager>
         if (_shopManager != null) _shopManager.shop.SetActive(false);
         if (_inventoryManager != null) _inventoryManager.InventoryActive = true;
     }
+
+    public void StartMainGameButton()
+    {
+        StopCoroutine(_mainGamestartCoroutine);
+        if (_shopManager != null) _shopManager.shop.SetActive(false);
+        if (_inventoryManager != null) _inventoryManager.InventoryActive = false;
+        _shopCoroutine = null;
+        _mainGamestartCoroutine = null;
+    }
     
     /// <summary>
     /// Gold,Guiltyを受け取るタイミングを人を轢いたあとにした
