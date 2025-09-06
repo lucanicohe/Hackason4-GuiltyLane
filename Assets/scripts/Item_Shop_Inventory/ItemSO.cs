@@ -26,6 +26,7 @@ public class ItemSO : ScriptableObject
             if (GameManager.Instance.OfficialIdentityHint())
             {
                 Debug.Log($"{selectItemEffect} success");
+                GameManager.Instance._infoText.text = "One casualty has been confirmed.";
             }
             else
             {
@@ -43,6 +44,7 @@ public class ItemSO : ScriptableObject
             if (GameManager.Instance.OfficialNumberHint())
             {
                 Debug.Log($"{selectItemEffect} success");
+                GameManager.Instance._infoText.text = "Reveal the number of victims";
             }
             else
             {
@@ -59,6 +61,7 @@ public class ItemSO : ScriptableObject
             if (GameManager.Instance.Deal())
             {
                 Debug.Log($"{selectItemEffect} success");
+                GameManager.Instance._infoText.text = "The prisoner's inheritance increases by the number of prisoners.";
             }
             else
             {
@@ -74,6 +77,7 @@ public class ItemSO : ScriptableObject
             if (GameManager.Instance.InheritanceSystem())
             {
                 Debug.Log($"{selectItemEffect} success");
+                GameManager.Instance._infoText.text = "The prisoner's inheritance and crime rate increase by 1.5 times.";
             }
             else
             {
@@ -89,6 +93,7 @@ public class ItemSO : ScriptableObject
             if (GameManager.Instance.Guarantee())
             {
                 Debug.Log($"{selectItemEffect} success");
+                GameManager.Instance._infoText.text = "A prisoner will definitely appear in the next round.";
             }
             else
             {
@@ -106,6 +111,7 @@ public class ItemSO : ScriptableObject
             if (GameManager.Instance.DefenseAttorney())
             {
                 Debug.Log($"{selectItemEffect} success");
+                GameManager.Instance._infoText.text = "The inheritance increases by 20%.";
             }
             else
             {
@@ -121,6 +127,7 @@ public class ItemSO : ScriptableObject
 
                 （手錠：全ての身分の遺産が(一時的に増えた場合でも)減らなくなる(永続)）
             */
+            GameManager.Instance._infoText.text = "The inheritance of all social classes will no longer be reduced.";
         }
         else if (selectItemEffect == SelectItemEffect.FinancialExpert)
         {
@@ -131,6 +138,7 @@ public class ItemSO : ScriptableObject
             if (GameManager.Instance.FinancialExpert())
             {
                 Debug.Log($"{selectItemEffect} success");
+                GameManager.Instance._infoText.text = "Toll fees are reduced by 20%.";
             }
             else
             {
@@ -146,6 +154,7 @@ public class ItemSO : ScriptableObject
             if (GameManager.Instance.BlessingOfThePriest())
             {
                 Debug.Log($"{selectItemEffect} success");
+                GameManager.Instance._infoText.text = "The crime rate is halved.";
             }
             else
             {
@@ -161,6 +170,7 @@ public class ItemSO : ScriptableObject
             if (GameManager.Instance.ChurchsBlessing())
             {
                 Debug.Log($"{selectItemEffect} success");
+                GameManager.Instance._infoText.text = "When guilt surges by more than 50%, the church intervenes and resets it to zero.";
             }
             else
             {
@@ -176,6 +186,7 @@ public class ItemSO : ScriptableObject
             if (GameManager.Instance.PapalAmnesty())
             {
                 Debug.Log($"{selectItemEffect} success");
+                GameManager.Instance._infoText.text = "Your current guilt will decrease by 10%.";
             }
             else
             {
@@ -192,6 +203,7 @@ public class ItemSO : ScriptableObject
             if (GameManager.Instance.FamilyDeal())
             {
                 Debug.Log($"{selectItemEffect} success");
+                GameManager.Instance._infoText.text = "You can obtain gold from victims you did not choose. However, your guilt will increase by 10%.";
             }
             else
             {
@@ -208,6 +220,7 @@ public class ItemSO : ScriptableObject
             if (GameManager.Instance.Collector())
             {
                 Debug.Log($"{selectItemEffect} success");
+                GameManager.Instance._infoText.text = "The higher the crime rate, the greater the amount of money you can inherit.";
             }
             else
             {
@@ -223,6 +236,7 @@ public class ItemSO : ScriptableObject
             if (GameManager.Instance.Investment())
             {
                 Debug.Log($"{selectItemEffect} success");
+                GameManager.Instance._infoText.text = "The probability of inheritance increasing fivefold is 10%.";
             }
             else
             {
@@ -237,6 +251,7 @@ public class ItemSO : ScriptableObject
             */
             var profit = GameManager.Instance.GoldLoan(price);
             Debug.Log($"{selectItemEffect} success, you earn {profit}");
+            GameManager.Instance._infoText.text = "You will receive 0.8 to 1.5 times the purchase price in gold.";
         }
 
     }
