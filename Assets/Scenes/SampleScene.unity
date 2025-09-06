@@ -8739,8 +8739,8 @@ MonoBehaviour:
   _shopManager: {fileID: 1342014721889632404}
   _inventoryManager: {fileID: 1685961403020146056}
   _shopCountdownText: {fileID: 1845699021}
-  _shopOpenTime: 30
-  _mainGameRestartTime: 10
+  _shopOpenTime: 15
+  _mainGameRestartTime: 15
 --- !u!4 &1902193571
 Transform:
   m_ObjectHideFlags: 0
