@@ -16,6 +16,6 @@ MonoBehaviour:
   itemName: FinancialLawyer
   itemDescription: Once inheritance is increased, it can never decrease, even if
     conditions change. (Permanent effect.)
-  price: 10
+  price: 0
   selectItemEffect: 6
   permanent: 1

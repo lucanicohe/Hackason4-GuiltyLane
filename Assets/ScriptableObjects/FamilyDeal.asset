@@ -16,6 +16,6 @@ MonoBehaviour:
   itemName: FamilyDeal
   itemDescription: 'Survivors will also hand over their share, however, public guilt
     increases by 10%. (Permanent effect.) '
-  price: 10
+  price: 50
   selectItemEffect: 11
   permanent: 1

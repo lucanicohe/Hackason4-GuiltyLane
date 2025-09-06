@@ -151,7 +151,7 @@ public class GameManager : Singleton<GameManager>
             HandleGameOver(true);
             return;
         }
-        if (_shopCoroutine == null)
+        if (_shopCoroutine == null && _mainGamestartCoroutine == null)
         {
             MainValue();
         }
@@ -398,6 +398,7 @@ public class GameManager : Singleton<GameManager>
     [SerializeField] private float _shopOpenTime = 30;
     [SerializeField] private float _mainGameRestartTime = 10;
     private Coroutine _shopCoroutine = null;
+    private Coroutine _mainGamestartCoroutine = null;
 
     private IEnumerator ShopSequenceCoroutine()
     {
@@ -431,8 +432,49 @@ public class GameManager : Singleton<GameManager>
         // Close shop and re-enable inventory
         if (_shopManager != null) _shopManager.shop.SetActive(false);
         if (_inventoryManager != null) _inventoryManager.InventoryActive = true;
-        yield return new WaitForSeconds(_mainGameRestartTime);
+        yield return TimerOfMainGameStart();
+    }
+
+    [SerializeField] private TMP_Text _mainGameCountdownText;
+    private IEnumerator TimerOfMainGameStart()
+    {
+        if (_mainGameCountdownText != null)
+        {
+            _mainGameCountdownText.gameObject.SetActive(true);
+            float timer = _mainGameRestartTime;
+            while (timer > 0f)
+            {
+                _mainGameCountdownText.text = $"NextGame : {Mathf.Ceil(timer)}";
+                timer -= Time.deltaTime;
+                yield return null;
+            }
+            _mainGameCountdownText.text = "Start!!";
+            _mainGameCountdownText.gameObject.SetActive(false);
+        }
+        else
+        {
+            yield return new WaitForSeconds(_mainGameRestartTime);
+        }
+        if (_inventoryManager != null) _inventoryManager.InventoryActive = false;
         _shopCoroutine = null;
+        _mainGamestartCoroutine = null;
+    }
+
+    public void _closeSHOP()
+    {
+        StopCoroutine(_shopCoroutine);
+        _mainGamestartCoroutine = StartCoroutine(TimerOfMainGameStart());
+        if (_shopManager != null) _shopManager.shop.SetActive(false);
+        if (_inventoryManager != null) _inventoryManager.InventoryActive = true;
+    }
+
+    public void StartMainGameButton()
+    {
+        StopCoroutine(_mainGamestartCoroutine);
+        if (_shopManager != null) _shopManager.shop.SetActive(false);
+        if (_inventoryManager != null) _inventoryManager.InventoryActive = false;
+        _shopCoroutine = null;
+        _mainGamestartCoroutine = null;
     }
     
     /// <summary>

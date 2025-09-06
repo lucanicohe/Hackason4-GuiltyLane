@@ -16,6 +16,6 @@ MonoBehaviour:
   itemName: InheritanceSystem
   itemDescription: "Every prisoner victim\u2019s inheritance goes directly to you.
     However, your guilt will increase by 1.5\xD7. (Permanent effect.) "
-  price: 10
+  price: 50
   selectItemEffect: 3
   permanent: 1
