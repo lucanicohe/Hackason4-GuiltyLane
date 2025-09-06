@@ -14,8 +14,10 @@ public class CameraController : MonoBehaviour
     [SerializeField] private float _moveSpeed = 5f;
 
     void Start()
-    {
-        _targetPosition = _displayCamera.transform.localPosition;
+    {   _targetPosition = new Vector3(-3.089999f,
+                9.9f,
+                -4.359997f);
+        // _targetPosition = _displayCamera.transform.localPosition;
     }
 
     void Update()
@@ -23,8 +25,9 @@ public class CameraController : MonoBehaviour
         // == Display1 enabled toggle ==//
         if (Input.GetKeyDown(KeyCode.Alpha1) && _display1Activated)
         {
-            _displayCamera.enabled = false;
-            _display1Activated = false;
+            // _displayCamera.enabled = false;
+            // _display1Activated = false;
+            MainCamPos();
         }
         else if (Input.GetKeyDown(KeyCode.Alpha1) && !_display1Activated)
         {
@@ -72,12 +75,12 @@ public class CameraController : MonoBehaviour
         }
 
         // === MoveTowards === //
-        _displayCamera.transform.localPosition =
-            Vector3.MoveTowards(
-                _displayCamera.transform.localPosition,
-                _targetPosition,
-                _moveSpeed * Time.deltaTime
-            );
+        // _displayCamera.transform.localPosition =
+        //     Vector3.MoveTowards(
+        //         _displayCamera.transform.localPosition,
+        //         _targetPosition,
+        //         _moveSpeed * Time.deltaTime
+        //     );
     }
 
     public void MainCamPos()
@@ -89,5 +92,6 @@ public class CameraController : MonoBehaviour
         _targetPosition = new Vector3(-3.089999f,
                 9.9f,
                 -4.359997f);
+        _displayCamera.transform.localPosition = _targetPosition;
     }
 }
