@@ -145,6 +145,7 @@ public class GameManager : Singleton<GameManager>
 
     void Update()
     {
+        GoldAndGuiltTextUpdate();
         if (_roundLevel == RoundLevel.ToEnd)
         {
             HandleGameOver(true);
@@ -383,6 +384,12 @@ public class GameManager : Singleton<GameManager>
         _shopCoroutine = StartCoroutine(ShopSequenceCoroutine());
     }
 
+    private void GoldAndGuiltTextUpdate()
+    {
+        _goldGuiltText.text = $"Gold : {(GoldForShow == BE_DISGUISED_INT ? BE_DISGUISED_STRING : GoldForShow)}\nGuilt : {(GuiltyPercentForShow == BE_DISGUISED_INT ? BE_DISGUISED_STRING : GuiltyPercentForShow)}%";
+        _tollForkText.text = $"Toll\n{Toll}\n\nFork\n{(int)_roundLevel}-{_problemCount}";
+    }
+
     [Header("Shop")]
     [SerializeField] private GameObject _shopAlertImage;
     [SerializeField] private ShopManager _shopManager;
@@ -439,8 +446,7 @@ public class GameManager : Singleton<GameManager>
     }
     void Start()
     {
-        _goldGuiltText.text = $"Gold  : {GoldForShow}\nGuilt : {GuiltyPercentForShow}%";
-        _tollForkText.text = $"Toll\n{Toll}\n\nFork\n{(int)_roundLevel}-{_problemCount}";
+        GoldAndGuiltTextUpdate();
     }
 
     private void HandleGameOver(bool isGameClear)
