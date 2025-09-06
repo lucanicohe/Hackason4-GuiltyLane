@@ -22,7 +22,7 @@ public class GameInstructionController : MonoBehaviour
 
     public IEnumerator Intro()
     {
-        yield return new WaitForSecondsRealtime(7f);
+        
         _introImage.SetActive(true);
         yield return new WaitForSecondsRealtime(1f);
         _audio.Play(); 
