@@ -434,6 +434,14 @@ public class GameManager : Singleton<GameManager>
         yield return new WaitForSeconds(_mainGameRestartTime);
         _shopCoroutine = null;
     }
+
+    public void _closeSHOP()
+    {
+        if (_shopManager != null) _shopManager.shop.SetActive(false);
+        if (_inventoryManager != null) _inventoryManager.InventoryActive = true;
+        
+
+    }
     
     /// <summary>
     /// Gold,Guiltyを受け取るタイミングを人を轢いたあとにした
