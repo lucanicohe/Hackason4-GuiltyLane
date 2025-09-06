@@ -2489,6 +2489,86 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 587774448}
   m_CullTransparentMesh: 1
+--- !u!1 &670250154
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 670250156}
+  - component: {fileID: 670250155}
+  - component: {fileID: 670250157}
+  m_Layer: 0
+  m_Name: GameManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &670250155
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 670250154}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0f02633e92a92cf4fbe0a5eed904d688, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _goldGuiltText: {fileID: 6649040543609178747}
+  _tollForkText: {fileID: 1368647466}
+  _goldsound: {fileID: 360069130}
+  GetGoldGuilty: 6
+  teamBuilder: {fileID: 670250157}
+  trainController: {fileID: 1212175751}
+  fade: {fileID: 1543738132}
+  _speedzero: 0
+  Gold: 0
+  GuiltyPercent: 0
+  Salary: 12
+  _confirm: 0
+  _roundLevel: 1
+  _shopAlertImage: {fileID: 1951017234}
+  _shopManager: {fileID: 1342014721889632404}
+  _inventoryManager: {fileID: 1685961403020146056}
+  _shopCountdownText: {fileID: 1845699021}
+  _shopOpenTime: 30
+--- !u!4 &670250156
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 670250154}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -19.666306, y: 5.061737, z: 22.2897}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &670250157
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 670250154}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f8050d61cc9f4894f8c94f2a83337b2d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _peopleDatas:
+  - {fileID: 11400000, guid: 7bb7ec9c5e8c4fc40b7590f4a0429d18, type: 2}
+  - {fileID: 11400000, guid: f6ebc344ce0b05749abf1c3123e72021, type: 2}
+  - {fileID: 11400000, guid: efc46064f882ed941b453e794a517822, type: 2}
+  - {fileID: 11400000, guid: be448e54a351e1345a08f840b367de3e, type: 2}
 --- !u!1 &683366383
 GameObject:
   m_ObjectHideFlags: 0
@@ -2537,6 +2617,18 @@ MonoBehaviour:
   _instructionImage: {fileID: 884811865}
   _audio: {fileID: 1580750787}
   _introImage: {fileID: 1131904423}
+--- !u!114 &683366386
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 683366383}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 72635e028f51d4cceb546294bd40a2b6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &683366387
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6110,7 +6202,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9ae27a8767cc849309e05e61903faad1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _speed: 50
+  _speed: 30
   _accelerationTime: 1
   _lastDirection: 0
   _directionLever: {fileID: 1579505388}
@@ -23265,8 +23357,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5561e53457e342e47b40cbb7e69ea117, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _displayCamera: {fileID: 1382765888}
-  _moveSpeed: 20
+  mainCamera: {fileID: 963194227}
+  displayCamera: {fileID: 1382765888}
 --- !u!222 &6479288389428497915
 CanvasRenderer:
   m_ObjectHideFlags: 0
