@@ -150,7 +150,10 @@ public class GameManager : Singleton<GameManager>
             HandleGameOver(true);
             return;
         }
-        MainValue();
+        if (_shopCoroutine == null)
+        {
+            MainValue();
+        }
         //Confirmをtrueにするのは、
         if (_confirm)
         {
@@ -187,7 +190,7 @@ public class GameManager : Singleton<GameManager>
         if (_RightHPD.SelectRole != _LeftHPD.SelectRole)
         {
             if (_isGuaranteeEffect
-            && (RightHPD.SelectRole != "Prisoner" || LeftHPD.SelectRole != "Prisoner"))
+            && !(RightHPD.SelectRole == "Prisoner" || LeftHPD.SelectRole == "Prisoner"))
             {
                 return;
             }
@@ -351,7 +354,6 @@ public class GameManager : Singleton<GameManager>
         ResultData.TotalGuiltyPercentEarned += TotalGuiltyPercent;
         ResultData.TotleGoldEarned += TotalInheritance;
 
-        //ラウンド内のMainGameの処理を３回行ったら
         if (GuiltyPercent >= 100)
         {
             HandleGameOver(false);
@@ -377,11 +379,8 @@ public class GameManager : Singleton<GameManager>
             Debug.Log($"ラウンド：{_roundLevel}");
             _problemCount = 1;
         }
-        _goldGuiltText.text = $"Gold : {(GoldForShow == BE_DISGUISED_INT ? BE_DISGUISED_STRING : GoldForShow)}\nGuilt : {(GuiltyPercentForShow == BE_DISGUISED_INT ? BE_DISGUISED_STRING : GuiltyPercentForShow)}%";
-        _tollForkText.text = $"Toll\n{Toll}\n\nFork\n{(int)_roundLevel}-{_problemCount}";
-
-        StartCoroutine(ShopSequenceCoroutine());
-
+        GoldAndGuiltTextUpdate();
+        _shopCoroutine = StartCoroutine(ShopSequenceCoroutine());
     }
 
     [Header("Shop")]
@@ -390,6 +389,9 @@ public class GameManager : Singleton<GameManager>
     [SerializeField] private InventoryManager _inventoryManager;
     [SerializeField] private TMP_Text _shopCountdownText;
     [SerializeField] private float _shopOpenTime = 30;
+    [SerializeField] private float _mainGameRestartTime = 10;
+    private Coroutine _shopCoroutine = null;
+
     private IEnumerator ShopSequenceCoroutine()
     {
         if (_shopAlertImage != null) _shopAlertImage.SetActive(true);
@@ -422,6 +424,8 @@ public class GameManager : Singleton<GameManager>
         // Close shop and re-enable inventory
         if (_shopManager != null) _shopManager.shop.SetActive(false);
         if (_inventoryManager != null) _inventoryManager.InventoryActive = true;
+        yield return new WaitForSeconds(_mainGameRestartTime);
+        _shopCoroutine = null;
     }
     
     /// <summary>
