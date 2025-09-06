@@ -36,7 +36,7 @@ public class CameraController : MonoBehaviour
             if (_display2Activated) _display2Activated = false;
             if (_display3Activated) _display3Activated = false;
 
-            _displayCamera.transform.localPosition = new Vector3(-6.42f, 7.154907f, 1.870422f);
+            _displayCamera.transform.localPosition = new Vector3(-6.42f, 6.9f, 1.870422f);
             _displayCamera.enabled = true;
             _display1Activated = true;
         }
@@ -53,7 +53,7 @@ public class CameraController : MonoBehaviour
             if (_display1Activated) _display1Activated = false;
             if (_display3Activated) _display3Activated = false;
 
-            _displayCamera.transform.localPosition = new Vector3(-4f, 7.154908f, 1.870422f);
+            _displayCamera.transform.localPosition = new Vector3(-4f, 6.9f, 1.870422f);
             _displayCamera.enabled = true;
             _display2Activated = true;
         }
@@ -70,7 +70,7 @@ public class CameraController : MonoBehaviour
             if (_display1Activated) _display1Activated = false;
             if (_display2Activated) _display2Activated = false;
 
-            _displayCamera.transform.localPosition = new Vector3(-1.785f, 7.154908f, 1.870422f);
+            _displayCamera.transform.localPosition = new Vector3(-1.785f, 6.9f, 1.870422f);
             _displayCamera.enabled = true;
             _display3Activated = true;
         }
