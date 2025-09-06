@@ -10,7 +10,7 @@ public class GameManager : Singleton<GameManager>
     TextMeshProUGUI _goldGuiltText;
     [SerializeField]
     TextMeshProUGUI _tollForkText;
-
+    [SerializeField] public TextMeshProUGUI _infoText;
     [SerializeField] private AudioSource _goldsound; 
 
     public static bool ChooseDisguised;
@@ -462,7 +462,7 @@ public class GameManager : Singleton<GameManager>
 
     public void _closeSHOP()
     {
-        StopCoroutine(_shopCoroutine);
+        if(_shopCoroutine != null)StopCoroutine(_shopCoroutine);
         _mainGamestartCoroutine = StartCoroutine(TimerOfMainGameStart());
         if (_shopManager != null) _shopManager.shop.SetActive(false);
         if (_inventoryManager != null) _inventoryManager.InventoryActive = true;
@@ -470,7 +470,7 @@ public class GameManager : Singleton<GameManager>
 
     public void StartMainGameButton()
     {
-        StopCoroutine(_mainGamestartCoroutine);
+        if(_mainGamestartCoroutine != null)StopCoroutine(_mainGamestartCoroutine);
         if (_shopManager != null) _shopManager.shop.SetActive(false);
         if (_inventoryManager != null) _inventoryManager.InventoryActive = false;
         _shopCoroutine = null;
@@ -489,6 +489,7 @@ public class GameManager : Singleton<GameManager>
     void Start()
     {
         GoldAndGuiltTextUpdate();
+        _infoText.text = "";
     }
 
     private void HandleGameOver(bool isGameClear)
