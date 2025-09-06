@@ -10,7 +10,9 @@ public class GameManager : Singleton<GameManager>
     TextMeshProUGUI _goldGuiltText;
     [SerializeField]
     TextMeshProUGUI _tollForkText;
-    [SerializeField]
+
+    [SerializeField] private AudioSource _goldsound; 
+
     public static bool ChooseDisguised;
 
     private TeamBuilder.HitPersonData _RightHPD;
@@ -140,7 +142,6 @@ public class GameManager : Singleton<GameManager>
     }
 
     public RoundLevel _roundLevel = RoundLevel.First;
-    //ラウンド
 
     void Update()
     {
@@ -150,7 +151,10 @@ public class GameManager : Singleton<GameManager>
             HandleGameOver(true);
             return;
         }
-        MainValue();
+        if (_shopCoroutine == null)
+        {
+            MainValue();
+        }
         //Confirmをtrueにするのは、
         if (_confirm)
         {
@@ -159,11 +163,6 @@ public class GameManager : Singleton<GameManager>
         }
         // ここの処理は、人を引いたあとに行う
     }
-
-    private void GoldAndGuiltTextUpdate() {
-        _goldGuiltText.text = $"Gold : {(GoldForShow == BE_DISGUISED_INT ? BE_DISGUISED_STRING : GoldForShow)}\nGuilt : {(GuiltyPercentForShow == BE_DISGUISED_INT ? BE_DISGUISED_STRING : GuiltyPercentForShow)}%";
-        _tollForkText.text = $"Toll\n{Toll}\n\nFork\n{(int)_roundLevel}-{_problemCount}";
-    }  
 
     /// <summary>
     /// ラウンドを変える処理・一定のgoldが溜まっているなら通れる
@@ -184,12 +183,15 @@ public class GameManager : Singleton<GameManager>
         {
             return;
         }
+        //右の人の役職、人数を決める-->ok
+        //左の人の役職、人数を決める-->ok
         _RightHPD = teamBuilder.TeamBuild();
         _LeftHPD = teamBuilder.TeamBuild();
+        //役職が右と左で同じじゃないようにする
         if (_RightHPD.SelectRole != _LeftHPD.SelectRole)
         {
             if (_isGuaranteeEffect
-            && (RightHPD.SelectRole != "Prisoner" || LeftHPD.SelectRole != "Prisoner"))
+            && !(RightHPD.SelectRole == "Prisoner" || LeftHPD.SelectRole == "Prisoner"))
             {
                 return;
             }
@@ -224,6 +226,7 @@ public class GameManager : Singleton<GameManager>
             Debug.Log(JsonUtility.ToJson(_LeftHPD, true));
         }
     }
+
     private TeamBuilder.HitPersonData InitialiZationOfersonData(TeamBuilder.HitPersonData data)
     {
         data.SelectRoleToShow = data.SelectRole;
@@ -319,6 +322,7 @@ public class GameManager : Singleton<GameManager>
         Debug.Log($"problem:{_problemCount}");
         DecidedMainValue = false;
         Debug.Log($"gold:{Gold}guilty:{GuiltyPercent}");
+        _goldsound.Play();
 
         //これらの処理を1ラウンドに３回行う
     }
@@ -332,10 +336,6 @@ public class GameManager : Singleton<GameManager>
         {
             tempInheritance += otherTotalInheritance;
             tempGuiltyPercent += Mathf.RoundToInt(TotalGuiltyPercent * 1.1f);
-        }
-        if (_isBlessingOfThePriestEffect)
-        {
-            tempGuiltyPercent *= Mathf.RoundToInt(GuiltyPercent * 0.5f);
         }
         if (_isDefenseAttorneyEffect)
         {
@@ -355,8 +355,6 @@ public class GameManager : Singleton<GameManager>
         ResultData.TotalGuiltyPercentEarned += TotalGuiltyPercent;
         ResultData.TotleGoldEarned += TotalInheritance;
 
-        //ラウンド内のMainGameの処理を３回行ったら
-        //ラウンド内のMainGameの処理を３回行ったら
         if (GuiltyPercent >= 100)
         {
             HandleGameOver(false);
@@ -383,7 +381,13 @@ public class GameManager : Singleton<GameManager>
             _problemCount = 1;
         }
         GoldAndGuiltTextUpdate();
-        StartCoroutine(ShopSequenceCoroutine());
+        _shopCoroutine = StartCoroutine(ShopSequenceCoroutine());
+    }
+
+    private void GoldAndGuiltTextUpdate()
+    {
+        _goldGuiltText.text = $"Gold : {(GoldForShow == BE_DISGUISED_INT ? BE_DISGUISED_STRING : GoldForShow)}\nGuilt : {(GuiltyPercentForShow == BE_DISGUISED_INT ? BE_DISGUISED_STRING : GuiltyPercentForShow)}%";
+        _tollForkText.text = $"Toll\n{Toll}\n\nFork\n{(int)_roundLevel}-{_problemCount}";
     }
 
     [Header("Shop")]
@@ -392,6 +396,8 @@ public class GameManager : Singleton<GameManager>
     [SerializeField] private InventoryManager _inventoryManager;
     [SerializeField] private TMP_Text _shopCountdownText;
     [SerializeField] private float _shopOpenTime = 30;
+    [SerializeField] private float _mainGameRestartTime = 10;
+    private Coroutine _shopCoroutine = null;
 
     private IEnumerator ShopSequenceCoroutine()
     {
@@ -425,6 +431,8 @@ public class GameManager : Singleton<GameManager>
         // Close shop and re-enable inventory
         if (_shopManager != null) _shopManager.shop.SetActive(false);
         if (_inventoryManager != null) _inventoryManager.InventoryActive = true;
+        yield return new WaitForSeconds(_mainGameRestartTime);
+        _shopCoroutine = null;
     }
     
     /// <summary>
@@ -443,14 +451,6 @@ public class GameManager : Singleton<GameManager>
 
     private void HandleGameOver(bool isGameClear)
     {
-        if (isGameClear)
-        {
-            Debug.Log("ゲームクリア");
-        }
-        else
-        {
-            Debug.Log("ゲームオーバー");
-        }
         if (isGameClear)
         {
             Debug.Log("ゲームクリア");
@@ -493,6 +493,8 @@ public class GameManager : Singleton<GameManager>
     private bool _isFamilyDealEffect = false; //恒久効果
     private bool _isCollectorEffect = false; //恒久効果
     private bool _isInvestmentEffect = false;
+
+
 
     public bool OfficialIdentityHint()
     {
@@ -576,7 +578,7 @@ public class GameManager : Singleton<GameManager>
         {
             return false;
         }
-        // GuiltyPercent = Mathf.RoundToInt(GuiltyPercent / 2f);
+        GuiltyPercent = Mathf.RoundToInt(GuiltyPercent / 2f);
         _isBlessingOfThePriestEffect = true;
         return true;
     }
@@ -635,19 +637,16 @@ public class GameManager : Singleton<GameManager>
             _isInvestmentEffect = true;
             return true;
         }
-        if (_isFamilyDealEffect)
-        {
-            return false;
-        }
-        _isFamilyDealEffect = true;
-        return true;
+        return false;
     }
+
     public int GoldLoan(int price)
     {
         price = Mathf.RoundToInt(price * Random.Range(0.8f, 1.5f));
         Gold += price;
         return price;
     }
+
     #endregion
 }
 
@@ -663,4 +662,3 @@ public static class ResultData
     public static int problemCount = 0;
     public static int TotalTollPayed = 0;
 }
-

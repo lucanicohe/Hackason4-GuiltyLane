@@ -5,6 +5,7 @@ using UnityEngine;
 public class InventoryManager : MonoBehaviour
 {
     [SerializeField] private GameObject _inventory;      // The inventory panel
+    [SerializeField] private AudioSource _usesound; 
     [SerializeField, Header("Item Slot List")] public InventoryItemSlot[] inventoryItemSlots;
     [SerializeField] public InventoryItemSlot[] permanentInventoryItemSlots;
 
@@ -85,6 +86,7 @@ public void AddPermanentItem(string itemName, Sprite itemSprite, string itemDesc
                 if (currentSelectedSlot.permanent) return;
                 
                 itemSO.UseItem();
+                _usesound.Play(); 
                 currentSelectedSlot.ReduceQuantity(1);
 
                 // itemSO.UseItem();

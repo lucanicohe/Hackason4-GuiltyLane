@@ -10,6 +10,10 @@ public class ShopManager : MonoBehaviour
     [SerializeField, Header("Item Slot List")] public ShopItemSlot[] shopItemSlot;
     [SerializeField] private GameManager _gameManager;
     [SerializeField] private InventoryManager _inventoryManager;
+
+    [SerializeField] private AudioSource _nomoneysound;
+    [SerializeField] private AudioSource _buysound; 
+
     private string[] _soldOutPermanentItems;
 
     private void Start()
@@ -62,9 +66,12 @@ public class ShopManager : MonoBehaviour
         if (_gameManager.Gold < itemPrice)
         {
             Debug.Log("Wallet says: nope.");
+            _nomoneysound.Play();
             return;
         }
-        _gameManager.Gold -= itemPrice;        
+        Debug.Log("Purchase success.");
+        _gameManager.Gold -= itemPrice;
+        _buysound.Play(); 
     }
 
     public void OnPurchase()
@@ -78,6 +85,7 @@ public class ShopManager : MonoBehaviour
                     if (SoldOutPermanentItemsBool(shopItemSlot[i].itemName))
                     {
                         Debug.Log("Purchased permanent items");
+                        _nomoneysound.Play(); 
                         return;
                     }
                     Payment(shopItemSlot[i].itemPrice);
@@ -108,7 +116,7 @@ public class ShopManager : MonoBehaviour
                     );
 
                     if (leftOverItems <= 0)
-                        Debug.Log("Purchase success. No leftOverItems");
+                        Debug.Log("No leftOverItems");
                     else
                         shopItemSlot[i].quantity = leftOverItems;
                 }
