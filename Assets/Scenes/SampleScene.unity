@@ -2989,11 +2989,11 @@ MonoBehaviour:
   trainController: {fileID: 1212175751}
   fade: {fileID: 1543738132}
   _speedzero: 0
-  Gold: 100
+  Gold: 0
   GuiltyPercent: 0
   Salary: 12
   _confirm: 0
-  _roundLevel: 2
+  _roundLevel: 1
   _shopAlertImage: {fileID: 1951017234}
   _shopManager: {fileID: 1342014721889632404}
   _inventoryManager: {fileID: 1685961403020146056}
@@ -3092,9 +3092,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 72635e028f51d4cceb546294bd40a2b6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _introImage: {fileID: 1131904423}
-  _audio: {fileID: 28154191}
-  _introsound: {fileID: 552681129}
 --- !u!114 &683366387
 MonoBehaviour:
   m_ObjectHideFlags: 0
