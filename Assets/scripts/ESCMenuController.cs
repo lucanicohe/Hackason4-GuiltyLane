@@ -28,6 +28,7 @@ public class ESCMenuController : MonoBehaviour
     {
         escMenu.SetActive(false);
         escMenuToggled = false;
+        Time.timeScale = 1;
     }
 
     public void SaveUserData()
