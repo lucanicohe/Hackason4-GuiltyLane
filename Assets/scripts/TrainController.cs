@@ -45,6 +45,10 @@ public class TrainController : MonoBehaviour
     // Special exit buttons only for Display 3
     [SerializeField] private GameObject _exitZoomButtonsParent;
 
+    [SerializeField] private AudioSource _leverpower;
+    [SerializeField] private AudioSource _leverdir; 
+
+
     // State toggles
     private bool _trainRunning = false;   
     private bool _directionIsLeft = false; 
@@ -81,17 +85,31 @@ public class TrainController : MonoBehaviour
 
         // Change direction with keyboard
         if (Input.GetKeyDown(KeyCode.A))
+        {
             SetDirection(Direction.Left);
+            _leverdir.Play();
+
+        }
+
         else if (Input.GetKeyDown(KeyCode.D))
+        {
             SetDirection(Direction.Right);
+        _leverdir.Play(); 
+        }
+
 
         // Change speed with keyboard
         if (Input.GetKeyDown(KeyCode.W) && !GameManager.Instance._speedzero)
+        {
+            _leverpower.Play();
             StartTrain();
+        }
+
         else if (Input.GetKeyDown(KeyCode.S) || GameManager.Instance._speedzero)
         {
             GameManager.Instance._speedzero = false;
             StopTrain();
+            _leverpower.Play(); 
         }
 
         // Switch cameras (debug / keyboard)
