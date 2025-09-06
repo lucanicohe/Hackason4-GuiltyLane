@@ -14,10 +14,11 @@ public class CameraController : MonoBehaviour
     [SerializeField] private float _moveSpeed = 5f;
 
     void Start()
-    {   _targetPosition = new Vector3(-3.089999f,
+    {
+        _targetPosition = new Vector3(-3.089999f,
                 9.9f,
                 -4.359997f);
-        // _targetPosition = _displayCamera.transform.localPosition;
+        _displayCamera.transform.localPosition = _targetPosition;
     }
 
     void Update()
