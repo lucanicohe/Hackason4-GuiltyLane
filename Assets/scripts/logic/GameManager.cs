@@ -379,6 +379,7 @@ public class GameManager : Singleton<GameManager>
             ChangeRound();
             Debug.Log($"ラウンド：{_roundLevel}");
             _problemCount = 1;
+            // _shopCoroutine = StartCoroutine(ShopSequenceCoroutine());
         }
         GoldAndGuiltTextUpdate();
         _shopCoroutine = StartCoroutine(ShopSequenceCoroutine());
