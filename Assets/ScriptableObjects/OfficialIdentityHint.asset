@@ -16,6 +16,6 @@ MonoBehaviour:
   itemName: OfficialIdentityHint
   itemDescription: 'Obtain verified data: Reveal one of the victims from the choices
     (1 time). '
-  price: 10
+  price: 15
   selectItemEffect: 0
   permanent: 0

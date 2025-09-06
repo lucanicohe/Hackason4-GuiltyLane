@@ -16,6 +16,6 @@ MonoBehaviour:
   itemName: Collector
   itemDescription: The higher your guilt, the more inheritance gained. ( Permanent
     effect.)
-  price: 10
+  price: 30
   selectItemEffect: 12
   permanent: 1

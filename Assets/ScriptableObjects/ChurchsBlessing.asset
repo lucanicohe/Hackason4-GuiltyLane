@@ -16,6 +16,6 @@ MonoBehaviour:
   itemName: ChurchsBlessing
   itemDescription: 'If a choice would spike public guilt by 50% or more, guilt will
     be reset to 0. (One-time use.) '
-  price: 10
+  price: 150
   selectItemEffect: 9
   permanent: 0

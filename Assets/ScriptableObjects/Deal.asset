@@ -16,6 +16,6 @@ MonoBehaviour:
   itemName: Deal
   itemDescription: Every prisoner victim killed earns you bonus gold on top of their
     inheritance, multiplied by the number of prisoners killed. (Permanent effect.)
-  price: 10
+  price: 50
   selectItemEffect: 2
   permanent: 1
