@@ -1,5 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class ShopManager : MonoBehaviour
@@ -11,6 +13,8 @@ public class ShopManager : MonoBehaviour
 
     [SerializeField] private AudioSource _nomoneysound;
     [SerializeField] private AudioSource _buysound; 
+
+    private string[] _soldOutPermanentItems;
 
     private void Start()
     {
@@ -44,17 +48,44 @@ public class ShopManager : MonoBehaviour
         }
     }
 
+    public bool SoldOutPermanentItemsBool(string itemName)
+    {
+        if (_soldOutPermanentItems == null) return false;
+        for (int i = 0; i < _soldOutPermanentItems.Length; i++)
+        {
+            if (_soldOutPermanentItems[i] == itemName)
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public void Payment(int itemPrice)
+    {
+        if (_gameManager.Gold < itemPrice)
+        {
+            Debug.Log("Wallet says: nope.");
+            _nomoneysound.Play();
+            return;
+        }
+        Debug.Log("Purchase success.");
+        _gameManager.Gold -= itemPrice;
+        _buysound.Play(); 
+    }
+
     public void OnPurchase()
     {
         for (int i = 0; i < shopItemSlot.Length; i++)
         {
             if (shopItemSlot[i].thisItemSelected)
             {
-                if (_gameManager.Gold < shopItemSlot[i].itemPrice)
+                if (shopItemSlot[i].permanent)
                 {
                     if (SoldOutPermanentItemsBool(shopItemSlot[i].itemName))
                     {
                         Debug.Log("Purchased permanent items");
+                        _nomoneysound.Play(); 
                         return;
                     }
                     Payment(shopItemSlot[i].itemPrice);
@@ -72,30 +103,23 @@ public class ShopManager : MonoBehaviour
                         shopItemSlot[i].itemName
                         ).ToArray();
                     _inventoryManager.OnPurchasePermanentItem(shopItemSlot[i].itemName);
-                    Debug.Log("Wallet says: nope.");
-                    _nomoneysound.Play(); 
-                    return;
                 }
-
-                _gameManager.Gold -= shopItemSlot[i].itemPrice;
-
-                int leftOverItems = _inventoryManager.AddItem(
-                    shopItemSlot[i].itemName,
-                    1,
-                    shopItemSlot[i].itemSprite,
-                    shopItemSlot[i].itemDescription
-                );
-
-                if (leftOverItems <= 0)
-                {
-                    Debug.Log("Purchase success. No leftOverItems");
-                    _buysound.Play(); 
-
-                }
-
-
                 else
-                    shopItemSlot[i].quantity = leftOverItems;
+                {
+                    Payment(shopItemSlot[i].itemPrice);
+
+                    int leftOverItems = _inventoryManager.AddItem(
+                        shopItemSlot[i].itemName,
+                        1,
+                        shopItemSlot[i].itemSprite,
+                        shopItemSlot[i].itemDescription
+                    );
+
+                    if (leftOverItems <= 0)
+                        Debug.Log("No leftOverItems");
+                    else
+                        shopItemSlot[i].quantity = leftOverItems;
+                }
 
                 shopItemSlot[i].selectedShader.SetActive(false);
                 shopItemSlot[i].thisItemSelected = false;

@@ -6,7 +6,8 @@ public class InventoryManager : MonoBehaviour
 {
     [SerializeField] private GameObject _inventory;      // The inventory panel
     [SerializeField] private AudioSource _usesound; 
-    [SerializeField, Header("Item Slot List")] public InventoryItemSlot[] inventoryItemSlot;
+    [SerializeField, Header("Item Slot List")] public InventoryItemSlot[] inventoryItemSlots;
+    [SerializeField] public InventoryItemSlot[] permanentInventoryItemSlots;
 
     public InventoryItemSlot currentSelectedSlot;
 
@@ -27,9 +28,9 @@ public class InventoryManager : MonoBehaviour
         int remaining = quantity;
 
         // Try adding to existing slots first
-        for (int i = 0; i < inventoryItemSlot.Length; i++)
+        for (int i = 0; i < inventoryItemSlots.Length; i++)
         {
-            var slot = inventoryItemSlot[i];
+            var slot = inventoryItemSlots[i];
             if (slot.itemName == itemName && !slot.isFull)
             {
                 remaining = slot.AddItem(itemName, remaining, itemSprite, itemDescription);
@@ -38,9 +39,9 @@ public class InventoryManager : MonoBehaviour
         }
 
         // Add to empty slots
-        for (int i = 0; i < inventoryItemSlot.Length; i++)
+        for (int i = 0; i < inventoryItemSlots.Length; i++)
         {
-            var slot = inventoryItemSlot[i];
+            var slot = inventoryItemSlots[i];
             if (slot.itemName == "" || slot.quantity == 0)
             {
                 remaining = slot.AddItem(itemName, remaining, itemSprite, itemDescription);
@@ -51,10 +52,33 @@ public class InventoryManager : MonoBehaviour
         return remaining;
     }
 
+public void AddPermanentItem(string itemName, Sprite itemSprite, string itemDescription, bool permanent)
+{
+    for (int i = 0; i < permanentInventoryItemSlots.Length; i++)
+    {
+        var slot = permanentInventoryItemSlots[i];
+        if (slot.itemName == itemName)
+        {
+            slot.AddPermanentItem(itemName, itemSprite, itemDescription, permanent);
+            return;
+        }
+    }
+
+    for (int i = 0; i < permanentInventoryItemSlots.Length; i++)
+    {
+        var slot = permanentInventoryItemSlots[i];
+        if (string.IsNullOrEmpty(slot.itemName))
+        {
+            slot.AddPermanentItem(itemName, itemSprite, itemDescription, permanent);
+            return;
+        }
+    }
+}
+
+
     public void OnUseItem()
     {
         if (currentSelectedSlot == null) return;
-
         foreach (var itemSO in itemSOs)
         {
             if (itemSO.itemName == currentSelectedSlot.itemName)
@@ -62,6 +86,7 @@ public class InventoryManager : MonoBehaviour
                 if (currentSelectedSlot.permanent) return;
                 
                 itemSO.UseItem();
+                _usesound.Play(); 
                 currentSelectedSlot.ReduceQuantity(1);
 
                 // itemSO.UseItem();
@@ -84,8 +109,6 @@ public class InventoryManager : MonoBehaviour
             if (itemSO.itemName == itemName)
             {
                 itemSO.UseItem();
-                _usesound.Play(); 
-                currentSelectedSlot.ReduceQuantity(1);
             }
         }
     }
@@ -97,10 +120,15 @@ public class InventoryManager : MonoBehaviour
 
     public void DeselectAllSlots()
     {
-        for (int i = 0; i < inventoryItemSlot.Length; i++)
+        for (int i = 0; i < inventoryItemSlots.Length; i++)
         {
-            inventoryItemSlot[i].selectedShader.SetActive(false);
-            inventoryItemSlot[i].thisItemSelected = false;
+            inventoryItemSlots[i].selectedShader.SetActive(false);
+            inventoryItemSlots[i].thisItemSelected = false;
+        }
+        for (int i = 0; i < permanentInventoryItemSlots.Length; i++)
+        {
+            permanentInventoryItemSlots[i].selectedShader.SetActive(false);
+            permanentInventoryItemSlots[i].thisItemSelected = false;
         }
     }
 }
