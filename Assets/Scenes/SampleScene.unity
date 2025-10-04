@@ -23803,8 +23803,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5561e53457e342e47b40cbb7e69ea117, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mainCamera: {fileID: 0}
-  displayCamera: {fileID: 0}
+  mainCamera: {fileID: 963194227}
+  displayCamera: {fileID: 1382765888}
   _moveSpeed: 5
 --- !u!222 &6479288389428497915
 CanvasRenderer:
