@@ -504,8 +504,6 @@ public class GameManager : Singleton<GameManager>
             Debug.Log("ゲームオーバー");
         }
         _speedzero = true;
-        AudioManager.Instance.StopAllBGM();
-        AudioManager.Instance.StopAllSE();
         ResultData.RoundLevel = _roundLevel;
         ResultData.problemCount = _problemCount;
         fade.FadeIn(2, () => { SceneManager.LoadScene("ResultScene"); });

@@ -11,13 +11,11 @@ public class CameraController : MonoBehaviour
 
     void Start()
     {
-        
         mainCamera.gameObject.SetActive(true);
         displayCamera.gameObject.SetActive(false);
     }
 
     private Vector3 _targetPosition;
-    [SerializeField] private float _moveSpeed = 5f;
 
     void Update()
     {
@@ -47,25 +45,5 @@ public class CameraController : MonoBehaviour
             displayCamera.transform.localPosition = position;
             currentDisplay = displayIndex;
         }
-
-        // === MoveTowards === //
-        // _displayCamera.transform.localPosition =
-        //     Vector3.MoveTowards(
-        //         _displayCamera.transform.localPosition,
-        //         _targetPosition,
-        //         _moveSpeed * Time.deltaTime
-        //     );
     }
-
-    // public void MainCamPos()
-    // {
-    //     _display1Activated = false;
-    //     _display2Activated = false;
-    //     _display3Activated = false;
-
-    //     _targetPosition = new Vector3(-3.089999f,
-    //             9.9f,
-    //             -4.359997f);
-    //     _displayCamera.transform.localPosition = _targetPosition;
-    // }
 }
