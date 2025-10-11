@@ -70,8 +70,6 @@ public class GameManager : Singleton<GameManager>
     TeamBuilder teamBuilder;
     [SerializeField]
     TrainController trainController;
-    [SerializeField]
-    Fade fade;
     public bool _speedzero = false; //電車のスピードをゼロにする
 
     //自分が持っているお金
@@ -506,7 +504,6 @@ public class GameManager : Singleton<GameManager>
         _speedzero = true;
         ResultData.RoundLevel = _roundLevel;
         ResultData.problemCount = _problemCount;
-        fade.FadeIn(2, () => { SceneManager.LoadScene("ResultScene"); });
     }
 
 
