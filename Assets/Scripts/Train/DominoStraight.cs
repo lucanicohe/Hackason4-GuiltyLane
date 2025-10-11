@@ -2,14 +2,17 @@ using System.Collections;
 using UnityEngine;
 using TMPro;
 
-
-public class DominoStraight : MonoBehaviour //TODO 
+public class DominoStraight : MonoBehaviour
 {
     [SerializeField] private GameObject _straightPrefab;
     [SerializeField] private GameObject _forkPrefab;
     [SerializeField] private Transform _spawnPointStraight;
     [SerializeField] private Transform _spawnPointFork;
     [SerializeField] private float _despawnDistance = 25f;
+
+    // ===== ADD THIS =====
+    [SerializeField] private Waypoint _straightWaypoint; // Single waypoint for rotation
+    // ====================
 
     [Header("Team Spawn Points")]
     [SerializeField] private Transform _spawnPointRightTeam;
@@ -24,8 +27,6 @@ public class DominoStraight : MonoBehaviour //TODO
 
     private AudioSource _typingAudio;
     private AudioSource _typingEndAudio;
-    
-    
 
     private bool _spawnedNext;
     private static int _globalStraightCount;
@@ -39,7 +40,6 @@ public class DominoStraight : MonoBehaviour //TODO
     {
         _typingAudio = GameObject.FindGameObjectWithTag("Typing")?.GetComponent<AudioSource>();
         _typingEndAudio = GameObject.FindGameObjectWithTag("TypingEnd")?.GetComponent<AudioSource>();
-
 
         _player = GameObject.FindGameObjectWithTag("Player").transform;
         _trackText = GameObject.FindGameObjectWithTag("TrackText")?.GetComponent<TextMeshProUGUI>();
@@ -72,10 +72,17 @@ public class DominoStraight : MonoBehaviour //TODO
         _trackText.color = Color.green;
         _trackText.text = "Status: normal\nTrack: straight\nContinue driving";
 
-        other.transform.rotation = Quaternion.identity;
+        // ===== SET ROTATION WAYPOINT ONCE =====
+        var train = other.GetComponent<TrainController>();
+        if (train != null && _straightWaypoint != null)
+        {
+            train.SetRotationWaypoint(_straightWaypoint);
+        }
+        // ======================================
+
         _spawnedNext = true;
 
-        if (_globalStraightCount < 2) //もともと2だった
+        if (_globalStraightCount < 2)
         {
             Instantiate(_straightPrefab, _spawnPointStraight.position, Quaternion.identity);
             _globalStraightCount++;
@@ -86,7 +93,9 @@ public class DominoStraight : MonoBehaviour //TODO
         }
     }
 
-    private IEnumerator AlertSequence()　//TODO　別のスクリプトに移動
+    // ... rest of your code stays the same ...
+    
+    private IEnumerator AlertSequence()
     {
         _trackText.color = Color.red;
         _trackText.text = "Status: alert\nTrack: fork\nStop train";
@@ -100,20 +109,19 @@ public class DominoStraight : MonoBehaviour //TODO
         {
             var teamA = GameManager.Instance.RightHPD;
             var teamB = GameManager.Instance.LeftHPD;
-            //GameManager.Instance._speedzero = true; //TrainController._currentSpeedを0にする
 
             string teamAText =
                 "processing...\n\nRIGHT\nRole: " + teamA.SelectRoleToShow +
                 "\nMembers: " + (teamA.PersonnumToShow == GameManager.BE_DISGUISED_INT ? GameManager.BE_DISGUISED_STRING : teamA.PersonnumToShow) +
-                "\nInheritance: " /*+ string.Join(", ", teamA.Inheritance) + "  (Total "*/ + (teamA.TotalInheritanceToShow == GameManager.BE_DISGUISED_INT ? GameManager.BE_DISGUISED_STRING : teamA.TotalInheritanceToShow) /*+ ")" */+
-                "\nGuilty %: " /*+ string.Join(", ", teamA.GuiltyPercent) + "  (Total "*/ + (teamA.TotalGuiltyPercentToShow == GameManager.BE_DISGUISED_INT ? GameManager.BE_DISGUISED_STRING : teamA.TotalGuiltyPercentToShow) /*+ ")" */+
+                "\nInheritance: " + (teamA.TotalInheritanceToShow == GameManager.BE_DISGUISED_INT ? GameManager.BE_DISGUISED_STRING : teamA.TotalInheritanceToShow) +
+                "\nGuilty %: " + (teamA.TotalGuiltyPercentToShow == GameManager.BE_DISGUISED_INT ? GameManager.BE_DISGUISED_STRING : teamA.TotalGuiltyPercentToShow) +
                 "\n\nuser choice required...";
 
             string teamBText =
                 "processing...\n\nLEFT\nRole: " + teamB.SelectRoleToShow +
                 "\nMembers: " + (teamB.PersonnumToShow == GameManager.BE_DISGUISED_INT ? GameManager.BE_DISGUISED_STRING : teamB.PersonnumToShow) +
-                "\nInheritance: " /*+ string.Join(", ", teamB.Inheritance) + "  (Total " */+ (teamB.TotalInheritanceToShow == GameManager.BE_DISGUISED_INT ? GameManager.BE_DISGUISED_STRING : teamB.TotalInheritanceToShow) /*+ ")" */ +
-                "\nGuilty %: " /*+ string.Join(", ", teamB.GuiltyPercent) + "  (Total " */+ (teamB.TotalGuiltyPercentToShow == GameManager.BE_DISGUISED_INT ? GameManager.BE_DISGUISED_STRING : teamB.TotalGuiltyPercentToShow) /*+ ")" */ +
+                "\nInheritance: " + (teamB.TotalInheritanceToShow == GameManager.BE_DISGUISED_INT ? GameManager.BE_DISGUISED_STRING : teamB.TotalInheritanceToShow) +
+                "\nGuilty %: " + (teamB.TotalGuiltyPercentToShow == GameManager.BE_DISGUISED_INT ? GameManager.BE_DISGUISED_STRING : teamB.TotalGuiltyPercentToShow) +
                 "\n\nuser choice required...";
 
             foreach (var text in _teamRightTexts)
@@ -133,20 +141,18 @@ public class DominoStraight : MonoBehaviour //TODO
         }
     }
 
-    private IEnumerator TypewriterEffect(TextMeshProUGUI textComponent, string fullText, float delay)//TODO　別のスクリプトに移動
+    private IEnumerator TypewriterEffect(TextMeshProUGUI textComponent, string fullText, float delay)
     {
         textComponent.text = "";
         
         foreach (char c in fullText)
         {
-            //AudioManager.Instance.PlaySE(AudioManager.SEType.キーボード1,0.4f);
             textComponent.text += c;
             if (_typingAudio != null) 
                 _typingAudio.Play(); 
             yield return new WaitForSeconds(delay);
         }
         if (_typingEndAudio != null) _typingEndAudio.Play();
-        //AudioManager.Instance.PlaySE(AudioManager.SEType.キーボード2,0.4f);
     }
 
     private void Update()
@@ -155,7 +161,7 @@ public class DominoStraight : MonoBehaviour //TODO
             Destroy(gameObject);
     }
 
-    private void SpawnTeamNearPoint(TeamBuilder.HitPersonData team, Transform spawnPoint)　//TODO　別のスクリプトに移動
+    private void SpawnTeamNearPoint(TeamBuilder.HitPersonData team, Transform spawnPoint)
     {
         float offsetRadius = 5f;
         Vector3 basePos = spawnPoint.position;

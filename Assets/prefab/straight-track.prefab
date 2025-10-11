@@ -486,6 +486,51 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!1 &7863088788250328299
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 213114593419111465}
+  - component: {fileID: 6868747189142436796}
+  m_Layer: 0
+  m_Name: STRAIGHT
+  m_TagString: Untagged
+  m_Icon: {fileID: 1206586993520771344, guid: 0000000000000000d000000000000000, type: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &213114593419111465
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7863088788250328299}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0.05810891, y: -0.15082708, z: -0.008881536, w: 0.9868109}
+  m_LocalPosition: {x: -8.05, y: 10.45, z: 145.07}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 7081424918354840564}
+  m_LocalEulerAnglesHint: {x: -6.74, y: -17.38, z: 0}
+--- !u!114 &6868747189142436796
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7863088788250328299}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c8eb6ee5a0d1b4cd5bce416a244eda6c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  nextWaypoint: {fileID: 0}
 --- !u!1 &8413771811344740183
 GameObject:
   m_ObjectHideFlags: 0
@@ -517,6 +562,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 213114593419111465}
   - {fileID: 5292535385371464199}
   - {fileID: 8086846441498790819}
   - {fileID: 6730505116521270795}
@@ -564,6 +610,7 @@ MonoBehaviour:
   _spawnPointStraight: {fileID: 8086846441498790819}
   _spawnPointFork: {fileID: 6730505116521270795}
   _despawnDistance: 140
+  _straightWaypoint: {fileID: 6868747189142436796}
   _spawnPointRightTeam: {fileID: 5926146357916086743}
   _spawnPointLeftTeam: {fileID: 4762076683403295036}
   _prisonerPrefab: {fileID: 2981929477558461247, guid: f20832136e3c14ed28040efbae6c784c, type: 3}

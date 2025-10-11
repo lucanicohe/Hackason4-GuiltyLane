@@ -26,16 +26,20 @@ public class TrainController : MonoBehaviour
 
     private Vector3 _defaultCameraPos;
 
-    // Parent for all normal buttons
     [SerializeField] private GameObject _buttonParent;
-
-    // Special exit buttons only for Display 3
     [SerializeField] private GameObject _exitZoomButtonsParent;
 
     [SerializeField] private AudioSource _leverpower;
     [SerializeField] private AudioSource _leverdir; 
     
-    private bool _isrunning = false; 
+    private bool _isrunning = false;
+
+    // ===== WAYPOINT ROTATION ONLY =====
+    [SerializeField] private float _rotationSpeed = 3f; // Smooth rotation speed
+    private Waypoint _currentWaypoint;
+    private float _waypointReachDistance = 1f; // Distance to switch to next waypoint
+    private bool _isRotatingToWaypoint = false;
+    // ==================================
 
     void Start()
     {
@@ -49,12 +53,56 @@ public class TrainController : MonoBehaviour
         _currentSpeed = 0f;
 
         if (_exitZoomButtonsParent != null)
-            _exitZoomButtonsParent.SetActive(false); // hide at start
+            _exitZoomButtonsParent.SetActive(false);
     }
 
     void Update()
     {
-        // Move train forward
+        // ===== WAYPOINT ROTATION (ONLY Y AXIS) =====
+        if (_currentWaypoint != null && _isRotatingToWaypoint)
+        {
+            // Calculate direction to waypoint (only horizontal plane)
+            Vector3 targetPos = _currentWaypoint.transform.position;
+            Vector3 directionToWaypoint = new Vector3(
+                targetPos.x - transform.position.x,
+                0, // Ignore Y difference
+                targetPos.z - transform.position.z
+            ).normalized;
+
+            if (directionToWaypoint != Vector3.zero)
+            {
+                Quaternion targetRotation = Quaternion.LookRotation(directionToWaypoint);
+                // Smoothly rotate towards target (only Y rotation)
+                transform.rotation = Quaternion.Slerp(
+                    transform.rotation, 
+                    targetRotation, 
+                    Time.deltaTime * _rotationSpeed
+                );
+            }
+
+            // Check if we reached this waypoint (switch to next)
+            float distance = Vector3.Distance(
+                new Vector3(transform.position.x, 0, transform.position.z),
+                new Vector3(targetPos.x, 0, targetPos.z)
+            );
+
+            if (distance < _waypointReachDistance)
+            {
+                // Move to next waypoint in chain (for forks)
+                if (_currentWaypoint.nextWaypoint != null)
+                {
+                    _currentWaypoint = _currentWaypoint.nextWaypoint;
+                }
+                else
+                {
+                    // No more waypoints, stop rotating
+                    _isRotatingToWaypoint = false;
+                }
+            }
+        }
+        // ===========================================
+
+        // YOUR ORIGINAL MOVEMENT (unchanged)
         transform.Translate(Vector3.forward * (_currentSpeed * Time.deltaTime));
 
         // Change direction with keyboard
@@ -62,9 +110,7 @@ public class TrainController : MonoBehaviour
         {
             SetDirection(Direction.Left);
             _leverdir.Play();
-
         }
-
         else if (Input.GetKeyDown(KeyCode.D))
         {
             SetDirection(Direction.Right);
@@ -78,7 +124,6 @@ public class TrainController : MonoBehaviour
             StartTrain();
             _isrunning = true;
         }
-
         else if (Input.GetKeyDown(KeyCode.S) || GameManager.Instance._speedzero)
         {
             GameManager.Instance._speedzero = false;
@@ -87,6 +132,14 @@ public class TrainController : MonoBehaviour
             _isrunning = false; 
         }
     }
+
+    // ===== NEW METHOD: Set waypoint for rotation =====
+    public void SetRotationWaypoint(Waypoint waypoint)
+    {
+        _currentWaypoint = waypoint;
+        _isRotatingToWaypoint = true;
+    }
+    // ================================================
 
     private IEnumerator TrainDepature()
     {

@@ -8,7 +8,13 @@ public class DominoFork : MonoBehaviour
     [SerializeField] private Transform _spawnPointLeft;
     [SerializeField] private Transform _spawnPointRight;
     [SerializeField] private AudioSource _screamRight; 
-    [SerializeField] private AudioSource _screamLeft; 
+    [SerializeField] private AudioSource _screamLeft;
+
+    // ===== ADD WAYPOINT CHAINS =====
+    [Header("Waypoints")]
+    [SerializeField] private Waypoint _leftWaypointStart; // First of 3 left waypoints
+    [SerializeField] private Waypoint _rightWaypointStart; // First of 3 right waypoints
+    // ===============================
 
     private bool _spawnedNext;
 
@@ -28,11 +34,16 @@ public class DominoFork : MonoBehaviour
         if (goLeft)
         {
             _screamLeft.Play();
-            other.transform.Rotate(0f, -15f, 0f);
+            // Set waypoint chain for left curve (will auto-switch through 3 points)
+            if (_leftWaypointStart != null)
+                train.SetRotationWaypoint(_leftWaypointStart);
         }
         else
         {
             _screamRight.Play();
+            // Set waypoint chain for right curve
+            if (_rightWaypointStart != null)
+                train.SetRotationWaypoint(_rightWaypointStart);
         }
 
         GameManager.Instance._confirm = true;
