@@ -4,38 +4,23 @@ using UnityEngine;
 
 public class CinemachineCameraController : MonoBehaviour
 {
-    public CinemachineVirtualCamera[] Cameras = new CinemachineVirtualCamera[3];
-    
+    public CinemachineVirtualCamera[] Cameras;
+
+    private int activeIndex = 0;
+
     private void Update()
     {
-        if(Input.GetKeyDown((KeyCode.Keypad1)))
-        {   
-            ChangeCamera("cam1");
-        }
-        if(Input.GetKeyDown((KeyCode.Keypad2)))
-        {      
-            ChangeCamera("cam2");
-        }
-        if (Input.GetKeyDown((KeyCode.Keypad3)))
-        {
-            ChangeCamera("mainCam");
-        }
+        if (Input.GetKeyDown(KeyCode.Alpha1)) ChangeCamera(0);
+        if (Input.GetKeyDown(KeyCode.Alpha2)) ChangeCamera(1);
+        if (Input.GetKeyDown(KeyCode.Alpha3)) ChangeCamera(2);
     }
 
-    private void ChangeCamera(string camName)
+    private void ChangeCamera(int index)
     {
-        foreach (var cam in Cameras)
+        for (int i = 0; i < Cameras.Length; i++)
         {
-            if (camName == cam.name)
-            {
-                cam.Priority = 20;
-            }
-            else
-            {
-                cam.Priority = 10;
-            }
+            Cameras[i].Priority = (i == index) ? 100 : 0;
         }
+        activeIndex = index;
     }
-
-    
 }

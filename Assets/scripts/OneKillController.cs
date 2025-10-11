@@ -9,9 +9,7 @@ public class OneKillController : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         if (!other.CompareTag("Player")) return;
-        _killsound.Play(); 
-
-        
+        _killsound.Play();
         Destroy(gameObject);
     }
 }

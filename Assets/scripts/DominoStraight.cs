@@ -3,7 +3,7 @@ using UnityEngine;
 using TMPro;
 
 
-public class DominoStraight : MonoBehaviour
+public class DominoStraight : MonoBehaviour //TODO 
 {
     [SerializeField] private GameObject _straightPrefab;
     [SerializeField] private GameObject _forkPrefab;
@@ -86,7 +86,7 @@ public class DominoStraight : MonoBehaviour
         }
     }
 
-    private IEnumerator AlertSequence()
+    private IEnumerator AlertSequence()　//TODO　別のスクリプトに移動
     {
         _trackText.color = Color.red;
         _trackText.text = "Status: alert\nTrack: fork\nStop train";
@@ -133,7 +133,7 @@ public class DominoStraight : MonoBehaviour
         }
     }
 
-    private IEnumerator TypewriterEffect(TextMeshProUGUI textComponent, string fullText, float delay)
+    private IEnumerator TypewriterEffect(TextMeshProUGUI textComponent, string fullText, float delay)//TODO　別のスクリプトに移動
     {
         textComponent.text = "";
         
@@ -142,7 +142,7 @@ public class DominoStraight : MonoBehaviour
             //AudioManager.Instance.PlaySE(AudioManager.SEType.キーボード1,0.4f);
             textComponent.text += c;
             if (_typingAudio != null) 
-            _typingAudio.Play(); 
+                _typingAudio.Play(); 
             yield return new WaitForSeconds(delay);
         }
         if (_typingEndAudio != null) _typingEndAudio.Play();
@@ -155,7 +155,7 @@ public class DominoStraight : MonoBehaviour
             Destroy(gameObject);
     }
 
-    private void SpawnTeamNearPoint(TeamBuilder.HitPersonData team, Transform spawnPoint)
+    private void SpawnTeamNearPoint(TeamBuilder.HitPersonData team, Transform spawnPoint)　//TODO　別のスクリプトに移動
     {
         float offsetRadius = 5f;
         Vector3 basePos = spawnPoint.position;

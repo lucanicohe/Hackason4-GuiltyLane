@@ -55,7 +55,7 @@ public class TrainController : MonoBehaviour
     void Update()
     {
         // Move train forward
-        transform.Translate(Vector3.forward * _currentSpeed * Time.deltaTime);
+        transform.Translate(Vector3.forward * (_currentSpeed * Time.deltaTime));
 
         // Change direction with keyboard
         if (Input.GetKeyDown(KeyCode.A))
@@ -68,7 +68,7 @@ public class TrainController : MonoBehaviour
         else if (Input.GetKeyDown(KeyCode.D))
         {
             SetDirection(Direction.Right);
-        _leverdir.Play(); 
+            _leverdir.Play(); 
         }
 
         // Change speed with keyboard
