@@ -14,7 +14,7 @@ public class DominoFork : MonoBehaviour
     [Header("Waypoints")]
     [SerializeField] private Waypoint _leftWaypointStart; // First of 3 left waypoints
     [SerializeField] private Waypoint _rightWaypointStart; // First of 3 right waypoints
-    // ===============================
+    
 
     private bool _spawnedNext;
 

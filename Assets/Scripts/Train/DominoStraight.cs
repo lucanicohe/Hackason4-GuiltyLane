@@ -10,9 +10,9 @@ public class DominoStraight : MonoBehaviour
     [SerializeField] private Transform _spawnPointFork;
     [SerializeField] private float _despawnDistance = 25f;
 
-    // ===== ADD THIS =====
-    [SerializeField] private Waypoint _straightWaypoint; // Single waypoint for rotation
-    // ====================
+    
+    [SerializeField] private Waypoint _straightWaypoint; 
+    
 
     [Header("Team Spawn Points")]
     [SerializeField] private Transform _spawnPointRightTeam;
@@ -93,7 +93,7 @@ public class DominoStraight : MonoBehaviour
         }
     }
 
-    // ... rest of your code stays the same ...
+    
     
     private IEnumerator AlertSequence()
     {

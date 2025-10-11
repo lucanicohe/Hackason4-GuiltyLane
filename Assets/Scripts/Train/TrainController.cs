@@ -39,7 +39,7 @@ public class TrainController : MonoBehaviour
     private Waypoint _currentWaypoint;
     private float _waypointReachDistance = 1f; // Distance to switch to next waypoint
     private bool _isRotatingToWaypoint = false;
-    // ==================================
+    
 
     void Start()
     {
@@ -100,9 +100,7 @@ public class TrainController : MonoBehaviour
                 }
             }
         }
-        // ===========================================
-
-        // YOUR ORIGINAL MOVEMENT (unchanged)
+       
         transform.Translate(Vector3.forward * (_currentSpeed * Time.deltaTime));
 
         // Change direction with keyboard
@@ -133,13 +131,13 @@ public class TrainController : MonoBehaviour
         }
     }
 
-    // ===== NEW METHOD: Set waypoint for rotation =====
+    
     public void SetRotationWaypoint(Waypoint waypoint)
     {
         _currentWaypoint = waypoint;
         _isRotatingToWaypoint = true;
     }
-    // ================================================
+    
 
     private IEnumerator TrainDepature()
     {
