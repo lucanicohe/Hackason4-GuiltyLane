@@ -253,30 +253,5 @@ public class ItemSO : ScriptableObject
             Debug.Log($"{selectItemEffect} success, you earn {profit}");
             GameManager.Instance._infoText.text = "You will receive 0.8 to 1.5 times the purchase price in gold.";
         }
-
-    }
-
-    public enum SelectItemEffect
-    {
-        // GOV.
-        OfficialIdentityHint,
-        OfficialNumberHint,
-        // Prison
-        Deal,
-        InheritanceSystem,
-        Guarantee,
-        // Law
-        DefenseAttorney,
-        FinancialLawyer,
-        FinancialExpert,
-        // Church
-        BlessingOfThePriest,
-        ChurchsBlessing,
-        PapalAmnesty,
-        // Corp.
-        FamilyDeal,
-        Collector,
-        Investment,
-        GoldLoan,
     }
 }
