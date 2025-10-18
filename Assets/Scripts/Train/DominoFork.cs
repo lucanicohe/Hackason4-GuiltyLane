@@ -27,8 +27,8 @@ public class DominoFork : MonoBehaviour
 
         bool goLeft = train._lastDirection == TrainController.Direction.Left;
 
-        Instantiate(_straightPrefab, 
-            goLeft ? _spawnPointLeft.position : _spawnPointRight.position, 
+        Instantiate(_straightPrefab,
+            goLeft ? _spawnPointLeft.position : _spawnPointRight.position,
             Quaternion.identity);
 
         if (goLeft)
@@ -51,4 +51,51 @@ public class DominoFork : MonoBehaviour
     }
 
     private void OnTriggerExit(Collider other) => Destroy(gameObject);
+
+
+    // private List<float> _angles = new List<float>();
+    // private float _curveTime = 1f; // 各カーブにかける時間
+    // private float _currentTime;
+    // private float _endAngle;
+    // private float _startAngle;
+    // private float _currentAngle;
+    // private Quaternion _baseRotation; // 元の角度
+
+    // /// <summary>
+    // /// 左カーブするためのコルーチン
+    // /// </summary>
+    // private IEnumerator LeftCurve(Transform train)
+    // {
+    //     // 左方向のカーブなのでマイナス方向にカーブ
+    //     //0 
+    //     //7.5 (-7.5deg) 
+    //     //15 (-7.5deg) 
+    //     //7.5 (+7.5deg)
+    //     //0 (+7.5deg)
+    //     _angles.Add(0);
+    //     _angles.Add(-7.5f);
+    //     _angles.Add(-15f);
+    //     _angles.Add(-7.5f);
+    //     _angles.Add(0);
+
+    //     _baseRotation = train.rotation;
+
+    //     for (int i = 0; i < _angles.Count - 1; i++)
+    //     {
+    //         _startAngle = _angles[i];
+    //         _endAngle = _angles[i + 1];
+    //         _currentTime = 0f;
+
+    //         while (_currentTime < 1f)
+    //         {
+    //             _currentTime += Time.deltaTime / _curveTime;
+    //             _currentAngle = Mathf.Lerp(_startAngle, _endAngle, _currentTime);
+    //             train.rotation = _baseRotation * Quaternion.Euler(0f, _currentAngle, 0f);
+    //             yield return null;
+    //         }
+    //     }
+
+    //     // 元の角度に戻す
+    //     train.rotation = _baseRotation;
+    // }
 }
