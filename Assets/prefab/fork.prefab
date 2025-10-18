@@ -918,7 +918,7 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 21.7, y: 15.57, z: 50}
+  m_Size: {x: 21.7, y: 15.57, z: 30}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &8907118924994657545
 MonoBehaviour:
@@ -1011,7 +1011,7 @@ GameObject:
   - component: {fileID: 1591363219125684737}
   m_Layer: 0
   m_Name: left kill box
-  m_TagString: Untagged
+  m_TagString: Blood
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1050,7 +1050,7 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 21.7, y: 15.57, z: 50}
+  m_Size: {x: 21.7, y: 15.57, z: 30}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &5880126534985204595
 MonoBehaviour:
