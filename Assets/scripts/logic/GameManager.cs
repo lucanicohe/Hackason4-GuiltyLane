@@ -6,17 +6,14 @@ public class GameManager : Singleton<GameManager>
 {
     public const int BE_DISGUISED_INT = -1;
     public const string BE_DISGUISED_STRING = "■■■■";
-    [SerializeField]
-    TextMeshProUGUI _goldGuiltText;
-    [SerializeField]
-    TextMeshProUGUI _tollForkText;
+    [SerializeField] TextMeshProUGUI _goldGuiltText;
+    [SerializeField] TextMeshProUGUI _tollForkText;
     [SerializeField] public TextMeshProUGUI _infoText;
     [SerializeField] private AudioSource _goldsound; 
 
     public static bool ChooseDisguised;
-
-    private TeamBuilder.HitPersonData _RightHPD;
-    public TeamBuilder.HitPersonData RightHPD
+    private HitPersonData _RightHPD;
+    public HitPersonData RightHPD
     {
         get
         {
@@ -24,7 +21,7 @@ public class GameManager : Singleton<GameManager>
                 || _roundLevel == RoundLevel.Fifth
                 || _roundLevel == RoundLevel.Sixth)
             {
-                TeamBuilder.HitPersonData data = DisguisedPersonData(_RightHPD);
+                HitPersonData data = DisguisedPersonData(_RightHPD);
                 if (_isOfficialIdentityHintEffect && ChooseDisguised)
                 {
                     data.SelectRoleToShow = data.SelectRole;
@@ -39,8 +36,8 @@ public class GameManager : Singleton<GameManager>
         }
         private set { }
     }
-    private TeamBuilder.HitPersonData _LeftHPD;
-    public TeamBuilder.HitPersonData LeftHPD
+    private HitPersonData _LeftHPD;
+    public HitPersonData LeftHPD
     {
         get
         {
@@ -48,7 +45,7 @@ public class GameManager : Singleton<GameManager>
                 || _roundLevel == RoundLevel.Fifth
                 || _roundLevel == RoundLevel.Sixth)
             {
-                TeamBuilder.HitPersonData data = DisguisedPersonData(_LeftHPD);
+                HitPersonData data = DisguisedPersonData(_LeftHPD);
                 if (_isOfficialIdentityHintEffect && ChooseDisguised)
                 {
                     data.SelectRoleToShow = data.SelectRole;
@@ -64,12 +61,9 @@ public class GameManager : Singleton<GameManager>
         private set { }
     }
 
-    [SerializeField]
-    private float GetGoldGuilty = 6;
-    [SerializeField]
-    TeamBuilder teamBuilder;
-    [SerializeField]
-    TrainController trainController;
+    [SerializeField] private float GetGoldGuilty = 6;
+    [SerializeField] TeamBuilder teamBuilder;
+    [SerializeField] TrainController trainController;
     public bool _speedzero = false; //電車のスピードをゼロにする
 
     //自分が持っているお金
@@ -138,7 +132,7 @@ public class GameManager : Singleton<GameManager>
         Sixth,
         ToEnd,
     }
-
+    
     public RoundLevel _roundLevel = RoundLevel.First;
 
     void Update()
@@ -225,7 +219,7 @@ public class GameManager : Singleton<GameManager>
         }
     }
 
-    private TeamBuilder.HitPersonData InitialiZationOfersonData(TeamBuilder.HitPersonData data)
+    private HitPersonData InitialiZationOfersonData(HitPersonData data)
     {
         data.SelectRoleToShow = data.SelectRole;
         data.PersonnumToShow = data.Personnum;
@@ -233,7 +227,7 @@ public class GameManager : Singleton<GameManager>
         data.TotalGuiltyPercentToShow = data.TotalGuiltyPercent;
         return data;
     }
-    private TeamBuilder.HitPersonData DisguisedPersonData(TeamBuilder.HitPersonData data)
+    private HitPersonData DisguisedPersonData(HitPersonData data)
     {
         data = InitialiZationOfersonData(data);
         switch (_roundLevel)
