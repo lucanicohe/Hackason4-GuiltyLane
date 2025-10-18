@@ -573,7 +573,7 @@ Transform:
   m_GameObject: {fileID: 3006967469156904614}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -5.9, y: 12.4, z: 60.772}
+  m_LocalPosition: {x: 25.9, y: 12.4, z: 60.772}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -763,7 +763,7 @@ Transform:
   m_GameObject: {fileID: 5421065879983686979}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -49.7, y: 12.4, z: 57.7}
+  m_LocalPosition: {x: -30.9, y: 12.4, z: 57.7}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -876,9 +876,10 @@ GameObject:
   - component: {fileID: 4050385508169049458}
   - component: {fileID: 8088651000704000002}
   - component: {fileID: 8907118924994657545}
+  - component: {fileID: 654172744505094973}
   m_Layer: 0
   m_Name: right kill box
-  m_TagString: Untagged
+  m_TagString: Blood
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -891,13 +892,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6710183140422592645}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -6.2, y: 10.8, z: 60.7}
+  m_LocalRotation: {x: 0, y: 0.065403156, z: 0, w: 0.99785894}
+  m_LocalPosition: {x: 23.7, y: 10.8, z: 60.5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 608771604869886004}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 7.5, z: 0}
 --- !u!65 &8088651000704000002
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -933,6 +934,24 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _bloodPrefab: {fileID: 4628476814451033164, guid: 943d652c523ed40a39540e89fc8b493d, type: 3}
   _killsound: {fileID: 6860303268036048229}
+--- !u!114 &654172744505094973
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6710183140422592645}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e89ecd2e0441b47799e09f7344a4eeef, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _bloodsprites:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
 --- !u!1 &7712578362650438343
 GameObject:
   m_ObjectHideFlags: 0
@@ -989,6 +1008,7 @@ GameObject:
   - component: {fileID: 6298790528495327788}
   - component: {fileID: 8101029521210365287}
   - component: {fileID: 5880126534985204595}
+  - component: {fileID: 1591363219125684737}
   m_Layer: 0
   m_Name: left kill box
   m_TagString: Untagged
@@ -1004,13 +1024,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8443976866813378815}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: -0.13052624, z: 0, w: 0.9914449}
-  m_LocalPosition: {x: -51.1, y: 10.7, z: 57.31}
+  m_LocalRotation: {x: 0, y: -0.06540306, z: 0, w: 0.99785894}
+  m_LocalPosition: {x: -39.2, y: 10.7, z: 60.4}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 608771604869886004}
-  m_LocalEulerAnglesHint: {x: 0, y: -15, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: -7.5, z: 0}
 --- !u!65 &8101029521210365287
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1046,6 +1066,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _bloodPrefab: {fileID: 4628476814451033164, guid: 943d652c523ed40a39540e89fc8b493d, type: 3}
   _killsound: {fileID: 6860303268036048229}
+--- !u!114 &1591363219125684737
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8443976866813378815}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e89ecd2e0441b47799e09f7344a4eeef, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _bloodsprites: []
 --- !u!1001 &4293197168518640689
 PrefabInstance:
   m_ObjectHideFlags: 0
