@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.Rendering.PostProcessing;
 
 public class TrainController : MonoBehaviour
 {
@@ -23,6 +24,7 @@ public class TrainController : MonoBehaviour
 
     private Coroutine _cameraTransitionCoroutine;
     private Coroutine _TrainCoroutine;
+    private Coroutine _effectsCoroutine;
 
     private Vector3 _defaultCameraPos;
 
@@ -30,15 +32,24 @@ public class TrainController : MonoBehaviour
     [SerializeField] private GameObject _exitZoomButtonsParent;
 
     [SerializeField] private AudioSource _leverpower;
-    [SerializeField] private AudioSource _leverdir; 
+    [SerializeField] private AudioSource _leverdir;
     
     private bool _isrunning = false;
+
+    // ===== POST PROCESSING EFFECTS =====
+    [SerializeField] private PostProcessVolume _postProcessVolume;
+    private ChromaticAberration _chromaticAberration;
+
+    [SerializeField] private float _chromaticstart = 0.5f;
+    [SerializeField] private float _chromaticend = 1f;
+
 
     // ===== WAYPOINT ROTATION ONLY =====
     [SerializeField] private float _rotationSpeed = 3f; // Smooth rotation speed
     private Waypoint _currentWaypoint;
     private float _waypointReachDistance = 1f; // Distance to switch to next waypoint
     private bool _isRotatingToWaypoint = false;
+
     
 
     void Start()
@@ -54,6 +65,14 @@ public class TrainController : MonoBehaviour
 
         if (_exitZoomButtonsParent != null)
             _exitZoomButtonsParent.SetActive(false);
+
+        // ===== INITIALIZE POST PROCESSING EFFECTS =====
+        if (_postProcessVolume != null)
+        {
+            _postProcessVolume.profile.TryGetSettings(out _chromaticAberration);
+            if (_chromaticAberration != null)
+                _chromaticAberration.intensity.value = _chromaticstart;
+        }
     }
 
     void Update()
@@ -165,6 +184,27 @@ public class TrainController : MonoBehaviour
         }
     }
 
+    private IEnumerator TransitionEffects(float targetChromatic)
+    {
+        float _elapsedTime = 0f;
+        float startChromatic = _chromaticAberration.intensity.value;
+
+        while (_elapsedTime < _accelerationTime)
+        {
+            _elapsedTime += Time.deltaTime;
+            float per = _elapsedTime / _accelerationTime;
+
+            if (_chromaticAberration != null)
+                _chromaticAberration.intensity.value = Mathf.Lerp(startChromatic, targetChromatic, per);
+
+            yield return null;
+        }
+
+        // Ensure final value is set
+        if (_chromaticAberration != null)
+            _chromaticAberration.intensity.value = targetChromatic;
+    }
+
     private void StartTrain()
     {
         if (_TrainCoroutine != null)
@@ -174,6 +214,11 @@ public class TrainController : MonoBehaviour
         _stop.Stop();
         if (_throttleLever != null)
             _throttleLever.localPosition = _speedOnPos;
+
+        // Transition effects to on
+        if (_effectsCoroutine != null)
+            StopCoroutine(_effectsCoroutine);
+        _effectsCoroutine = StartCoroutine(TransitionEffects(_chromaticend));
     }
 
     private void StopTrain()
@@ -185,6 +230,11 @@ public class TrainController : MonoBehaviour
         _stop.Play();
         if (_throttleLever != null)
             _throttleLever.localPosition = _speedOffPos;
+
+        // Transition effects to off
+        if (_effectsCoroutine != null)
+            StopCoroutine(_effectsCoroutine);
+        _effectsCoroutine = StartCoroutine(TransitionEffects(_chromaticstart));
     }
 
     private void SetDirection(Direction dir)
