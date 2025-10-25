@@ -1,0 +1,54 @@
+﻿ID,JP,EN
+1,レムリア王国 – 内乱の渦中、全長21マイルの線路が、有罪判決を受けた犯罪者たちの運命を左右する。,Kingdom of Lemuria – Amidst civil unrest` a 21-mile-long train track determines the fate of convicted criminals.
+2,あなたは選ばれた運転手として、誰の生死を分けるのかを決める。,As the chosen conductor` you decide who lives and who dies.
+3,犯罪者から遺産を受け取るが、高位の標的を殺害すると罪悪感が募り、,Collect inheritance from the fallen` but beware: killing high-status targets raises your guilt`
+4,自らも線路に足を踏み入れることになるかもしれない...,and you might end up on the tracks yourself.
+5,W/S –   開始/停止,W/S – 　Start/Stop
+6,A/D –   左/右,A/D – 　Left/Right
+7,1/2/3 – カメラズーム,1/2/3 – Camera Zoom
+8,発車,INITIATE
+9,状態：,Status:
+10,記録：,Track:
+11,続ける,Continue game
+12,私財 :,Gold  : 
+13,罪率 :,Guilt : 
+14,通信中....,connecting…
+15,保管記録,Inventory
+16,永続記録,Permanent Items
+17,遺失記録,Normal Items
+18,記録,ItemName
+19,説明,Description here
+20,取引,OFFER
+21,政府,GOV.
+22,監獄,PRISON
+23,法律,LAW
+24,教会,CHURCH
+25,会社,CORP.
+26,記録,ItemName
+27,説明,Description here
+28,私財,Gold
+29,通行料,Toll
+30,区間,Fork
+31,選択肢の中から1人の犠牲者を明らかにする。,One casualty has been confirmed.
+32,選択肢の中から1人の犠牲者の番号(人数？)を明らかにする,Reveal the number of victims
+33,囚人(身分)は囚人(身分)の人数分だけ遺産が増える(永続),The prisoner's inheritance increases by the number of prisoners.
+34,囚人(身分)のシンボル：囚人(身分)の遺産と罪率が1.5倍増加する,The prisoner's inheritance and crime rate increase by 1.5 times.
+35,次のラウンドで必ず囚人(身分)がでる,A prisoner will definitely appear in the next round.
+36,プロの弁護を確保して取り分を最大化します。次の裁判で得られる相続は20%増加します。次のラウンドで得られる遺産が20%増える,The inheritance increases by 20%.
+37,エリート法律チームが資産を厳重に書類で保護します。相続が増えた場合、その後条件が変わっても減ることはありません。（恒久効果）(手錠：全ての身分の遺産が(一時的に増えた場合でも)減らなくなる(永続),The inheritance of all social classes will no longer be reduced.
+38,虫眼鏡：次のラウンドの通行料が20%減る,Toll fees are reduced by 20%.
+39,次のラウンドでは罪率が半減される,The crime rate is halved.
+40,選択によって公の罪悪感が50%以上急上昇する場合、教会が介入し罪悪感を0にリセットします。（1回のみ使用）,When guilt surges by more than 50%` the church intervenes and resets it to zero.
+41,教皇の恩赦により、現在の罪悪感が10%減少します。,Your current guilt will decrease by 10%.
+42,犠牲者に前払いして沈黙と相続を確保します。生存者も自分の取り分を渡し、選ばれなかった犠牲者からはゴールドを得られます。ただし、公の罪悪感は10%増加します。（恒久効果）,You can obtain gold from victims you did not choose. However` your guilt will increase by 10%.
+43,コレクターが犠牲者から1コインずつ絞り取ります。犯罪率が高いほど、相続から得られる金額も増えます。（相続増加は犯罪率に依存。恒久効果）,The higher the crime rate` the greater the amount of money you can inherit.
+44,危険な事業に参加します：相続が5倍になる確率は10%です。（1回のみ使用）,The probability of inheritance increasing fivefold is 10%.
+45,怪しい利率で迅速なローンを受けます。購入価格の0.8〜1.5倍のゴールドを得られます。（1回のみ使用,You will receive 0.8 to 1.5 times the purchase price in gold.
+46,正常,nomal
+47,警告,alert
+48,進め,straight
+49,曲がれ,fork
+50,進み続けろ,Continue driving
+51,止まれ,Stop train
+409,,
+410,,
