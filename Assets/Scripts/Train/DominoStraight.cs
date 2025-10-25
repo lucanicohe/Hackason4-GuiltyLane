@@ -1,6 +1,5 @@
-using System.Collections;
 using UnityEngine;
-using TMPro;
+using UnityEngine.Events;
 
 public class DominoStraight : MonoBehaviour
 {
@@ -18,14 +17,8 @@ public class DominoStraight : MonoBehaviour
     
     private bool _spawnedNext;
     private static int _globalStraightCount;
-    private Transform _player;
-    private TeamBuilder _teamBuilder;
-
-    private void Start()
-    {
-        _player = GameObject.FindGameObjectWithTag("Player").transform;
-        _teamBuilder = FindObjectOfType<TeamBuilder>();
-    }
+    
+    public UnityEvent onTimeToStartChoosing = new UnityEvent();
 
     private void OnTriggerEnter(Collider other)
     {
@@ -40,8 +33,6 @@ public class DominoStraight : MonoBehaviour
         {
             train.SetRotationWaypoint(_straightWaypoint);
         }
-        // ======================================
-
         _spawnedNext = true;
 
         if (_globalStraightCount < 2)
@@ -51,12 +42,8 @@ public class DominoStraight : MonoBehaviour
         }
         else
         {
-            StartCoroutine(MainUIManager.Instance.AlertSequence());
+            //start State Choosing
+            onTimeToStartChoosing?.Invoke();
         }
-    }
-    private void Update()
-    {
-        if (_player.position.z - transform.position.z > _despawnDistance)
-            Destroy(gameObject);
     }
 }

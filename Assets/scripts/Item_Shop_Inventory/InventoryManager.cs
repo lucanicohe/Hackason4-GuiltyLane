@@ -85,7 +85,7 @@ public void AddPermanentItem(string itemName, Sprite itemSprite, string itemDesc
             {
                 if (currentSelectedSlot.permanent) return;
                 
-                itemSO.UseItem();
+                // itemSO.UseItem();
                 _usesound.Play(); 
                 currentSelectedSlot.ReduceQuantity(1);
 
@@ -108,7 +108,7 @@ public void AddPermanentItem(string itemName, Sprite itemSprite, string itemDesc
         {
             if (itemSO.itemName == itemName)
             {
-                itemSO.UseItem();
+                // itemSO.UseItem();
             }
         }
     }

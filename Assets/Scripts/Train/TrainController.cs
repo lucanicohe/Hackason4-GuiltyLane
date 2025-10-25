@@ -135,15 +135,15 @@ public class TrainController : MonoBehaviour
         }
 
         // Change speed with keyboard
-        if (Input.GetKeyDown(KeyCode.W) && !GameManager.Instance._speedzero && !_isrunning)
+        if (Input.GetKeyDown(KeyCode.W)&& !_isrunning)
         {
             _leverpower.Play();
             StartTrain();
             _isrunning = true;
         }
-        else if (Input.GetKeyDown(KeyCode.S) || GameManager.Instance._speedzero)
+        else if (Input.GetKeyDown(KeyCode.S))
         {
-            GameManager.Instance._speedzero = false;
+            // GameManager.Instance._speedzero = false;
             StopTrain();
             _leverpower.Play();
             _isrunning = false; 

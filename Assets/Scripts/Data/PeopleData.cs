@@ -10,6 +10,8 @@ public class PeopleData : ScriptableObject
     public int MinInheritance;
     public int MaxGuiltyPercent;
     public int MinGuiltyPercent;
+
+    public GameObject prefab;
 }
 
 [System.Serializable , CreateAssetMenu(fileName = "Data", menuName = "ScriptableObjects/PeopleList", order = 1)]

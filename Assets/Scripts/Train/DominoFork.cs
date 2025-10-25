@@ -46,7 +46,7 @@ public class DominoFork : MonoBehaviour
                 train.SetRotationWaypoint(_rightWaypointStart);
         }
 
-        GameManager.Instance._confirm = true; 
+        // GameManager.Instance._confirm = true; 
         _spawnedNext = true;
     }
     private void OnTriggerExit(Collider other) => Destroy(gameObject);

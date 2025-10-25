@@ -1,13 +1,20 @@
 ﻿public class InventoryState : IState
-{
-    public void Enter()
+{   
+    private Shop _shop;
+    public InventoryState(Shop shop)
     {
+        _shop = shop;
+    }
+    public void Enter()
+    {   
         //open Inventory
+        _shop.SetInventory(true);
     }
 
     public void Exit()
     {
         //close Inventory
+        _shop.SetInventory(false);
     }
 
     public void Execute()

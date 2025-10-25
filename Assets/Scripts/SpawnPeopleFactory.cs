@@ -10,7 +10,7 @@ public class SpawnPeopleFactory : MonoBehaviour
     [SerializeField] private GameObject _noblePrefab;
     [SerializeField] private GameObject _ConfirmfalsePrefab;
     
-    private List<GameObject> SpawnTeamNearPoint(HitPersonData team, Transform spawnPoint)
+    public List<GameObject> SpawnTeamNearPoint(HitPersonData team, Transform spawnPoint)
     {
         float offsetRadius = 5f;
         Vector3 basePos = spawnPoint.position;

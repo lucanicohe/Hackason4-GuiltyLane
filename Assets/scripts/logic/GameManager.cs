@@ -2,7 +2,7 @@ using System.Collections;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-public class GameManager : Singleton<GameManager>
+public class GameManager : MonoBehaviour
 {
     public const int BE_DISGUISED_INT = -1;
     public const string BE_DISGUISED_STRING = "■■■■";

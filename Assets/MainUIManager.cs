@@ -20,42 +20,41 @@ public class MainUIManager : Singleton<MainUIManager>
 
     private void Start()
     {
-        _trackText.color = Color.green;
-        _trackText.text = "Status: normal\nTrack: straight\nContinue driving";
-        
-        _teamRightTexts.enabled = false;
-        _teamLeftTexts.enabled = false;
+        UpdateTrainNormalText();
     }
 
-    public IEnumerator AlertSequence()
+    public void UpdateTrackText(HitPersonData teamLeft, HitPersonData teamRight)
+    {
+        StartCoroutine(AlertSequence(teamLeft, teamRight));
+    }
+
+    private IEnumerator AlertSequence(HitPersonData teamLeft, HitPersonData teamRight)
     {
         _trackText.color = Color.red;
         _trackText.text = "Status: alert\nTrack: fork\nStop train";
         yield return new WaitForSeconds(2f);
         _trackText.text = "";
         
-        var teamA = GameManager.Instance.RightHPD;
-        var teamB = GameManager.Instance.LeftHPD;
-        StringBuilder teamAText = new StringBuilder();
-        StringBuilder teamBText = new StringBuilder();
+        StringBuilder teamLeftText = new StringBuilder();
+        StringBuilder teamRightText = new StringBuilder();
 
-        teamAText.AppendLine("processing...\n\nRIGHT\nRole: " + teamA.SelectRoleToShow);
-        teamAText.AppendLine("Members: " + (teamA.PersonnumToShow == GameManager.BE_DISGUISED_INT ? GameManager.BE_DISGUISED_STRING : teamA.PersonnumToShow) );
-        teamAText.AppendLine("Inheritance: " + (teamA.TotalInheritanceToShow == GameManager.BE_DISGUISED_INT ? GameManager.BE_DISGUISED_STRING : teamA.TotalInheritanceToShow));
-        teamAText.AppendLine("Guilty %: " + (teamA.TotalGuiltyPercentToShow == GameManager.BE_DISGUISED_INT ? GameManager.BE_DISGUISED_STRING : teamA.TotalGuiltyPercentToShow));
-        teamAText.AppendLine("user choice required...");
+        teamLeftText.AppendLine("processing...\n\nRIGHT\nRole: " + teamLeft.SelectRoleToShow);
+        teamLeftText.AppendLine("Members: " + (teamLeft.PersonnumToShow == GameManager.BE_DISGUISED_INT ? GameManager.BE_DISGUISED_STRING : teamLeft.PersonnumToShow) );
+        teamLeftText.AppendLine("Inheritance: " + (teamLeft.TotalInheritanceToShow == GameManager.BE_DISGUISED_INT ? GameManager.BE_DISGUISED_STRING : teamLeft.TotalInheritanceToShow));
+        teamLeftText.AppendLine("Guilty %: " + (teamLeft.TotalGuiltyPercentToShow == GameManager.BE_DISGUISED_INT ? GameManager.BE_DISGUISED_STRING : teamLeft.TotalGuiltyPercentToShow));
+        teamLeftText.AppendLine("user choice required...");
 
-        teamBText.AppendLine("processing...\n\nLEFT\nRole: " + teamB.SelectRoleToShow);
-        teamBText.AppendLine("Members: " + (teamB.PersonnumToShow == GameManager.BE_DISGUISED_INT ? GameManager.BE_DISGUISED_STRING : teamB.PersonnumToShow));
-        teamBText.AppendLine("Inheritance: " + (teamB.TotalInheritanceToShow == GameManager.BE_DISGUISED_INT ? GameManager.BE_DISGUISED_STRING : teamB.TotalInheritanceToShow));
-        teamBText.AppendLine("Guilty %: " + (teamB.TotalGuiltyPercentToShow == GameManager.BE_DISGUISED_INT ? GameManager.BE_DISGUISED_STRING : teamB.TotalGuiltyPercentToShow));
-        teamBText.AppendLine("nuser choice required...");
+        teamRightText.AppendLine("processing...\n\nLEFT\nRole: " + teamRight.SelectRoleToShow);
+        teamRightText.AppendLine("Members: " + (teamRight.PersonnumToShow == GameManager.BE_DISGUISED_INT ? GameManager.BE_DISGUISED_STRING : teamRight.PersonnumToShow));
+        teamRightText.AppendLine("Inheritance: " + (teamRight.TotalInheritanceToShow == GameManager.BE_DISGUISED_INT ? GameManager.BE_DISGUISED_STRING : teamRight.TotalInheritanceToShow));
+        teamRightText.AppendLine("Guilty %: " + (teamRight.TotalGuiltyPercentToShow == GameManager.BE_DISGUISED_INT ? GameManager.BE_DISGUISED_STRING : teamRight.TotalGuiltyPercentToShow));
+        teamRightText.AppendLine("nuser choice required...");
 
         
         _teamRightTexts.enabled = true;
         _teamLeftTexts.enabled = true;
-        StartCoroutine(TypewriterEffect(_teamRightTexts, teamAText.ToString(), 0.09f));
-        StartCoroutine(TypewriterEffect(_teamLeftTexts, teamBText.ToString(), 0.09f));
+        StartCoroutine(TypewriterEffect(_teamRightTexts, teamLeftText.ToString(), 0.09f));
+        StartCoroutine(TypewriterEffect(_teamLeftTexts, teamRightText.ToString(), 0.09f));
     }
 
     private IEnumerator TypewriterEffect(TextMeshProUGUI textComponent, string fullText, float delay)
@@ -69,6 +68,15 @@ public class MainUIManager : Singleton<MainUIManager>
             yield return new WaitForSeconds(delay);
         }
         _typingEndAudio?.PlayOneShot(_typingEndAudio.clip);
+    }
+
+    public void UpdateTrainNormalText()
+    {
+        _trackText.color = Color.green;
+        _trackText.text = "Status: normal\nTrack: straight\nContinue driving";
+        
+        _teamRightTexts.enabled = false;
+        _teamLeftTexts.enabled = false;
     }
 
 }
