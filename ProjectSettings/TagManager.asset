@@ -18,6 +18,7 @@ TagManager:
   - Peoples
   - postprocess
   - Blood
+  - Scream2
   layers:
   - Default
   - TransparentFX

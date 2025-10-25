@@ -17,6 +17,12 @@ public class DespawnController : MonoBehaviour
             Destroy(screamObj);
         }
 
+        GameObject screamObj2 = GameObject.FindGameObjectWithTag("Scream2");
+        if (screamObj != null)
+        {
+            Destroy(screamObj2);
+        }
+
         GameObject[] peoples = GameObject.FindGameObjectsWithTag("Peoples");
         foreach (var people in peoples)
         {
