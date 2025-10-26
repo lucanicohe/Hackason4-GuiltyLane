@@ -1,12 +1,26 @@
 using System;
+using System.Collections;
 using Cinemachine;
 using UnityEngine;
+using UnityEngine.Rendering.PostProcessing;
+using UnityEngine.UI;
 
 public class CinemachineCameraController : MonoBehaviour
 {
     public CinemachineVirtualCamera[] Cameras;
 
+    [SerializeField] private AudioSource _gunshot;
+    [SerializeField] private PostProcessVolume _postProcessVolume;
+    [SerializeField] private Image _fadeImage;
+    [SerializeField] private GameObject _fadeobject; 
+
     private int activeIndex = 0;
+    private bool _sewerslideTriggered = false;
+
+    void Start()
+    {
+        _fadeobject.SetActive(false); 
+    }
 
     private void Update()
     {
@@ -15,6 +29,15 @@ public class CinemachineCameraController : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Alpha3)) ChangeCamera(2);
         if (Input.GetKeyDown(KeyCode.Alpha4)) ChangeCamera(3);
         if (Input.GetKeyDown(KeyCode.Alpha5)) ChangeCamera(4);
+        if (Input.GetKeyDown(KeyCode.L)) ChangeCamera(5);
+
+        if (GameManager.Instance.GuiltyPercent >= 100 && !_sewerslideTriggered)
+        {
+            _sewerslideTriggered = true;
+            _fadeobject.SetActive(true); 
+            
+            StartCoroutine("Sewerslide");
+        }
     }
 
     private void ChangeCamera(int index)
@@ -24,5 +47,34 @@ public class CinemachineCameraController : MonoBehaviour
             Cameras[i].Priority = (i == index) ? 100 : 0;
         }
         activeIndex = index;
+    }
+
+    private IEnumerator Sewerslide()
+    {
+        yield return new WaitForSeconds(1f);
+        _gunshot.Play();
+        yield return new WaitForSeconds(1f);
+        ChangeCamera(5);
+        
+        
+
+        if (_fadeImage != null)
+        {
+            float elapsed = 0f;
+            Color color = _fadeImage.color;
+            color.a = 0f;
+            _fadeImage.color = color;
+
+            while (elapsed < 1f)
+            {
+                elapsed += Time.deltaTime;
+                color.a = Mathf.Clamp01(elapsed / 1f);
+                _fadeImage.color = color;
+                yield return null;
+            }
+
+            color.a = 1f;
+            _fadeImage.color = color;
+        }
     }
 }
