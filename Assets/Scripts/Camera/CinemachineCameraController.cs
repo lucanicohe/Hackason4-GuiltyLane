@@ -10,6 +10,7 @@ public class CinemachineCameraController : MonoBehaviour
     public CinemachineVirtualCamera[] Cameras;
 
     [SerializeField] private AudioSource _gunshot;
+    [SerializeField] private AudioSource _sad;
     [SerializeField] private PostProcessVolume _postProcessVolume;
     [SerializeField] private Image _fadeImage;
     [SerializeField] private GameObject _fadeobject; 
@@ -51,7 +52,8 @@ public class CinemachineCameraController : MonoBehaviour
 
     private IEnumerator Sewerslide()
     {
-        yield return new WaitForSeconds(1f);
+        _sad.Play();
+        yield return new WaitForSeconds(3f);
         _gunshot.Play();
         yield return new WaitForSeconds(1f);
         ChangeCamera(5);
