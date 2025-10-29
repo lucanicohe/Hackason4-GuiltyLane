@@ -1,15 +1,15 @@
 ﻿using System.Collections;
 using UnityEngine;
 
+[CreateAssetMenu(menuName = "CreateAction/InstantiatePeopleAction",fileName = "InstantiatePeopleAction")]
 public class InstantiatePeopleAction : PhaseActionSO
 {   
-    [SerializeField] private Vector3 rightPosition;
-    [SerializeField] private Vector3 leftPosition;
-    [SerializeField] private SpawnPeopleFactory  spawnPeopleFactory;
+    private SpawnPeopleFactory spawnPeopleFactory;
     public override IEnumerator Execute(GameContext gameContext)
-    {
-        InstantiatePoepleInPostion(gameContext.TeamA.Value, rightPosition);
-        InstantiatePoepleInPostion(gameContext.TeamB.Value, leftPosition);
+    {   
+        spawnPeopleFactory = gameContext.spawnPeopleFactory;
+        InstantiatePoepleInPostion(gameContext.TeamA, Vector3.zero);
+        InstantiatePoepleInPostion(gameContext.TeamB, Vector3.zero);
         yield return null;
     }
 

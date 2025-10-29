@@ -1,5 +1,7 @@
 ﻿using System.Collections;
+using UnityEngine;
 
+[CreateAssetMenu(menuName = "CreateAction/CheckGameDataAction",fileName = "CheckGameDataAction")]
 public class CheckGameDataAction : PhaseActionSO
 {
     private readonly int[] _tollRate = { 0, 15, 15, 30, 30, 40, 40 };
@@ -25,7 +27,6 @@ public class CheckGameDataAction : PhaseActionSO
         {
             GameFlowController.Instance.StopGameFlow();
         }
-        gameContext.TollForkSum.Value = (gameContext.Toll.Value, gameContext.Round.Value, gameContext.Turn.Value);
-        yield return null;
+        yield break;
     }
 }

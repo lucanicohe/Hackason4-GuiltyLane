@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Text;
 using TMPro;
@@ -8,15 +9,18 @@ public class MainUIViewer : Singleton<MainUIViewer>
 {   
     
     [Header("Texts")]
-    [SerializeField] private TextMeshProUGUI goldGuiltText;
-    [SerializeField] private TextMeshProUGUI tollForkText; 
+    [SerializeField] private TextMeshProUGUI goldText;
+    [SerializeField] private TextMeshProUGUI guiltyText;
+    [SerializeField] private TextMeshProUGUI roundText; 
+    [SerializeField] private TextMeshProUGUI turnText; 
+    [SerializeField] private TextMeshProUGUI tollText; 
     [SerializeField] private TextMeshProUGUI trackText;
     [SerializeField] private TextMeshProUGUI teamRightTexts;
     [SerializeField] private TextMeshProUGUI teamLeftTexts;
     
-    [Header("Audios")]
-    [SerializeField] private AudioSource typingAudio;
-    [SerializeField] private AudioSource typingEndAudio;
+    // [Header("Audios")]
+    // [SerializeField] private AudioSource typingAudio;
+    // [SerializeField] private AudioSource typingEndAudio;
     
     private CompositeDisposable _disposable = new();
     private void Start()
@@ -26,55 +30,64 @@ public class MainUIViewer : Singleton<MainUIViewer>
 
     public void Bind(GameContext gameContext)
     {
-        gameContext.GoldGuiltySum
-            .Subscribe(value =>
+        gameContext.Gold
+            .ObserveEveryValueChanged(v => v)
+            .Subscribe(v =>
             {
-                StringBuilder sb = new StringBuilder();
-                sb.AppendLine("Gold : " + value.gold);
-                sb.AppendLine("Guilty : " + value.guilty);
-                goldGuiltText.text = sb.ToString();
-            }).AddTo(_disposable);
-        gameContext.TollForkSum
-            .Subscribe(value =>
+                goldText.text = v.ToString();
+            })
+            .AddTo(_disposable);
+        gameContext.GuiltyPercent
+            .ObserveEveryValueChanged(v => v)
+            .Subscribe(v =>
             {
-                StringBuilder sb = new StringBuilder();
-                sb.AppendLine("Toll : " + value.toll);
-                sb.AppendLine("Round : " + value.Round + "-" + value.Turn);
-                tollForkText.text = sb.ToString();
-            }).AddTo(_disposable);
+                guiltyText.text = v.ToString();
+            })
+            .AddTo(_disposable);
+        gameContext.Round
+            .ObserveEveryValueChanged(v => v)
+            .Subscribe(v =>
+            {
+                roundText.text = v.ToString();
+            })
+            .AddTo(_disposable);
+        gameContext.Turn
+            .ObserveEveryValueChanged(v => v)
+            .Subscribe(v =>
+            {
+                turnText.text = v.ToString();
+            })
+            .AddTo(_disposable);
+        gameContext.Toll
+            .ObserveEveryValueChanged(v => v)
+            .Subscribe(v =>
+            {
+                tollText.text = v.ToString();
+            })
+            .AddTo(_disposable);
+    }
+
+    private void OnDisable()
+    {
+        _disposable.Dispose();
+    }
+
+    public void SetUpdateTrainText(HitPersonData rightData, HitPersonData leftData)
+    {
+        AlertSequence(rightData, teamRightTexts);
+        AlertSequence(leftData, teamLeftTexts);
     }
     
-    public void UpdateTrackText(HitPersonData teamLeft, HitPersonData teamRight)
+    private void AlertSequence(HitPersonData data,TextMeshProUGUI text)
     {
-        StartCoroutine(AlertSequence(teamLeft, teamRight));
-    }
-    private IEnumerator AlertSequence(HitPersonData teamLeft, HitPersonData teamRight)
-    {
-        trackText.color = Color.red;
-        trackText.text = "Status: alert\nTrack: fork\nStop train";
-        yield return new WaitForSeconds(2f);
-        trackText.text = "";
-        
-        StringBuilder teamLeftText = new StringBuilder();
-        StringBuilder teamRightText = new StringBuilder();
-
-        teamLeftText.AppendLine("processing...\n\nRIGHT\nRole: " + teamLeft.SelectRoleToShow);
-        teamLeftText.AppendLine("Members: " + teamLeft.PersonnumToShow);
-        teamLeftText.AppendLine("Inheritance: " + teamLeft.TotalInheritanceToShow);
-        teamLeftText.AppendLine("Guilty %: " + teamLeft.TotalGuiltyPercentToShow);
-        teamLeftText.AppendLine("user choice required...");
-
-        teamRightText.AppendLine("processing...\n\nLEFT\nRole: " + teamRight.SelectRoleToShow);
-        teamRightText.AppendLine("Members: " + teamRight.PersonnumToShow);
-        teamRightText.AppendLine("Inheritance: " + teamRight.TotalInheritanceToShow);
-        teamRightText.AppendLine("Guilty %: " + teamRight.TotalGuiltyPercentToShow);
-        teamRightText.AppendLine("user choice required...");
-
-        
-        teamRightTexts.enabled = true;
-        teamLeftTexts.enabled = true;
-        StartCoroutine(TypewriterEffect(teamRightTexts, teamLeftText.ToString(), 0.09f));
-        StartCoroutine(TypewriterEffect(teamLeftTexts, teamRightText.ToString(), 0.09f));
+        text.enabled = true;
+        StringBuilder sb = new StringBuilder();
+        sb.AppendLine("processing...\n\nRIGHT\nRole: " + data.SelectRoleToShow);
+        sb.AppendLine("Members: " + data.PersonnumToShow);
+        sb.AppendLine("Inheritance: " + data.TotalInheritanceToShow);
+        sb.AppendLine("Guilty %: " + data.TotalGuiltyPercentToShow);
+        sb.AppendLine("user choice required...");
+        StartCoroutine(TypewriterEffect(text, sb.ToString(), 0.09f));
     }
 
     private IEnumerator TypewriterEffect(TextMeshProUGUI textComponent, string fullText, float delay)
@@ -84,17 +97,24 @@ public class MainUIViewer : Singleton<MainUIViewer>
         foreach (var c in fullText)
         {
             textComponent.text += c;
-            typingAudio?.PlayOneShot(typingAudio.clip);
+            // typingAudio?.PlayOneShot(typingAudio.clip);
             yield return new WaitForSeconds(delay);
         }
-        typingEndAudio?.PlayOneShot(typingEndAudio.clip);
+        // typingEndAudio?.PlayOneShot(typingEndAudio.clip);
+    }
+
+    public IEnumerator UpdateTrainText()
+    {
+        trackText.color = Color.red;
+        trackText.text = "Status: alert\nTrack: fork\nStop train";
+        yield return new WaitForSeconds(2f);
+        trackText.text = "";
     }
 
     private void UpdateTrainNormalText()
     {
         trackText.color = Color.green;
         trackText.text = "Status: normal\nTrack: straight\nContinue driving";
-        
         teamRightTexts.enabled = false;
         teamLeftTexts.enabled = false;
     }

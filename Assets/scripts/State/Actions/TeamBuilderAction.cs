@@ -1,18 +1,20 @@
 ﻿using System.Collections;
 using UnityEngine;
 
+[CreateAssetMenu(menuName = "CreateAction/TeamBuilderAction",fileName = "TeamBuilderAction")]
 public class TeamBuilderAction : PhaseActionSO
 {
-    [SerializeField] private TeamBuilder teamBuilder;
     private HitPersonData TeamA;
     private HitPersonData TeamB;
+    private TeamBuilder teamBuilder;
     public override IEnumerator Execute(GameContext gameContext)
     {   
-        gameContext.TeamA = null;
-        gameContext.TeamB = null;
+        teamBuilder = gameContext.teamBuilder;
         yield return BuildTeams();
-        if (gameContext.TeamA != null) gameContext.TeamA.Value = TeamA;
-        if (gameContext.TeamB != null) gameContext.TeamB.Value = TeamB;
+        gameContext.TeamA = TeamA;
+        gameContext.TeamB = TeamB;
+        Debug.Log(JsonUtility.ToJson(gameContext.TeamA,true));
+        Debug.Log(JsonUtility.ToJson(gameContext.TeamB,true));
     }
 
     private IEnumerator BuildTeams()

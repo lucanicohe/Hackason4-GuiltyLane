@@ -5,15 +5,22 @@ public class GameFlowController : Singleton<GameFlowController>
 {
     [SerializeField] private GamePhaseSO startPhase;
     [SerializeField] private MainUIViewer mainUI;
+    [SerializeField] private SpawnPeopleFactory spawnPeopleFactory;
+    [SerializeField] private Shop Shop;
+    [SerializeField] private TeamBuilder TeamBuilder;
     
     private GamePhaseSO currentPhase;
     private Coroutine _flowCoroutine;
-    private GameContext gameContext = new GameContext();
+    private GameContext gameContext = new();
 
     private void Start()
     {
-        _flowCoroutine = StartCoroutine(RunGameFlow());
         mainUI.Bind(gameContext);
+        gameContext.spawnPeopleFactory =  spawnPeopleFactory;
+        gameContext.Shop = Shop;
+        gameContext.teamBuilder = TeamBuilder;
+        gameContext.mainUIViewer  = mainUI;
+        _flowCoroutine = StartCoroutine(RunGameFlow());
     }
 
     private IEnumerator RunGameFlow()

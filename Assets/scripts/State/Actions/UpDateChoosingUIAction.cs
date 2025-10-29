@@ -1,13 +1,13 @@
 ﻿using System.Collections;
 using UnityEngine;
-using UnityEngine.Serialization;
 
+[CreateAssetMenu(menuName = "CreateAction/UpDateChoosingUIAction",fileName = "UpDateChoosingUIAction")]
 public class UpDateChoosingUIAction : PhaseActionSO
 {   
     public override IEnumerator Execute(GameContext gameContext)
     {
         //update UI 
-        // mainUIViewer.UpdateTrackText(gameContext.TeamA, gameContext.TeamB);
-        yield break;
+        yield return gameContext.mainUIViewer.UpdateTrainText();
+        gameContext.mainUIViewer.SetUpdateTrainText(gameContext.TeamA, gameContext.TeamB);
     }
 }

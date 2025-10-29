@@ -21,15 +21,12 @@ public class TrainController : MonoBehaviour
 
     [SerializeField] private AudioSource _train;
     [SerializeField] private AudioSource _stop;
-
-    private Coroutine _cameraTransitionCoroutine;
+    
     private Coroutine _TrainCoroutine;
     private Coroutine _effectsCoroutine;
 
-    private Vector3 _defaultCameraPos;
-
-    [SerializeField] private GameObject _buttonParent;
-    [SerializeField] private GameObject _exitZoomButtonsParent;
+    // [SerializeField] private GameObject _buttonParent;
+    // [SerializeField] private GameObject _exitZoomButtonsParent;
 
     [SerializeField] private AudioSource _leverpower;
     [SerializeField] private AudioSource _leverdir;
@@ -49,9 +46,7 @@ public class TrainController : MonoBehaviour
     private Waypoint _currentWaypoint;
     private float _waypointReachDistance = 1f; // Distance to switch to next waypoint
     private bool _isRotatingToWaypoint = false;
-
     
-
     void Start()
     {
         if (_directionLever != null)
@@ -62,9 +57,6 @@ public class TrainController : MonoBehaviour
 
         lastDirection = Direction.Right;
         _currentSpeed = 0f;
-
-        if (_exitZoomButtonsParent != null)
-            _exitZoomButtonsParent.SetActive(false);
 
         // ===== INITIALIZE POST PROCESSING EFFECTS =====
         if (_postProcessVolume != null)

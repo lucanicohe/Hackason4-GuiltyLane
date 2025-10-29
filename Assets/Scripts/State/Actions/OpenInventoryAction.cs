@@ -1,13 +1,13 @@
 ﻿using System.Collections;
 using UnityEngine;
 
+[CreateAssetMenu(menuName = "CreateAction/OpenInventoryAction",fileName = "OpenInventoryAction")]
 public class OpenInventoryAction : PhaseActionSO
 {   
-    [SerializeField] private Shop _shop;
     public override IEnumerator Execute(GameContext gameContext)
     {
-        _shop.SetShop(false);
-        _shop.SetInventory(true);
+        gameContext.Shop.SetShop(false);
+        gameContext.Shop.SetInventory(true);
         yield return null;
     }
 }

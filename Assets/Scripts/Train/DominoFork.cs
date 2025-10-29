@@ -21,32 +21,28 @@ public class DominoFork : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         if (_spawnedNext || !other.CompareTag("Player")) return;
-
-        var train = other.GetComponent<TrainController>();
-        if (train == null) return;
-
-        bool goLeft = train.lastDirection == Direction.Left;
-
-        Instantiate(_straightPrefab,
-            goLeft ? _spawnPointLeft.position : _spawnPointRight.position,
-            Quaternion.identity);
-
-        if (goLeft)
-        {
+        if(!other.TryGetComponent<TrainController>(out var train))return;
+        
+        if (train.lastDirection == Direction.Left)
+        {   
+            Instantiate(_straightPrefab,
+                _spawnPointLeft.position,
+                Quaternion.identity);
             _screamLeft.Play();
             // Set waypoint chain for left curve (will auto-switch through 3 points)
             if (_leftWaypointStart != null)
                 train.SetRotationWaypoint(_leftWaypointStart);
         }
         else
-        {
+        {   
+            Instantiate(_straightPrefab,
+                _spawnPointRight.position,
+                Quaternion.identity);
             _screamRight.Play();
             // Set waypoint chain for right curve
             if (_rightWaypointStart != null)
                 train.SetRotationWaypoint(_rightWaypointStart);
         }
-
-        // GameManager.Instance._confirm = true; 
         _spawnedNext = true;
     }
     private void OnTriggerExit(Collider other) => Destroy(gameObject);

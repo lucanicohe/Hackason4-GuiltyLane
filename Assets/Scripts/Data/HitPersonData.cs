@@ -1,13 +1,12 @@
-﻿using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class HitPersonData
 {
     //--役職の名前--
-    public string SelectRole;
-    public string SelectRoleToShow;
-    public int RoleID;
-    public GameObject Prefab;
+    public string SelectRole = "String.Empty";
+    public string SelectRoleToShow = "String.Empty";
+    public int RoleID = -1;
+    public GameObject Prefab = null;
     
     //--ランダムに決まる遺産・人数
     public int Personnum = 0;

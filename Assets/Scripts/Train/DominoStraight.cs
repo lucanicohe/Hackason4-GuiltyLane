@@ -17,15 +17,10 @@ public class DominoStraight : MonoBehaviour
     
     private bool _spawnedNext;
     private static int _globalStraightCount;
-    
-    public UnityEvent onTimeToStartChoosing = new UnityEvent();
 
     private void OnTriggerEnter(Collider other)
     {
         if (_spawnedNext || !other.CompareTag("Player")) return;
-
-        // _trackText.color = Color.green;
-        // _trackText.text = "Status: normal\nTrack: straight\nContinue driving";
 
         // ===== SET ROTATION WAYPOINT ONCE =====
         var train = other.GetComponent<TrainController>();
@@ -39,11 +34,6 @@ public class DominoStraight : MonoBehaviour
         {
             Instantiate(_straightPrefab, _spawnPointStraight.position, Quaternion.identity);
             _globalStraightCount++;
-        }
-        else
-        {
-            //start State Choosing
-            onTimeToStartChoosing?.Invoke();
         }
     }
 }
