@@ -2,6 +2,7 @@ using System.Collections;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+
 public class GameManager : MonoBehaviour
 {
     public const int BE_DISGUISED_INT = -1;
@@ -121,17 +122,7 @@ public class GameManager : MonoBehaviour
     //右か、左か、選ばない、を選んだ後に確定するためのbool
     public bool _confirm = false;
     //ラウンド
-    public enum RoundLevel
-    {
-        None,
-        First,
-        Second,
-        Third,
-        Fourth,
-        Fifth,
-        Sixth,
-        ToEnd,
-    }
+    
     
     public RoundLevel _roundLevel = RoundLevel.First;
 
@@ -262,7 +253,7 @@ public class GameManager : MonoBehaviour
     {
         var tempTotalGuiltyPercent = 0;
         var tempTotalInheritance = 0;
-        if (trainController._lastDirection == TrainController.Direction.Right)
+        if (trainController.lastDirection == Direction.Right)
         {
             Debug.Log("右確定");
             _TotalGuiltyPercent = _RightHPD.TotalGuiltyPercent;
@@ -285,7 +276,7 @@ public class GameManager : MonoBehaviour
                     break;
             }
         }
-        else if (trainController._lastDirection == TrainController.Direction.Left)
+        else if (trainController.lastDirection == Direction.Left)
         {
             Debug.Log("左確定");
             _TotalGuiltyPercent = _LeftHPD.TotalGuiltyPercent;

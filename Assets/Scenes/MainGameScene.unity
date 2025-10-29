@@ -3243,11 +3243,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9010873cf35547809cac2367830e4e3e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _prisonerPrefab: {fileID: 2981929477558461247, guid: f20832136e3c14ed28040efbae6c784c, type: 3}
-  _citizenPrefab: {fileID: 2301980720392847892, guid: 1f0928fcd120145de8f6952c584c4242, type: 3}
-  _royalPrefab: {fileID: 1897523036374663298, guid: 4fd73d728c3db417a88e5eaa5d18e0df, type: 3}
-  _noblePrefab: {fileID: 6866488240512661751, guid: c1ec90bd3bd1149cba78676a5064889e, type: 3}
-  _ConfirmfalsePrefab: {fileID: 1790806901881938400, guid: 34f442472f176d840b948ac3706b9869, type: 3}
 --- !u!4 &1405630212
 Transform:
   m_ObjectHideFlags: 0
@@ -3333,7 +3328,10 @@ MonoBehaviour:
   _spawnPeopleFactory: {fileID: 1405630211}
   _teamBuilder: {fileID: 174591943}
   _shop: {fileID: 969561059}
+  _spawnRightPoint: {fileID: 0}
+  _spawnLeftPoint: {fileID: 0}
   _mainUIManager: {fileID: 554853808}
+  _spawnPeopleList: []
 --- !u!4 &1549726122
 Transform:
   m_ObjectHideFlags: 0

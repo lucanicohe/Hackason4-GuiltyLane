@@ -18,23 +18,6 @@ public class ShopManager : MonoBehaviour
         // Always keep shop disabled at start
         if (shop != null) shop.SetActive(false);
     }
-
-    // --- Methods for GameManager to control shop --- //
-    public void OpenShop()
-    {
-        if (shop != null) shop.SetActive(true);
-    }
-
-    public void CloseShop()
-    {
-        if (shop != null) shop.SetActive(false);
-    }
-
-    public bool IsShopOpen()
-    {
-        return shop != null && shop.activeSelf;
-    }
-
     // --- Other existing methods --- //
     public void DeselectAllSlots()
     {

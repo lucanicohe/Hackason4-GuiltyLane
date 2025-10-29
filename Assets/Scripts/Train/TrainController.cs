@@ -1,15 +1,15 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.Rendering.PostProcessing;
+using UnityEngine.Serialization;
 
 public class TrainController : MonoBehaviour
 {
     [SerializeField] private float _speed = 30f;
     private float _currentSpeed = 0f;
     [SerializeField] private float _accelerationTime = 1f;
-
-    public enum Direction { Right, Left }
-    public Direction _lastDirection = Direction.Right;
+    
+    public Direction lastDirection = Direction.Right;
 
     [SerializeField] private Transform _directionLever;
     private Vector3 _rightLeverPos = new Vector3(0.46f, 0.8125f, 0f);
@@ -60,7 +60,7 @@ public class TrainController : MonoBehaviour
         if (_throttleLever != null)
             _throttleLever.localPosition = _speedOffPos;
 
-        _lastDirection = Direction.Right;
+        lastDirection = Direction.Right;
         _currentSpeed = 0f;
 
         if (_exitZoomButtonsParent != null)
@@ -239,7 +239,7 @@ public class TrainController : MonoBehaviour
 
     private void SetDirection(Direction dir)
     {
-        _lastDirection = dir;
+        lastDirection = dir;
         if (_directionLever != null)
             _directionLever.localPosition = (dir == Direction.Left) ? _leftLeverPos : _rightLeverPos;
     }

@@ -25,7 +25,7 @@ public class DominoFork : MonoBehaviour
         var train = other.GetComponent<TrainController>();
         if (train == null) return;
 
-        bool goLeft = train._lastDirection == TrainController.Direction.Left;
+        bool goLeft = train.lastDirection == Direction.Left;
 
         Instantiate(_straightPrefab,
             goLeft ? _spawnPointLeft.position : _spawnPointRight.position,
