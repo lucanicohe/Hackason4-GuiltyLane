@@ -13,6 +13,7 @@ public class GameFlowController : Singleton<GameFlowController>
     private void Start()
     {
         _flowCoroutine = StartCoroutine(RunGameFlow());
+        mainUI.Bind(gameContext);
     }
 
     private IEnumerator RunGameFlow()

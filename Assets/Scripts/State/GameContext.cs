@@ -1,8 +1,8 @@
 ﻿using UniRx;
 public class GameContext
 {   
-    public HitPersonData TeamA = null;
-    public HitPersonData TeamB = null;
+    public ReactiveProperty<HitPersonData> TeamA = new();
+    public ReactiveProperty<HitPersonData> TeamB = new();
     
     public Direction LastTrainDirection = Direction.Right;
     

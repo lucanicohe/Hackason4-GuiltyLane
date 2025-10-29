@@ -8,8 +8,8 @@ public class InstantiatePeopleAction : PhaseActionSO
     [SerializeField] private SpawnPeopleFactory  spawnPeopleFactory;
     public override IEnumerator Execute(GameContext gameContext)
     {
-        InstantiatePoepleInPostion(gameContext.TeamA, rightPosition);
-        InstantiatePoepleInPostion(gameContext.TeamB, leftPosition);
+        InstantiatePoepleInPostion(gameContext.TeamA.Value, rightPosition);
+        InstantiatePoepleInPostion(gameContext.TeamB.Value, leftPosition);
         yield return null;
     }
 

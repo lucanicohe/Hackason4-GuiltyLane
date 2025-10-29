@@ -11,8 +11,8 @@ public class TeamBuilderAction : PhaseActionSO
         gameContext.TeamA = null;
         gameContext.TeamB = null;
         yield return BuildTeams();
-        gameContext.TeamA = TeamA;
-        gameContext.TeamB = TeamB;
+        if (gameContext.TeamA != null) gameContext.TeamA.Value = TeamA;
+        if (gameContext.TeamB != null) gameContext.TeamB.Value = TeamB;
     }
 
     private IEnumerator BuildTeams()

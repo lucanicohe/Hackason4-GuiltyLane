@@ -9,7 +9,6 @@ public class CheckGameDataAction : PhaseActionSO
         {
             GameFlowController.Instance.StopGameFlow();
         }
-        
         gameContext.Toll.Value = (int)gameContext.Round.Value * _tollRate[(int)gameContext.Round.Value];
         //check it need to Switch Round
         gameContext.Turn.Value ++;
@@ -26,6 +25,7 @@ public class CheckGameDataAction : PhaseActionSO
         {
             GameFlowController.Instance.StopGameFlow();
         }
+        gameContext.TollForkSum.Value = (gameContext.Toll.Value, gameContext.Round.Value, gameContext.Turn.Value);
         yield return null;
     }
 }
