@@ -10,11 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: cedec85ef9a743bb8017e6f6cdd5ae9a, type: 3}
-  m_Name: ChoosePhase
+  m_Name: ChooseingPhase
   m_EditorClassIdentifier: 
-  phaseName: ChoosePhase
-  duration: 5
-  nextPhase: {fileID: 11400000, guid: 4670f724f4709b64b860435ce5053bf9, type: 2}
+  phaseName: ChooseingPhase
+  duration: 30
+  nextPhase: {fileID: 11400000, guid: ef12f8e5250cf6c4aae9b43a78ffb05d, type: 2}
   actions:
   - {fileID: 11400000, guid: 86592f9f49e7416439a5c12e3cabfaee, type: 2}
-  - {fileID: 11400000, guid: 35b265b2fc5afef4589b7fcfa78657e9, type: 2}
+  - {fileID: 11400000, guid: ccd1742a84228de42a129cb8d677f3b7, type: 2}

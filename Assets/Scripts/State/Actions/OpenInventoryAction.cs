@@ -8,6 +8,6 @@ public class OpenInventoryAction : PhaseActionSO
     {
         gameContext.Shop.SetShop(false);
         gameContext.Shop.SetInventory(true);
-        yield return null;
+        yield break;
     }
 }

@@ -14,6 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   phaseName: UpdataChooseUI
   duration: 5
-  nextPhase: {fileID: 11400000, guid: ef12f8e5250cf6c4aae9b43a78ffb05d, type: 2}
+  nextPhase: {fileID: 11400000, guid: ec4c804e807f9164494a577869efebf5, type: 2}
   actions:
   - {fileID: 11400000, guid: 35bab214c61bb5f4db4b1d2329c12750, type: 2}

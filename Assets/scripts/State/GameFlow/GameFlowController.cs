@@ -8,18 +8,15 @@ public class GameFlowController : Singleton<GameFlowController>
     [SerializeField] private SpawnPeopleFactory spawnPeopleFactory;
     [SerializeField] private Shop Shop;
     [SerializeField] private TeamBuilder TeamBuilder;
+    [SerializeField] private TrainController trainController;
     
     private GamePhaseSO currentPhase;
     private Coroutine _flowCoroutine;
-    private GameContext gameContext = new();
+    private GameContext gameContext;
 
     private void Start()
     {
-        mainUI.Bind(gameContext);
-        gameContext.spawnPeopleFactory =  spawnPeopleFactory;
-        gameContext.Shop = Shop;
-        gameContext.teamBuilder = TeamBuilder;
-        gameContext.mainUIViewer  = mainUI;
+        gameContext = InitislizeContext(new GameContext());
         _flowCoroutine = StartCoroutine(RunGameFlow());
     }
 
@@ -46,11 +43,22 @@ public class GameFlowController : Singleton<GameFlowController>
         yield return new WaitForSeconds(phase.duration);
     }
     
-    public void StopGameFlow()
+    public void StopGameFlow(string text)
     {
         if (_flowCoroutine != null)
             StopCoroutine(_flowCoroutine);
-
+        Debug.Log($"=== End Game {text} ===");
         //End Game 
+    }
+
+    private GameContext InitislizeContext(GameContext context)
+    {
+        mainUI.Bind(context);
+        context.spawnPeopleFactory =  spawnPeopleFactory;
+        context.Shop = Shop;
+        context.teamBuilder = TeamBuilder;
+        context.mainUIViewer  = mainUI;
+        context.trainController = trainController;
+        return context;
     }
 }

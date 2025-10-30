@@ -7,9 +7,10 @@ public class CheckGameDataAction : PhaseActionSO
     private readonly int[] _tollRate = { 0, 15, 15, 30, 30, 40, 40 };
     public override IEnumerator Execute(GameContext gameContext)
     {
-        if (gameContext.GuiltyPercent.Value <= 100)
+        gameContext.Gold.Value += gameContext.Salary;
+        if (gameContext.GuiltyPercent.Value >= 100)
         {
-            GameFlowController.Instance.StopGameFlow();
+            GameFlowController.Instance.StopGameFlow("TOO GUILTY");
         }
         gameContext.Toll.Value = (int)gameContext.Round.Value * _tollRate[(int)gameContext.Round.Value];
         //check it need to Switch Round
@@ -18,14 +19,14 @@ public class CheckGameDataAction : PhaseActionSO
         {
             if (gameContext.Gold.Value < gameContext.Toll.Value)
             {
-                GameFlowController.Instance.StopGameFlow();
+                GameFlowController.Instance.StopGameFlow("NO MONEY");
             }
             gameContext.Turn.Value = TurnLevel.First;
             gameContext.Round.Value++;
         }
         if (gameContext.Round.Value == RoundLevel.ToEnd)
         {
-            GameFlowController.Instance.StopGameFlow();
+            GameFlowController.Instance.StopGameFlow("GAME CLEAR");
         }
         yield break;
     }

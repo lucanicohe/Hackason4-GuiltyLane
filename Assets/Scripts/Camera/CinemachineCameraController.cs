@@ -1,28 +1,62 @@
-using System;
 using Cinemachine;
 using UnityEngine;
 
 public class CinemachineCameraController : MonoBehaviour
 {
-    public CinemachineVirtualCamera[] Cameras;
+    [Header("Cinemachine Virtual Cameras")]
+    [SerializeField] private CinemachineVirtualCamera mainTrainCamera;
+    [SerializeField] private CinemachineVirtualCamera[] subCameras;
 
-    private int activeIndex = 0;
+    private int activeIndex = -1; 
+
+    private void Start()
+    {
+        SetMainCameraActive();
+    }
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Alpha1)) ChangeCamera(0);
-        if (Input.GetKeyDown(KeyCode.Alpha2)) ChangeCamera(1);
-        if (Input.GetKeyDown(KeyCode.Alpha3)) ChangeCamera(2);
-        if (Input.GetKeyDown(KeyCode.Alpha4)) ChangeCamera(3);
-        if (Input.GetKeyDown(KeyCode.Alpha5)) ChangeCamera(4);
+        for (int i = 0; i < subCameras.Length; i++)
+        {
+            if (Input.GetKeyDown(KeyCode.Alpha1 + i))
+            {
+                ChangeCamera(i);
+            }
+        }
     }
 
     private void ChangeCamera(int index)
     {
-        for (int i = 0; i < Cameras.Length; i++)
+        if (index < 0 || index >= subCameras.Length)
         {
-            Cameras[i].Priority = (i == index) ? 100 : 0;
+            Debug.LogWarning($"Invalid camera index: {index}");
+            return;
         }
-        activeIndex = index;
+        
+        if (activeIndex == index)
+        {
+            SetMainCameraActive();
+            activeIndex = -1;
+        }
+        else
+        {
+            mainTrainCamera.Priority = 0;
+            
+            for (int i = 0; i < subCameras.Length; i++)
+            {
+                subCameras[i].Priority = i == index ? 100 : 0;
+            }
+            activeIndex = index;
+        }
+    }
+
+    private void SetMainCameraActive()
+    {
+        mainTrainCamera.Priority = 100;
+        foreach (var cam in subCameras)
+        {
+            cam.Priority = 0;
+        }
+        activeIndex = -1;
     }
 }

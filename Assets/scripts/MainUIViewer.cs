@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using System.Text;
 using TMPro;
@@ -31,35 +30,30 @@ public class MainUIViewer : Singleton<MainUIViewer>
     public void Bind(GameContext gameContext)
     {
         gameContext.Gold
-            .ObserveEveryValueChanged(v => v)
             .Subscribe(v =>
             {
                 goldText.text = v.ToString();
             })
             .AddTo(_disposable);
         gameContext.GuiltyPercent
-            .ObserveEveryValueChanged(v => v)
             .Subscribe(v =>
             {
                 guiltyText.text = v.ToString();
             })
             .AddTo(_disposable);
         gameContext.Round
-            .ObserveEveryValueChanged(v => v)
             .Subscribe(v =>
             {
                 roundText.text = v.ToString();
             })
             .AddTo(_disposable);
         gameContext.Turn
-            .ObserveEveryValueChanged(v => v)
             .Subscribe(v =>
             {
                 turnText.text = v.ToString();
             })
             .AddTo(_disposable);
         gameContext.Toll
-            .ObserveEveryValueChanged(v => v)
             .Subscribe(v =>
             {
                 tollText.text = v.ToString();
@@ -82,11 +76,12 @@ public class MainUIViewer : Singleton<MainUIViewer>
     {
         text.enabled = true;
         StringBuilder sb = new StringBuilder();
-        sb.AppendLine("processing...\n\nRIGHT\nRole: " + data.SelectRoleToShow);
-        sb.AppendLine("Members: " + data.PersonnumToShow);
-        sb.AppendLine("Inheritance: " + data.TotalInheritanceToShow);
-        sb.AppendLine("Guilty %: " + data.TotalGuiltyPercentToShow);
-        sb.AppendLine("user choice required...");
+        sb.AppendLine("processing...");
+        sb.AppendLine("Role: " + data.SelectRole);
+        sb.AppendLine("Members: " + data.Personnum);
+        sb.AppendLine("Inheritance: " + data.TotalInheritance);
+        sb.AppendLine("Guilty %: " + data.TotalGuiltyPercent);
+        sb.AppendLine("Choice Required...");
         StartCoroutine(TypewriterEffect(text, sb.ToString(), 0.09f));
     }
 
@@ -111,7 +106,7 @@ public class MainUIViewer : Singleton<MainUIViewer>
         trackText.text = "";
     }
 
-    private void UpdateTrainNormalText()
+    public void UpdateTrainNormalText()
     {
         trackText.color = Color.green;
         trackText.text = "Status: normal\nTrack: straight\nContinue driving";

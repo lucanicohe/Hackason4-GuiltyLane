@@ -10,7 +10,7 @@ public class InstantiatePeopleAction : PhaseActionSO
         spawnPeopleFactory = gameContext.spawnPeopleFactory;
         InstantiatePoepleInPostion(gameContext.TeamA, Vector3.zero);
         InstantiatePoepleInPostion(gameContext.TeamB, Vector3.zero);
-        yield return null;
+        yield break;
     }
 
     private void InstantiatePoepleInPostion(HitPersonData data, Vector3 position)

@@ -16,4 +16,5 @@ MonoBehaviour:
   duration: 5
   nextPhase: {fileID: 11400000, guid: 3138f16a8b008524e912d34c58caed07, type: 2}
   actions:
+  - {fileID: 11400000, guid: 3302a8fe94f48184b9231b7f74ab7426, type: 2}
   - {fileID: 11400000, guid: ee99bcc7fc0f19a469c8eb93419fb062, type: 2}
