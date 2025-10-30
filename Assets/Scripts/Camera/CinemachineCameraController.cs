@@ -9,7 +9,7 @@ public class CinemachineCameraController : MonoBehaviour
 
     private int activeIndex = -1; 
 
-    private void Start()
+    private void Awake()
     {
         SetMainCameraActive();
     }
@@ -52,7 +52,7 @@ public class CinemachineCameraController : MonoBehaviour
 
     private void SetMainCameraActive()
     {
-        mainTrainCamera.Priority = 100;
+        if (mainTrainCamera) mainTrainCamera.Priority = 100;
         foreach (var cam in subCameras)
         {
             cam.Priority = 0;

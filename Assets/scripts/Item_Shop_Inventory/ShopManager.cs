@@ -5,18 +5,22 @@ public class ShopManager : MonoBehaviour
 {
     public GameObject shop; // The shop panel
     [SerializeField, Header("Item Slot List")] public ShopItemSlot[] shopItemSlot;
-    [SerializeField] private GameManager _gameManager;
     [SerializeField] private InventoryManager _inventoryManager;
-
     [SerializeField] private AudioSource _nomoneysound;
     [SerializeField] private AudioSource _buysound; 
 
     private string[] _soldOutPermanentItems;
+    private GameContext _gameContext;
 
     private void Start()
     {
         // Always keep shop disabled at start
         if (shop != null) shop.SetActive(false);
+    }
+
+    public void BindContext(GameContext gameContext)
+    {
+        _gameContext =  gameContext;
     }
     // --- Other existing methods --- //
     public void DeselectAllSlots()
@@ -43,15 +47,15 @@ public class ShopManager : MonoBehaviour
 
     public void Payment(int itemPrice)
     {
-        if (_gameManager.Gold < itemPrice)
+        if (_gameContext.Gold.Value < itemPrice)
         {
             Debug.Log("Wallet says: nope.");
-            _nomoneysound.Play();
+            // _nomoneysound.Play();
             return;
         }
         Debug.Log("Purchase success.");
-        _gameManager.Gold -= itemPrice;
-        _buysound.Play(); 
+        _gameContext.Gold.Value -= itemPrice;
+        // _buysound.Play(); 
     }
 
     public void OnPurchase()

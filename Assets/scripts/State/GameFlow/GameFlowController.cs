@@ -56,6 +56,7 @@ public class GameFlowController : Singleton<GameFlowController>
         mainUI.Bind(context);
         context.spawnPeopleFactory =  spawnPeopleFactory;
         context.Shop = Shop;
+        Shop.BindShop(context);
         context.teamBuilder = TeamBuilder;
         context.mainUIViewer  = mainUI;
         context.trainController = trainController;

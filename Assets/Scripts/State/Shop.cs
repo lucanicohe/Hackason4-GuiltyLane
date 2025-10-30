@@ -27,4 +27,9 @@ public class Shop : MonoBehaviour
         yield return new WaitForSeconds(time);
         if (_shopAlertImage) _shopAlertImage.SetActive(false);
     }
+
+    public void BindShop(GameContext gameContext)
+    {
+        _shopManager.BindContext(gameContext);
+    }
 }
