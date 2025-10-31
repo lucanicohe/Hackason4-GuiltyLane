@@ -78,7 +78,9 @@ public class ShopItemSlot : MonoBehaviour, IPointerClickHandler
     }
 
     public void OnPointerClick(PointerEventData eventData)
-    {
+    {   
+        var go = eventData.lastPress;
+        Debug.Log(go);
         if (eventData.button == PointerEventData.InputButton.Left)
         {
             OnLeftClick();

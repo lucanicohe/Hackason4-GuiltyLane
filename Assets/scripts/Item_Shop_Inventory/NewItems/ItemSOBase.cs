@@ -7,6 +7,7 @@ public abstract class ItemSOBase : ScriptableObject
         [TextArea] public string itemDescription;
         [SerializeField] public int price;
         [SerializeField] public bool permanent;
+        [SerializeField] public int quantity;
 
         public abstract void UseItem();
 }
