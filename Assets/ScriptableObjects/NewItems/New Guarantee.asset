@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8c2852b5bddc456090d711e9318867ad, type: 3}
   m_Name: New Guarantee
   m_EditorClassIdentifier: 
-  itemSprite: {fileID: 0}
-  itemName: 
-  itemDescription: 
-  price: 0
+  itemSprite: {fileID: 21300000, guid: 33f3d13605933854fb5a6fa66fefc720, type: 3}
+  itemName: Guarantee
+  itemDescription: A Prisoner victim is guaranteed to appear in the next fork.
+  price: 10
   permanent: 0

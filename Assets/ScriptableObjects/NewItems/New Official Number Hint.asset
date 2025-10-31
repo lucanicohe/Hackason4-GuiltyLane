@@ -12,8 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 14312c1be97c466f86b96aa434d62dde, type: 3}
   m_Name: New Official Number Hint
   m_EditorClassIdentifier: 
-  itemSprite: {fileID: 0}
-  itemName: 
-  itemDescription: 
-  price: 0
+  itemSprite: {fileID: 21300000, guid: 5961c66a8bdfaff40a30ced14f028b54, type: 3}
+  itemName: OffectNumberFint
+  itemDescription: 'Obtain verified data: Reveal the number of one of the victims
+    from the choices (1 time).'
+  price: 15
   permanent: 0

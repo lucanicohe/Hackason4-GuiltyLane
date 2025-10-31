@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cc27635dc4c74ea8a790dbab481ab639, type: 3}
   m_Name: New Financial Expert
   m_EditorClassIdentifier: 
-  itemSprite: {fileID: 0}
-  itemName: 
-  itemDescription: 
-  price: 0
+  itemSprite: {fileID: 21300000, guid: 21a077fbe0d072441b3e575f88f3f728, type: 3}
+  itemName: FinancialExpert
+  itemDescription: 'The toll fee after the next trial is reduced by 20%. '
+  price: 20
   permanent: 0

@@ -12,8 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a398b7e6feb4458ead9ccc98f1e2a627, type: 3}
   m_Name: New Family Deal
   m_EditorClassIdentifier: 
-  itemSprite: {fileID: 0}
-  itemName: 
-  itemDescription: 
-  price: 0
-  permanent: 0
+  itemSprite: {fileID: 21300000, guid: 13f0201eea5de174cadde0181d560f94, type: 3}
+  itemName: FamilyDeal
+  itemDescription: 'Survivors will also hand over their share, however, public guilt
+    increases by 10%. (Permanent effect.) '
+  price: 50
+  permanent: 1

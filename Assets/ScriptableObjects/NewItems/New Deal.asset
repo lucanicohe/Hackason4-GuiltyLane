@@ -12,8 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8fda23fa93984fb78bac88d9879d0189, type: 3}
   m_Name: New Deal
   m_EditorClassIdentifier: 
-  itemSprite: {fileID: 0}
-  itemName: 
-  itemDescription: 
-  price: 0
-  permanent: 0
+  itemSprite: {fileID: 21300000, guid: 7490ea53f8a1b714ebc026031342fa16, type: 3}
+  itemName: Deal
+  itemDescription: Every prisoner victim killed earns you bonus gold on top of their
+    inheritance, multiplied by the number of prisoners killed. (Permanent effect.)
+  price: 50
+  permanent: 1

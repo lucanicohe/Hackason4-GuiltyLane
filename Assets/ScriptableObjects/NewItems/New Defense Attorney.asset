@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8d7e1b68eb024d6dbfe72ff612424490, type: 3}
   m_Name: New Defense Attorney
   m_EditorClassIdentifier: 
-  itemSprite: {fileID: 0}
-  itemName: 
-  itemDescription: 
+  itemSprite: {fileID: 21300000, guid: 3e247dfe031830048892a9b935280597, type: 3}
+  itemName: DefenseAttorney
+  itemDescription: All inheritance gained in the next trial increases by 20%.
   price: 0
   permanent: 0
