@@ -10,7 +10,7 @@ using UnityEngine.UI;
 public class NewShopManager : MonoBehaviour
 {
     [SerializeField] private GameObject shop; // The shop panel
-    [SerializeField] private InventoryManager _inventoryManager; 
+    [SerializeField] private NewInventoryManager _inventoryManager; 
     [SerializeField] private List<NewShopItemSlot> ShopItemSlots;
     
     private GameContext _gameContext;
@@ -92,6 +92,7 @@ public class NewShopManager : MonoBehaviour
             SoldPermanentItems.Add(_currentItemSO);
         }
         //add item to inventory
+        _inventoryManager.AddItemInInventory(_currentItemSO);
         
         foreach (var item in ShopItemSlots)
         {

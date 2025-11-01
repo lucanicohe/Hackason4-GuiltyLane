@@ -16,7 +16,7 @@ public class NewShopItemSlot : MonoBehaviour,IPointerClickHandler
     {
         _itemImage = GetComponentInChildren<ImageTag>().GetComponent<Image>();
         _itemShader = GetComponentInChildren<ImageShaderTag>().GetComponent<Image>();
-
+        SetItemShader(false);
         _itemImage.sprite = itemSO.itemSprite;
     }
 

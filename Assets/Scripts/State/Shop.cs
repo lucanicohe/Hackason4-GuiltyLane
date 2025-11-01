@@ -4,8 +4,10 @@ using UnityEngine;
 public class Shop : MonoBehaviour
 {
     [SerializeField] private GameObject _shopAlertImage;
-    [SerializeField] private ShopManager _shopManager;
-    [SerializeField] private InventoryManager _inventoryManager;
+    [SerializeField] private NewShopManager _shopManager;
+    [SerializeField] private NewInventoryManager _inventoryManager;
+    [SerializeField] private GameObject _shop;
+    [SerializeField] private GameObject _inventory;
     
     public void SetShop(bool Active)
     {
@@ -13,12 +15,12 @@ public class Shop : MonoBehaviour
         {
             StartCoroutine(ShowShopAlert(3.0f));
         }
-        if (_shopManager) _shopManager.shop.SetActive(Active);
+        if (_shop) _shop.SetActive(Active);
     }
 
     public void SetInventory(bool Active)
     {
-        if (_inventoryManager) _inventoryManager.InventoryActive = Active;
+        if (_inventory) _inventory.SetActive(Active);
     }
 
     private IEnumerator ShowShopAlert(float time)

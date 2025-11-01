@@ -1,4 +1,4 @@
-﻿
+﻿using System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -6,101 +6,55 @@ using UnityEngine.UI;
 
 public class NewInventoryItemSlot : MonoBehaviour, IPointerClickHandler
 {
-    // public Sprite emptySprite;
+    private ItemSOBase itemSO;
+    private int _itemNum;
+    public event Action<NewInventoryItemSlot> OnItemSlotClick;
+    private Image _itemImage;
+    private Image _itemShader;
+    private TMP_Text _quantityText;
 
-    //== Item Data ==//  
-    [SerializeField, Header("・Item data")]
-    public string itemName;
-    public int itemPrice;
-    public int quantity;
-    public Sprite itemSprite;
-    public string itemDescription;
-    public bool permanent;
-
-    [SerializeField] private int _maxNumberOfItems;
-
-    //== Item SLOT ==//  
-    [SerializeField, Header("・Item slot")] private Image _itemImage;
-    [SerializeField] private TMP_Text _quantityText;
-    [SerializeField] public GameObject selectedShader;
-
-    //== ITEM DESCRIPTION SLOT ==//
-    [SerializeField, Header("・Item description slot")] public Image ItemDescriptionImage;
-    [SerializeField] public TMP_Text ItemDescriptionNameText;
-    [SerializeField] public TMP_Text ItemDescriptionText;
-    [SerializeField] public TMP_Text ItemDescriptionQuantity;
-
-    //== Other ==//
-    [SerializeField, Header("・Other")] private ShopManager _shopManager;
-    [SerializeField] private InventoryManager _inventoryManager;
-    [SerializeField] private GameObject _useButton;
-    public bool thisItemSelected;
-    public bool isFull;
-
-    public int AddItem(string itemName, int quantity, Sprite itemSprite, string itemDescription)
+    private void Awake()
     {
-        //Check to see if the slot is already full
-        if (isFull) return quantity;
-
-        // Update Name
-        this.itemName = itemName;
-
-        // Update Image
-        this.itemSprite = itemSprite;
-        _itemImage.sprite = itemSprite;
-
-        // Update Permanent
-
-        // Update Description
-        this.itemDescription = itemDescription;
-
-        // Update Quantity
-        this.quantity += quantity;
-        if (this.quantity >= _maxNumberOfItems)
-        {
-            _quantityText.text = $"x{_maxNumberOfItems}";
-            _quantityText.enabled = true;
-            isFull = true;
-
-            // Return the LeftOvers
-            int extraItems = this.quantity - _maxNumberOfItems;
-            this.quantity = _maxNumberOfItems;
-            return extraItems;
-        }
-        // Update Quantity Text
-        _quantityText.text = $"x{this.quantity}";
-        _quantityText.enabled = true;
-
-        return 0;
+        _itemImage = GetComponentInChildren<ImageTag>().GetComponent<Image>();
+        _quantityText = GetComponentInChildren<TMP_Text>();
+        _itemShader = GetComponentInChildren<ImageShaderTag>().GetComponent<Image>();
+        SetItemShader(false);
     }
-
-    public void AddPermanentItem(string itemName, Sprite itemSprite, string itemDescription, bool permanent)
+    public void SetItemShader(bool Active)
     {
-        //Check to see if the slot is already full
-        if (isFull) return;
-
-        // Update Name
-        this.itemName = itemName;
-
-        // Update Image
-        this.itemSprite = itemSprite;
-        _itemImage.sprite = itemSprite;
-
-        // Update Description
-        this.itemDescription = itemDescription;
-
-        this.quantity = 1;
-        this.permanent = permanent;
-        isFull = true;     
+        _itemShader.enabled = Active;
     }
-
     public void OnPointerClick(PointerEventData eventData)
     {
-        
+        OnItemSlotClick?.Invoke(this);
     }
 
-    public void OnLeftClick()
+    public void SetItemImage()
     {
-        
+        _itemImage.sprite = itemSO.itemSprite;
+    }
+    public ItemSOBase GetItemSOBase()
+    {
+        return itemSO;
+    }
+    public void SetItemSOBase(ItemSOBase itemSO,int num)
+    {
+        if (this.itemSO == itemSO)
+        {
+            _itemNum += num;
+            _quantityText.text = $"x{_itemNum}";
+        }
+        else
+        {
+            this.itemSO = itemSO;
+            _itemNum += num;
+            _quantityText.text = $"x{_itemNum}";
+        }
+        if (_itemNum == 0)
+        {
+            this.itemSO = null;
+            _itemImage.sprite =  null;
+            _quantityText.text = "";
+        }
     }
 }
