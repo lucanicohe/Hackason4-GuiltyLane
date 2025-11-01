@@ -2,16 +2,19 @@
 using System.Linq;
 using TMPro;
 using Unity.VisualScripting;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class NewShopManager : MonoBehaviour,IPointerClickHandler
+public class NewShopManager : MonoBehaviour
 {
     [SerializeField] private GameObject shop; // The shop panel
     [SerializeField] private InventoryManager _inventoryManager; 
+    [SerializeField] private List<NewShopItemSlot> ShopItemSlots;
     
     private GameContext _gameContext;
+    private NewShopItemSlot _currentItemSlot;
     private ItemSOBase _currentItemSO;
     private List<ItemSOBase> SoldPermanentItems = new();
     
@@ -25,10 +28,25 @@ public class NewShopManager : MonoBehaviour,IPointerClickHandler
     {
         // Always keep shop disabled at start
         if (shop != null) shop.SetActive(false);
+        foreach (var item in ShopItemSlots)
+        {
+            item.OnItemSlotClick += ItemClickEvent;
+        }
     }
     public void BindContext(GameContext gameContext)
     {
         _gameContext =  gameContext;
+    }
+
+    private void ItemClickEvent(NewShopItemSlot ItemSlot)
+    {
+        if (_currentItemSlot != null)
+        {
+            _currentItemSlot.SetItemShader(false);
+        }
+        _currentItemSlot =  ItemSlot;
+        _currentItemSlot.SetItemShader(true);
+        UpdateCurrentItem(ItemSlot.GetItemSOBase());
     }
 
     private bool Payment(int itemPrice)
@@ -44,7 +62,7 @@ public class NewShopManager : MonoBehaviour,IPointerClickHandler
     }
 
     private void UpdateCurrentItem(ItemSOBase itemSO)
-    {
+    {   
         this._currentItemSO = itemSO;
         UpdateItemDescription(itemSO);
     }
@@ -74,10 +92,12 @@ public class NewShopManager : MonoBehaviour,IPointerClickHandler
             SoldPermanentItems.Add(_currentItemSO);
         }
         //add item to inventory
-    }
-
-    public void OnPointerClick(PointerEventData eventData)
-    {
         
+        foreach (var item in ShopItemSlots)
+        {
+            item.SetItemShader(false);
+        }
+        _currentItemSlot =  null;
+        _currentItemSO = null;
     }
 }
