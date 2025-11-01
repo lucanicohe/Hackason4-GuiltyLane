@@ -5,7 +5,7 @@ public class GameContext
     public Shop Shop;
     public TeamBuilder teamBuilder;
     public MainUIViewer mainUIViewer;
-    public TrainController trainController;
+    public NewTrainController trainController;
     public HitPersonData TeamA;
     public HitPersonData TeamB;
     
@@ -18,4 +18,6 @@ public class GameContext
     public ReactiveProperty<RoundLevel> Round = new(RoundLevel.First);
     public ReactiveProperty<TurnLevel> Turn = new(TurnLevel.First);
     public IntReactiveProperty Toll = new(0);
+    
+    
 }

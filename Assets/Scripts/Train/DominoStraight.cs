@@ -7,7 +7,7 @@ public class DominoStraight : MonoBehaviour
     [SerializeField] private GameObject _forkPrefab;
     [SerializeField] private Transform _spawnPointStraight;
     [SerializeField] private Transform _spawnPointFork;
-    [SerializeField] private float _despawnDistance = 25f;
+    // [SerializeField] private float _despawnDistance = 25f;
     [SerializeField] private Waypoint _straightWaypoint; 
     
 

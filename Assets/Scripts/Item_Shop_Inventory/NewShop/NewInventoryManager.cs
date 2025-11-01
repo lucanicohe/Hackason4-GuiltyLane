@@ -63,7 +63,7 @@ public class NewInventoryManager : MonoBehaviour
             Debug.Log("No item selected");
             return;
         }
-        _currentItemSO.UseItem();
+        _currentItemSO.UseItem(null);//TODO add context
         _currentItemSlot.SetItemShader(false);
         _currentItemSlot.SetItemSOBase(_currentItemSO,-1);
         _currentItemSlot = null;

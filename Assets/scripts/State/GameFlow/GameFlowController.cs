@@ -8,7 +8,7 @@ public class GameFlowController : Singleton<GameFlowController>
     [SerializeField] private SpawnPeopleFactory spawnPeopleFactory;
     [SerializeField] private Shop Shop;
     [SerializeField] private TeamBuilder TeamBuilder;
-    [SerializeField] private TrainController trainController;
+    [SerializeField] private NewTrainController trainController;
     
     private GamePhaseSO currentPhase;
     private Coroutine _flowCoroutine;

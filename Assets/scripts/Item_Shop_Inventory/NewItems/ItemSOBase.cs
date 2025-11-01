@@ -10,5 +10,5 @@ public abstract class ItemSOBase : ScriptableObject
         [SerializeField] public bool permanent;
         [SerializeField] public int quantity;
 
-        public abstract void UseItem();
+        public abstract void UseItem(GameContext context);
 }

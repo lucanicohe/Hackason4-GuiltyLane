@@ -10,8 +10,7 @@ public class MainUIViewer : Singleton<MainUIViewer>
     [Header("Texts")]
     [SerializeField] private TextMeshProUGUI goldText;
     [SerializeField] private TextMeshProUGUI guiltyText;
-    [SerializeField] private TextMeshProUGUI roundText; 
-    [SerializeField] private TextMeshProUGUI turnText; 
+    [SerializeField] private TextMeshProUGUI roundTurnText; 
     [SerializeField] private TextMeshProUGUI tollText; 
     [SerializeField] private TextMeshProUGUI trackText;
     [SerializeField] private TextMeshProUGUI teamRightTexts;
@@ -41,23 +40,17 @@ public class MainUIViewer : Singleton<MainUIViewer>
                 guiltyText.text = v.ToString();
             })
             .AddTo(_disposable);
-        gameContext.Round
-            .Subscribe(v =>
-            {
-                roundText.text = v.ToString();
-            })
-            .AddTo(_disposable);
-        gameContext.Turn
-            .Subscribe(v =>
-            {
-                turnText.text = v.ToString();
-            })
-            .AddTo(_disposable);
         gameContext.Toll
             .Subscribe(v =>
             {
                 tollText.text = v.ToString();
             })
+            .AddTo(_disposable);
+        gameContext.Round.CombineLatest(
+                gameContext.Turn,
+                (round, turn) => $"{(int)round}-{(int)turn}"
+            )
+            .Subscribe(text => roundTurnText.text = text)
             .AddTo(_disposable);
     }
 
