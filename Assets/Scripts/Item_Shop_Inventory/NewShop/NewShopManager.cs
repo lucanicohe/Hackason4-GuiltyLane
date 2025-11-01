@@ -74,9 +74,22 @@ public class NewShopManager : MonoBehaviour
         ItemDescriptionPrice.text = $"${itemSO.price}";
     }
 
+    private void ResetItemDescription()
+    {
+        ItemDescriptionImage.sprite = null;
+        ItemDescriptionNameText.text =  "";
+        ItemDescriptionText.text = "";
+        ItemDescriptionPrice.text = "$";
+    }
+
     public void OnPurchase()
     {
         // check if is permanent & is solded
+        if (_currentItemSlot == null || _currentItemSO  == null)
+        {   
+            Debug.Log("No current item slot.");
+            return;
+        }
         if (SoldPermanentItems.Contains(_currentItemSO))
         {
             Debug.Log("item is already exist");
@@ -98,7 +111,8 @@ public class NewShopManager : MonoBehaviour
         {
             item.SetItemShader(false);
         }
-        _currentItemSlot =  null;
+        _currentItemSlot = null;
         _currentItemSO = null;
+        ResetItemDescription();
     }
 }

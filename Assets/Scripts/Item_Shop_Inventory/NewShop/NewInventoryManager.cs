@@ -58,6 +58,11 @@ public class NewInventoryManager : MonoBehaviour
 
     public void UseItem()//bind to button
     {
+        if (_currentItemSO == null)
+        {   
+            Debug.Log("No item selected");
+            return;
+        }
         _currentItemSO.UseItem();
         _currentItemSlot.SetItemShader(false);
         _currentItemSlot.SetItemSOBase(_currentItemSO,-1);
