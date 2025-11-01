@@ -10,19 +10,19 @@ public class NewShopItemSlot : MonoBehaviour,IPointerClickHandler
     
     public event Action<NewShopItemSlot> OnItemSlotClick;
     private Image _itemImage;
-    private GameObject _itemShader;
+    private Image _itemShader;
 
     private void Awake()
     {
         _itemImage = GetComponentInChildren<ImageTag>().GetComponent<Image>();
-        _itemShader = GetComponentInChildren<ImageShaderTag>().gameObject;
+        _itemShader = GetComponentInChildren<ImageShaderTag>().GetComponent<Image>();
 
         _itemImage.sprite = itemSO.itemSprite;
     }
 
     public void SetItemShader(bool Active)
     {
-        _itemShader.SetActive(Active);
+        _itemShader.enabled = Active;
     }
     public void OnPointerClick(PointerEventData eventData)
     {

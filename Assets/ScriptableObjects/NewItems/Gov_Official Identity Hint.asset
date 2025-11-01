@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 92c0d182718943f080ad4af2919fb77f, type: 3}
-  m_Name: New Official Identity Hint
+  m_Name: Gov_Official Identity Hint
   m_EditorClassIdentifier: 
   itemSprite: {fileID: 21300000, guid: bf4cc8e31fd0ec040bf8e03a702a140a, type: 3}
   itemName: OfficialIdentity
