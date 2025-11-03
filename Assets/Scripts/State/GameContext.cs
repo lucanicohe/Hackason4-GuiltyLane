@@ -5,7 +5,7 @@ public class GameContext
     public Shop Shop;
     public TeamBuilder teamBuilder;
     public MainUIViewer mainUIViewer;
-    public NewTrainController trainController;
+    public NewTrainController NewTrainController;
     public HitPersonData TeamA;
     public HitPersonData TeamB;
     

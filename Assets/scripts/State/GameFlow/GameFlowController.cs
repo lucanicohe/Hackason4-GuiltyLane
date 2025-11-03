@@ -59,7 +59,7 @@ public class GameFlowController : Singleton<GameFlowController>
         Shop.BindShop(context);
         context.teamBuilder = TeamBuilder;
         context.mainUIViewer  = mainUI;
-        context.trainController = trainController;
+        context.NewTrainController = trainController;
         return context;
     }
 }
