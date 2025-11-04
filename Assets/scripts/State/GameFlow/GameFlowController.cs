@@ -40,7 +40,7 @@ public class GameFlowController : Singleton<GameFlowController>
         {
             yield return StartCoroutine(action.Execute(gameContext));
         }
-        yield return new WaitForSeconds(phase.duration);
+        yield return new WaitForSeconds(phase.duration); //TODO ADD TRIGGER 
     }
     
     public void StopGameFlow(string text)
