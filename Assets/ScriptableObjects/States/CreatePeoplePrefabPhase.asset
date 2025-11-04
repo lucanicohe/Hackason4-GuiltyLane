@@ -10,10 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: cedec85ef9a743bb8017e6f6cdd5ae9a, type: 3}
-  m_Name: SwitchTrainPhase
+  m_Name: CreatePeoplePrefabPhase
   m_EditorClassIdentifier: 
-  phaseName: SwitchTrainPhase
-  duration: 5
+  phaseName: CreatePeoplePrefabPhase
+  isExitTriggerEnter: 0
   nextPhase: {fileID: 11400000, guid: f6df87fd54045c64388ea1962810b551, type: 2}
   actions:
-  - {fileID: 11400000, guid: 4dbdad51526a4e549b0f988865b1387b, type: 2}
+  - {fileID: 11400000, guid: 14bd0babfe06462479406f90ec8478d1, type: 2}

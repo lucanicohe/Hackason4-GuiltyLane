@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: ShopPhase
   m_EditorClassIdentifier: 
   phaseName: ShopPhase
-  duration: 20
+  isExitTriggerEnter: 1
   nextPhase: {fileID: 11400000, guid: 5f438381bdb810548b2fe2a0e70f4da7, type: 2}
   actions:
   - {fileID: 11400000, guid: 975de8f18cd9a6f478dbf355a0d3cb6e, type: 2}

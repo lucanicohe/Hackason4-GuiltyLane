@@ -6,54 +6,74 @@ public class TrainSplineMover : MonoBehaviour
 {
     [SerializeField] private SplineContainer splineContainer;
     [SerializeField] private float moveSpeed = 2f;
-    [SerializeField] private bool switchToSecondSpline;
     [SerializeField] private float3 posOffset;
 
-    private int currentSplineIndex;
-    private float t;
+    public enum SplineType
+    {
+        Main,
+        Left,
+        Right,
+        None
+    }
+    [SerializeField]public SplineType switchSplineType;
+    private SplineType _lastChooseSplineType;
+    
+    private Spline _currentSpline;
+    private float _t;
+
+    private void SwitchSpline(SplineType splineType)
+    {
+        var type = splineType;
+        if (type == SplineType.None)
+        {
+            type = _lastChooseSplineType;
+        }
+        _currentSpline = splineContainer[(int)type];
+        switch (type)
+        {
+            case SplineType.Main:
+                switchSplineType = SplineType.None;
+                break;
+            case SplineType.Left or SplineType.Right:
+                _lastChooseSplineType = switchSplineType;
+                switchSplineType = SplineType.Main;
+                break;
+        }
+       
+    }
+
+    private void Awake()
+    {
+        _currentSpline = splineContainer[0];
+        switchSplineType = SplineType.Right;
+        _lastChooseSplineType = SplineType.Right;
+    }
 
     private void Update()
     {
-        if (splineContainer == null) return;
-        if (t > 1f && currentSplineIndex == 1)
-        {
-            currentSplineIndex = 0;
-            t = 0f;
-        }
-        if (switchToSecondSpline && currentSplineIndex == 0)
-        {
-            currentSplineIndex = 1;
-            t = 0f; // 重設進度
-            Debug.Log("Switch to spline1");
-        }
+        SplineMove(_currentSpline);
+    }
 
-        Spline spline = null;
-        var num = splineContainer.Splines.Count;
-        if (currentSplineIndex < num)
-        {
-            spline = splineContainer[currentSplineIndex];
-        }
+    private void SplineMove(Spline spline)
+    {
         if (spline == null) return;
-
         float length = spline.GetLength();
-        t += Time.deltaTime * moveSpeed / length;
+        _t += Time.deltaTime * moveSpeed / length;
 
-        if (t > 1f)
+        if (_t > 1f)
         {
-            t = 0f;
+            SwitchSpline(switchSplineType);
+            _t = 0;
         }
-
-        // 移動位置
-        float3 position = spline.EvaluatePosition(t);
+        
+        float3 position = spline.EvaluatePosition(_t);
         position += posOffset;
         transform.position = position;
-
-        // (可選) 轉向
-        float3 tangent = spline.EvaluateTangent(t);
+        
+        float3 tangent = spline.EvaluateTangent(_t);
         if (!math.all(tangent == 0))
         {
             transform.rotation = Quaternion.LookRotation(tangent);
         }
     }
-    
 }

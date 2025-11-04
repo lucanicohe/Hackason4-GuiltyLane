@@ -5,7 +5,7 @@ using UnityEngine;
 public class GamePhaseSO : ScriptableObject
 {
     public string phaseName;
-    public float duration = 30f;
+    public bool isExitTriggerEnter;
     public GamePhaseSO nextPhase;
     public List<PhaseActionSO> actions;
 }

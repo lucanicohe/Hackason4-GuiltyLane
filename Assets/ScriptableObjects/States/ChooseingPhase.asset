@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: ChooseingPhase
   m_EditorClassIdentifier: 
   phaseName: ChooseingPhase
-  duration: 5
-  nextPhase: {fileID: 11400000, guid: ef12f8e5250cf6c4aae9b43a78ffb05d, type: 2}
+  isExitTriggerEnter: 1
+  nextPhase: {fileID: 11400000, guid: 24b2744c805b9d34eb4d127c99855bc7, type: 2}
   actions:
   - {fileID: 11400000, guid: 86592f9f49e7416439a5c12e3cabfaee, type: 2}
   - {fileID: 11400000, guid: ccd1742a84228de42a129cb8d677f3b7, type: 2}

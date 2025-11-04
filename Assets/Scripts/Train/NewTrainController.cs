@@ -1,4 +1,5 @@
 ﻿
+using System;
 using System.Collections;
 using UnityEngine;
 
@@ -21,6 +22,9 @@ public class NewTrainController : MonoBehaviour
     private Coroutine _trainCoroutine;
     private Coroutine _effectsCoroutine;
     private bool _isrunning;
+    [SerializeField]private TrainSplineMover trainSplineMover;
+
+    public event Action<string> OnTrainEnterGameFlowTrigger;
     
     private void Awake()
     {   
@@ -39,10 +43,14 @@ public class NewTrainController : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.A))
         {
             SwitchDirectionLeverDirection(Direction.Left);
+            lastDirection = Direction.Left;
+            trainSplineMover.switchSplineType = TrainSplineMover.SplineType.Left;
         }
         else if (Input.GetKeyDown(KeyCode.D))
         {
             SwitchDirectionLeverDirection(Direction.Right);
+            lastDirection = Direction.Right;
+            trainSplineMover.switchSplineType = TrainSplineMover.SplineType.Right;
         }
         // Change speed with keyboard
         // if (Input.GetKeyDown(KeyCode.W)&& !_isrunning)
@@ -111,6 +119,11 @@ public class NewTrainController : MonoBehaviour
         var levDir = throttleLever.localPosition;
         levDir.z = speedOn ? SpeedOnPosZ : SpeedOffPosZ;
         throttleLever.localPosition = levDir;
+    }
+    
+    private void OnTriggerEnter(Collider other)
+    {
+        OnTrainEnterGameFlowTrigger?.Invoke(other.tag);
     }
     
 }

@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using UnityEngine;
 
 public class GameFlowController : Singleton<GameFlowController>
@@ -9,6 +10,8 @@ public class GameFlowController : Singleton<GameFlowController>
     [SerializeField] private Shop Shop;
     [SerializeField] private TeamBuilder TeamBuilder;
     [SerializeField] private NewTrainController trainController;
+    [SerializeField] private Transform spawnPointTeamA;
+    [SerializeField] private Transform spawnPointTeamB;
     
     private GamePhaseSO currentPhase;
     private Coroutine _flowCoroutine;
@@ -18,6 +21,16 @@ public class GameFlowController : Singleton<GameFlowController>
     {
         gameContext = InitislizeContext(new GameContext());
         _flowCoroutine = StartCoroutine(RunGameFlow());
+    }
+
+    private void OnEnable()
+    {
+        trainController.OnTrainEnterGameFlowTrigger += EnterGameFlowTrigger;
+    }
+    
+    private void OnDisable()
+    {
+        trainController.OnTrainEnterGameFlowTrigger -= EnterGameFlowTrigger;
     }
 
     private IEnumerator RunGameFlow()
@@ -36,11 +49,13 @@ public class GameFlowController : Singleton<GameFlowController>
 
     private IEnumerator RunPhase(GamePhaseSO phase)
     {
+        phase.isExitTriggerEnter = false;
         foreach (var action in phase.actions)
         {
             yield return StartCoroutine(action.Execute(gameContext));
         }
-        yield return new WaitForSeconds(phase.duration); //TODO ADD TRIGGER 
+
+        yield return new WaitUntil(() => phase.isExitTriggerEnter); //TODO ADD TRIGGER 
     }
     
     public void StopGameFlow(string text)
@@ -60,6 +75,16 @@ public class GameFlowController : Singleton<GameFlowController>
         context.teamBuilder = TeamBuilder;
         context.mainUIViewer  = mainUI;
         context.NewTrainController = trainController;
+        context.SpawnPointTeamA = spawnPointTeamA;
+        context.SpawnPointTeamB = spawnPointTeamB;
         return context;
+    }
+    
+    private void EnterGameFlowTrigger(string triggerTag)
+    {
+        if (currentPhase.phaseName.Equals(triggerTag))
+        {
+            currentPhase.isExitTriggerEnter = true;
+        }
     }
 }

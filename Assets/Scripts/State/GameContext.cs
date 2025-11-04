@@ -1,4 +1,7 @@
-﻿using UniRx;
+﻿using System.Collections.Generic;
+using UniRx;
+using UnityEngine;
+
 public class GameContext
 {      
     public SpawnPeopleFactory spawnPeopleFactory;
@@ -8,8 +11,11 @@ public class GameContext
     public NewTrainController NewTrainController;
     public HitPersonData TeamA;
     public HitPersonData TeamB;
-    
     public Direction LastTrainDirection = Direction.Right;
+    public List<GameObject> TeamAPeoplePrefabs;    
+    public List<GameObject> TeamBPeoplePrefabs;
+    public Transform SpawnPointTeamA;
+    public Transform SpawnPointTeamB;
     
     public IntReactiveProperty Gold = new(10);
     public IntReactiveProperty GuiltyPercent = new(10);

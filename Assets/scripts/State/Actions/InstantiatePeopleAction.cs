@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(menuName = "CreateAction/InstantiatePeopleAction",fileName = "InstantiatePeopleAction")]
@@ -8,19 +9,22 @@ public class InstantiatePeopleAction : PhaseActionSO
     public override IEnumerator Execute(GameContext gameContext)
     {   
         spawnPeopleFactory = gameContext.spawnPeopleFactory;
-        InstantiatePoepleInPostion(gameContext.TeamA, Vector3.zero);
-        InstantiatePoepleInPostion(gameContext.TeamB, Vector3.zero);
+        gameContext.TeamAPeoplePrefabs = InstantiatePeopleInPosition(gameContext.TeamA, gameContext.SpawnPointTeamA);
+        gameContext.TeamBPeoplePrefabs = InstantiatePeopleInPosition(gameContext.TeamB, gameContext.SpawnPointTeamB);
         yield break;
     }
 
-    private void InstantiatePoepleInPostion(HitPersonData data, Vector3 position)
+    private List<GameObject> InstantiatePeopleInPosition(HitPersonData data, Transform transform)
     {
         var peoples = spawnPeopleFactory.SpawnPeoples(data);
         foreach (var p in peoples)
         {
-            var pos = Random.insideUnitSphere;
+            var pos = Random.insideUnitSphere * 6;
             pos.y = 0;
-            p.transform.position = position;
+            var vector3pos = transform.position + pos;
+            var rotation = transform.rotation;
+            p.transform.SetPositionAndRotation(vector3pos, rotation);
         }
+        return peoples;
     }
 }

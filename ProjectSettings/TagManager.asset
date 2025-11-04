@@ -19,6 +19,13 @@ TagManager:
   - postprocess
   - Blood
   - Scream2
+  - ChooseingPhase
+  - TeamBuildPhase
+  - UpdataChooseUIPhase
+  - CreatePeoplePrefabPhase
+  - ShopPhase
+  - InventroyPhase
+  - DataCheckPhase
   layers:
   - Default
   - TransparentFX

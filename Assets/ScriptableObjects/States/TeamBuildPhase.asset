@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cedec85ef9a743bb8017e6f6cdd5ae9a, type: 3}
   m_Name: TeamBuildPhase
   m_EditorClassIdentifier: 
-  phaseName: TeamBuild
-  duration: 1
+  phaseName: TeamBuildPhase
+  isExitTriggerEnter: 0
   nextPhase: {fileID: 11400000, guid: 4670f724f4709b64b860435ce5053bf9, type: 2}
   actions:
   - {fileID: 11400000, guid: 35b265b2fc5afef4589b7fcfa78657e9, type: 2}
