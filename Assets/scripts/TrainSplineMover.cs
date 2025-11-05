@@ -15,38 +15,31 @@ public class TrainSplineMover : MonoBehaviour
         Right,
         None
     }
-    [SerializeField]public SplineType switchSplineType;
-    private SplineType _lastChooseSplineType;
+    public SplineType switchSplineType;
+    
+    private SplineType _currentSplineType;
     
     private Spline _currentSpline;
     private float _t;
 
     private void SwitchSpline(SplineType splineType)
     {
-        var type = splineType;
-        if (type == SplineType.None)
+        if (_currentSplineType is SplineType.Main)
         {
-            type = _lastChooseSplineType;
+            _currentSplineType = splineType;
         }
-        _currentSpline = splineContainer[(int)type];
-        switch (type)
+        else if(_currentSplineType is SplineType.Left or SplineType.Right)
         {
-            case SplineType.Main:
-                switchSplineType = SplineType.None;
-                break;
-            case SplineType.Left or SplineType.Right:
-                _lastChooseSplineType = switchSplineType;
-                switchSplineType = SplineType.Main;
-                break;
-        }
-       
+            _currentSplineType = SplineType.Main;
+        } 
+        _currentSpline =  splineContainer[(int)_currentSplineType];
     }
 
     private void Awake()
     {
         _currentSpline = splineContainer[0];
-        switchSplineType = SplineType.Right;
-        _lastChooseSplineType = SplineType.Right;
+        _currentSplineType = SplineType.Main;
+        switchSplineType  = SplineType.Right;
     }
 
     private void Update()
@@ -61,7 +54,7 @@ public class TrainSplineMover : MonoBehaviour
         _t += Time.deltaTime * moveSpeed / length;
 
         if (_t > 1f)
-        {
+        {   
             SwitchSpline(switchSplineType);
             _t = 0;
         }
