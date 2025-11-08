@@ -107,14 +107,14 @@ public class DominoStraight : MonoBehaviour
             var teamB = GameManager.Instance.LeftHPD;
 
             string teamAText =
-                "しょりちゅう...\n\nみぎがわ\nやくしょ: " + teamA.SelectRoleToShow +
+                "しょりちゅう...\n\nみぎがわ\nやくしょく: " + teamA.SelectRoleToShow +
                 "\nにんずう: " + (teamA.PersonnumToShow == GameManager.BE_DISGUISED_INT ? GameManager.BE_DISGUISED_STRING : teamA.PersonnumToShow) +
                 "\nいさん: " + (teamA.TotalInheritanceToShow == GameManager.BE_DISGUISED_INT ? GameManager.BE_DISGUISED_STRING : teamA.TotalInheritanceToShow) +
                 "\nざいりつ: " + (teamA.TotalGuiltyPercentToShow == GameManager.BE_DISGUISED_INT ? GameManager.BE_DISGUISED_STRING : teamA.TotalGuiltyPercentToShow) +
                 "\n\nせんたく...";
 
             string teamBText =
-                "しょりちゅう...\n\nひだりがわ\nやくしょ: " + teamB.SelectRoleToShow +
+                "しょりちゅう...\n\nひだりがわ\nやくしょく: " + teamB.SelectRoleToShow +
                 "\nにんずう: " + (teamB.PersonnumToShow == GameManager.BE_DISGUISED_INT ? GameManager.BE_DISGUISED_STRING : teamB.PersonnumToShow) +
                 "\nいさん: " + (teamB.TotalInheritanceToShow == GameManager.BE_DISGUISED_INT ? GameManager.BE_DISGUISED_STRING : teamB.TotalInheritanceToShow) +
                 "\nざいりつ: " + (teamB.TotalGuiltyPercentToShow == GameManager.BE_DISGUISED_INT ? GameManager.BE_DISGUISED_STRING : teamB.TotalGuiltyPercentToShow) +
