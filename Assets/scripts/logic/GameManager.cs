@@ -386,7 +386,7 @@ public class GameManager : Singleton<GameManager>
     private void GoldAndGuiltTextUpdate()
     {
         _goldGuiltText.text = $"おかね : {(GoldForShow == BE_DISGUISED_INT ? BE_DISGUISED_STRING : GoldForShow)}\nつみ : {(GuiltyPercentForShow == BE_DISGUISED_INT ? BE_DISGUISED_STRING : GuiltyPercentForShow)}%";
-        _tollForkText.text = $"りょう金\n{Toll}\n\nラウンド\n{(int)_roundLevel}-{_problemCount}";
+        _tollForkText.text = $"りょうきん\n{Toll}\n\nラウンド\n{(int)_roundLevel}-{_problemCount}";
     }
 
     [Header("Shop")]
