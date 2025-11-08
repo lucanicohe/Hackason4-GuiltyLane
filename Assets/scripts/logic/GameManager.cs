@@ -416,11 +416,11 @@ public class GameManager : Singleton<GameManager>
             float timer = _shopOpenTime;
             while (timer > 0f)
             {
-                _shopCountdownText.text = $"Shop closes in: {Mathf.Ceil(timer)}";
+                _shopCountdownText.text = $"しょっぷへいてんまで {Mathf.Ceil(timer)}";
                 timer -= Time.deltaTime;
                 yield return null;
             }
-            _shopCountdownText.text = "Shop closed!";
+            _shopCountdownText.text = "しょっぷくろーず";
             _shopCountdownText.gameObject.SetActive(false);
         }
         else

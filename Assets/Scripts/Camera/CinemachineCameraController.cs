@@ -15,6 +15,7 @@ public class CinemachineCameraController : MonoBehaviour
     [SerializeField] private Image _fadeImage;
     [SerializeField] private GameObject _fadeobject;
     [SerializeField] private GameObject _Deadcam; 
+    [SerializeField] private GameObject _ESC; 
 
     private int activeIndex = 0;
     private bool _sewerslideTriggered = false;
@@ -64,8 +65,8 @@ public class CinemachineCameraController : MonoBehaviour
         _gunshot.Play();
         yield return new WaitForSeconds(1f);
         ChangeCamera(5);
-        
-        
+
+
 
         if (_fadeImage != null)
         {
@@ -85,5 +86,8 @@ public class CinemachineCameraController : MonoBehaviour
             color.a = 1f;
             _fadeImage.color = color;
         }
+
+        yield return new WaitForSeconds(2f);
+        _ESC.SetActive(true); 
     }
 }
