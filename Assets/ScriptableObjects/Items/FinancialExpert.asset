@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemSprite: {fileID: 21300000, guid: 21a077fbe0d072441b3e575f88f3f728, type: 3}
   itemName: FinancialExpert
-  itemDescription: "The toll fee after the next trial is reduced by 20%. \r"
+  itemDescription: "\u3064\u304E\u306E\u3057\u3051\u3093\u306E\u3042\u3068\u3001\u3064\u3046\u3053\u3046\u308A\u3087\u3046\u306F20%\u3084\u3059\u304F\u306A\u308B\u3002\r"
   price: 20
   selectItemEffect: 7
   permanent: 0

@@ -13,14 +13,20 @@ public class CinemachineCameraController : MonoBehaviour
     [SerializeField] private AudioSource _sad;
     [SerializeField] private PostProcessVolume _postProcessVolume;
     [SerializeField] private Image _fadeImage;
-    [SerializeField] private GameObject _fadeobject; 
+    [SerializeField] private GameObject _fadeobject;
+    [SerializeField] private GameObject _Deadcam; 
 
     private int activeIndex = 0;
     private bool _sewerslideTriggered = false;
 
     void Start()
     {
+        ChangeCamera(4);
+        _Deadcam.SetActive(false); 
+
+
         _fadeobject.SetActive(false); 
+        
     }
 
     private void Update()
@@ -52,6 +58,7 @@ public class CinemachineCameraController : MonoBehaviour
 
     private IEnumerator Sewerslide()
     {
+        _Deadcam.SetActive(true); 
         _sad.Play();
         yield return new WaitForSeconds(3f);
         _gunshot.Play();

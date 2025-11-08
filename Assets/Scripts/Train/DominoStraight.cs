@@ -44,7 +44,7 @@ public class DominoStraight : MonoBehaviour
         _player = GameObject.FindGameObjectWithTag("Player").transform;
         _trackText = GameObject.FindGameObjectWithTag("TrackText")?.GetComponent<TextMeshProUGUI>();
         _trackText.color = Color.green;
-        _trackText.text = "Status: normal\nTrack: straight\nContinue driving";
+        _trackText.text = "じょうたい: つうじょう\nせんろ: まっすぐ\nうんてんをつづける";
 
         var rightObjs = GameObject.FindGameObjectsWithTag("TeamRight");
         _teamRightTexts = new TextMeshProUGUI[rightObjs.Length];
@@ -70,15 +70,13 @@ public class DominoStraight : MonoBehaviour
         if (_spawnedNext || !other.CompareTag("Player")) return;
 
         _trackText.color = Color.green;
-        _trackText.text = "Status: normal\nTrack: straight\nContinue driving";
+        _trackText.text = "じょうたい: つうじょう\nせんろ: まっすぐ\nうんてんをつづける";
 
-        // ===== SET ROTATION WAYPOINT ONCE =====
         var train = other.GetComponent<TrainController>();
         if (train != null && _straightWaypoint != null)
         {
             train.SetRotationWaypoint(_straightWaypoint);
         }
-        // ======================================
 
         _spawnedNext = true;
 
@@ -93,12 +91,10 @@ public class DominoStraight : MonoBehaviour
         }
     }
 
-    
-    
     private IEnumerator AlertSequence()
     {
         _trackText.color = Color.red;
-        _trackText.text = "Status: alert\nTrack: fork\nStop train";
+        _trackText.text = "じょうたい: けいこく\nせんろ: ぶんき\nでんしゃをとめる";
         yield return new WaitForSeconds(2f);
         _trackText.text = "";
 
@@ -111,18 +107,18 @@ public class DominoStraight : MonoBehaviour
             var teamB = GameManager.Instance.LeftHPD;
 
             string teamAText =
-                "processing...\n\nRIGHT\nRole: " + teamA.SelectRoleToShow +
-                "\nMembers: " + (teamA.PersonnumToShow == GameManager.BE_DISGUISED_INT ? GameManager.BE_DISGUISED_STRING : teamA.PersonnumToShow) +
-                "\nInheritance: " + (teamA.TotalInheritanceToShow == GameManager.BE_DISGUISED_INT ? GameManager.BE_DISGUISED_STRING : teamA.TotalInheritanceToShow) +
-                "\nGuilty %: " + (teamA.TotalGuiltyPercentToShow == GameManager.BE_DISGUISED_INT ? GameManager.BE_DISGUISED_STRING : teamA.TotalGuiltyPercentToShow) +
-                "\n\nuser choice required...";
+                "しょりちゅう...\n\nみぎがわ\nやくしょ: " + teamA.SelectRoleToShow +
+                "\nにんずう: " + (teamA.PersonnumToShow == GameManager.BE_DISGUISED_INT ? GameManager.BE_DISGUISED_STRING : teamA.PersonnumToShow) +
+                "\nいさん: " + (teamA.TotalInheritanceToShow == GameManager.BE_DISGUISED_INT ? GameManager.BE_DISGUISED_STRING : teamA.TotalInheritanceToShow) +
+                "\nつみりつ: " + (teamA.TotalGuiltyPercentToShow == GameManager.BE_DISGUISED_INT ? GameManager.BE_DISGUISED_STRING : teamA.TotalGuiltyPercentToShow) +
+                "\n\nユーザーのせんたくがひつよう...";
 
             string teamBText =
-                "processing...\n\nLEFT\nRole: " + teamB.SelectRoleToShow +
-                "\nMembers: " + (teamB.PersonnumToShow == GameManager.BE_DISGUISED_INT ? GameManager.BE_DISGUISED_STRING : teamB.PersonnumToShow) +
-                "\nInheritance: " + (teamB.TotalInheritanceToShow == GameManager.BE_DISGUISED_INT ? GameManager.BE_DISGUISED_STRING : teamB.TotalInheritanceToShow) +
-                "\nGuilty %: " + (teamB.TotalGuiltyPercentToShow == GameManager.BE_DISGUISED_INT ? GameManager.BE_DISGUISED_STRING : teamB.TotalGuiltyPercentToShow) +
-                "\n\nuser choice required...";
+                "しょりちゅう...\n\nひだりがわ\nやくしょ: " + teamB.SelectRoleToShow +
+                "\nにんずう: " + (teamB.PersonnumToShow == GameManager.BE_DISGUISED_INT ? GameManager.BE_DISGUISED_STRING : teamB.PersonnumToShow) +
+                "\nいさん: " + (teamB.TotalInheritanceToShow == GameManager.BE_DISGUISED_INT ? GameManager.BE_DISGUISED_STRING : teamB.TotalInheritanceToShow) +
+                "\nつみりつ: " + (teamB.TotalGuiltyPercentToShow == GameManager.BE_DISGUISED_INT ? GameManager.BE_DISGUISED_STRING : teamB.TotalGuiltyPercentToShow) +
+                "\n\nユーザーのせんたくがひつよう...";
 
             foreach (var text in _teamRightTexts)
             {

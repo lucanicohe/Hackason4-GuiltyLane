@@ -14,8 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemSprite: {fileID: 21300000, guid: 9ced7abf99036214981978e15d237776, type: 3}
   itemName: Investment
-  itemDescription: "Enter our risky venture: a 10% chance to make your inheritance
-    skyrocket to 5\xD7. (One-time use.)"
+  itemDescription: "\u304D\u3051\u3093\u306A \u307C\u3046\u3051\u3093 \u306B \u3068\u3046\u306B\u3085\u3046\uFF1A10%
+    \u306E \u304B\u304F\u308A\u3064 \u3067 \u3042\u306A\u305F\u306E \u3056\u3044\u3055\u3093
+    \u304C 5\u3070\u3044 \u306B \u3075\u304F\u3058\u3087\u3046\u3002 (\u3044\u3061\u3069\u304D\u308A
+    \u3053\u3046\u304B)"
   price: 10
   selectItemEffect: 13
   permanent: 0

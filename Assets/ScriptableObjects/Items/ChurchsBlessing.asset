@@ -14,8 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemSprite: {fileID: 21300000, guid: 9602530c63e5c1242bc2c729a1efa5cf, type: 3}
   itemName: ChurchsBlessing
-  itemDescription: 'If a choice would spike public guilt by 50% or more, guilt will
-    be reset to 0. (One-time use.) '
+  itemDescription: "\u3048\u3089\u3093\u3060\u305B\u3093\u305F\u304F\u3067\u3053\u3046\u304D\u3087\u3046\u306E\u3064\u307F\u308A\u3064\u304C\uFF15\uFF10\uFF05\u3044\u3058\u3087\u3046\u306B\u306A\u308B\u3070\u3042\u3044\u3001\u3064\u307F\u308A\u3064\u306F\uFF10\u306B\u30EA\u30BB\u30C3\u30C8\u3055\u308C\u308B\u3002\uFF08\u3044\u3061\u3069\u304D\u308A\uFF09"
   price: 150
   selectItemEffect: 9
   permanent: 0

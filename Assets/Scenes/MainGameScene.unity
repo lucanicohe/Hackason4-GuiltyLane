@@ -684,7 +684,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: INITIATE
+  m_text: "\u306F\u3063\u3057\u3083"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: b1cb76cd54ecd488b8d1bb93a712e90b, type: 2}
   m_sharedMaterial: {fileID: -4413077246024341773, guid: b1cb76cd54ecd488b8d1bb93a712e90b, type: 2}
@@ -693,8 +693,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4281479730
-  m_fontColor: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
+    rgba: 4278190335
+  m_fontColor: {r: 1, g: 0, b: 0, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -711,13 +711,13 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 80
-  m_fontSizeBase: 80
+  m_fontSize: 70
+  m_fontSizeBase: 70
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
-  m_fontStyle: 0
+  m_fontStyle: 1
   m_HorizontalAlignment: 2
   m_VerticalAlignment: 512
   m_textAlignment: 65535
@@ -1983,11 +1983,16 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "Kingdom of Lemuria \u2013 Amidst civil unrest, a 21-mile-long train track
-    determines the fate of convicted criminals. As the chosen conductor, you decide
-    who lives and who dies.\n\nCollect inheritance from the fallen, but beware: killing
-    high-status targets raises your guilt, and you might end up on the tracks yourself.\n\nW/S
-    \u2013 Start/Stop\nA/D \u2013 Left/Right\n1/2/3 \u2013 Camera Zoom"
+  m_text: "\u30EC\u30E0\u30EA\u30A2\u304A\u3046\u3053\u304F \u2014 \u306A\u3044\u3089\u3093\u306E\u306A\u304B\u3001\u305C\u3093\u3061\u3087\u3046\u306B\u3058\u3085\u3046\u3044\u3061\u30DE\u30A4\u30EB\u306E\u3066\u3064\u3069\u3046\u304C
+    \u306F\u3093\u3056\u3044\u3057\u3083\u306E\u3046\u3093\u3081\u3044\u3092 \u304D\u3081\u308B\u3002\n\u3048\u3089\u3070\u308C\u305F\u300C\u3057\u3083\u3057\u3087\u3046\u300D\u3068\u3057\u3066\u3001\u3042\u306A\u305F\u304C
+    \u3044\u304D\u306E\u3053\u308B\u3082\u306E\u3068 \u3057\u306C\u3082\u306E\u3092
+    \u3055\u3060\u3081\u308B\u3002\n\n\u305F\u304A\u308C\u305F\u3082\u306E\u304B\u3089
+    \u3044\u3055\u3093\u3092 \u3042\u3064\u3081\u3088\u3002\u3060\u304C \u304D\u3092\u3064\u3051\u3066\n\u3058\u3087\u3046\u305F\u3044\u306E\u305F\u304B\u3044\u30BF\u30FC\u30B2\u30C3\u30C8\u3092\u3053\u308D\u3059\u3068
+    \u3056\u3044\u3042\u304F\u304B\u3093\u304C \u305F\u304B\u307E\u308A\u3001\u3044\u3064\u3057\u304B
+    \u3042\u306A\u305F\u3058\u3057\u3093\u304C \u30EC\u30FC\u30EB\u306E\u3046\u3048\u306B
+    \u305F\u305F\u3055\u308C\u308B\u304B\u3082\u3057\u308C\u306A\u3044\u3002\n\n\n\nW
+    / S \u2014 \u30B9\u30BF\u30FC\u30C8 / \u30B9\u30C8\u30C3\u30D7\nA / D \u2014
+    \u3072\u3060\u308A / \u307F\u304E\n1 / 2 / 3 \u2014 \u30AB\u30E1\u30E9\u30BA\u30FC\u30E0\n"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: b1cb76cd54ecd488b8d1bb93a712e90b, type: 2}
   m_sharedMaterial: {fileID: -4413077246024341773, guid: b1cb76cd54ecd488b8d1bb93a712e90b, type: 2}
@@ -2014,8 +2019,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 60
-  m_fontSizeBase: 60
+  m_fontSize: 50
+  m_fontSizeBase: 50
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -2293,7 +2298,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &884811866
 RectTransform:
   m_ObjectHideFlags: 0
@@ -3070,7 +3075,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1376558370
 Transform:
   m_ObjectHideFlags: 0
@@ -3862,7 +3867,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &2097686294
 RectTransform:
   m_ObjectHideFlags: 0
@@ -4380,6 +4385,10 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 369246221935289908, guid: 0d7aa1ebc96418f40b3e11cd3f9a3054, type: 3}
+      propertyPath: field of view
+      value: 60.000004
+      objectReference: {fileID: 0}
     - target: {fileID: 431134186567662790, guid: 0d7aa1ebc96418f40b3e11cd3f9a3054, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -4584,6 +4593,10 @@ PrefabInstance:
       propertyPath: _inventoryManager
       value: 
       objectReference: {fileID: 1685961403020146056}
+    - target: {fileID: 1652345231185888237, guid: 0d7aa1ebc96418f40b3e11cd3f9a3054, type: 3}
+      propertyPath: m_text
+      value: "\u91D1 : 000\n\u3064\u307F : 00%\n"
+      objectReference: {fileID: 0}
     - target: {fileID: 1720602397019292036, guid: 0d7aa1ebc96418f40b3e11cd3f9a3054, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -5256,6 +5269,19 @@ PrefabInstance:
       propertyPath: panLevelCustomCurve.m_Curve.Array.data[0].value
       value: 0.886
       objectReference: {fileID: 0}
+    - target: {fileID: 5327538628312881659, guid: 0d7aa1ebc96418f40b3e11cd3f9a3054, type: 3}
+      propertyPath: m_text
+      value: "\u3058\u3087\u3046\u305F\u3044not\n\u30EC\u30FC\u30EB  running\n\u3064\u3065\u304D
+        game\n"
+      objectReference: {fileID: 0}
+    - target: {fileID: 5327538628312881659, guid: 0d7aa1ebc96418f40b3e11cd3f9a3054, type: 3}
+      propertyPath: m_fontSize
+      value: 150
+      objectReference: {fileID: 0}
+    - target: {fileID: 5327538628312881659, guid: 0d7aa1ebc96418f40b3e11cd3f9a3054, type: 3}
+      propertyPath: m_fontSizeBase
+      value: 150
+      objectReference: {fileID: 0}
     - target: {fileID: 5436529496327356984, guid: 0d7aa1ebc96418f40b3e11cd3f9a3054, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -5339,6 +5365,10 @@ PrefabInstance:
     - target: {fileID: 6090231581037221882, guid: 0d7aa1ebc96418f40b3e11cd3f9a3054, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6183254990860093733, guid: 0d7aa1ebc96418f40b3e11cd3f9a3054, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6233859449530989273, guid: 0d7aa1ebc96418f40b3e11cd3f9a3054, type: 3}
       propertyPath: _shopManager
@@ -5668,6 +5698,22 @@ PrefabInstance:
       propertyPath: m_audioClip
       value: 
       objectReference: {fileID: 8300000, guid: c6131fb6b14014b7b96ff8dc530dcebf, type: 3}
+    - target: {fileID: 7934216899654081865, guid: 0d7aa1ebc96418f40b3e11cd3f9a3054, type: 3}
+      propertyPath: m_text
+      value: "\u3064\u3046\u3053\u3046\u308A\u3087\u3046\n000\n\n\u3075\u3049\u30FC\u304F\n0-0"
+      objectReference: {fileID: 0}
+    - target: {fileID: 7934216899654081865, guid: 0d7aa1ebc96418f40b3e11cd3f9a3054, type: 3}
+      propertyPath: m_fontSize
+      value: 197.65
+      objectReference: {fileID: 0}
+    - target: {fileID: 7934216899654081865, guid: 0d7aa1ebc96418f40b3e11cd3f9a3054, type: 3}
+      propertyPath: m_fontSizeBase
+      value: 197.65
+      objectReference: {fileID: 0}
+    - target: {fileID: 7952161726374722397, guid: 0d7aa1ebc96418f40b3e11cd3f9a3054, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7956491519008265365, guid: 0d7aa1ebc96418f40b3e11cd3f9a3054, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -6630,6 +6676,7 @@ MonoBehaviour:
   _postProcessVolume: {fileID: 1653229291}
   _fadeImage: {fileID: 1342553466}
   _fadeobject: {fileID: 1342553464}
+  _Deadcam: {fileID: 1376558369}
 --- !u!114 &6508763598573892128 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 4857266312224563176, guid: 0d7aa1ebc96418f40b3e11cd3f9a3054, type: 3}
