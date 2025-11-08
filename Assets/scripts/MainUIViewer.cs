@@ -6,7 +6,6 @@ using UnityEngine;
 
 public class MainUIViewer : Singleton<MainUIViewer>
 {   
-    
     [Header("Texts")]
     [SerializeField] private TextMeshProUGUI goldText;
     [SerializeField] private TextMeshProUGUI guiltyText;
