@@ -1492,7 +1492,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 331, y: -289.14}
+  m_AnchoredPosition: {x: 496.3, y: -289.14}
   m_SizeDelta: {x: 365.7, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &692155154
@@ -1992,7 +1992,7 @@ MonoBehaviour:
     \u3042\u306A\u305F\u3058\u3057\u3093\u304C \u30EC\u30FC\u30EB\u306E\u3046\u3048\u306B
     \u305F\u305F\u3055\u308C\u308B\u304B\u3082\u3057\u308C\u306A\u3044\u3002\n\n\n\nW
     / S \u2014 \u30B9\u30BF\u30FC\u30C8 / \u30B9\u30C8\u30C3\u30D7\nA / D \u2014
-    \u3072\u3060\u308A / \u307F\u304E\n1 / 2 / 3 \u2014 \u30AB\u30E1\u30E9\u30BA\u30FC\u30E0\n"
+    \u3072\u3060\u308A / \u307F\u304E\n1 / 2 / 3 / 4 / 5 \u2014 \u30AB\u30E1\u30E9\u30BA\u30FC\u30E0\n"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: b1cb76cd54ecd488b8d1bb93a712e90b, type: 2}
   m_sharedMaterial: {fileID: -4413077246024341773, guid: b1cb76cd54ecd488b8d1bb93a712e90b, type: 2}
@@ -5926,6 +5926,10 @@ PrefabInstance:
       propertyPath: _inventoryManager
       value: 
       objectReference: {fileID: 1685961403020146056}
+    - target: {fileID: 8796403317855211842, guid: 0d7aa1ebc96418f40b3e11cd3f9a3054, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8796403317855211842, guid: 0d7aa1ebc96418f40b3e11cd3f9a3054, type: 3}
       propertyPath: m_overflowMode
       value: 1
