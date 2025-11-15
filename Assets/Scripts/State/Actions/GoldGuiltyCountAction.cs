@@ -20,11 +20,22 @@ public class GoldGuiltyCountAction : PhaseActionSO
                 Debug.Log("<color=red>ERROR NO TEAM CHOOSE</color>");
                 break;
         }
+         
         if (_chooseData != null)
         {
+            if (gameContext.IsBlessingOfThePriestEffect)
+            {
+                UseBlessingOfThePriest(_chooseData);
+            }
             gameContext.Gold.Value += _chooseData.TotalInheritance;
             gameContext.GuiltyPercent.Value += _chooseData.TotalGuiltyPercent;
         }
         yield break;
+    }
+
+    private HitPersonData UseBlessingOfThePriest(HitPersonData data)
+    {   
+        data.TotalGuiltyPercent /= 2;
+        return data;
     }
 }
