@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 773e223c9d9d48dcbcc3e4410c983238, type: 3}
+  m_Name: Prison_Inheritance System
+  m_EditorClassIdentifier: 
+  itemSprite: {fileID: 21300000, guid: db9aa9ea4f4c4684287f7a2cba3f5efa, type: 3}
+  itemName: InheritanceSystem
+  itemDescription: "Every prisoner victim\u2019s inheritance goes directly to you.
+    However, your guilt will increase by 1.5\xD7. (Permanent effect.) "
+  price: 50
+  permanent: 1

@@ -1,13 +1,17 @@
 using System;
+using System.Collections;
 using Cinemachine;
 using UnityEngine;
+using UnityEngine.Rendering.PostProcessing;
+using UnityEngine.UI;
 
 public class CinemachineCameraController : MonoBehaviour
 {
-    public CinemachineVirtualCamera[] Cameras;
-
+    [Header("Cinemachine Virtual Cameras")]
+    [SerializeField] private CinemachineVirtualCamera mainTrainCamera;
+    [SerializeField] private CinemachineVirtualCamera[] subCameras;
+    
     private int activeIndex = 0;
-
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.Alpha1)) ChangeCamera(0);
@@ -19,10 +23,36 @@ public class CinemachineCameraController : MonoBehaviour
 
     private void ChangeCamera(int index)
     {
-        for (int i = 0; i < Cameras.Length; i++)
+        if (index < 0 || index >= subCameras.Length)
         {
-            Cameras[i].Priority = (i == index) ? 100 : 0;
+            Debug.LogWarning($"Invalid camera index: {index}");
+            return;
         }
-        activeIndex = index;
+        
+        if (activeIndex == index)
+        {
+            SetMainCameraActive();
+            activeIndex = -1;
+        }
+        else
+        {
+            mainTrainCamera.Priority = 0;
+            
+            for (int i = 0; i < subCameras.Length; i++)
+            {
+                subCameras[i].Priority = i == index ? 100 : 0;
+            }
+            activeIndex = index;
+        }
+    }
+
+    private void SetMainCameraActive()
+    {
+        if (mainTrainCamera) mainTrainCamera.Priority = 100;
+        foreach (var cam in subCameras)
+        {
+            cam.Priority = 0;
+        }
+        activeIndex = -1;
     }
 }

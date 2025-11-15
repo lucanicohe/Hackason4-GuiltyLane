@@ -19,3 +19,4 @@ MonoBehaviour:
   MinInheritance: 6
   MaxGuiltyPercent: 6
   MinGuiltyPercent: 3
+  prefab: {fileID: 6866488240512661751, guid: c1ec90bd3bd1149cba78676a5064889e, type: 3}

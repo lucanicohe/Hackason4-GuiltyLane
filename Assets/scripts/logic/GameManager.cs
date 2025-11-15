@@ -2,21 +2,19 @@ using System.Collections;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-public class GameManager : Singleton<GameManager>
+
+public class GameManager : MonoBehaviour
 {
     public const int BE_DISGUISED_INT = -1;
     public const string BE_DISGUISED_STRING = "■■■■";
-    [SerializeField]
-    TextMeshProUGUI _goldGuiltText;
-    [SerializeField]
-    TextMeshProUGUI _tollForkText;
+    [SerializeField] TextMeshProUGUI _goldGuiltText;
+    [SerializeField] TextMeshProUGUI _tollForkText;
     [SerializeField] public TextMeshProUGUI _infoText;
     [SerializeField] private AudioSource _goldsound; 
 
     public static bool ChooseDisguised;
-
-    private TeamBuilder.HitPersonData _RightHPD;
-    public TeamBuilder.HitPersonData RightHPD
+    private HitPersonData _RightHPD;
+    public HitPersonData RightHPD
     {
         get
         {
@@ -24,7 +22,7 @@ public class GameManager : Singleton<GameManager>
                 || _roundLevel == RoundLevel.Fifth
                 || _roundLevel == RoundLevel.Sixth)
             {
-                TeamBuilder.HitPersonData data = DisguisedPersonData(_RightHPD);
+                HitPersonData data = DisguisedPersonData(_RightHPD);
                 if (_isOfficialIdentityHintEffect && ChooseDisguised)
                 {
                     data.SelectRoleToShow = data.SelectRole;
@@ -39,8 +37,8 @@ public class GameManager : Singleton<GameManager>
         }
         private set { }
     }
-    private TeamBuilder.HitPersonData _LeftHPD;
-    public TeamBuilder.HitPersonData LeftHPD
+    private HitPersonData _LeftHPD;
+    public HitPersonData LeftHPD
     {
         get
         {
@@ -48,7 +46,7 @@ public class GameManager : Singleton<GameManager>
                 || _roundLevel == RoundLevel.Fifth
                 || _roundLevel == RoundLevel.Sixth)
             {
-                TeamBuilder.HitPersonData data = DisguisedPersonData(_LeftHPD);
+                HitPersonData data = DisguisedPersonData(_LeftHPD);
                 if (_isOfficialIdentityHintEffect && ChooseDisguised)
                 {
                     data.SelectRoleToShow = data.SelectRole;
@@ -64,12 +62,9 @@ public class GameManager : Singleton<GameManager>
         private set { }
     }
 
-    [SerializeField]
-    private float GetGoldGuilty = 6;
-    [SerializeField]
-    TeamBuilder teamBuilder;
-    [SerializeField]
-    TrainController trainController;
+    [SerializeField] private float GetGoldGuilty = 6;
+    [SerializeField] TeamBuilder teamBuilder;
+    [SerializeField] TrainController trainController;
     public bool _speedzero = false; //電車のスピードをゼロにする
 
     //自分が持っているお金
@@ -127,18 +122,8 @@ public class GameManager : Singleton<GameManager>
     //右か、左か、選ばない、を選んだ後に確定するためのbool
     public bool _confirm = false;
     //ラウンド
-    public enum RoundLevel
-    {
-        None,
-        First,
-        Second,
-        Third,
-        Fourth,
-        Fifth,
-        Sixth,
-        ToEnd,
-    }
-
+    
+    
     public RoundLevel _roundLevel = RoundLevel.First;
 
     void Update()
@@ -225,7 +210,7 @@ public class GameManager : Singleton<GameManager>
         }
     }
 
-    private TeamBuilder.HitPersonData InitialiZationOfersonData(TeamBuilder.HitPersonData data)
+    private HitPersonData InitialiZationOfersonData(HitPersonData data)
     {
         data.SelectRoleToShow = data.SelectRole;
         data.PersonnumToShow = data.Personnum;
@@ -233,7 +218,7 @@ public class GameManager : Singleton<GameManager>
         data.TotalGuiltyPercentToShow = data.TotalGuiltyPercent;
         return data;
     }
-    private TeamBuilder.HitPersonData DisguisedPersonData(TeamBuilder.HitPersonData data)
+    private HitPersonData DisguisedPersonData(HitPersonData data)
     {
         data = InitialiZationOfersonData(data);
         switch (_roundLevel)
@@ -268,7 +253,7 @@ public class GameManager : Singleton<GameManager>
     {
         var tempTotalGuiltyPercent = 0;
         var tempTotalInheritance = 0;
-        if (trainController._lastDirection == TrainController.Direction.Right)
+        if (trainController.lastDirection == Direction.Right)
         {
             Debug.Log("右確定");
             _TotalGuiltyPercent = _RightHPD.TotalGuiltyPercent;
@@ -291,7 +276,7 @@ public class GameManager : Singleton<GameManager>
                     break;
             }
         }
-        else if (trainController._lastDirection == TrainController.Direction.Left)
+        else if (trainController.lastDirection == Direction.Left)
         {
             Debug.Log("左確定");
             _TotalGuiltyPercent = _LeftHPD.TotalGuiltyPercent;
@@ -506,7 +491,6 @@ public class GameManager : Singleton<GameManager>
         ResultData.problemCount = _problemCount;
     }
 
-
     #region itemMethod
 
     private void InitialiZationOfItem()
@@ -532,9 +516,7 @@ public class GameManager : Singleton<GameManager>
     private bool _isFamilyDealEffect = false; //恒久効果
     private bool _isCollectorEffect = false; //恒久効果
     private bool _isInvestmentEffect = false;
-
-
-
+    
     public bool OfficialIdentityHint()
     {
         if (RightHPD.SelectRoleToShow.Equals(BE_DISGUISED_STRING)
@@ -687,17 +669,4 @@ public class GameManager : Singleton<GameManager>
     }
 
     #endregion
-}
-
-public static class ResultData
-{
-    public static int TotleRoyalKilledNum = 0;
-    public static int TotleNobleKilledNum = 0;
-    public static int TotleCitizenKilledNum = 0;
-    public static int TotlePrisonerKilledNum = 0;
-    public static int TotleGoldEarned = 0;
-    public static int TotalGuiltyPercentEarned = 0;
-    public static GameManager.RoundLevel RoundLevel  = GameManager.RoundLevel.First;
-    public static int problemCount = 0;
-    public static int TotalTollPayed = 0;
 }

@@ -2,14 +2,14 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.Rendering.PostProcessing;
 
+
 public class TrainController : MonoBehaviour
 {
     [SerializeField] private float _speed = 30f;
     private float _currentSpeed = 0f;
     [SerializeField] private float _accelerationTime = 1f;
-
-    public enum Direction { Right, Left }
-    public Direction _lastDirection = Direction.Right;
+    
+    public Direction lastDirection = Direction.Right;
 
     [SerializeField] private Transform _directionLever;
     private Vector3 _rightLeverPos = new Vector3(0.46f, 0.8125f, 0f);
@@ -21,15 +21,12 @@ public class TrainController : MonoBehaviour
 
     [SerializeField] private AudioSource _train;
     [SerializeField] private AudioSource _stop;
-
-    private Coroutine _cameraTransitionCoroutine;
+    
     private Coroutine _TrainCoroutine;
     private Coroutine _effectsCoroutine;
 
-    private Vector3 _defaultCameraPos;
-
-    [SerializeField] private GameObject _buttonParent;
-    [SerializeField] private GameObject _exitZoomButtonsParent;
+    // [SerializeField] private GameObject _buttonParent;
+    // [SerializeField] private GameObject _exitZoomButtonsParent;
 
     [SerializeField] private AudioSource _leverpower;
     [SerializeField] private AudioSource _leverdir;
@@ -49,9 +46,7 @@ public class TrainController : MonoBehaviour
     private Waypoint _currentWaypoint;
     private float _waypointReachDistance = 1f; // Distance to switch to next waypoint
     private bool _isRotatingToWaypoint = false;
-
     
-
     void Start()
     {
         if (_directionLever != null)
@@ -60,11 +55,8 @@ public class TrainController : MonoBehaviour
         if (_throttleLever != null)
             _throttleLever.localPosition = _speedOffPos;
 
-        _lastDirection = Direction.Right;
+        lastDirection = Direction.Right;
         _currentSpeed = 0f;
-
-        if (_exitZoomButtonsParent != null)
-            _exitZoomButtonsParent.SetActive(false);
 
         // ===== INITIALIZE POST PROCESSING EFFECTS =====
         if (_postProcessVolume != null)
@@ -135,15 +127,15 @@ public class TrainController : MonoBehaviour
         }
 
         // Change speed with keyboard
-        if (Input.GetKeyDown(KeyCode.W) && !GameManager.Instance._speedzero && !_isrunning)
+        if (Input.GetKeyDown(KeyCode.W)&& !_isrunning)
         {
             _leverpower.Play();
             StartTrain();
             _isrunning = true;
         }
-        else if (Input.GetKeyDown(KeyCode.S) || GameManager.Instance._speedzero)
+        else if (Input.GetKeyDown(KeyCode.S))
         {
-            GameManager.Instance._speedzero = false;
+            // GameManager.Instance._speedzero = false;
             StopTrain();
             _leverpower.Play();
             _isrunning = false; 
@@ -239,7 +231,7 @@ public class TrainController : MonoBehaviour
 
     private void SetDirection(Direction dir)
     {
-        _lastDirection = dir;
+        lastDirection = dir;
         if (_directionLever != null)
             _directionLever.localPosition = (dir == Direction.Left) ? _leftLeverPos : _rightLeverPos;
     }

@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a398b7e6feb4458ead9ccc98f1e2a627, type: 3}
+  m_Name: Corp_Family Deal
+  m_EditorClassIdentifier: 
+  itemSprite: {fileID: 21300000, guid: 13f0201eea5de174cadde0181d560f94, type: 3}
+  itemName: FamilyDeal
+  itemDescription: 'Survivors will also hand over their share, however, public guilt
+    increases by 10%. (Permanent effect.) '
+  price: 50
+  permanent: 1
