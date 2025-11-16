@@ -41,7 +41,6 @@ public class PachinkoManager : MonoBehaviour
 
             if(Physics.Raycast(ray, out RaycastHit hit))
             {
-                Debug.Log(hit.collider.gameObject.name);
                 
                 if(_pachinkoHandle == hit.collider.gameObject)
                     StartRelease(_pachinkoHandle);
