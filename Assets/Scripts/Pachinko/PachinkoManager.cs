@@ -1,12 +1,13 @@
 using System.Collections;
-using System.Collections.Generic;
 using Unity.Mathematics;
-using Unity.VisualScripting;
 using UnityEngine;
+using UniRx;
+using System;
 
 public class PachinkoManager : MonoBehaviour
 {
-
+    [SerializeField]
+    private SlotManager slotManager;
     [SerializeField]
     private GameObject _pachinkoHandle;
     [SerializeField]
@@ -57,6 +58,7 @@ public class PachinkoManager : MonoBehaviour
             _plusSpeed = 0f;
         }
 
+        // 左クリックしているあいだは、PachinkoBallが出る
         if (Input.GetMouseButton(0))
         {
             _mousePos = Input.mousePosition;
@@ -70,24 +72,6 @@ public class PachinkoManager : MonoBehaviour
 
             if(_pachinkoHandle.transform.localRotation.z <= 0)
                 _plusSpeed = Vector3.Distance(_firstMousePos, _mousePos) / _maxBallPlusSpeed;
-
-            
-            // if(_firstMousePos.x <= _mousePos.x)
-            // {
-            //     _mousePos = Input.mousePosition;
-            //     _plusSpeed = Vector3.Distance(_firstMousePos, _mousePos) / _maxBallPlusSpeed;
-            // }
-            // else
-            // {
-            //     _mousePos = _firstMousePos;
-            //     _plusSpeed = 0f;
-            //     _pachinkoHandle.transform.localRotation = quaternion.identity;
-            // }
-
-
-            // // ハンドルが回る
-            // _pachinkoHandle.transform.localRotation 
-            // = Quaternion.Euler(0, 0, -(_plusSpeed * 4 / _maxBallPlusSpeed * _pachinkoHandleMaxRotate));
         }
 
         
@@ -112,14 +96,26 @@ public class PachinkoManager : MonoBehaviour
                 new Vector3(_lancherPos.x + offsetX, _lancherPos.y, _lancherPos.z), 
                 quaternion.identity
             );
-            
+
+            var pachinkoBall = Ball.GetComponent<PachinkoBall>();
+            slotManager.RegisterBall(pachinkoBall);
+            pachinkoBall
+                ._onEnter
+                .Subscribe(x =>
+                {
+                    slotManager.Lottery();
+                })
+                .AddTo(this);
+
             // マウスの位置によって初速度が上がる
             if(_plusSpeed < _maxBallPlusSpeed)
             {
-                Ball.GetComponent<PachinkoBall>()._speed += _plusSpeed;
+                pachinkoBall._speed += _plusSpeed;
             }
 
             yield return new WaitForSeconds(1f);
         }
     }
+
+    
 }
