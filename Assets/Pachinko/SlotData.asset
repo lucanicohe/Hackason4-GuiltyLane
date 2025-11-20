@@ -13,13 +13,12 @@ MonoBehaviour:
   m_Name: SlotData
   m_EditorClassIdentifier: 
   slotParams:
-  - numbers:
-    - {fileID: 0}
-    id: 0
-    probability: 60
-  - numbers: []
-    id: 1
-    probability: 20
   - numbers: []
     id: 0
     probability: 0
+  - numbers: []
+    id: 1
+    probability: 10
+  - numbers: []
+    id: 2
+    probability: 30

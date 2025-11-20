@@ -23,6 +23,7 @@ public class PachinkoBall : MonoBehaviour
         float offsetX = UnityEngine.Random.Range(-_randomOffsetX, _randomOffsetX);
 
         Vector3 velocity = new Vector3(offsetX, 1, 0);
+
         _rb.AddForce(velocity * _speed, ForceMode2D.Impulse);
     }
 
@@ -33,7 +34,7 @@ public class PachinkoBall : MonoBehaviour
         {
             Destroy(this.gameObject);
         }
-        else if(collisionInfo.gameObject.name == "CenterPocket")
+        else if(collisionInfo.gameObject.name == "HitPoint")
         {
             
             _isEnterCenterPocket = true;

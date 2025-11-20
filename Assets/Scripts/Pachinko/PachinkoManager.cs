@@ -16,11 +16,16 @@ public class PachinkoManager : MonoBehaviour
     GameObject _lancher;
     private float _plusSpeed = 0;
     [SerializeField]
-    private float _maxBallPlusSpeed = 10f;
+    private float _maxBallPlusSpeed = 100f;
+    [SerializeField]
+    private float _plusSpeedFactor = 1f;
     private float _pachinkoHandleMaxRotate = 45;
-    Vector3 _lancherPos;
-    Vector3 _firstMousePos = Vector3.zero;
-    Vector3 _mousePos;
+    
+    Vector2 _lancherPos;
+    Vector2 _firstMousePos = Vector2.zero;
+    Vector2 _mousePos;
+    Vector2 _firstMouseScreenPos;
+    Vector2 _currentMouseScreeenPos;
     private Coroutine BallInterval = null;
 
     void Start()
@@ -32,21 +37,36 @@ public class PachinkoManager : MonoBehaviour
         // 玉が出るマウス操作によって速度が変わる
         if (Input.GetMouseButtonDown(0))
         {
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            _firstMouseScreenPos = Input.mousePosition;
+            _currentMouseScreeenPos = _firstMouseScreenPos;
 
-            if(_firstMousePos == Vector3.zero)
-            {
-                _firstMousePos = Input.mousePosition;
-                _mousePos = _firstMousePos;
-            }
+            Vector2 mouseWorldPos = Camera.main.ScreenToWorldPoint(_currentMouseScreeenPos);
+            RaycastHit2D hit = Physics2D.Raycast(mouseWorldPos, Vector2.zero);
 
-            if(Physics.Raycast(ray, out RaycastHit hit))
+            if (hit.collider != null)
             {
-                
-                if(_pachinkoHandle == hit.collider.gameObject)
+                if (_pachinkoHandle == hit.collider.gameObject)
                     StartRelease(_pachinkoHandle);
             }
         }
+
+
+        // 左クリックしているあいだは、Handleが回る
+        if (Input.GetMouseButton(0))
+        {
+            _currentMouseScreeenPos = Input.mousePosition;
+
+            float deltaX = _currentMouseScreeenPos.x - _firstMouseScreenPos.x;
+
+            float pulledAmount = Mathf.Max(0f, deltaX / 2);
+
+            float angle = -(Mathf.Clamp01(pulledAmount / _maxBallPlusSpeed)  * _pachinkoHandleMaxRotate);
+            _pachinkoHandle.transform.localRotation = Quaternion.Euler(0, 0, angle);
+
+            _plusSpeed = Mathf.Clamp(pulledAmount, 0f, _maxBallPlusSpeed) * _plusSpeedFactor;
+        }
+
+        
 
         if (Input.GetMouseButtonUp(0))
         {
@@ -56,25 +76,7 @@ public class PachinkoManager : MonoBehaviour
 
             _pachinkoHandle.transform.localRotation = quaternion.identity;
             _plusSpeed = 0f;
-        }
-
-        // 左クリックしているあいだは、PachinkoBallが出る
-        if (Input.GetMouseButton(0))
-        {
-            _mousePos = Input.mousePosition;
-
-            float deltaX = _mousePos.x - _firstMousePos.x;
-
-            float pulledAmount = Mathf.Max(0f, deltaX / 10);
-
-            float angle = -(Mathf.Clamp(pulledAmount / _maxBallPlusSpeed, 0f, 1f)  * _pachinkoHandleMaxRotate);
-            _pachinkoHandle.transform.localRotation = Quaternion.Euler(0, 0, angle);
-
-            if(_pachinkoHandle.transform.localRotation.z <= 0)
-                _plusSpeed = Vector3.Distance(_firstMousePos, _mousePos) / _maxBallPlusSpeed;
-        }
-
-        
+        }        
     }
 
 
@@ -93,9 +95,10 @@ public class PachinkoManager : MonoBehaviour
             GameObject Ball = Instantiate
             (
                 _Ball,
-                new Vector3(_lancherPos.x + offsetX, _lancherPos.y, _lancherPos.z), 
+                new Vector2(_lancherPos.x + offsetX, _lancherPos.y), 
                 quaternion.identity
             );
+
 
             var pachinkoBall = Ball.GetComponent<PachinkoBall>();
             slotManager.RegisterBall(pachinkoBall);
@@ -108,7 +111,7 @@ public class PachinkoManager : MonoBehaviour
                 .AddTo(this);
 
             // マウスの位置によって初速度が上がる
-            if(_plusSpeed < _maxBallPlusSpeed)
+            if(_plusSpeed <= _maxBallPlusSpeed)
             {
                 pachinkoBall._speed += _plusSpeed;
             }

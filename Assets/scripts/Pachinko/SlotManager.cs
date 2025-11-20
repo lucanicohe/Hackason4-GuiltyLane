@@ -19,7 +19,7 @@ public class SlotManager : MonoBehaviour
             
     }
 
-
+    // 抽選
     public void Lottery()
     {
         if (!_beginning) return;
