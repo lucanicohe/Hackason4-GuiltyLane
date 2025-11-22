@@ -2435,6 +2435,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fireWorkParticle: {fileID: 0}
+  goldenShawerParticle: {fileID: 0}
 --- !u!1 &2103606374
 GameObject:
   m_ObjectHideFlags: 0

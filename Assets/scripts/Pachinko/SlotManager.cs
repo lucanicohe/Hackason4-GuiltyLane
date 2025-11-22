@@ -61,15 +61,15 @@ public class SlotManager : MonoBehaviour
             {
                 case 0:
                     _score += 100;
-                    StartCoroutine(genParticle.PlaySlotParticleCor());
+                    StartCoroutine(genParticle.PlayFireWorkParticleCor());
                     break;
                 case 1:
                     _score += 500;
-                    StartCoroutine(genParticle.PlaySlotParticleCor());
+                    StartCoroutine(genParticle.PlayFireWorkParticleCor());
                     break;
                 case 2:
                     _score += 1000;
-                    StartCoroutine(genParticle.PlaySlotParticleCor());
+                    StartCoroutine(genParticle.PlayGoldenShawerParticleCor());
                     break;
                 default:
                     break;

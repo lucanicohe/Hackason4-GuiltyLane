@@ -1,12 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class GenParticle : MonoBehaviour
 {
     [SerializeField]
     private ParticleSystem fireWorkParticle;
+    [SerializeField]
+    private ParticleSystem goldenShawerParticle;
 
     // test
     //
@@ -14,13 +15,13 @@ public class GenParticle : MonoBehaviour
     // {
     //     if (Input.GetKeyDown(KeyCode.Space))
     //     {
-    //         IEnumerator ie = PlaySlotParticleCor();
+    //         IEnumerator ie = PlayGoldenShawerParticleCor();
     //         StartCoroutine(ie);
     //     }
     // }
 
     // 5回パーティクルを出すのを0.3秒間隔で2回行うコルーチン
-    public IEnumerator PlaySlotParticleCor()
+    public IEnumerator PlayFireWorkParticleCor()
     {
         for (int i = 0; i < 5; i++)
         {
@@ -36,6 +37,18 @@ public class GenParticle : MonoBehaviour
 
         yield break;
     }
+
+    public IEnumerator PlayGoldenShawerParticleCor()
+    {
+        for (int i = 0; i < 20; i++)
+        {
+            goldenShawerParticle.Emit(150);
+            yield return new WaitForSeconds(0.1f);
+        }
+
+        yield break;
+    }
+
 
     // パーティクルの生成
     private void GenerateFireWorkParticle()
