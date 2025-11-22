@@ -98,6 +98,7 @@ public class PachinkoManager : MonoBehaviour
                 new Vector2(_lancherPos.x + offsetX, _lancherPos.y), 
                 quaternion.identity
             );
+            Debug.Log("PachinkoBall生成");
 
 
             var pachinkoBall = Ball.GetComponent<PachinkoBall>();
