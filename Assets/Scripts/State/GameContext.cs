@@ -24,6 +24,35 @@ public class GameContext
     public ReactiveProperty<RoundLevel> Round = new(RoundLevel.First);
     public ReactiveProperty<TurnLevel> Turn = new(TurnLevel.First);
     public IntReactiveProperty Toll = new(0);
+
+    public bool IsOfficialIdentityHintEffect = false;
+    public bool IsOfficialNumberHintEffect = false;
+    public bool IsGuaranteeEffect = false;
+    public bool IsDefenseAttorneyEffect = false;
+    public bool IsFinancialExpertEffect = false;
+    public bool IsBlessingOfThePriestEffect = false;
+    public bool IsChurchBlessingEffect = false;
+    public bool IsInvestmentEffect = false;
     
+    public bool IsFamilyDealEffect = false; //恒久効果
+    public bool IsCollectorEffect = false; //恒久効果
+    public bool IsDealEffect = false;//恒久効果
+    public bool IsInheritanceSystemEffect = false;//恒久効果
     
+    public bool IsFinancialLawyer = false; //恒久効果 TODO add effect 
+    public float InheritanceMagnification = 1.0f;
+    
+    public bool IsFinancialExpert = false; //toll 効果
+    
+    public void InitializeItem()
+    {
+        IsOfficialIdentityHintEffect = false;
+        IsOfficialNumberHintEffect = false;
+        IsGuaranteeEffect = false;
+        IsDefenseAttorneyEffect = false;
+        IsFinancialExpertEffect = false;
+        IsBlessingOfThePriestEffect = false;
+        IsChurchBlessingEffect = false;
+        IsInvestmentEffect = false;
+    }
 }

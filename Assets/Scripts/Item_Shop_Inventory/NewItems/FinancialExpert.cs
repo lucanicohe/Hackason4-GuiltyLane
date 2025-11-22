@@ -10,6 +10,6 @@ public class FinancialExpert : ItemSOBase
     
     public override void UseItem(GameContext context)
     {
-        //ItemEffect
+        context.IsFinancialExpert =  true;
     }
 }

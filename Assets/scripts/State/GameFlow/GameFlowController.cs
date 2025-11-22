@@ -11,7 +11,7 @@ public class GameFlowController : Singleton<GameFlowController>
     [SerializeField] private TeamBuilder TeamBuilder;
     [SerializeField] private NewTrainController trainController;
     [SerializeField] private Transform spawnPointTeamA;
-    [SerializeField] private Transform spawnPointTeamB;
+    [SerializeField] private Transform spawnPointTeamB; 
     
     private GamePhaseSO currentPhase;
     private Coroutine _flowCoroutine;

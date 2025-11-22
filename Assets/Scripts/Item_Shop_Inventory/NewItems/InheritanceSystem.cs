@@ -10,6 +10,6 @@ public class InheritanceSystem : ItemSOBase
      */
     public override void UseItem(GameContext context)
     {
-        //ItemEffect
+        context.IsInheritanceSystemEffect = true;
     }
 }

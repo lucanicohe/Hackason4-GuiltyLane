@@ -9,6 +9,6 @@ public class BlessingOfThePriest : ItemSOBase
          */
     public override void UseItem(GameContext context)
     {
-        
+        context.IsBlessingOfThePriestEffect =  true;
     }
 }

@@ -10,6 +10,9 @@ public class ChurchsBlessing : ItemSOBase
     
     public override void UseItem(GameContext context)
     {
-        
+        if (context.GuiltyPercent.Value >= 50)
+        {
+            context.GuiltyPercent.Value = 0;
+        }
     }
 }

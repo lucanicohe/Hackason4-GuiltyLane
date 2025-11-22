@@ -9,6 +9,7 @@ public class GoldLoan : ItemSOBase
      */
     public override void UseItem(GameContext context)
     {
-        //ItemEffect
+        var getMoney = (price * UnityEngine.Random.Range(80, 150)) /100;
+        context.Gold.Value += getMoney;
     }
 }
