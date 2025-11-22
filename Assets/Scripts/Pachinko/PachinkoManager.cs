@@ -101,12 +101,11 @@ public class PachinkoManager : MonoBehaviour
 
 
             var pachinkoBall = Ball.GetComponent<PachinkoBall>();
-            slotManager.RegisterBall(pachinkoBall);
             pachinkoBall
                 ._onEnter
                 .Subscribe(x =>
                 {
-                    slotManager.Lottery();
+                    StartCoroutine(slotManager.Lottery());
                 })
                 .AddTo(this);
 

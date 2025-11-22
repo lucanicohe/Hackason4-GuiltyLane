@@ -30,7 +30,7 @@ public class PachinkoBall : MonoBehaviour
     // 当たったら消える CenterPocketに当たったなら、抽選開始
     void OnCollisionEnter2D(Collision2D collisionInfo)
     {
-        if(collisionInfo.gameObject.name == "yuka")
+        if(collisionInfo.gameObject.name == "DestroyPosint")
         {
             Destroy(this.gameObject);
         }

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UniRx;
 using System.Linq;
-using Unity.VisualScripting;
+using TMPro;
 
 public class SlotManager : MonoBehaviour
 {
@@ -11,8 +11,21 @@ public class SlotManager : MonoBehaviour
     [SerializeField]
     SlotData _slotData;
     SlotParam[] _decision = new SlotParam[3];
+
+    [Header("Slot表示用")]
+    [SerializeField]
+    SpriteRenderer _slot1;
+    [SerializeField]
+    SpriteRenderer _slot2;
+    [SerializeField]
+    SpriteRenderer _slot3;
+    [SerializeField]
+    TextMeshProUGUI _scoreText;
+
+    [Header("結果")]
     bool _isSuccess = false;
-    bool _beginning = false;
+
+    private int _score = 0;
 
     void Start()
     {
@@ -20,28 +33,47 @@ public class SlotManager : MonoBehaviour
     }
 
     // 抽選
-    public void Lottery()
+    public IEnumerator Lottery()
     {
-        if (!_beginning) return;
 
         Debug.Log("抽選開始！");
-        _decision[0] = ChooseNumber();
-        _decision[1] = ChooseNumber();
-        _decision[2] = ChooseNumber();
+
+        // TODO:抽選アニメーション
+
+        yield return new WaitForSeconds(1.0f);
+
+
+        _decision[0] = ChooseNumber(ref _slot1);
+        _decision[1] = ChooseNumber(ref _slot2);
+        _decision[2] = ChooseNumber(ref _slot3);
+
+        Debug.Log("抽選結果: " + _decision[0].id + " " + _decision[1].id + " " + _decision[2].id);
 
         _isSuccess = _decision.All(x => x.id == _decision[0].id);
 
         if (_isSuccess)
         {// 当たり！！
-            
-        }
-        else
-        {
-            return;
+            switch (_decision[0].id)
+            {
+                case 0:
+                    _score += 100;
+                    break;
+                case 1:
+                    _score += 500;
+                    break;
+                case 2:
+                    _score += 1000;
+                    break;
+                default:
+                    break;
+            }
+
+            _scoreText.text = "Score: " + _score.ToString();
         }
     }
 
-    SlotParam ChooseNumber()
+    // 抽選する
+    SlotParam ChooseNumber(ref SpriteRenderer _slotNumber)
     {
         int total = 0;
         foreach(var data in _slotData.slotParams)
@@ -58,6 +90,7 @@ public class SlotManager : MonoBehaviour
 
             if(p < probability)
             {
+                _slotNumber.sprite = data.number;
                 return data;
             }
         }
@@ -65,15 +98,6 @@ public class SlotManager : MonoBehaviour
         return null;
     }
 
-
-    public void RegisterBall(PachinkoBall ball)
-    {
-        ball._onEnter.Subscribe(x =>
-        {
-            _beginning = x;
-        })
-        .AddTo(ball);
-    }
 
 
 

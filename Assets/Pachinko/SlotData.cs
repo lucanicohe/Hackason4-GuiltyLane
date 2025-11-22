@@ -11,7 +11,7 @@ public class SlotData : ScriptableObject
 [System.Serializable]
 public class SlotParam
 {
-    [SerializeField] public Sprite[] numbers;
     [SerializeField] public int id;
+    [SerializeField] public Sprite number;
     [SerializeField] public int probability;
 }
