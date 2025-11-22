@@ -4909,7 +4909,7 @@ GameObject:
   - component: {fileID: 4138841669868145251}
   - component: {fileID: 7612841007233863042}
   m_Layer: 0
-  m_Name: UpFire
+  m_Name: FireWorksUp
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
