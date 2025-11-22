@@ -4,6 +4,7 @@ using UnityEngine;
 public class TeamBuilder : MonoBehaviour
 {
     [SerializeField] private PeopleData[] _peopleDatas;
+    //
     public HitPersonData TeamBuild()
     {
         var data = new HitPersonData

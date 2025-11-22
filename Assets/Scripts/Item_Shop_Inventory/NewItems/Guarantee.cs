@@ -10,6 +10,6 @@ public class Guarantee : ItemSOBase
      */
     public override void UseItem(GameContext context)
     {
-        //ItemEffect
+        context.IsGuaranteeEffect =  true;
     }
 }

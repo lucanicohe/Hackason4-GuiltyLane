@@ -12,6 +12,6 @@ public class Deal : ItemSOBase
     
     public override void UseItem(GameContext context)
     {
-        //ItemEffect
+        context.IsDealEffect =  true;
     }
 }

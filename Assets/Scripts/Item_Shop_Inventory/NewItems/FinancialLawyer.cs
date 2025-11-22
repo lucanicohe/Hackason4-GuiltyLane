@@ -10,6 +10,6 @@ public class FinancialLawyer : ItemSOBase
      */
     public override void UseItem(GameContext context)
     {
-        //ItemEffect
+        context.IsFinancialLawyer = true;
     }
 }

@@ -71,8 +71,8 @@ public class MainUIViewer : Singleton<MainUIViewer>
         sb.AppendLine("processing...");
         sb.AppendLine("Role: " + data.SelectRole);
         sb.AppendLine("Members: " + data.Personnum);
-        sb.AppendLine("Inheritance: " + data.TotalInheritance);
-        sb.AppendLine("Guilty %: " + data.TotalGuiltyPercent);
+        sb.AppendLine("Inheritance: " + data.TotalInheritanceToShow);
+        sb.AppendLine("Guilty %: " + data.TotalGuiltyPercentToShow);
         sb.AppendLine("Choice Required...");
         StartCoroutine(TypewriterEffect(text, sb.ToString(), 0.09f));
     }
