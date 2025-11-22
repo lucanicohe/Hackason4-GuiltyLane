@@ -17,10 +17,18 @@ public class CheckGameDataAction : PhaseActionSO
         gameContext.Turn.Value ++;
         if (gameContext.Turn.Value == TurnLevel.SwitchRound)
         {
-            if (gameContext.Gold.Value < gameContext.Toll.Value)
+            var tollGold = gameContext.Toll.Value;
+            if (gameContext.IsFinancialExpert)
+            {
+                tollGold = Mathf.RoundToInt(tollGold * 0.8f);
+                gameContext.IsFinancialExpert =  false;
+            }
+            if (gameContext.Gold.Value < tollGold)
             {
                 GameFlowController.Instance.StopGameFlow("NO MONEY");
+                yield break;
             }
+            gameContext.Gold.Value -= tollGold;
             gameContext.Turn.Value = TurnLevel.First;
             gameContext.Round.Value++;
         }

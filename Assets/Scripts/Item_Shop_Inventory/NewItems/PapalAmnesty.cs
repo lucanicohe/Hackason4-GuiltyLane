@@ -9,6 +9,6 @@ public class PapalAmnesty : ItemSOBase
      */
     public override void UseItem(GameContext context)
     {
-        //ItemEffect
+        context.GuiltyPercent.Value -= 10;
     }
 }

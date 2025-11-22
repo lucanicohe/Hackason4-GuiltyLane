@@ -25,7 +25,6 @@ public class GameContext
     public ReactiveProperty<TurnLevel> Turn = new(TurnLevel.First);
     public IntReactiveProperty Toll = new(0);
 
-
     public bool IsOfficialIdentityHintEffect = false;
     public bool IsOfficialNumberHintEffect = false;
     public bool IsGuaranteeEffect = false;
@@ -39,6 +38,11 @@ public class GameContext
     public bool IsCollectorEffect = false; //恒久効果
     public bool IsDealEffect = false;//恒久効果
     public bool IsInheritanceSystemEffect = false;//恒久効果
+    
+    public bool IsFinancialLawyer = false; //恒久効果 TODO add effect 
+    public float InheritanceMagnification = 1.0f;
+    
+    public bool IsFinancialExpert = false; //toll 効果
     
     public void InitializeItem()
     {
