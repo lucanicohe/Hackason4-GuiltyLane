@@ -38,6 +38,7 @@ public class GenParticle : MonoBehaviour
         yield break;
     }
 
+    // 150個のパーティクルを0.1秒間隔で20回出す
     public IEnumerator PlayGoldenShawerParticleCor()
     {
         for (int i = 0; i < 20; i++)
