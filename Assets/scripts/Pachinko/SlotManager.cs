@@ -43,9 +43,9 @@ public class SlotManager : MonoBehaviour
         yield return new WaitForSeconds(1.0f);
 
 
-        _decision[0] = ChooseNumber(ref _slot1);
-        _decision[1] = ChooseNumber(ref _slot2);
-        _decision[2] = ChooseNumber(ref _slot3);
+        _decision[0] = ChooseNumber(_slot1);
+        _decision[1] = ChooseNumber(_slot2);
+        _decision[2] = ChooseNumber(_slot3);
 
         Debug.Log("抽選結果: " + _decision[0].id + " " + _decision[1].id + " " + _decision[2].id);
 
@@ -73,7 +73,7 @@ public class SlotManager : MonoBehaviour
     }
 
     // 抽選する
-    SlotParam ChooseNumber(ref SpriteRenderer _slotNumber)
+    SlotParam ChooseNumber(SpriteRenderer _slotNumber)
     {
         int total = 0;
         foreach(var data in _slotData.slotParams)

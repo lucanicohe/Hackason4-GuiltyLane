@@ -9,7 +9,7 @@ public class PachinkoBall : MonoBehaviour
     [SerializeField]
     Rigidbody2D _rb;
     public float _speed = 20f;
-    float _randomOffsetX = 0.1f;
+    float _randomOffsetX = 0.05f;
 
     public bool _isEnterCenterPocket = false;
 
