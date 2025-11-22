@@ -12,6 +12,10 @@ public class SlotManager : MonoBehaviour
     SlotData _slotData;
     SlotParam[] _decision = new SlotParam[3];
 
+    [Header("Scripts")]
+    [SerializeField]
+    private GenParticle genParticle;
+
     [Header("Slot表示用")]
     [SerializeField]
     SpriteRenderer _slot1;
@@ -57,12 +61,15 @@ public class SlotManager : MonoBehaviour
             {
                 case 0:
                     _score += 100;
+                    StartCoroutine(genParticle.PlaySlotParticleCor());
                     break;
                 case 1:
                     _score += 500;
+                    StartCoroutine(genParticle.PlaySlotParticleCor());
                     break;
                 case 2:
                     _score += 1000;
+                    StartCoroutine(genParticle.PlaySlotParticleCor());
                     break;
                 default:
                     break;

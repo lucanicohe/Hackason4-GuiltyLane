@@ -2363,6 +2363,7 @@ GameObject:
   - component: {fileID: 2038880875}
   - component: {fileID: 2038880874}
   - component: {fileID: 2038880876}
+  - component: {fileID: 2038880877}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -2416,10 +2417,24 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _slotData: {fileID: 11400000, guid: ce1d23d90f7cb7843bb18f6c64de7a93, type: 2}
+  genParticle: {fileID: 2038880877}
   _slot1: {fileID: 420897551}
   _slot2: {fileID: 892385342}
   _slot3: {fileID: 875335385}
   _scoreText: {fileID: 2022557505}
+--- !u!114 &2038880877
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2038880873}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ccbd29d41167b9e499aeab1ba52cd856, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fireWorkParticle: {fileID: 0}
 --- !u!1 &2103606374
 GameObject:
   m_ObjectHideFlags: 0
