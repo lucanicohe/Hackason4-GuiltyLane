@@ -11,6 +11,13 @@ public class TeamBuilderAction : PhaseActionSO
     {   
         teamBuilder = gameContext.teamBuilder;
         yield return BuildTeams();
+        if (gameContext.IsGuaranteeEffect)
+        {
+            while(TeamA.RoleID != 2 || TeamB.RoleID != 2)//TODO Magic number
+            {
+                yield return BuildTeams();
+            }
+        }
         gameContext.TeamA = TeamA;
         gameContext.TeamB = TeamB;
         Debug.Log(JsonUtility.ToJson(gameContext.TeamA,true));

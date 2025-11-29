@@ -13,6 +13,8 @@ public class TrainSplineMover : MonoBehaviour
         Main,
         Left,
         Right,
+        TrainStationStop,
+        TrainStationStart,
         None
     }
     public SplineType switchSplineType;
@@ -25,7 +27,8 @@ public class TrainSplineMover : MonoBehaviour
     private void SwitchSpline(SplineType splineType)
     {
         if (_currentSplineType is SplineType.Main)
-        {
+        {   
+            //TODO if state is three switch to TrainStationStop;
             _currentSplineType = splineType;
         }
         else if(_currentSplineType is SplineType.Left or SplineType.Right)

@@ -10,6 +10,6 @@ public class DefenseAttorney : ItemSOBase
     
     public override void UseItem(GameContext context)
     {
-        //ItemEffect
+        context.IsDefenseAttorneyEffect = true;
     }
 }

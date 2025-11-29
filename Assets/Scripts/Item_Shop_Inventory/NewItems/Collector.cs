@@ -11,5 +11,6 @@ public class Collector : ItemSOBase
     public override void UseItem(GameContext context)
     {
         //ItemEffect
+        context.IsCollectorEffect =  true;
     }
 }

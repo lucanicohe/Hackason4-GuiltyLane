@@ -11,6 +11,6 @@ public class FamilyDeal : ItemSOBase
     
     public override void UseItem(GameContext context)
     {
-        //ItemEffect
+        context.IsFamilyDealEffect = true;
     }
 }

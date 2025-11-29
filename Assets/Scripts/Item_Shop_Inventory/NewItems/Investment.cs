@@ -9,6 +9,15 @@ public class Investment : ItemSOBase
      */
     public override void UseItem(GameContext context)
     {
-        //ItemEffect
+        var v = UnityEngine.Random.Range(0, 100);
+        if (v <= 10)
+        {
+            context.IsInvestmentEffect = true;
+            Debug.Log("Investment success");
+        }
+        else
+        {
+            Debug.Log("Investment failed");
+        }
     }
 }
