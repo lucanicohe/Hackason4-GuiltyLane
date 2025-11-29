@@ -36,22 +36,28 @@ public class NewTrainController : MonoBehaviour
         _currentSpeed = 0f;
     }
 
+    private Direction _currentDir;
+
     private void Update()
     {
         transform.Translate(Vector3.forward * (_currentSpeed * Time.deltaTime));
         // Change direction with keyboard
         if (Input.GetKeyDown(KeyCode.A))
         {
-            SwitchDirectionLeverDirection(Direction.Left);
+            _currentDir = Direction.Left;
             lastDirection = Direction.Left;
             trainSplineMover.switchSplineType = TrainSplineMover.SplineType.Left;
         }
         else if (Input.GetKeyDown(KeyCode.D))
         {
-            SwitchDirectionLeverDirection(Direction.Right);
+            _currentDir = Direction.Right;
             lastDirection = Direction.Right;
             trainSplineMover.switchSplineType = TrainSplineMover.SplineType.Right;
         }
+
+        SwitchDirectionLeverDirection(_currentDir);
+        
+
         // Change speed with keyboard
         // if (Input.GetKeyDown(KeyCode.W)&& !_isrunning)
         // {
@@ -111,7 +117,7 @@ public class NewTrainController : MonoBehaviour
     {   
         var levDir = directionLever.localPosition;
         levDir.x = dir == Direction.Right ? RightLeverPosX : LeftLeverPosX;
-        directionLever.localPosition = levDir;
+        directionLever.localPosition = Vector3.Lerp(directionLever.localPosition, levDir, 0.2f);
     }
 
     private void SwitchThrottleLeverDirection(bool speedOn)
