@@ -732,8 +732,8 @@ MonoBehaviour:
   speed: 30
   accelerationTime: 1
   lastDirection: 0
-  directionLever: {fileID: 4318928177043196865}
-  throttleLever: {fileID: 3523850294274122503}
+  directionLever: {fileID: 1475548218}
+  throttleLever: {fileID: 1364639204}
   trainSplineMover: {fileID: 8293359664985741959}
 --- !u!224 &160405895 stripped
 RectTransform:
@@ -8885,6 +8885,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbeda5d3c82a45898316b5c4508c19d6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!4 &1364639204 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 3523850295081619033, guid: 0d7aa1ebc96418f40b3e11cd3f9a3054, type: 3}
+  m_PrefabInstance: {fileID: 445717712}
+  m_PrefabAsset: {fileID: 0}
 --- !u!224 &1366536220 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 154330177041936384, guid: e086305d3adb6a94aac1375e5ebf57a1, type: 3}
@@ -9338,6 +9343,11 @@ PrefabInstance:
 Transform:
   m_CorrespondingSourceObject: {fileID: 3093452215564364458, guid: d8c24c8db3e5446a28080b07cc3c62e5, type: 3}
   m_PrefabInstance: {fileID: 2954539773759105201}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &1475548218 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4318928176240027295, guid: 0d7aa1ebc96418f40b3e11cd3f9a3054, type: 3}
+  m_PrefabInstance: {fileID: 445717712}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1498454800
 PrefabInstance:
