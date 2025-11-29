@@ -52,7 +52,7 @@ MonoBehaviour:
     value: 1
   intensity:
     overrideState: 1
-    value: 4.1
+    value: 9
   threshold:
     overrideState: 1
     value: 1
@@ -93,7 +93,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 556797029e73b2347956b6579e77e05b, type: 3}
   m_Name: DepthOfField
   m_EditorClassIdentifier: 
-  active: 0
+  active: 1
   enabled:
     overrideState: 1
     value: 1
@@ -102,13 +102,13 @@ MonoBehaviour:
     value: 17.28
   aperture:
     overrideState: 1
-    value: 19.9
+    value: 31
   focalLength:
     overrideState: 1
-    value: 234
+    value: 278
   kernelSize:
     overrideState: 1
-    value: 1
+    value: 2
 --- !u!114 &-7341565953020521097
 MonoBehaviour:
   m_ObjectHideFlags: 3
@@ -121,7 +121,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b94fcd11afffcb142908bfcb1e261fba, type: 3}
   m_Name: MotionBlur
   m_EditorClassIdentifier: 
-  active: 1
+  active: 0
   enabled:
     overrideState: 1
     value: 1
@@ -180,7 +180,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: adb84e30e02715445aeb9959894e3b4d, type: 3}
   m_Name: ColorGrading
   m_EditorClassIdentifier: 
-  active: 0
+  active: 1
   enabled:
     overrideState: 1
     value: 1
@@ -192,7 +192,7 @@ MonoBehaviour:
     value: {fileID: 0}
     defaultState: 1
   tonemapper:
-    overrideState: 0
+    overrideState: 1
     value: 1
   toneCurveToeStrength:
     overrideState: 0
@@ -220,29 +220,29 @@ MonoBehaviour:
     overrideState: 0
     value: 1
   temperature:
-    overrideState: 0
-    value: 100
+    overrideState: 1
+    value: 39
   tint:
     overrideState: 0
     value: 0
   colorFilter:
-    overrideState: 0
-    value: {r: 1, g: 0.6094339, b: 0.6094339, a: 1}
+    overrideState: 1
+    value: {r: 1, g: 0.53243935, b: 0.36320752, a: 1}
   hueShift:
-    overrideState: 0
+    overrideState: 1
     value: 0
   saturation:
-    overrideState: 0
+    overrideState: 1
     value: 0
   brightness:
     overrideState: 0
     value: 0
   postExposure:
-    overrideState: 0
-    value: 0
+    overrideState: 1
+    value: 2.04
   contrast:
-    overrideState: 0
-    value: 0
+    overrideState: 1
+    value: 27
   mixerRedOutRedIn:
     overrideState: 0
     value: 100
@@ -1500,7 +1500,7 @@ MonoBehaviour:
     value: 1
   intensity:
     overrideState: 1
-    value: 0.1
+    value: 0.46
   size:
     overrideState: 1
     value: 3
@@ -1632,7 +1632,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6050e2d5de785ce4d931e4dbdbf2d755, type: 3}
   m_Name: ChromaticAberration
   m_EditorClassIdentifier: 
-  active: 1
+  active: 0
   enabled:
     overrideState: 1
     value: 1
@@ -1667,13 +1667,13 @@ MonoBehaviour:
     value: 0
   color:
     overrideState: 1
-    value: {r: 1, g: 0.42001882, b: 0, a: 1}
+    value: {r: 0, g: 0, b: 0, a: 1}
   center:
     overrideState: 1
     value: {x: 0.5, y: 0.5}
   intensity:
     overrideState: 1
-    value: 0.27
+    value: 0.33
   smoothness:
     overrideState: 1
     value: 1
