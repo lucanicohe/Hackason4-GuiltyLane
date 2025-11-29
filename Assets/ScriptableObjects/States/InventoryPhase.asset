@@ -13,7 +13,6 @@ MonoBehaviour:
   m_Name: InventoryPhase
   m_EditorClassIdentifier: 
   phaseName: InventroyPhase
-  duration: 20
+  isExitTriggerEnter: 0
   nextPhase: {fileID: 11400000, guid: 6febedb8546e29c43bf4920832c852f8, type: 2}
-  actions:
-  - {fileID: 11400000, guid: a1f4ba80e4e08aa49891a4d9bc4828d8, type: 2}
+  actions: []
