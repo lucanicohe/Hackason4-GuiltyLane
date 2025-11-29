@@ -24,6 +24,8 @@ public class NewTrainController : MonoBehaviour
     private bool _isrunning;
     [SerializeField]private TrainSplineMover trainSplineMover;
 
+    public Direction CurrentDir { get; private set; }
+
     public event Action<string> OnTrainEnterGameFlowTrigger;
     
     private void Awake()
@@ -42,16 +44,20 @@ public class NewTrainController : MonoBehaviour
         // Change direction with keyboard
         if (Input.GetKeyDown(KeyCode.A))
         {
-            SwitchDirectionLeverDirection(Direction.Left);
+            CurrentDir = Direction.Left;
             lastDirection = Direction.Left;
             trainSplineMover.switchSplineType = TrainSplineMover.SplineType.Left;
         }
         else if (Input.GetKeyDown(KeyCode.D))
         {
-            SwitchDirectionLeverDirection(Direction.Right);
+            CurrentDir = Direction.Right;
             lastDirection = Direction.Right;
             trainSplineMover.switchSplineType = TrainSplineMover.SplineType.Right;
         }
+
+        SwitchDirectionLeverDirection(CurrentDir);
+        
+
         // Change speed with keyboard
         // if (Input.GetKeyDown(KeyCode.W)&& !_isrunning)
         // {
@@ -111,7 +117,7 @@ public class NewTrainController : MonoBehaviour
     {   
         var levDir = directionLever.localPosition;
         levDir.x = dir == Direction.Right ? RightLeverPosX : LeftLeverPosX;
-        directionLever.localPosition = levDir;
+        directionLever.localPosition = Vector3.Lerp(directionLever.localPosition, levDir, 0.2f);
     }
 
     private void SwitchThrottleLeverDirection(bool speedOn)
