@@ -24,6 +24,8 @@ public class NewTrainController : MonoBehaviour
     private bool _isrunning;
     [SerializeField]private TrainSplineMover trainSplineMover;
 
+    public Direction CurrentDir { get; private set; }
+
     public event Action<string> OnTrainEnterGameFlowTrigger;
     
     private void Awake()
@@ -36,26 +38,24 @@ public class NewTrainController : MonoBehaviour
         _currentSpeed = 0f;
     }
 
-    private Direction _currentDir;
-
     private void Update()
     {
         transform.Translate(Vector3.forward * (_currentSpeed * Time.deltaTime));
         // Change direction with keyboard
         if (Input.GetKeyDown(KeyCode.A))
         {
-            _currentDir = Direction.Left;
+            CurrentDir = Direction.Left;
             lastDirection = Direction.Left;
             trainSplineMover.switchSplineType = TrainSplineMover.SplineType.Left;
         }
         else if (Input.GetKeyDown(KeyCode.D))
         {
-            _currentDir = Direction.Right;
+            CurrentDir = Direction.Right;
             lastDirection = Direction.Right;
             trainSplineMover.switchSplineType = TrainSplineMover.SplineType.Right;
         }
 
-        SwitchDirectionLeverDirection(_currentDir);
+        SwitchDirectionLeverDirection(CurrentDir);
         
 
         // Change speed with keyboard
