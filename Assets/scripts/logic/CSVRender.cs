@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UniRx;
 
 public class CSVRender : MonoBehaviour
 {
@@ -17,6 +18,8 @@ public class CSVRender : MonoBehaviour
     // 外からもロードされている状態が確認できるように。 currentLangCodeを外で読む
     public int currentLangCode => _currentLangCode;
 
+    [SerializeField] private LanguageController _languageController;
+
     public void Awake()
     {
         if (Instance == null) Instance = this;
@@ -25,14 +28,26 @@ public class CSVRender : MonoBehaviour
 
     void Start()
     {
-        LoadLanguage();
+        OnLanguageChange();
+    }
+
+    private void OnLanguageChange()
+    {
+        _languageController.CurrentLanguage
+            .Subscribe(newLanguage =>
+            {
+                LoadLanguage(newLanguage);
+            })
+            .AddTo(this);
     }
 
     /// <summary>
     /// 指定言語のデータをCSVから読み込み
     /// </summary>
-    public void LoadLanguage()
+    public void LoadLanguage(LanguageType langType)
     {
+        var columnIndex = (int)langType + 1;
+
         var c = _currentLangCode;
         var wList = _currentLangWords;
 
@@ -56,13 +71,13 @@ public class CSVRender : MonoBehaviour
             string[] fields = lines[i].Split(',');
 
             // 存在しない列があっても止まらないように　（一部言語を書き忘れていたなどに対応）
-            if (fields.Length <= c + 1)
+            if (fields.Length <= columnIndex)
                 continue;
 
             // idに対応した文字を返す為に準備。idが数字じゃなかった場合に処理が止まらないようにTryParseを使用。
             if (int.TryParse(fields[0], out int id))
             {
-                string word = fields[c + 1].Trim();
+                string word = fields[columnIndex].Trim();
                 wList[id] = word;
             }
             else Debug.Log($"{_csvTextAssetData.name}の{i}列のTextIDが数字じゃないよ? ({id})");
@@ -74,30 +89,14 @@ public class CSVRender : MonoBehaviour
     /// <summary>
     /// 現在の言語で単語を取得
     /// </summary>
-    public string getTxtByID(int id)
+    public string TryGetTxtByID(int id)
     {
         if (_currentLangWords.TryGetValue(id, out string word))
-            return replace(word);
+            return Replace(word);
         return $"<Missing:{id}>";
     }
 
-    public void ShiftLang()
-    {
-        if (_currentLangCode == 0)
-            _currentLangCode = 1;
-        else if (_currentLangCode == 1)
-            _currentLangCode = 0;
-        else return;
-        LoadLanguage();
-    }
-
-    void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.S))
-            ShiftLang();
-    }
-
-    public string replace(string text)
+    public string Replace(string text)
     {
         char oldChar = '`';
         char newChar = ',';

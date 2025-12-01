@@ -18,3 +18,13 @@ MonoBehaviour:
   price: 10
   selectItemEffect: 8
   permanent: 0
+  itemNames:
+  - languageType: 0
+    itemName: 
+  - languageType: 1
+    itemName: 
+  itemDescriptions:
+  - languageType: 0
+    itemDescription: 
+  - languageType: 1
+    itemDescription: 

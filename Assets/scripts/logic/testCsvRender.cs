@@ -8,7 +8,7 @@ public class testCsvRender : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Keypad0))
         {
-            Debug.Log($"{CSVRender.Instance.getTxtByID(1)}");
+            Debug.Log($"{CSVRender.Instance.TryGetTxtByID(1)}");
         }
     }
 }

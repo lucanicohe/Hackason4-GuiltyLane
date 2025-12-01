@@ -1,4 +1,5 @@
 using UnityEngine;
+using System;
 
 [CreateAssetMenu(menuName = "Item/ItemSO")]
 public class ItemSO : ScriptableObject
@@ -9,6 +10,23 @@ public class ItemSO : ScriptableObject
     [SerializeField] public int price;
     [SerializeField] public SelectItemEffect selectItemEffect;
     [SerializeField] public bool permanent;
+
+    [SerializeField] public ItemName[] itemNames;
+    [SerializeField] public ItemDescription[] itemDescriptions;
+
+    [Serializable]
+    public struct ItemName
+    {
+        public LanguageType languageType;
+        public string itemName;
+    }
+
+    [Serializable]
+    public struct ItemDescription
+    {
+        public LanguageType languageType;
+        [TextArea] public string itemDescription;
+    }
 
 //     public void UseItem() //TODO fix 
 //     {
