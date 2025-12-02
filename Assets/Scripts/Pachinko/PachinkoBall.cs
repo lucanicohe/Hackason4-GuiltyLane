@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UniRx;
@@ -22,9 +22,9 @@ public class PachinkoBall : MonoBehaviour
     {
         float offsetX = UnityEngine.Random.Range(-_randomOffsetX, _randomOffsetX);
 
-        Vector3 velocity = new Vector3(offsetX, 1, 0);
+        Vector2 velocity = new Vector2(offsetX, 1);
 
-        _rb.AddForce(velocity * _speed, ForceMode2D.Impulse);
+        _rb.velocity = velocity * _speed;
     }
 
     // 当たったら消える CenterPocketに当たったなら、抽選開始
@@ -46,4 +46,6 @@ public class PachinkoBall : MonoBehaviour
             Destroy(this.gameObject);
         }
     }
+
+
 }

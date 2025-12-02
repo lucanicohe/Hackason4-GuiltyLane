@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -12,6 +12,6 @@ public class SlotData : ScriptableObject
 public class SlotParam
 {
     [SerializeField] public int id;
-    [SerializeField] public Sprite number;
+    [SerializeField] public int number;
     [SerializeField] public int probability;
 }

@@ -1,8 +1,9 @@
-using System.Collections;
+﻿using System.Collections;
 using Unity.Mathematics;
 using UnityEngine;
 using UniRx;
 using System;
+using UnityEngine.UI;
 
 public class PachinkoManager : MonoBehaviour
 {
@@ -14,13 +15,18 @@ public class PachinkoManager : MonoBehaviour
     private GameObject _Ball;
     [SerializeField]
     GameObject _lancher;
+    [SerializeField]
+    private Slider _slider;
     private float _plusSpeed = 0;
     [SerializeField]
     private float _maxBallPlusSpeed = 100f;
     [SerializeField]
     private float _plusSpeedFactor = 1f;
     private float _pachinkoHandleMaxRotate = 45;
-    
+    [SerializeField]
+    private bool _isClicked = false;
+    private Coroutine _StartBallIntervalCoroutine = null;
+
     Vector2 _lancherPos;
     Vector2 _firstMousePos = Vector2.zero;
     Vector2 _mousePos;
@@ -30,10 +36,21 @@ public class PachinkoManager : MonoBehaviour
 
     void Start()
     {
+        _slider.maxValue = _maxBallPlusSpeed;
+        _slider.minValue = 0;
         _lancherPos = _lancher.transform.position;
     }
     void Update()
     {
+        if (_isClicked && _StartBallIntervalCoroutine == null)
+        {
+            _StartBallIntervalCoroutine = StartCoroutine(StartBallInterval());
+        }
+        else if (!_isClicked && _StartBallIntervalCoroutine != null)
+        {
+            StopCoroutine(_StartBallIntervalCoroutine);
+            _StartBallIntervalCoroutine = null;
+        }
         // 玉が出るマウス操作によって速度が変わる
         if (Input.GetMouseButtonDown(0))
         {
@@ -106,7 +123,8 @@ public class PachinkoManager : MonoBehaviour
                 ._onEnter
                 .Subscribe(x =>
                 {
-                    StartCoroutine(slotManager.Lottery());
+                    slotManager._canReelCount++;
+                    Debug.Log("中央ポケットに入った" + slotManager._canReelCount);
                 })
                 .AddTo(this);
 
@@ -116,8 +134,18 @@ public class PachinkoManager : MonoBehaviour
                 pachinkoBall._speed += _plusSpeed;
             }
 
-            yield return new WaitForSeconds(1f);
+            if (_isClicked)
+            {
+                pachinkoBall._speed += _slider.value;
+            }
+
+            yield return new WaitForSeconds(0.5f);
         }
+    }
+
+    public void ClickBotton()
+    {
+        _isClicked = !_isClicked;
     }
 
     
