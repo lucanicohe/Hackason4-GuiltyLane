@@ -1,10 +1,11 @@
 ﻿using System.Collections;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class SlotReel : MonoBehaviour
 {
     [Header("Settings")]
-    [SerializeField] private Renderer _renderer;
+    [SerializeField] private Image _image;
     [SerializeField] private float _spinSpeed = 2.0f; // 回転速度
     [SerializeField] private int _totalSymbols = 9;   // 画像に含まれる絵柄の総数
 
@@ -13,8 +14,8 @@ public class SlotReel : MonoBehaviour
 
     void Awake()
     {
-        if (_renderer == null) _renderer = GetComponent<Renderer>();
-        _targetMaterial = _renderer.material;
+        if (_image == null) _image = GetComponent<Image>();
+        _targetMaterial = _image.material;
     }
 
     void Update()
