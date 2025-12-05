@@ -20,4 +20,10 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Scenes/MainGameScene.unity
     guid: 055b649a7a28904489416722884cc970
+  - enabled: 1
+    path: Assets/Scenes/WildWest.unity
+    guid: c40896748647b4f289e540845845268d
+  - enabled: 1
+    path: Assets/Scenes/Pachinko.unity
+    guid: 53ac666c0d437ee4eaf05bfe92ff44a6
   m_configObjects: {}

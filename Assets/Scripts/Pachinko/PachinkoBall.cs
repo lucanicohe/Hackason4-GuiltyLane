@@ -10,7 +10,8 @@ public class PachinkoBall : MonoBehaviour
     Rigidbody2D _rb;
     public float _speed = 20f;
     float _randomOffsetX = 0.05f;
-
+    float _speedY = 2.5f;
+ 
     public bool _isEnterCenterPocket = false;
 
     private Subject<bool> _enterCenterPocket = new();
@@ -21,10 +22,9 @@ public class PachinkoBall : MonoBehaviour
     void Start()
     {
         float offsetX = UnityEngine.Random.Range(-_randomOffsetX, _randomOffsetX);
+        float SpeedY = _speedY * _speed;
 
-        Vector2 velocity = new Vector2(offsetX, 1);
-
-        _rb.velocity = velocity * _speed;
+        _rb.velocity = new Vector2(offsetX, SpeedY);
     }
 
     // 当たったら消える CenterPocketに当たったなら、抽選開始

@@ -53,7 +53,7 @@ public class PachinkoManager : MonoBehaviour
         }
         // 玉が出るマウス操作によって速度が変わる
         if (Input.GetMouseButtonDown(0))
-        {
+        {   
             _firstMouseScreenPos = Input.mousePosition;
             _currentMouseScreeenPos = _firstMouseScreenPos;
 
@@ -67,10 +67,9 @@ public class PachinkoManager : MonoBehaviour
             }
         }
 
-
         // 左クリックしているあいだは、Handleが回る
         if (Input.GetMouseButton(0))
-        {
+        {   
             _currentMouseScreeenPos = Input.mousePosition;
 
             float deltaX = _currentMouseScreeenPos.x - _firstMouseScreenPos.x;
@@ -86,7 +85,7 @@ public class PachinkoManager : MonoBehaviour
         
 
         if (Input.GetMouseButtonUp(0))
-        {
+        {   
             if(BallInterval != null)
                 StopCoroutine(BallInterval);
             BallInterval = null;
@@ -94,6 +93,7 @@ public class PachinkoManager : MonoBehaviour
             _pachinkoHandle.transform.localRotation = quaternion.identity;
             _plusSpeed = 0f;
         }        
+
     }
 
 
@@ -113,9 +113,10 @@ public class PachinkoManager : MonoBehaviour
             (
                 _Ball,
                 new Vector2(_lancherPos.x + offsetX, _lancherPos.y), 
-                quaternion.identity
+                quaternion.identity,
+                this.transform
             );
-            Debug.Log("PachinkoBall生成");
+            // Debug.Log("PachinkoBall生成");
 
 
             var pachinkoBall = Ball.GetComponent<PachinkoBall>();
