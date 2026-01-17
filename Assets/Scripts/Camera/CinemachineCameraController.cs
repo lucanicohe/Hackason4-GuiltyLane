@@ -22,7 +22,7 @@ public class CinemachineCameraController : MonoBehaviour
 
     void Start()
     {
-        ChangeCamera(4);
+        //StartAtCamera1();
         _Deadcam.SetActive(false); 
 
 
@@ -90,4 +90,14 @@ public class CinemachineCameraController : MonoBehaviour
         yield return new WaitForSeconds(2f);
         _ESC.SetActive(true); 
     }
+
+    public void StartAtCamera1()
+{
+    ChangeCamera(1); // Camera 1 = index 0
+}
+
+public void ZoomOutToCamera4()
+{
+    ChangeCamera(4); // Camera 4 = index 3
+}
 }

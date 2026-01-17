@@ -16,7 +16,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &8305108939070537494
 Transform:
   m_ObjectHideFlags: 0
@@ -45,7 +45,7 @@ AudioSource:
   m_audioClip: {fileID: 8300000, guid: 360a2bda119694a768f981f65cd61d9a, type: 3}
   m_PlayOnAwake: 1
   m_Volume: 1
-  m_Pitch: 0.7
+  m_Pitch: 1
   Loop: 1
   Mute: 0
   Spatialize: 0
@@ -53,7 +53,7 @@ AudioSource:
   Priority: 128
   DopplerLevel: 1
   MinDistance: 1
-  MaxDistance: 100
+  MaxDistance: 9
   Pan2D: 0
   rolloffMode: 2
   BypassEffects: 0
@@ -262,6 +262,7 @@ GameObject:
   - component: {fileID: 5876456076604774839}
   - component: {fileID: 4630765412446411662}
   - component: {fileID: 3194148111075519444}
+  - component: {fileID: 7810568342868221272}
   m_Layer: 0
   m_Name: Plane
   m_TagString: Untagged
@@ -356,3 +357,27 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &7810568342868221272
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3099518671571590320}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 57b48afae4bed41d5b10483bc4e7b14d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _textures:
+  - {fileID: 2800000, guid: ae5b115661780453da4723be74143340, type: 3}
+  - {fileID: 2800000, guid: 7a6875ccd760247158499fe5baf9a1db, type: 3}
+  - {fileID: 2800000, guid: 45a55a3e00a4f4b498441789a24779ba, type: 3}
+  - {fileID: 2800000, guid: e70920c32184c44428bb292d3ebb4d01, type: 3}
+  - {fileID: 2800000, guid: 45a55a3e00a4f4b498441789a24779ba, type: 3}
+  - {fileID: 2800000, guid: 7a6875ccd760247158499fe5baf9a1db, type: 3}
+  - {fileID: 2800000, guid: 45a55a3e00a4f4b498441789a24779ba, type: 3}
+  - {fileID: 2800000, guid: e70920c32184c44428bb292d3ebb4d01, type: 3}
+  - {fileID: 2800000, guid: 45a55a3e00a4f4b498441789a24779ba, type: 3}
+  - {fileID: 2800000, guid: 7a6875ccd760247158499fe5baf9a1db, type: 3}
+  _frameTime: 0.2
