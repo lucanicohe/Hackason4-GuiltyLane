@@ -18,6 +18,9 @@ public class PeopleAnimator : MonoBehaviour
 
         // This creates a unique instance so you don’t animate all objects using the same material
         _material = renderer.material;
+
+        if (_textures != null && _textures.Length > 0)
+            _currentIndex = Random.Range(0, _textures.Length);
     }
 
     private void OnEnable()
