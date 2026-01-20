@@ -19,6 +19,8 @@ TagManager:
   - postprocess
   - Blood
   - Scream2
+  - Record
+  - EkiCanvas
   layers:
   - Default
   - TransparentFX

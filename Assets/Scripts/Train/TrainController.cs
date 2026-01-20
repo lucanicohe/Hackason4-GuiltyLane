@@ -22,34 +22,32 @@ public class TrainController : MonoBehaviour
     [SerializeField] private AudioSource _train;
     [SerializeField] private AudioSource _stop;
 
-    private Coroutine _cameraTransitionCoroutine;
     private Coroutine _TrainCoroutine;
     private Coroutine _effectsCoroutine;
-
-    private Vector3 _defaultCameraPos;
 
     [SerializeField] private GameObject _buttonParent;
     [SerializeField] private GameObject _exitZoomButtonsParent;
 
     [SerializeField] private AudioSource _leverpower;
     [SerializeField] private AudioSource _leverdir;
-    
+
     private bool _isrunning = false;
 
-    // ===== POST PROCESSING EFFECTS =====
+    // ===== DEPTH OF FIELD =====
     [SerializeField] private PostProcessVolume _postProcessVolume;
-    private ChromaticAberration _chromaticAberration;
+    private DepthOfField _depthOfField;
 
-    [SerializeField] private float _chromaticstart = 0.5f;
-    [SerializeField] private float _chromaticend = 1f;
-
+    [SerializeField] private float _focalStopped = 8f;
+    [SerializeField] private float _focalMoving = 18f;
 
     // ===== WAYPOINT ROTATION ONLY =====
-    [SerializeField] private float _rotationSpeed = 3f; // Smooth rotation speed
+    [SerializeField] private float _rotationSpeed = 3f;
     private Waypoint _currentWaypoint;
-    private float _waypointReachDistance = 1f; // Distance to switch to next waypoint
+    private float _waypointReachDistance = 1f;
     private bool _isRotatingToWaypoint = false;
 
+
+    public bool IsMoving => _currentSpeed > 0.01f;
     
 
     void Start()
@@ -66,40 +64,37 @@ public class TrainController : MonoBehaviour
         if (_exitZoomButtonsParent != null)
             _exitZoomButtonsParent.SetActive(false);
 
-        // ===== INITIALIZE POST PROCESSING EFFECTS =====
+        // ===== INIT DEPTH OF FIELD =====
         if (_postProcessVolume != null)
         {
-            _postProcessVolume.profile.TryGetSettings(out _chromaticAberration);
-            if (_chromaticAberration != null)
-                _chromaticAberration.intensity.value = _chromaticstart;
+            _postProcessVolume.profile.TryGetSettings(out _depthOfField);
+            if (_depthOfField != null)
+                _depthOfField.focusDistance.value = _focalStopped;
         }
     }
 
     void Update()
     {
-        // ===== WAYPOINT ROTATION (ONLY Y AXIS) =====
+        // ===== WAYPOINT ROTATION (Y ONLY) =====
         if (_currentWaypoint != null && _isRotatingToWaypoint)
         {
-            // Calculate direction to waypoint (only horizontal plane)
             Vector3 targetPos = _currentWaypoint.transform.position;
-            Vector3 directionToWaypoint = new Vector3(
+            Vector3 dir = new Vector3(
                 targetPos.x - transform.position.x,
-                0, // Ignore Y difference
+                0,
                 targetPos.z - transform.position.z
             ).normalized;
 
-            if (directionToWaypoint != Vector3.zero)
+            if (dir != Vector3.zero)
             {
-                Quaternion targetRotation = Quaternion.LookRotation(directionToWaypoint);
-                // Smoothly rotate towards target (only Y rotation)
+                Quaternion targetRot = Quaternion.LookRotation(dir);
                 transform.rotation = Quaternion.Slerp(
-                    transform.rotation, 
-                    targetRotation, 
+                    transform.rotation,
+                    targetRot,
                     Time.deltaTime * _rotationSpeed
                 );
             }
 
-            // Check if we reached this waypoint (switch to next)
             float distance = Vector3.Distance(
                 new Vector3(transform.position.x, 0, transform.position.z),
                 new Vector3(targetPos.x, 0, targetPos.z)
@@ -107,22 +102,16 @@ public class TrainController : MonoBehaviour
 
             if (distance < _waypointReachDistance)
             {
-                // Move to next waypoint in chain (for forks)
                 if (_currentWaypoint.nextWaypoint != null)
-                {
                     _currentWaypoint = _currentWaypoint.nextWaypoint;
-                }
                 else
-                {
-                    // No more waypoints, stop rotating
                     _isRotatingToWaypoint = false;
-                }
             }
         }
-       
+
         transform.Translate(Vector3.forward * (_currentSpeed * Time.deltaTime));
 
-        // Change direction with keyboard
+        // Direction
         if (Input.GetKeyDown(KeyCode.A))
         {
             SetDirection(Direction.Left);
@@ -131,10 +120,10 @@ public class TrainController : MonoBehaviour
         else if (Input.GetKeyDown(KeyCode.D))
         {
             SetDirection(Direction.Right);
-            _leverdir.Play(); 
+            _leverdir.Play();
         }
 
-        // Change speed with keyboard
+        // Speed
         if (Input.GetKeyDown(KeyCode.W) && !GameManager.Instance._speedzero && !_isrunning)
         {
             _leverpower.Play();
@@ -146,63 +135,56 @@ public class TrainController : MonoBehaviour
             GameManager.Instance._speedzero = false;
             StopTrain();
             _leverpower.Play();
-            _isrunning = false; 
+            _isrunning = false;
         }
     }
 
-    
     public void SetRotationWaypoint(Waypoint waypoint)
     {
         _currentWaypoint = waypoint;
         _isRotatingToWaypoint = true;
     }
-    
 
     private IEnumerator TrainDepature()
     {
-        float _elapsedTime = 0f;
-        while (_elapsedTime < _accelerationTime)
+        float elapsed = 0f;
+        while (elapsed < _accelerationTime)
         {
-            _elapsedTime += Time.deltaTime;
-            float per = _elapsedTime / _accelerationTime;
-            _currentSpeed = Mathf.Lerp(0f, _speed, per * per);
-
+            elapsed += Time.deltaTime;
+            float t = elapsed / _accelerationTime;
+            _currentSpeed = Mathf.Lerp(0f, _speed, t * t);
             yield return null;
         }
     }
 
     private IEnumerator TrainStop()
     {
-        float _elapsedTime = 0f;
-        while (_elapsedTime < _accelerationTime)
+        float elapsed = 0f;
+        while (elapsed < _accelerationTime)
         {
-            _elapsedTime += Time.deltaTime;
-            float per = _elapsedTime / _accelerationTime;
-            _currentSpeed = Mathf.Lerp(_speed, 0f, per * per);
-
+            elapsed += Time.deltaTime;
+            float t = elapsed / _accelerationTime;
+            _currentSpeed = Mathf.Lerp(_speed, 0f, t * t);
             yield return null;
         }
     }
 
-    private IEnumerator TransitionEffects(float targetChromatic)
+    private IEnumerator TransitionDepthOfField(float targetFocal)
     {
-        float _elapsedTime = 0f;
-        float startChromatic = _chromaticAberration.intensity.value;
+        if (_depthOfField == null) yield break;
 
-        while (_elapsedTime < _accelerationTime)
+        float elapsed = 0f;
+        float start = _depthOfField.focusDistance.value;
+
+        while (elapsed < _accelerationTime)
         {
-            _elapsedTime += Time.deltaTime;
-            float per = _elapsedTime / _accelerationTime;
-
-            if (_chromaticAberration != null)
-                _chromaticAberration.intensity.value = Mathf.Lerp(startChromatic, targetChromatic, per);
-
+            elapsed += Time.deltaTime;
+            float t = elapsed / _accelerationTime;
+            _depthOfField.focusDistance.value = Mathf.Lerp(start, targetFocal, t);
             yield return null;
         }
 
-        // Ensure final value is set
-        if (_chromaticAberration != null)
-            _chromaticAberration.intensity.value = targetChromatic;
+        _depthOfField.focusDistance.value = targetFocal;
     }
 
     private void StartTrain()
@@ -210,15 +192,16 @@ public class TrainController : MonoBehaviour
         if (_TrainCoroutine != null)
             StopCoroutine(_TrainCoroutine);
         _TrainCoroutine = StartCoroutine(TrainDepature());
+
         _train.Play();
         _stop.Stop();
+
         if (_throttleLever != null)
             _throttleLever.localPosition = _speedOnPos;
 
-        // Transition effects to on
         if (_effectsCoroutine != null)
             StopCoroutine(_effectsCoroutine);
-        _effectsCoroutine = StartCoroutine(TransitionEffects(_chromaticend));
+        _effectsCoroutine = StartCoroutine(TransitionDepthOfField(_focalMoving));
     }
 
     private void StopTrain()
@@ -226,15 +209,16 @@ public class TrainController : MonoBehaviour
         if (_TrainCoroutine != null)
             StopCoroutine(_TrainCoroutine);
         _TrainCoroutine = StartCoroutine(TrainStop());
+
         _train.Stop();
         _stop.Play();
+
         if (_throttleLever != null)
             _throttleLever.localPosition = _speedOffPos;
 
-        // Transition effects to off
         if (_effectsCoroutine != null)
             StopCoroutine(_effectsCoroutine);
-        _effectsCoroutine = StartCoroutine(TransitionEffects(_chromaticstart));
+        _effectsCoroutine = StartCoroutine(TransitionDepthOfField(_focalStopped));
     }
 
     private void SetDirection(Direction dir)

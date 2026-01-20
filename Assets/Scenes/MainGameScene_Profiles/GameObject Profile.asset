@@ -93,19 +93,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 556797029e73b2347956b6579e77e05b, type: 3}
   m_Name: DepthOfField
   m_EditorClassIdentifier: 
-  active: 0
+  active: 1
   enabled:
     overrideState: 1
     value: 1
   focusDistance:
     overrideState: 1
-    value: 17.28
+    value: 8
   aperture:
     overrideState: 1
-    value: 19.9
+    value: 23.3
   focalLength:
     overrideState: 1
-    value: 234
+    value: 223
   kernelSize:
     overrideState: 1
     value: 1
@@ -121,7 +121,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b94fcd11afffcb142908bfcb1e261fba, type: 3}
   m_Name: MotionBlur
   m_EditorClassIdentifier: 
-  active: 1
+  active: 0
   enabled:
     overrideState: 1
     value: 1
@@ -149,10 +149,10 @@ MonoBehaviour:
     value: 1
   colored:
     overrideState: 1
-    value: 1
+    value: 0
   intensity:
     overrideState: 1
-    value: 0.1
+    value: 0.677
   size:
     overrideState: 1
     value: 3
@@ -208,7 +208,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c1cb7e9e120078f43bce4f0b1be547a7, type: 3}
   m_Name: AmbientOcclusion
   m_EditorClassIdentifier: 
-  active: 0
+  active: 1
   enabled:
     overrideState: 1
     value: 1
@@ -217,7 +217,7 @@ MonoBehaviour:
     value: 1
   intensity:
     overrideState: 1
-    value: 2.34
+    value: 3.26
   color:
     overrideState: 1
     value: {r: 0, g: 0, b: 0, a: 1}
@@ -308,7 +308,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 40b924e2dad56384a8df2a1e111bb675, type: 3}
   m_Name: Vignette
   m_EditorClassIdentifier: 
-  active: 0
+  active: 1
   enabled:
     overrideState: 1
     value: 1
@@ -317,19 +317,19 @@ MonoBehaviour:
     value: 0
   color:
     overrideState: 1
-    value: {r: 1, g: 0, b: 0, a: 1}
+    value: {r: 0.21698111, g: 0.1512412, b: 0.046057317, a: 1}
   center:
     overrideState: 1
     value: {x: 0.5, y: 0.5}
   intensity:
     overrideState: 1
-    value: 0.27
+    value: 0.545
   smoothness:
     overrideState: 1
-    value: 1
+    value: 0.514
   roundness:
     overrideState: 1
-    value: 1
+    value: 0.838
   rounded:
     overrideState: 1
     value: 0

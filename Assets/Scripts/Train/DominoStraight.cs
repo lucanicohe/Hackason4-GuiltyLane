@@ -36,8 +36,11 @@ public class DominoStraight : MonoBehaviour
     private TextMeshProUGUI[] _teamLeftTexts;
     private TextMeshProUGUI _trackText;
 
+    private static int _targetStraightCount;
+
     private void Start()
     {
+
         _typingAudio = GameObject.FindGameObjectWithTag("Typing")?.GetComponent<AudioSource>();
         _typingEndAudio = GameObject.FindGameObjectWithTag("TypingEnd")?.GetComponent<AudioSource>();
 
@@ -63,6 +66,11 @@ public class DominoStraight : MonoBehaviour
         }
 
         _teamBuilder = FindObjectOfType<TeamBuilder>();
+
+        if (_targetStraightCount == 0)
+    {
+        _targetStraightCount = Random.Range(3, 10); // 3–9 (max is exclusive)
+    }
     }
 
     private void OnTriggerEnter(Collider other)
@@ -80,7 +88,7 @@ public class DominoStraight : MonoBehaviour
 
         _spawnedNext = true;
 
-        if (_globalStraightCount < 2)
+        if (_globalStraightCount < _targetStraightCount)
         {
             Instantiate(_straightPrefab, _spawnPointStraight.position, Quaternion.identity);
             _globalStraightCount++;
@@ -100,6 +108,7 @@ public class DominoStraight : MonoBehaviour
 
         Instantiate(_forkPrefab, _spawnPointFork.position, Quaternion.identity);
         _globalStraightCount = 0;
+        _targetStraightCount = Random.Range(3, 10);
 
         if (_teamBuilder != null)
         {
