@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using Cinemachine;
 using UnityEngine;
@@ -14,59 +13,74 @@ public class CinemachineCameraController : MonoBehaviour
     [SerializeField] private PostProcessVolume _postProcessVolume;
     [SerializeField] private Image _fadeImage;
     [SerializeField] private GameObject _fadeobject;
-    [SerializeField] private GameObject _Deadcam; 
-    [SerializeField] private GameObject _ESC; 
+    [SerializeField] private GameObject _Deadcam;
+    [SerializeField] private GameObject _ESC;
 
-    private int activeIndex = 0;
+    private int _activeIndex = 0;
+    private int _lastIndex = 0;
+
     private bool _sewerslideTriggered = false;
 
     void Start()
     {
-        //StartAtCamera1();
-        _Deadcam.SetActive(false); 
-
-
-        _fadeobject.SetActive(false); 
-        
+        _Deadcam.SetActive(false);
+        _fadeobject.SetActive(false);
     }
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Alpha1)) ChangeCamera(0);
-        if (Input.GetKeyDown(KeyCode.Alpha2)) ChangeCamera(1);
-        if (Input.GetKeyDown(KeyCode.Alpha3)) ChangeCamera(2);
-        if (Input.GetKeyDown(KeyCode.Alpha4)) ChangeCamera(3);
-        if (Input.GetKeyDown(KeyCode.Alpha5)) ChangeCamera(4);
-        if (Input.GetKeyDown(KeyCode.L)) ChangeCamera(5);
+        if (Input.GetKeyDown(KeyCode.Alpha1)) ToggleCamera(0);
+        if (Input.GetKeyDown(KeyCode.Alpha2)) ToggleCamera(1);
+        if (Input.GetKeyDown(KeyCode.Alpha3)) ToggleCamera(2);
+        if (Input.GetKeyDown(KeyCode.Alpha4)) ToggleCamera(3);
+        if (Input.GetKeyDown(KeyCode.Alpha5)) ToggleCamera(4);
+        if (Input.GetKeyDown(KeyCode.L))      ToggleCamera(5);
 
         if (GameManager.Instance.GuiltyPercent >= 100 && !_sewerslideTriggered)
         {
             _sewerslideTriggered = true;
-            _fadeobject.SetActive(true); 
-            
-            StartCoroutine("Sewerslide");
+            _fadeobject.SetActive(true);
+            StartCoroutine(Sewerslide());
         }
     }
 
-    private void ChangeCamera(int index)
+    // ================= CAMERA TOGGLE =================
+
+    private void ToggleCamera(int index)
+    {
+        if (index == _activeIndex)
+        {
+            ChangeCamera(_lastIndex);
+        }
+        else
+        {
+            _lastIndex = _activeIndex;
+            ChangeCamera(index);
+        }
+    }
+
+    public void ChangeCamera(int index)
     {
         for (int i = 0; i < Cameras.Length; i++)
         {
             Cameras[i].Priority = (i == index) ? 100 : 0;
         }
-        activeIndex = index;
+
+        _activeIndex = index;
     }
+
+    // ================= SEQUENCE =================
 
     private IEnumerator Sewerslide()
     {
-        _Deadcam.SetActive(true); 
+        _Deadcam.SetActive(true);
         _sad.Play();
+
         yield return new WaitForSeconds(3f);
         _gunshot.Play();
+
         yield return new WaitForSeconds(1f);
         ChangeCamera(5);
-
-
 
         if (_fadeImage != null)
         {
@@ -78,7 +92,7 @@ public class CinemachineCameraController : MonoBehaviour
             while (elapsed < 1f)
             {
                 elapsed += Time.deltaTime;
-                color.a = Mathf.Clamp01(elapsed / 1f);
+                color.a = elapsed;
                 _fadeImage.color = color;
                 yield return null;
             }
@@ -88,16 +102,23 @@ public class CinemachineCameraController : MonoBehaviour
         }
 
         yield return new WaitForSeconds(2f);
-        _ESC.SetActive(true); 
+        _ESC.SetActive(true);
     }
 
-    public void StartAtCamera1()
-{
-    ChangeCamera(1); // Camera 1 = index 0
-}
+    // ================= PUBLIC CAMERA CALLS =================
 
-public void ZoomOutToCamera4()
-{
-    ChangeCamera(4); // Camera 4 = index 3
-}
+    public void StartAtCamera1()
+    {
+        ChangeCamera(1);
+    }
+
+    public void ZoomOutToCamera4()
+    {
+        ChangeCamera(4);
+    }
+
+    public void GoToCamera6()
+    {
+        ChangeCamera(6);
+    }
 }
