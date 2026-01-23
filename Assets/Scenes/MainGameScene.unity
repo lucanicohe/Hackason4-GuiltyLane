@@ -1223,7 +1223,7 @@ AudioSource:
   m_audioClip: {fileID: 8300000, guid: 50b25eba8a02d4d7b8f86b00cbbb6cae, type: 3}
   m_PlayOnAwake: 1
   m_Volume: 0.3
-  m_Pitch: 1
+  m_Pitch: 0.9
   Loop: 0
   Mute: 0
   Spatialize: 0
@@ -1319,11 +1319,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bgmClips:
-  - {fileID: 8300000, guid: a1d70a6bbfd3c42c3bfefa1c5926828d, type: 3}
-  - {fileID: 8300000, guid: 50b25eba8a02d4d7b8f86b00cbbb6cae, type: 3}
-  - {fileID: 8300000, guid: 492dcd8e03f90472e82e601e361d70e9, type: 3}
-  - {fileID: 8300000, guid: d282c352f25cf46b0927f62163a9c0a2, type: 3}
-  - {fileID: 8300000, guid: bdbf56e4cc99f4332ad261ba91c0f3d1, type: 3}
+  - {fileID: 8300000, guid: d86802cdc985e453aaf2091eb1f8a874, type: 3}
+  - {fileID: 8300000, guid: c6364d20f07df495cad60b1bce510833, type: 3}
+  - {fileID: 8300000, guid: 55d03d7647ae645759f64bd3a36f24e1, type: 3}
+  - {fileID: 8300000, guid: ed774e1a7a1ad4f7d900d477f177ab47, type: 3}
 --- !u!82 &360069130 stripped
 AudioSource:
   m_CorrespondingSourceObject: {fileID: 6382561707613917460, guid: 0d7aa1ebc96418f40b3e11cd3f9a3054, type: 3}
