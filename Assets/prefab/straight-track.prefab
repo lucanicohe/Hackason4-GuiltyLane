@@ -29847,6 +29847,8 @@ GameObject:
   m_Component:
   - component: {fileID: 7072047844672684036}
   - component: {fileID: 1230413371909669589}
+  - component: {fileID: 7760523848163915550}
+  - component: {fileID: 7984553450945167793}
   m_Layer: 0
   m_Name: "\u9AD8\u97F3\u8CEA\u547C\u3072\u8FBC\u307F\u541B BGM"
   m_TagString: Untagged
@@ -29881,7 +29883,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 19d7fa5d48eb84f1e8060a20afc77f1e, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 1
+  m_Volume: 0.7
   m_Pitch: 1
   Loop: 1
   Mute: 0
@@ -29965,6 +29967,40 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!167 &7760523848163915550
+AudioReverbZone:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7055469411054975644}
+  m_Enabled: 1
+  m_MinDistance: 10
+  m_MaxDistance: 15
+  m_ReverbPreset: 13
+  m_Room: -1000
+  m_RoomHF: -300
+  m_DecayTime: 1.49
+  m_DecayHFRatio: 0.59
+  m_Reflections: -1219
+  m_ReflectionsDelay: 0.007
+  m_Reverb: 441
+  m_ReverbDelay: 0.011
+  m_HFReference: 5000
+  m_Diffusion: 100
+  m_Density: 100
+  m_LFReference: 250
+  m_RoomLF: 0
+--- !u!165 &7984553450945167793
+AudioHighPassFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7055469411054975644}
+  m_Enabled: 1
+  m_CutoffFrequency: 900
+  m_HighpassResonanceQ: 1
 --- !u!1 &7060482030633916259
 GameObject:
   m_ObjectHideFlags: 0
@@ -33470,7 +33506,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7994270060843413406}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
   m_Name: 
@@ -38291,7 +38327,9 @@ MonoBehaviour:
   _fadeImage: {fileID: 787565754442625319}
   _twoDoors: {fileID: 4961709182822316099}
   _normalVolume: 0.3
+  _spatialSwitchAudio: {fileID: 1230413371909669589}
   _fadeDuration: 3
+  _stopImageRadius: 70
 --- !u!1 &8842502731630725044
 GameObject:
   m_ObjectHideFlags: 0
@@ -39953,7 +39991,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 9201308612673681700}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 

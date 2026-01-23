@@ -11,6 +11,8 @@ GameObject:
   - component: {fileID: 1406252852676216153}
   - component: {fileID: 6747156032291510105}
   - component: {fileID: 8509732901540348809}
+  - component: {fileID: 3604624662654940418}
+  - component: {fileID: 7661823284771663548}
   m_Layer: 0
   m_Name: scream
   m_TagString: Scream2
@@ -145,3 +147,52 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 8ddf8c705e06e4864be3d936cdb80fa2, type: 3}
   - {fileID: 8300000, guid: 6fcbb48231b0540249f665155976df56, type: 3}
   - {fileID: 8300000, guid: 6e8ffcb9237bc46e7aea4e6675a9340d, type: 3}
+  frontAngle: 60
+--- !u!169 &3604624662654940418
+AudioLowPassFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8159724161675704430}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_LowpassResonanceQ: 1
+  lowpassLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0.0313779
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+--- !u!164 &7661823284771663548
+AudioReverbFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8159724161675704430}
+  m_Enabled: 1
+  m_DryLevel: 0
+  m_Room: -1000
+  m_RoomHF: 0
+  m_DecayTime: 1.65
+  m_DecayHFRatio: 1.5
+  m_ReflectionsLevel: -1363
+  m_ReverbLevel: -1153
+  m_ReverbDelay: 0.012
+  m_Diffusion: 100
+  m_Density: 100
+  m_HFReference: 5000
+  m_RoomLF: 0
+  m_LFReference: 250
+  m_ReflectionsDelay: 0
+  m_ReverbPreset: 21

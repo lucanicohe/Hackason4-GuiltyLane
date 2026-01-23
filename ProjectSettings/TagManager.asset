@@ -21,6 +21,7 @@ TagManager:
   - Scream2
   - Record
   - EkiCanvas
+  - StopImage
   layers:
   - Default
   - TransparentFX

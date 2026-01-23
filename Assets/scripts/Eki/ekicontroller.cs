@@ -11,9 +11,13 @@ public class ekicontroller : MonoBehaviour
 
     [Header("Audio")]
     [SerializeField] private float _normalVolume = 0.3f;
+    [SerializeField] private AudioSource _spatialSwitchAudio; 
 
     [Header("Timing")]
     [SerializeField] private float _fadeDuration = 3f;
+
+    [Header("Stop Image")]
+    [SerializeField] private float _stopImageRadius = 20f;
 
     private AudioSource _musicSource;
     private TrainController _trainController;
@@ -23,6 +27,9 @@ public class ekicontroller : MonoBehaviour
     private bool _isRunning = false;
 
     private Coroutine _fadeCoroutine;
+
+    private SpriteRenderer _stopImage;
+    private Transform _player;
 
     private void Awake()
     {
@@ -43,50 +50,52 @@ public class ekicontroller : MonoBehaviour
 
         if (_musicSource != null)
             _musicSource.volume = _normalVolume;
+
+        GameObject stopObj = GameObject.FindGameObjectWithTag("StopImage");
+        if (stopObj != null)
+        {
+            _stopImage = stopObj.GetComponent<SpriteRenderer>();
+            SetStopImageAlpha(0f);
+        }
+
+        GameObject playerObj = GameObject.FindGameObjectWithTag("Player");
+        if (playerObj != null)
+            _player = playerObj.transform;
     }
 
     private void Update()
     {
         if (_ekiPossible && !_isRunning && Input.GetKeyDown(KeyCode.E))
-        {
             StartFadeIn();
-        }
 
         if (Input.GetKeyDown(KeyCode.Q))
-        {
             StartFadeOut();
-        }
+
+        HandleStopImage();
     }
 
     private void OnTriggerEnter(Collider other)
     {
         if (!other.CompareTag("Player")) return;
-
         _ekiPossible = true;
-        if (_ekiCanvas != null)
-            _ekiCanvas.SetActive(true);
+        _ekiCanvas?.SetActive(true);
     }
 
     private void OnTriggerExit(Collider other)
     {
         if (!other.CompareTag("Player")) return;
-
         _ekiPossible = false;
-        if (_ekiCanvas != null)
-            _ekiCanvas.SetActive(false);
+        _ekiCanvas?.SetActive(false);
     }
 
-    // ===================== FADE IN (E) =====================
+    // ===================== FADE IN =====================
 
     private void StartFadeIn()
     {
         _isRunning = true;
 
-        if (_trainController != null)
-            _trainController.enabled = false;
-
-        if (_cameraController != null)
-            _cameraController.ChangeCamera(6); // camera 6 on fade in
+        _trainController?.enabled.Equals(false);
+        _cameraController?.ChangeCamera(6);
 
         if (_fadeCoroutine != null)
             StopCoroutine(_fadeCoroutine);
@@ -94,28 +103,29 @@ public class ekicontroller : MonoBehaviour
         _fadeCoroutine = StartCoroutine(FadeRoutine(1f, 0f, true));
     }
 
-    // ===================== FADE OUT (Q) =====================
+    // ===================== FADE OUT =====================
 
     private void StartFadeOut()
     {
         _isRunning = false;
 
-        if (_trainController != null)
-            _trainController.enabled = true;
-
-        if (_cameraController != null)
-            _cameraController.ChangeCamera(4); // back to camera 4
+        _trainController.enabled = true;
+        _cameraController?.ChangeCamera(4);
 
         if (_twoDoors != null)
-            _twoDoors.SetActive(false); // immediate
+        {
+            _twoDoors.SetActive(false);
+            SetSpatialAudio3D();
+        }
 
         if (_fadeCoroutine != null)
             StopCoroutine(_fadeCoroutine);
 
         _fadeCoroutine = StartCoroutine(FadeRoutine(0f, _normalVolume, false));
+
         _ekiPossible = false;
-        if (_ekiCanvas != null)
-            _ekiCanvas.SetActive(false);
+        _ekiCanvas?.SetActive(false);
+        SetStopImageAlpha(0f);
     }
 
     // ===================== CORE ROUTINE =====================
@@ -126,7 +136,6 @@ public class ekicontroller : MonoBehaviour
 
         float startAlpha = _fadeImage.color.a;
         float startVolume = _musicSource != null ? _musicSource.volume : 0f;
-
         Color fadeColor = _fadeImage.color;
 
         while (elapsed < _fadeDuration)
@@ -150,8 +159,13 @@ public class ekicontroller : MonoBehaviour
             _musicSource.volume = targetVolume;
 
         if (enableDoorsAtEnd && _twoDoors != null)
+        {
             _twoDoors.SetActive(true);
+            SetSpatialAudio2D();
+        }
     }
+
+    // ===================== HELPERS =====================
 
     private void SetFadeAlpha(float a)
     {
@@ -159,5 +173,33 @@ public class ekicontroller : MonoBehaviour
         Color c = _fadeImage.color;
         c.a = a;
         _fadeImage.color = c;
+    }
+
+    private void HandleStopImage()
+    {
+        if (_stopImage == null || _player == null) return;
+
+        float dist = Vector3.Distance(transform.position, _player.position);
+        SetStopImageAlpha(dist <= _stopImageRadius ? 1f : 0f);
+    }
+
+    private void SetStopImageAlpha(float a)
+    {
+        if (_stopImage == null) return;
+        Color c = _stopImage.color;
+        c.a = a;
+        _stopImage.color = c;
+    }
+
+    private void SetSpatialAudio2D()
+    {
+        if (_spatialSwitchAudio == null) return;
+        _spatialSwitchAudio.spatialBlend = 0f;
+    }
+
+    private void SetSpatialAudio3D()
+    {
+        if (_spatialSwitchAudio == null) return;
+        _spatialSwitchAudio.spatialBlend = 1f;
     }
 }
