@@ -163,7 +163,7 @@ MonoBehaviour:
   eki:
   - {fileID: 4861593897131867085}
   beeChance: 0.15
-  ekiChance: 0.237
+  ekiChance: 0.1
 --- !u!1 &1103426580957505810
 GameObject:
   m_ObjectHideFlags: 0
@@ -704,7 +704,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &6033322307762185818
 Transform:
   m_ObjectHideFlags: 0
@@ -1400,8 +1400,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 567.4, y: -19.1}
-  m_SizeDelta: {x: 409.4, y: 395.8}
+  m_AnchoredPosition: {x: 537.5, y: -19.1}
+  m_SizeDelta: {x: 458.4, y: 395.8}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &5739399741119410815
 CanvasRenderer:
@@ -1788,8 +1788,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -75.34998, y: 0}
-  m_SizeDelta: {x: 150.70003, y: 0}
+  m_AnchoredPosition: {x: -66.499985, y: 0}
+  m_SizeDelta: {x: 133.00003, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1299370859885784263
 CanvasRenderer:
@@ -1819,7 +1819,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\u3048\u304D"
+  m_text: "\"E\"\u304A\u3059"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: b1cb76cd54ecd488b8d1bb93a712e90b, type: 2}
   m_sharedMaterial: {fileID: -4413077246024341773, guid: b1cb76cd54ecd488b8d1bb93a712e90b, type: 2}

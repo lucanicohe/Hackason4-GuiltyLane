@@ -5,7 +5,7 @@ public class RandomBGMPlayer : MonoBehaviour
     public AudioClip[] bgmClips;
 
     private AudioSource audioSource;
-    private int lastClipIndex = -1;
+    private int currentClipIndex = 0;
 
     void Awake()
     {
@@ -17,41 +17,39 @@ public class RandomBGMPlayer : MonoBehaviour
         if (audioSource == null || bgmClips == null || bgmClips.Length == 0)
             return;
 
-        PlayRandomClip();
+        PlayCurrentClip();
     }
 
     void Update()
     {
-        
-        
+        // Press R to switch to next song
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            PlayNextClip();
+            return;
+        }
 
         // Auto-play next when finished
         if (!audioSource.isPlaying)
         {
-            PlayRandomClip();
+            PlayNextClip();
         }
     }
 
-    void PlayRandomClip()
+    void PlayCurrentClip()
     {
-        if (bgmClips.Length == 1)
-        {
-            audioSource.clip = bgmClips[0];
-            audioSource.Play();
-            return;
-        }
-
-        int nextIndex;
-        do
-        {
-            nextIndex = Random.Range(0, bgmClips.Length);
-        }
-        while (nextIndex == lastClipIndex);
-
-        lastClipIndex = nextIndex;
-
-        audioSource.clip = bgmClips[nextIndex];
+        audioSource.clip = bgmClips[currentClipIndex];
         audioSource.loop = false;
         audioSource.Play();
+    }
+
+    void PlayNextClip()
+    {
+        currentClipIndex++;
+
+        if (currentClipIndex >= bgmClips.Length)
+            currentClipIndex = 0;
+
+        PlayCurrentClip();
     }
 }
