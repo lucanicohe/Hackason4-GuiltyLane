@@ -5,6 +5,8 @@ public class IntroController : MonoBehaviour
 {
     [SerializeField] private GameObject _introObject;
     [SerializeField] private GameObject _goldGuildObject;
+    [SerializeField] private GameObject _intro;
+    [SerializeField] private GameObject __cool;
     [SerializeField] private AudioSource _bgmSource;
     [SerializeField] private CinemachineCameraController _cameraController;
 
@@ -12,8 +14,11 @@ public class IntroController : MonoBehaviour
 
     private void Start()
     {
-         _bgmSource.Play();
+        // _bgmSource.Play();
         _introObject.SetActive(true);
+        //_intro.SetActive(true); 
+        __cool.SetActive(false); 
+        StartCoroutine("intro");
         _goldGuildObject.SetActive(false);
 
         // Start game at Camera 1
@@ -44,5 +49,15 @@ public class IntroController : MonoBehaviour
 
         _introObject.SetActive(false);
         _goldGuildObject.SetActive(true);
+    }
+
+    private IEnumerator intro()
+    {
+       // yield return new WaitForSeconds(1);
+        __cool.SetActive(true);
+        yield return new WaitForSeconds(1);
+        __cool.SetActive(false);
+
+        //_intro.SetActive(false); 
     }
 }

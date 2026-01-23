@@ -1,5 +1,6 @@
 using UnityEngine;
 
+[RequireComponent(typeof(AudioSource))]
 public class SequentialAudioLooper : MonoBehaviour
 {
     public AudioClip[] clips;
@@ -10,56 +11,65 @@ public class SequentialAudioLooper : MonoBehaviour
     private AudioSource audioSource;
     private Transform listener;
 
-    private static int nextClipIndex = 0;
-    private int assignedClipIndex;
+    private int currentClipIndex;
 
-    void Start()
-{
-    audioSource = GetComponent<AudioSource>();
-    audioSource.spatialBlend = 1f;
-    audioSource.loop = true;
+    void Awake()
+    {
+        audioSource = GetComponent<AudioSource>();
+        audioSource.spatialBlend = 1f;
+        audioSource.loop = false; // REQUIRED for sequential playback
 
-    AudioListener l = FindObjectOfType<AudioListener>();
-    if (l != null)
-        listener = l.transform;
+        AudioListener l = FindObjectOfType<AudioListener>();
+        if (l != null)
+            listener = l.transform;
 
-    if (clips == null || clips.Length == 0)
-        return;
+        if (clips == null || clips.Length == 0)
+            return;
 
-    AssignUniqueClipSequential();
-
-    // Per-instance pitch variation
-    audioSource.pitch = Random.Range(0.8f, 1.1f);
-
-    PlayWithRandomOffset();
-}
+        AssignInitialClipIndex();
+        ApplyPitchVariation();
+        PlayCurrentClipWithRandomOffset();
+    }
 
     void Update()
     {
         HandleCone();
+        HandleSequentialPlayback();
     }
 
-    void AssignUniqueClipSequential()
+    // Ensures different starting clips per instance
+    void AssignInitialClipIndex()
     {
-        assignedClipIndex = nextClipIndex % clips.Length;
-        nextClipIndex++;
+        currentClipIndex = Mathf.Abs(GetInstanceID()) % clips.Length;
+        audioSource.clip = clips[currentClipIndex];
     }
 
-    void PlayWithRandomOffset()
+    void ApplyPitchVariation()
     {
-        audioSource.pitch = Random.Range(0.9f, 1.0f);
-        audioSource.clip = clips[assignedClipIndex];
+        audioSource.pitch = Random.Range(0.9f, 1f);
+    }
 
-        double dspNow = AudioSettings.dspTime;
-        double offset = Random.Range(0f, audioSource.clip.length);
+    void PlayCurrentClipWithRandomOffset()
+    {
+        audioSource.time = Random.Range(0f, audioSource.clip.length);
+        audioSource.Play();
+    }
 
-        audioSource.time = (float)offset;
-        audioSource.PlayScheduled(dspNow + Random.Range(0.0f, 0.5f));
+    // Moves to the next clip when the current one finishes
+    void HandleSequentialPlayback()
+    {
+        if (audioSource.isPlaying)
+            return;
+
+        currentClipIndex = (currentClipIndex + 1) % clips.Length;
+        audioSource.clip = clips[currentClipIndex];
+        audioSource.Play();
     }
 
     void HandleCone()
     {
-        if (listener == null) return;
+        if (listener == null)
+            return;
 
         Vector3 toListener = (listener.position - transform.position).normalized;
         float angle = Vector3.Angle(transform.forward, toListener);
