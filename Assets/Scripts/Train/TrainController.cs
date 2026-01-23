@@ -4,50 +4,61 @@ using UnityEngine.Rendering.PostProcessing;
 
 public class TrainController : MonoBehaviour
 {
+    [Header("Movement")]
     [SerializeField] private float _speed = 30f;
-    private float _currentSpeed = 0f;
     [SerializeField] private float _accelerationTime = 1f;
+    [SerializeField] private float _rotationSpeed = 120f; // degrees per second
+    [SerializeField] private float _waypointReachDistance = 1.5f;
+
+    private float _currentSpeed = 0f;
 
     public enum Direction { Right, Left }
     public Direction _lastDirection = Direction.Right;
 
+    [Header("Levers")]
     [SerializeField] private Transform _directionLever;
-    private Vector3 _rightLeverPos = new Vector3(0.46f, 0.8125f, 0f);
-    private Vector3 _leftLeverPos = new Vector3(-0.469f, 0.8125f, 0f);
-
     [SerializeField] private Transform _throttleLever;
-    private Vector3 _speedOnPos = new Vector3(1.20625f, 0.75f, 0.1875f);
-    private Vector3 _speedOffPos = new Vector3(1.20625f, 0.75f, -0.266f);
 
+    private readonly Vector3 _rightLeverPos = new Vector3(0.46f, 0.8125f, 0f);
+    private readonly Vector3 _leftLeverPos  = new Vector3(-0.469f, 0.8125f, 0f);
+    private readonly Vector3 _speedOnPos    = new Vector3(1.20625f, 0.75f, 0.1875f);
+    private readonly Vector3 _speedOffPos   = new Vector3(1.20625f, 0.75f, -0.266f);
+
+    [Header("Audio")]
     [SerializeField] private AudioSource _train;
     [SerializeField] private AudioSource _stop;
-
-    private Coroutine _TrainCoroutine;
-    private Coroutine _effectsCoroutine;
-
-    [SerializeField] private GameObject _buttonParent;
-    [SerializeField] private GameObject _exitZoomButtonsParent;
-
     [SerializeField] private AudioSource _leverpower;
     [SerializeField] private AudioSource _leverdir;
 
-    private bool _isrunning = false;
+    [Header("UI")]
+    [SerializeField] private GameObject _buttonParent;
+    [SerializeField] private GameObject _exitZoomButtonsParent;
 
-    // ===== DEPTH OF FIELD =====
+    private Coroutine _trainCoroutine;
+    private Coroutine _effectsCoroutine;
+    private bool _isRunning = false;
+
+    [Header("Depth Of Field")]
     [SerializeField] private PostProcessVolume _postProcessVolume;
-    private DepthOfField _depthOfField;
-
     [SerializeField] private float _focalStopped = 8f;
     [SerializeField] private float _focalMoving = 18f;
 
-    // ===== WAYPOINT ROTATION ONLY =====
-    [SerializeField] private float _rotationSpeed = 3f;
-    private Waypoint _currentWaypoint;
-    private float _waypointReachDistance = 1f;
-    private bool _isRotatingToWaypoint = false;
+    private DepthOfField _depthOfField;
 
+    [Header("Waypoints")]
+    [SerializeField] private Waypoint _currentWaypoint;
 
     public bool IsMoving => _currentSpeed > 0.01f;
+
+
+    [Header("Rotation Smoothing")]
+[SerializeField] private float _rotationSmoothTime = 0.4f;
+
+private Quaternion _rotationVelocity;
+
+
+    
+
     
 
     void Start()
@@ -64,7 +75,6 @@ public class TrainController : MonoBehaviour
         if (_exitZoomButtonsParent != null)
             _exitZoomButtonsParent.SetActive(false);
 
-        // ===== INIT DEPTH OF FIELD =====
         if (_postProcessVolume != null)
         {
             _postProcessVolume.profile.TryGetSettings(out _depthOfField);
@@ -75,43 +85,9 @@ public class TrainController : MonoBehaviour
 
     void Update()
     {
-        // ===== WAYPOINT ROTATION (Y ONLY) =====
-        if (_currentWaypoint != null && _isRotatingToWaypoint)
-        {
-            Vector3 targetPos = _currentWaypoint.transform.position;
-            Vector3 dir = new Vector3(
-                targetPos.x - transform.position.x,
-                0,
-                targetPos.z - transform.position.z
-            ).normalized;
+        MoveAlongWaypoint();
 
-            if (dir != Vector3.zero)
-            {
-                Quaternion targetRot = Quaternion.LookRotation(dir);
-                transform.rotation = Quaternion.Slerp(
-                    transform.rotation,
-                    targetRot,
-                    Time.deltaTime * _rotationSpeed
-                );
-            }
-
-            float distance = Vector3.Distance(
-                new Vector3(transform.position.x, 0, transform.position.z),
-                new Vector3(targetPos.x, 0, targetPos.z)
-            );
-
-            if (distance < _waypointReachDistance)
-            {
-                if (_currentWaypoint.nextWaypoint != null)
-                    _currentWaypoint = _currentWaypoint.nextWaypoint;
-                else
-                    _isRotatingToWaypoint = false;
-            }
-        }
-
-        transform.Translate(Vector3.forward * (_currentSpeed * Time.deltaTime));
-
-        // Direction
+        // Direction input
         if (Input.GetKeyDown(KeyCode.A))
         {
             SetDirection(Direction.Left);
@@ -123,29 +99,94 @@ public class TrainController : MonoBehaviour
             _leverdir.Play();
         }
 
-        // Speed
-        if (Input.GetKeyDown(KeyCode.W) && !GameManager.Instance._speedzero && !_isrunning)
+        // Speed input
+        if (Input.GetKeyDown(KeyCode.W) && !GameManager.Instance._speedzero && !_isRunning)
         {
             _leverpower.Play();
             StartTrain();
-            _isrunning = true;
+            _isRunning = true;
         }
         else if (Input.GetKeyDown(KeyCode.S) || GameManager.Instance._speedzero)
         {
             GameManager.Instance._speedzero = false;
             StopTrain();
             _leverpower.Play();
-            _isrunning = false;
+            _isRunning = false;
         }
     }
+
+    // ================= MOVEMENT =================
+
+    private void MoveAlongWaypoint()
+    {
+        if (_currentWaypoint == null || _currentSpeed <= 0f)
+            return;
+
+        Vector3 targetPos = _currentWaypoint.transform.position;
+        Vector3 flatTarget = new Vector3(targetPos.x, transform.position.y, targetPos.z);
+
+        Vector3 toTarget = flatTarget - transform.position;
+        float distance = toTarget.magnitude;
+
+        if (distance <= _waypointReachDistance)
+        {
+            _currentWaypoint = _currentWaypoint.nextWaypoint;
+            return;
+        }
+
+        Vector3 direction = toTarget.normalized;
+
+        Quaternion targetRotation = Quaternion.LookRotation(direction);
+
+transform.rotation = SmoothDampQuaternion(
+    transform.rotation,
+    targetRotation,
+    ref _rotationVelocity,
+    _rotationSmoothTime
+);
+        
+
+        transform.position += direction * (_currentSpeed * Time.deltaTime);
+    }
+
+    private static Quaternion SmoothDampQuaternion(
+    Quaternion current,
+    Quaternion target,
+    ref Quaternion velocity,
+    float smoothTime
+)
+{
+    if (Time.deltaTime < Mathf.Epsilon)
+        return current;
+
+    float dot = Quaternion.Dot(current, target);
+    float multi = dot > 0f ? 1f : -1f;
+
+    target.x *= multi;
+    target.y *= multi;
+    target.z *= multi;
+    target.w *= multi;
+
+    Vector4 result = new Vector4(
+        Mathf.SmoothDamp(current.x, target.x, ref velocity.x, smoothTime),
+        Mathf.SmoothDamp(current.y, target.y, ref velocity.y, smoothTime),
+        Mathf.SmoothDamp(current.z, target.z, ref velocity.z, smoothTime),
+        Mathf.SmoothDamp(current.w, target.w, ref velocity.w, smoothTime)
+    );
+
+    Quaternion q = new Quaternion(result.x, result.y, result.z, result.w);
+    q.Normalize();
+    return q;
+}
 
     public void SetRotationWaypoint(Waypoint waypoint)
     {
         _currentWaypoint = waypoint;
-        _isRotatingToWaypoint = true;
     }
 
-    private IEnumerator TrainDepature()
+    // ================= TRAIN STATE =================
+
+    private IEnumerator TrainDeparture()
     {
         float elapsed = 0f;
         while (elapsed < _accelerationTime)
@@ -155,18 +196,22 @@ public class TrainController : MonoBehaviour
             _currentSpeed = Mathf.Lerp(0f, _speed, t * t);
             yield return null;
         }
+        _currentSpeed = _speed;
     }
 
     private IEnumerator TrainStop()
     {
         float elapsed = 0f;
+        float startSpeed = _currentSpeed;
+
         while (elapsed < _accelerationTime)
         {
             elapsed += Time.deltaTime;
             float t = elapsed / _accelerationTime;
-            _currentSpeed = Mathf.Lerp(_speed, 0f, t * t);
+            _currentSpeed = Mathf.Lerp(startSpeed, 0f, t * t);
             yield return null;
         }
+        _currentSpeed = 0f;
     }
 
     private IEnumerator TransitionDepthOfField(float targetFocal)
@@ -189,9 +234,10 @@ public class TrainController : MonoBehaviour
 
     private void StartTrain()
     {
-        if (_TrainCoroutine != null)
-            StopCoroutine(_TrainCoroutine);
-        _TrainCoroutine = StartCoroutine(TrainDepature());
+        if (_trainCoroutine != null)
+            StopCoroutine(_trainCoroutine);
+
+        _trainCoroutine = StartCoroutine(TrainDeparture());
 
         _train.Play();
         _stop.Stop();
@@ -201,14 +247,16 @@ public class TrainController : MonoBehaviour
 
         if (_effectsCoroutine != null)
             StopCoroutine(_effectsCoroutine);
+
         _effectsCoroutine = StartCoroutine(TransitionDepthOfField(_focalMoving));
     }
 
     private void StopTrain()
     {
-        if (_TrainCoroutine != null)
-            StopCoroutine(_TrainCoroutine);
-        _TrainCoroutine = StartCoroutine(TrainStop());
+        if (_trainCoroutine != null)
+            StopCoroutine(_trainCoroutine);
+
+        _trainCoroutine = StartCoroutine(TrainStop());
 
         _train.Stop();
         _stop.Play();
@@ -218,13 +266,18 @@ public class TrainController : MonoBehaviour
 
         if (_effectsCoroutine != null)
             StopCoroutine(_effectsCoroutine);
+
         _effectsCoroutine = StartCoroutine(TransitionDepthOfField(_focalStopped));
     }
 
     private void SetDirection(Direction dir)
     {
         _lastDirection = dir;
+
         if (_directionLever != null)
-            _directionLever.localPosition = (dir == Direction.Left) ? _leftLeverPos : _rightLeverPos;
+        {
+            _directionLever.localPosition =
+                (dir == Direction.Left) ? _leftLeverPos : _rightLeverPos;
+        }
     }
 }

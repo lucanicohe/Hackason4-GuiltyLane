@@ -8,49 +8,55 @@ public class SequentialAudioLooper : MonoBehaviour
     public float frontAngle = 60f;
 
     private AudioSource audioSource;
-    private int clipIndex;
     private Transform listener;
 
-    private static int instanceCounter = 0;
+    private static int nextClipIndex = 0;
+    private int assignedClipIndex;
 
     void Start()
-    {
-        audioSource = GetComponent<AudioSource>();
+{
+    audioSource = GetComponent<AudioSource>();
+    audioSource.spatialBlend = 1f;
+    audioSource.loop = true;
 
-        // REQUIRED for cone logic
-        audioSource.spatialBlend = 1f;
+    AudioListener l = FindObjectOfType<AudioListener>();
+    if (l != null)
+        listener = l.transform;
 
-        AudioListener l = FindObjectOfType<AudioListener>();
-        if (l != null)
-            listener = l.transform;
+    if (clips == null || clips.Length == 0)
+        return;
 
-        if (clips == null || clips.Length == 0)
-            return;
+    AssignUniqueClipSequential();
 
-        clipIndex = instanceCounter % clips.Length;
-        instanceCounter++;
+    // Per-instance pitch variation
+    audioSource.pitch = Random.Range(0.8f, 1.1f);
 
-        PlayCurrentClip();
-    }
+    PlayWithRandomOffset();
+}
 
     void Update()
     {
         HandleCone();
-
-        if (!audioSource.isPlaying)
-        {
-            clipIndex = (clipIndex + 1) % clips.Length;
-            PlayCurrentClip();
-        }
     }
 
-    void PlayCurrentClip()
+    void AssignUniqueClipSequential()
     {
-        audioSource.clip = clips[clipIndex];
-        audioSource.Play();
+        assignedClipIndex = nextClipIndex % clips.Length;
+        nextClipIndex++;
     }
 
-    // -------- CONE AUDIO ONLY --------
+    void PlayWithRandomOffset()
+    {
+        audioSource.pitch = Random.Range(0.9f, 1.0f);
+        audioSource.clip = clips[assignedClipIndex];
+
+        double dspNow = AudioSettings.dspTime;
+        double offset = Random.Range(0f, audioSource.clip.length);
+
+        audioSource.time = (float)offset;
+        audioSource.PlayScheduled(dspNow + Random.Range(0.0f, 0.5f));
+    }
+
     void HandleCone()
     {
         if (listener == null) return;
