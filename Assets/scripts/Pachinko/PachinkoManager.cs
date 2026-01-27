@@ -7,147 +7,130 @@ using UnityEngine.UI;
 
 public class PachinkoManager : MonoBehaviour
 {
-    [SerializeField]
-    private SlotManager slotManager;
-    [SerializeField]
-    private GameObject _pachinkoHandle;
-    [SerializeField]
-    private GameObject _Ball;
-    [SerializeField]
-    GameObject _lancher;
-    [SerializeField]
-    private Slider _slider;
-    private float _plusSpeed = 0;
-    [SerializeField]
-    private float _maxBallPlusSpeed = 100f;
-    [SerializeField]
-    private float _plusSpeedFactor = 1f;
-    private float _pachinkoHandleMaxRotate = 45;
-    [SerializeField]
-    private bool _isClicked = false;
-    private Coroutine _StartBallIntervalCoroutine = null;
+    [SerializeField] private SlotManager slotManager;
+    [SerializeField] private Button _pachinkoHandleButton;
+    [SerializeField] private GameObject _Ball;
+    [SerializeField] private GameObject _lancher;
+    
+    [SerializeField] private float _spawnInterval = 0.3f;
 
     Vector2 _lancherPos;
-    Vector2 _firstMousePos = Vector2.zero;
-    Vector2 _mousePos;
-    Vector2 _firstMouseScreenPos;
-    Vector2 _currentMouseScreeenPos;
-    private Coroutine BallInterval = null;
+    
+    // Speed levels: 0=stop, 1=low, 2=medium, 3=high
+    private int _currentSpeedLevel = 0;
+    private int _direction = 1; // 1 = increasing (clockwise), -1 = decreasing (counter-clockwise)
+    private float[] _speedLevels = { 0f, 0.153f, 0.22f, 0.3f }; // Speed multipliers - bigger gaps
+    private float[] _handleAngles = { 0f, -15f, -30f, -45f }; // Handle angles for each level
+    
+    private Coroutine _ballSpawnCoroutine = null;
+    private const float NEUTRAL_DEADZONE = 0.05f;
 
     void Start()
     {
-        _slider.maxValue = _maxBallPlusSpeed;
-        _slider.minValue = 0;
         _lancherPos = _lancher.transform.position;
-    }
-    void Update()
-    {
-        if (_isClicked && _StartBallIntervalCoroutine == null)
-        {
-            _StartBallIntervalCoroutine = StartCoroutine(StartBallInterval());
-        }
-        else if (!_isClicked && _StartBallIntervalCoroutine != null)
-        {
-            StopCoroutine(_StartBallIntervalCoroutine);
-            _StartBallIntervalCoroutine = null;
-        }
-        // 玉が出るマウス操作によって速度が変わる
-        if (Input.GetMouseButtonDown(0))
-        {   
-            _firstMouseScreenPos = Input.mousePosition;
-            _currentMouseScreeenPos = _firstMouseScreenPos;
-
-            Vector2 mouseWorldPos = Camera.main.ScreenToWorldPoint(_currentMouseScreeenPos);
-            RaycastHit2D hit = Physics2D.Raycast(mouseWorldPos, Vector2.zero);
-
-            if (hit.collider != null)
-            {
-                if (_pachinkoHandle == hit.collider.gameObject)
-                    StartRelease(_pachinkoHandle);
-            }
-        }
-
-        // 左クリックしているあいだは、Handleが回る
-        if (Input.GetMouseButton(0))
-        {   
-            _currentMouseScreeenPos = Input.mousePosition;
-
-            float deltaX = _currentMouseScreeenPos.x - _firstMouseScreenPos.x;
-
-            float pulledAmount = Mathf.Max(0f, deltaX / 2);
-
-            float angle = -(Mathf.Clamp01(pulledAmount / _maxBallPlusSpeed)  * _pachinkoHandleMaxRotate);
-            _pachinkoHandle.transform.localRotation = Quaternion.Euler(0, 0, angle);
-
-            _plusSpeed = Mathf.Clamp(pulledAmount, 0f, _maxBallPlusSpeed) * _plusSpeedFactor;
-        }
-
         
-
-        if (Input.GetMouseButtonUp(0))
-        {   
-            if(BallInterval != null)
-                StopCoroutine(BallInterval);
-            BallInterval = null;
-
-            _pachinkoHandle.transform.localRotation = quaternion.identity;
-            _plusSpeed = 0f;
-        }        
-
-    }
-
-
-    private void StartRelease(GameObject pachinkoHandle)
-    {
-        // BallIntervalがnullの場合StartCoroutine(StartBallInterval())がBallIntervalに代入される
-        BallInterval ??= StartCoroutine(StartBallInterval());
-    }
-
-    // PachinkoBallを生み出す
-    IEnumerator StartBallInterval()
-    {
-        while (true)
+        // Add click listener to button
+        if (_pachinkoHandleButton != null)
         {
+            _pachinkoHandleButton.onClick.AddListener(OnHandleClicked);
+        }
+        
+        Debug.Log("PachinkoManager started. Click the handle button to cycle through speeds.");
+    }
+
+    void OnHandleClicked()
+    {
+        // Determine next speed level
+        int nextLevel = _currentSpeedLevel + _direction;
+        
+        // If we reach max (3) or min (0), reverse direction
+        if (nextLevel > 3)
+        {
+            _direction = -1;
+            nextLevel = 2; // Go back to speed 2
+        }
+        else if (nextLevel < 0)
+        {
+            _direction = 1;
+            nextLevel = 1; // Go back to speed 1
+        }
+        
+        _currentSpeedLevel = nextLevel;
+        UpdateHandle();
+        Debug.Log($"Clicked handle! Speed level: {_currentSpeedLevel}, Direction: {(_direction == 1 ? "increasing" : "decreasing")}");
+    }
+
+    void UpdateHandle()
+    {
+        // Update handle rotation based on current speed level
+        _pachinkoHandleButton.transform.localRotation = Quaternion.Euler(0, 0, _handleAngles[_currentSpeedLevel]);
+        
+        // Start/stop ball spawning based on speed level
+        float speedMultiplier = _speedLevels[_currentSpeedLevel];
+        bool isStopped = speedMultiplier < NEUTRAL_DEADZONE;
+        
+        if (!isStopped && _ballSpawnCoroutine == null)
+        {
+            _ballSpawnCoroutine = StartCoroutine(SpawnBallsCoroutine());
+            Debug.Log("Started ball spawning at speed level: " + _currentSpeedLevel);
+        }
+        else if (isStopped && _ballSpawnCoroutine != null)
+        {
+            StopCoroutine(_ballSpawnCoroutine);
+            _ballSpawnCoroutine = null;
+            Debug.Log("Stopped ball spawning");
+        }
+    }
+
+    IEnumerator SpawnBallsCoroutine()
+    {
+        while (_currentSpeedLevel > 0 && _speedLevels[_currentSpeedLevel] > NEUTRAL_DEADZONE)
+        {
+            // Check if we have balls
+            if (GameManager.Instance.Balls <= 0)
+            {
+                Debug.Log("No balls left!");
+                yield return new WaitForSeconds(0.2f);
+                continue;
+            }
+            
+            // Deduct a ball
+            GameManager.Instance.AddBalls(-1);
+            Debug.Log($"Spawned ball at speed level {_currentSpeedLevel}! Remaining: {GameManager.Instance.Balls}");
+            
+            // Spawn ball at launcher with slight random offset
             float offsetX = UnityEngine.Random.Range(-0.1f, 0.1f);
-            GameObject Ball = Instantiate
-            (
+            GameObject ballObj = Instantiate(
                 _Ball,
                 new Vector2(_lancherPos.x + offsetX, _lancherPos.y), 
                 quaternion.identity,
                 this.transform
             );
-            // Debug.Log("PachinkoBall生成");
 
-
-            var pachinkoBall = Ball.GetComponent<PachinkoBall>();
-            pachinkoBall
-                ._onEnter
-                .Subscribe(x =>
-                {
-                    slotManager._canReelCount++;
-                    Debug.Log("中央ポケットに入った" + slotManager._canReelCount);
-                })
-                .AddTo(this);
-
-            // マウスの位置によって初速度が上がる
-            if(_plusSpeed <= _maxBallPlusSpeed)
+            // Configure ball
+            var pachinkoBall = ballObj.GetComponent<PachinkoBall>();
+            if (pachinkoBall != null)
             {
-                pachinkoBall._speed += _plusSpeed;
+                // Use CURRENT speed level, not captured parameter
+                float currentSpeedMultiplier = _speedLevels[_currentSpeedLevel];
+                pachinkoBall._speed = 45f + (currentSpeedMultiplier * 150f);
+                
+                Debug.Log($"Ball speed set to: {pachinkoBall._speed} (level {_currentSpeedLevel})");
+                
+                // Subscribe to ball entry event
+                pachinkoBall._onEnter
+                    .Subscribe(x =>
+                    {
+                        slotManager._canReelCount++;
+                        Debug.Log("中央ポケットに入った: " + slotManager._canReelCount);
+                    })
+                    .AddTo(this);
             }
-
-            if (_isClicked)
-            {
-                pachinkoBall._speed += _slider.value;
-            }
-
-            yield return new WaitForSeconds(0.5f);
+            
+            // Constant spawn interval
+            yield return new WaitForSeconds(_spawnInterval);
         }
+        
+        _ballSpawnCoroutine = null;
     }
-
-    public void ClickBotton()
-    {
-        _isClicked = !_isClicked;
-    }
-
-    
 }

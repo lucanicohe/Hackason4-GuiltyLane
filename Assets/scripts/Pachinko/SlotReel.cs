@@ -69,4 +69,15 @@ public class SlotReel : MonoBehaviour
         finalOffset.y = (stopId * step);
         _targetMaterial.mainTextureOffset = finalOffset;
     }
+
+   
+public void StopSpin()
+
+{
+    // Stop any spinning coroutines
+    StopAllCoroutines();
+    
+    // Reset to idle/stopped state
+    // Add whatever logic you need to stop the reel animation
+}
 }

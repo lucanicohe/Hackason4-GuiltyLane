@@ -691,10 +691,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0cd44c1031e13a943bb63640046fad76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_UiScaleMode: 0
+  m_UiScaleMode: 1
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
-  m_ReferenceResolution: {x: 800, y: 600}
+  m_ReferenceResolution: {x: 1920, y: 1080}
   m_ScreenMatchMode: 0
   m_MatchWidthOrHeight: 0
   m_PhysicalUnit: 3
@@ -1319,10 +1319,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bgmClips:
-  - {fileID: 8300000, guid: d86802cdc985e453aaf2091eb1f8a874, type: 3}
-  - {fileID: 8300000, guid: c6364d20f07df495cad60b1bce510833, type: 3}
-  - {fileID: 8300000, guid: 55d03d7647ae645759f64bd3a36f24e1, type: 3}
-  - {fileID: 8300000, guid: ed774e1a7a1ad4f7d900d477f177ab47, type: 3}
+  - {fileID: 8300000, guid: 99f866dc647f04c19b38cffdbf35f087, type: 3}
+  - {fileID: 8300000, guid: 9b23e99d93c154a0f92e52c099d80a06, type: 3}
 --- !u!224 &341091615 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 7780947993717666396, guid: 0d7aa1ebc96418f40b3e11cd3f9a3054, type: 3}
@@ -2856,7 +2854,6 @@ MonoBehaviour:
   _introObject: {fileID: 534171782}
   _goldGuildObject: {fileID: 643596283}
   _intro: {fileID: 1936140357}
-  __cool: {fileID: 891652867}
   _bgmSource: {fileID: 1580750787}
   _cameraController: {fileID: 6471890484681129058}
 --- !u!1 &692155152
@@ -5274,7 +5271,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 1920, y: 1080}
+  m_SizeDelta: {x: 2000, y: 1500}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1342553466
 MonoBehaviour:

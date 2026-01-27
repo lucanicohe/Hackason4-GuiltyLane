@@ -88,7 +88,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _rb: {fileID: -2204264767040224768}
-  _speed: 196.4
+  _speed: 20
   _isEnterCenterPocket: 0
 --- !u!50 &-2204264767040224768
 Rigidbody2D:

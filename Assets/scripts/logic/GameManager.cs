@@ -13,7 +13,72 @@ public class GameManager : Singleton<GameManager>
     [SerializeField] public TextMeshProUGUI _infoText;
     [SerializeField] private AudioSource _goldsound; 
 
+    private int _sPressCount = 0;
+private float _lastSPressTime = 0f;
+private const float S_PRESS_TIMEOUT = 1.0f;
+
     public static bool ChooseDisguised;
+
+    public int Balls { get; set; } = 0;
+    
+
+    public void BuyBalls()
+{
+    if (Gold < 10)
+    {
+        Debug.LogError("Not enough gold to buy balls");
+        return;
+    }
+
+    Gold -= 10;
+    Balls += 100;
+}
+
+public void PayoutBalls()
+{
+    if (Balls < 100)
+    {
+        Debug.LogError("Not enough balls to payout");
+        return;
+    }
+
+    Balls -= 100;
+    Gold += 10;
+}
+
+public void AddBalls(int amount)
+{
+    Balls += amount;
+}
+
+private void CheatInputCheck()
+{
+    // Reset if too slow
+    if (Time.time - _lastSPressTime > S_PRESS_TIMEOUT)
+    {
+        _sPressCount = 0;
+    }
+
+    if (Input.GetKeyDown(KeyCode.S))
+    {
+        _sPressCount++;
+        _lastSPressTime = Time.time;
+    }
+
+    if (_sPressCount >= 6 && Input.GetKeyDown(KeyCode.D))
+    {
+        GuiltyPercent = 0;
+        Gold = 999;
+        _sPressCount = 0;
+
+        GoldAndGuiltTextUpdate();
+        Debug.Log("CHEAT ACTIVATED");
+    }
+}
+
+
+
+
 
     private TeamBuilder.HitPersonData _RightHPD;
     public TeamBuilder.HitPersonData RightHPD
@@ -143,6 +208,8 @@ public class GameManager : Singleton<GameManager>
 
     void Update()
     {
+        CheatInputCheck();
+
         GoldAndGuiltTextUpdate();
         if (_roundLevel == RoundLevel.ToEnd)
         {

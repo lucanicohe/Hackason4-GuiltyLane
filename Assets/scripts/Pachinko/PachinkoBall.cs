@@ -10,7 +10,7 @@ public class PachinkoBall : MonoBehaviour
     Rigidbody2D _rb;
     public float _speed = 20f;
     float _randomOffsetX = 0.05f;
-    float _speedY = 2.5f;
+    float _speedY = 5f;
  
     public bool _isEnterCenterPocket = false;
 
@@ -36,16 +36,43 @@ public class PachinkoBall : MonoBehaviour
         }
         else if(collisionInfo.gameObject.name == "HitPoint")
         {
-            
-            _isEnterCenterPocket = true;
-            _enterCenterPocket.OnNext(_isEnterCenterPocket);
-
-            if(_isEnterCenterPocket)
-            _isEnterCenterPocket = false;
-
-            Destroy(this.gameObject);
+            HandleHitPoint();
         }
     }
+    
+    // Handle trigger collisions (for colliders set to "Is Trigger")
+    void OnTriggerEnter2D(Collider2D collision)
+    {
+        if(collision.gameObject.name == "DestroyPosint")
+        {
+            // Ball hit destroy point - always destroy it
+            Debug.Log("Ball hit DestroyPoint - destroying");
+            Destroy(this.gameObject);
+        }
+        else if(collision.gameObject.name == "HitPoint")
+        {
+            // Ball hit HitPoint - trigger lottery
+            HandleHitPoint();
+        }
+    }
+    
+    // Shared logic for when ball hits the center pocket
+    private void HandleHitPoint()
+    {
+        _isEnterCenterPocket = true;
+        _enterCenterPocket.OnNext(_isEnterCenterPocket);
 
+        if(_isEnterCenterPocket)
+            _isEnterCenterPocket = false;
 
+        // Tell SlotManager to start a lottery spin
+        SlotManager slotManager = FindObjectOfType<SlotManager>();
+        if (slotManager != null)
+        {
+            slotManager._canReelCount++;
+            Debug.Log("Ball hit center - lottery triggered");
+        }
+        
+        Destroy(this.gameObject);
+    }
 }
