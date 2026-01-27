@@ -13,7 +13,8 @@ public class ekicontroller : MonoBehaviour
 
     [Header("Audio")]
     [SerializeField] private float _normalVolume = 0.3f;
-    [SerializeField] private AudioSource _spatialSwitchAudio; 
+    [SerializeField] private AudioSource _spatialSwitchAudio;
+    [SerializeField] private AudioSource _payoutAudio; // New payout audio
 
     [Header("Timing")]
     [SerializeField] private float _fadeDuration = 3f;
@@ -63,6 +64,13 @@ public class ekicontroller : MonoBehaviour
 
         if (_musicSource != null)
             _musicSource.volume = _normalVolume;
+
+        // Initialize payout audio
+        if (_payoutAudio != null)
+        {
+            _payoutAudio.volume = 0f;
+            _payoutAudio.loop = true;
+        }
 
         GameObject stopObj = GameObject.FindGameObjectWithTag("StopImage");
         if (stopObj != null)
@@ -200,8 +208,8 @@ public class ekicontroller : MonoBehaviour
 
     private IEnumerator FadeToPayoutRoutine()
     {
-        // Fade to black (music stays at 0)
-        yield return FadeToBlackVisualOnly();
+        // Fade to black (visual + spatial switch audio to 0)
+        yield return FadeToBlackWithSpatialAudio();
 
         // Hide pachinko, show payout
         if (_twoDoors != null)
@@ -210,7 +218,14 @@ public class ekicontroller : MonoBehaviour
         if (_payoutScreen != null)
             _payoutScreen.SetActive(true);
 
-        // Fade back to clear (music stays at 0)
+        // Start payout audio
+        if (_payoutAudio != null)
+        {
+            _payoutAudio.Play();
+            _payoutAudio.volume = 0.7f;
+        }
+
+        // Fade back to clear (visual only, spatial switch stays at 0, payout audio plays)
         yield return FadeToClearVisualOnly();
     }
 
@@ -232,8 +247,8 @@ public class ekicontroller : MonoBehaviour
 
     private IEnumerator FadeToTrainRoutine()
     {
-        // Fade to black (visual only, music still at 0)
-        yield return FadeToBlackVisualOnly();
+        // Fade to black (visual + fade out payout audio)
+        yield return FadeToBlackWithPayoutAudio();
 
         // Hide everything
         if (_twoDoors != null)
@@ -241,6 +256,20 @@ public class ekicontroller : MonoBehaviour
 
         if (_payoutScreen != null)
             _payoutScreen.SetActive(false);
+
+        // Stop payout audio
+        if (_payoutAudio != null)
+        {
+            _payoutAudio.Stop();
+            _payoutAudio.volume = 0f;
+        }
+
+        // Restore spatial switch audio to normal (0.7 volume, 3D)
+        if (_spatialSwitchAudio != null)
+        {
+            _spatialSwitchAudio.volume = 0.7f;
+            _spatialSwitchAudio.spatialBlend = 1f;
+        }
 
         SetSpatialAudio3D();
 
@@ -317,6 +346,70 @@ public class ekicontroller : MonoBehaviour
 
         fadeColor.a = 1f;
         _fadeImage.color = fadeColor;
+    }
+
+    // Fade visual to black AND fade spatial switch audio to 0
+    private IEnumerator FadeToBlackWithSpatialAudio()
+    {
+        // Enable fade object
+        if (_fadeObject != null)
+            _fadeObject.SetActive(true);
+
+        float elapsed = 0f;
+        float startAlpha = _fadeImage.color.a;
+        float startSpatialVolume = _spatialSwitchAudio != null ? _spatialSwitchAudio.volume : 0f;
+        Color fadeColor = _fadeImage.color;
+
+        while (elapsed < _fadeDuration)
+        {
+            elapsed += Time.deltaTime;
+            float t = elapsed / _fadeDuration;
+
+            fadeColor.a = Mathf.Lerp(startAlpha, 1f, t);
+            _fadeImage.color = fadeColor;
+
+            if (_spatialSwitchAudio != null)
+                _spatialSwitchAudio.volume = Mathf.Lerp(startSpatialVolume, 0f, t);
+
+            yield return null;
+        }
+
+        fadeColor.a = 1f;
+        _fadeImage.color = fadeColor;
+        if (_spatialSwitchAudio != null)
+            _spatialSwitchAudio.volume = 0f;
+    }
+
+    // Fade visual to black AND fade payout audio to 0
+    private IEnumerator FadeToBlackWithPayoutAudio()
+    {
+        // Enable fade object
+        if (_fadeObject != null)
+            _fadeObject.SetActive(true);
+
+        float elapsed = 0f;
+        float startAlpha = _fadeImage.color.a;
+        float startPayoutVolume = _payoutAudio != null ? _payoutAudio.volume : 0f;
+        Color fadeColor = _fadeImage.color;
+
+        while (elapsed < _fadeDuration)
+        {
+            elapsed += Time.deltaTime;
+            float t = elapsed / _fadeDuration;
+
+            fadeColor.a = Mathf.Lerp(startAlpha, 1f, t);
+            _fadeImage.color = fadeColor;
+
+            if (_payoutAudio != null)
+                _payoutAudio.volume = Mathf.Lerp(startPayoutVolume, 0f, t);
+
+            yield return null;
+        }
+
+        fadeColor.a = 1f;
+        _fadeImage.color = fadeColor;
+        if (_payoutAudio != null)
+            _payoutAudio.volume = 0f;
     }
 
     // Fade visual to clear but keep music at 0
