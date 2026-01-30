@@ -19,7 +19,7 @@ public class PachinkoManager : MonoBehaviour
     // Speed levels: 0=stop, 1=low, 2=medium, 3=high
     private int _currentSpeedLevel = 0;
     private int _direction = 1; // 1 = increasing (clockwise), -1 = decreasing (counter-clockwise)
-    private float[] _speedLevels = { 0f, 0.153f, 0.22f, 0.3f }; // Speed multipliers - bigger gaps
+    private float[] _speedLevels = { 0f, 0.3f, 0.6f, 0.9f }; // Speed multipliers - bigger gaps
     private float[] _handleAngles = { 0f, -15f, -30f, -45f }; // Handle angles for each level
     
     private Coroutine _ballSpawnCoroutine = null;
