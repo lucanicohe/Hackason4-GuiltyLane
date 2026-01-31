@@ -3374,7 +3374,7 @@ MonoBehaviour:
   eki:
   - {fileID: 4861593897131867085}
   beeChance: 0.15
-  ekiChance: 0.1
+  ekiChance: 0.2
 --- !u!1 &1044187253168489675
 GameObject:
   m_ObjectHideFlags: 0
