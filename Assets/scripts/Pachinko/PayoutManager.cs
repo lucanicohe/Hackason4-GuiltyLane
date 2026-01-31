@@ -38,12 +38,7 @@ public class PayoutManager : MonoBehaviour
 
     private void Update()
     {
-        // Only update ball display since GameManager handles gold and guilt
-        if (GameManager.Instance != null && _ballAmountText != null)
-        {
-            _ballAmountText.text = $"たま : {GameManager.Instance.Balls}";
-        }
-        
+        UpdateDisplay();
         UpdateButtonStates();
     }
 
@@ -94,13 +89,10 @@ public class PayoutManager : MonoBehaviour
 
         _isProcessing = true;
 
-        int ballsBefore = GameManager.Instance.Balls;
-        int goldBefore = GameManager.Instance.Gold;
-
         GameManager.Instance.Balls -= ballCost;
         GameManager.Instance.Gold += moneyGain;
 
-        Debug.Log($"Exchange complete! Balls: {ballsBefore} -> {GameManager.Instance.Balls}, Gold: {goldBefore} -> {GameManager.Instance.Gold}");
+        Debug.Log($"Exchanged {ballCost} balls for {moneyGain} money. New Gold: {GameManager.Instance.Gold}, New Balls: {GameManager.Instance.Balls}");
 
         _isProcessing = false;
     }
@@ -127,7 +119,7 @@ public class PayoutManager : MonoBehaviour
         GameManager.Instance.Balls -= ballCost;
         GameManager.Instance.GuiltyPercent = Mathf.Max(0, GameManager.Instance.GuiltyPercent - guiltReduction);
 
-        Debug.Log($"Exchanged {ballCost} balls for {guiltReduction}% guilt reduction");
+        Debug.Log($"Exchanged {ballCost} balls for {guiltReduction}% guilt reduction. New Guilt: {GameManager.Instance.GuiltyPercent}");
 
         _isProcessing = false;
     }
