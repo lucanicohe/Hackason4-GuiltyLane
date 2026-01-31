@@ -19,6 +19,8 @@ public class PayoutManager : MonoBehaviour
     [SerializeField] private Button _smallGuiltButton; // 10 balls -> -1% guilt
     [SerializeField] private Button _largeGuiltButton; // 100 balls -> -10% guilt
 
+    private bool _isProcessing = false;
+
     private void Start()
     {
         if (_smallMoneyButton != null)
@@ -62,20 +64,21 @@ public class PayoutManager : MonoBehaviour
         int currentGuilt = GameManager.Instance.GuiltyPercent;
 
         if (_smallMoneyButton != null)
-            _smallMoneyButton.interactable = currentBalls >= 10;
+            _smallMoneyButton.interactable = currentBalls >= 10 && !_isProcessing;
 
         if (_largeMoneyButton != null)
-            _largeMoneyButton.interactable = currentBalls >= 100;
+            _largeMoneyButton.interactable = currentBalls >= 100 && !_isProcessing;
 
         if (_smallGuiltButton != null)
-            _smallGuiltButton.interactable = currentBalls >= 10 && currentGuilt > 0;
+            _smallGuiltButton.interactable = currentBalls >= 10 && currentGuilt > 0 && !_isProcessing;
 
         if (_largeGuiltButton != null)
-            _largeGuiltButton.interactable = currentBalls >= 100 && currentGuilt > 0;
+            _largeGuiltButton.interactable = currentBalls >= 100 && currentGuilt > 0 && !_isProcessing;
     }
 
     private void ExchangeForMoney(int ballCost, int moneyGain)
     {
+        if (_isProcessing) return;
         if (GameManager.Instance == null) return;
 
         if (GameManager.Instance.Balls < ballCost)
@@ -84,15 +87,22 @@ public class PayoutManager : MonoBehaviour
             return;
         }
 
-        int oldGold = GameManager.Instance.Gold;
+        _isProcessing = true;
+
+        int ballsBefore = GameManager.Instance.Balls;
+        int goldBefore = GameManager.Instance.Gold;
+
         GameManager.Instance.Balls -= ballCost;
         GameManager.Instance.Gold += moneyGain;
 
-        Debug.Log($"Exchanged {ballCost} balls for {moneyGain} money. Gold: {oldGold} -> {GameManager.Instance.Gold}");
+        Debug.Log($"Exchange complete! Balls: {ballsBefore} -> {GameManager.Instance.Balls}, Gold: {goldBefore} -> {GameManager.Instance.Gold}");
+
+        _isProcessing = false;
     }
 
     private void ExchangeForGuiltReduction(int ballCost, int guiltReduction)
     {
+        if (_isProcessing) return;
         if (GameManager.Instance == null) return;
 
         if (GameManager.Instance.Balls < ballCost)
@@ -107,10 +117,14 @@ public class PayoutManager : MonoBehaviour
             return;
         }
 
+        _isProcessing = true;
+
         GameManager.Instance.Balls -= ballCost;
         GameManager.Instance.GuiltyPercent = Mathf.Max(0, GameManager.Instance.GuiltyPercent - guiltReduction);
 
         Debug.Log($"Exchanged {ballCost} balls for {guiltReduction}% guilt reduction");
+
+        _isProcessing = false;
     }
 
     private void OnDestroy()
