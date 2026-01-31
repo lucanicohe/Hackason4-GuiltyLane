@@ -38,7 +38,12 @@ public class PayoutManager : MonoBehaviour
 
     private void Update()
     {
-        UpdateDisplay();
+        // Only update ball display since GameManager handles gold and guilt
+        if (GameManager.Instance != null && _ballAmountText != null)
+        {
+            _ballAmountText.text = $"たま : {GameManager.Instance.Balls}";
+        }
+        
         UpdateButtonStates();
     }
 
