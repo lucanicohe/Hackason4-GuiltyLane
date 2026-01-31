@@ -5241,7 +5241,6 @@ GameObject:
   - component: {fileID: 4501023046307655573}
   - component: {fileID: 6609688812788840473}
   - component: {fileID: 3034413472038722344}
-  - component: {fileID: 5157725450044187939}
   m_Layer: 5
   m_Name: big money
   m_TagString: Untagged
@@ -5350,31 +5349,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 6609688812788840473}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 5157725450044187939}
-        m_TargetAssemblyTypeName: BuyBallsButton, Assembly-CSharp
-        m_MethodName: OnClickBuyBalls
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
---- !u!114 &5157725450044187939
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1313287984851905029}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b6b638c0d5b50485aae0be1efd1f33b2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+      m_Calls: []
 --- !u!1 &1371802361202270206
 GameObject:
   m_ObjectHideFlags: 0
@@ -10539,7 +10514,6 @@ GameObject:
   - component: {fileID: 5614212544923882731}
   - component: {fileID: 9149134215537774408}
   - component: {fileID: 5182827440318677890}
-  - component: {fileID: 6673189032230650053}
   m_Layer: 5
   m_Name: big guilt
   m_TagString: Untagged
@@ -10648,31 +10622,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 9149134215537774408}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 6673189032230650053}
-        m_TargetAssemblyTypeName: BuyBallsButton, Assembly-CSharp
-        m_MethodName: OnClickBuyBalls
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
---- !u!114 &6673189032230650053
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2367112010299679428}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b6b638c0d5b50485aae0be1efd1f33b2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+      m_Calls: []
 --- !u!1 &2369542476128500923
 GameObject:
   m_ObjectHideFlags: 0
@@ -26755,7 +26705,6 @@ GameObject:
   - component: {fileID: 1018939276604121396}
   - component: {fileID: 7380163690433701142}
   - component: {fileID: 4739394152956562386}
-  - component: {fileID: 1370519863822345773}
   m_Layer: 5
   m_Name: small guilt
   m_TagString: Untagged
@@ -26864,31 +26813,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 7380163690433701142}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1370519863822345773}
-        m_TargetAssemblyTypeName: BuyBallsButton, Assembly-CSharp
-        m_MethodName: OnClickBuyBalls
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
---- !u!114 &1370519863822345773
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5749701802971963902}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b6b638c0d5b50485aae0be1efd1f33b2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+      m_Calls: []
 --- !u!1 &5808091183745124093
 GameObject:
   m_ObjectHideFlags: 0
@@ -41731,7 +41656,6 @@ GameObject:
   - component: {fileID: 7423545814211527598}
   - component: {fileID: 4341469260912168644}
   - component: {fileID: 2405292905697595734}
-  - component: {fileID: 3159616710179424697}
   m_Layer: 5
   m_Name: small money
   m_TagString: Untagged
@@ -41840,31 +41764,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 4341469260912168644}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 3159616710179424697}
-        m_TargetAssemblyTypeName: BuyBallsButton, Assembly-CSharp
-        m_MethodName: OnClickBuyBalls
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
---- !u!114 &3159616710179424697
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8976903631489886585}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b6b638c0d5b50485aae0be1efd1f33b2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+      m_Calls: []
 --- !u!1 &8980366808675875158
 GameObject:
   m_ObjectHideFlags: 0
