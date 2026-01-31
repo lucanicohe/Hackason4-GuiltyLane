@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using UniRx;
+using System;
 
 public class PayoutManager : MonoBehaviour
 {
@@ -19,19 +21,43 @@ public class PayoutManager : MonoBehaviour
     [SerializeField] private Button _smallGuiltButton; // 10 balls -> -1% guilt
     [SerializeField] private Button _largeGuiltButton; // 100 balls -> -10% guilt
 
-    private bool _isProcessing = false;
-
-    private void Start()
+    void Start()
     {
         if (_smallMoneyButton != null)
-            _smallMoneyButton.onClick.AddListener(() => ExchangeForMoney(10, 1));
+        {
+            _smallMoneyButton.OnClickAsObservable()
+                .Where(_ => GameManager.Instance != null && GameManager.Instance.Balls >= 10)
+                .ThrottleFirst(TimeSpan.FromSeconds(0.5f))
+                .Subscribe(_ => ExchangeForMoney(10, 1))
+                .AddTo(this);
+        }
+
         if (_largeMoneyButton != null)
-            _largeMoneyButton.onClick.AddListener(() => ExchangeForMoney(100, 10));
+        {
+            _largeMoneyButton.OnClickAsObservable()
+                .Where(_ => GameManager.Instance != null && GameManager.Instance.Balls >= 100)
+                .ThrottleFirst(TimeSpan.FromSeconds(0.5f))
+                .Subscribe(_ => ExchangeForMoney(100, 10))
+                .AddTo(this);
+        }
 
         if (_smallGuiltButton != null)
-            _smallGuiltButton.onClick.AddListener(() => ExchangeForGuiltReduction(10, 1));
+        {
+            _smallGuiltButton.OnClickAsObservable()
+                .Where(_ => GameManager.Instance != null && GameManager.Instance.Balls >= 10 && GameManager.Instance.GuiltyPercent > 0)
+                .ThrottleFirst(TimeSpan.FromSeconds(0.5f))
+                .Subscribe(_ => ExchangeForGuiltReduction(10, 1))
+                .AddTo(this);
+        }
+
         if (_largeGuiltButton != null)
-            _largeGuiltButton.onClick.AddListener(() => ExchangeForGuiltReduction(100, 10));
+        {
+            _largeGuiltButton.OnClickAsObservable()
+                .Where(_ => GameManager.Instance != null && GameManager.Instance.Balls >= 100 && GameManager.Instance.GuiltyPercent > 0)
+                .ThrottleFirst(TimeSpan.FromSeconds(0.5f))
+                .Subscribe(_ => ExchangeForGuiltReduction(100, 10))
+                .AddTo(this);
+        }
 
         UpdateDisplay();
     }
@@ -64,21 +90,20 @@ public class PayoutManager : MonoBehaviour
         int currentGuilt = GameManager.Instance.GuiltyPercent;
 
         if (_smallMoneyButton != null)
-            _smallMoneyButton.interactable = currentBalls >= 10 && !_isProcessing;
+            _smallMoneyButton.interactable = currentBalls >= 10;
 
         if (_largeMoneyButton != null)
-            _largeMoneyButton.interactable = currentBalls >= 100 && !_isProcessing;
+            _largeMoneyButton.interactable = currentBalls >= 100;
 
         if (_smallGuiltButton != null)
-            _smallGuiltButton.interactable = currentBalls >= 10 && currentGuilt > 0 && !_isProcessing;
+            _smallGuiltButton.interactable = currentBalls >= 10 && currentGuilt > 0;
 
         if (_largeGuiltButton != null)
-            _largeGuiltButton.interactable = currentBalls >= 100 && currentGuilt > 0 && !_isProcessing;
+            _largeGuiltButton.interactable = currentBalls >= 100 && currentGuilt > 0;
     }
 
     private void ExchangeForMoney(int ballCost, int moneyGain)
     {
-        if (_isProcessing) return;
         if (GameManager.Instance == null) return;
 
         if (GameManager.Instance.Balls < ballCost)
@@ -87,19 +112,17 @@ public class PayoutManager : MonoBehaviour
             return;
         }
 
-        _isProcessing = true;
+        int ballsBefore = GameManager.Instance.Balls;
+        int goldBefore = GameManager.Instance.Gold;
 
         GameManager.Instance.Balls -= ballCost;
         GameManager.Instance.Gold += moneyGain;
 
-        Debug.Log($"Exchanged {ballCost} balls for {moneyGain} money. New Gold: {GameManager.Instance.Gold}, New Balls: {GameManager.Instance.Balls}");
-
-        _isProcessing = false;
+        Debug.Log($"Exchanged {ballCost} balls for {moneyGain} money. Balls: {ballsBefore}->{GameManager.Instance.Balls}, Gold: {goldBefore}->{GameManager.Instance.Gold}");
     }
 
     private void ExchangeForGuiltReduction(int ballCost, int guiltReduction)
     {
-        if (_isProcessing) return;
         if (GameManager.Instance == null) return;
 
         if (GameManager.Instance.Balls < ballCost)
@@ -114,25 +137,12 @@ public class PayoutManager : MonoBehaviour
             return;
         }
 
-        _isProcessing = true;
+        int ballsBefore = GameManager.Instance.Balls;
+        int guiltBefore = GameManager.Instance.GuiltyPercent;
 
         GameManager.Instance.Balls -= ballCost;
         GameManager.Instance.GuiltyPercent = Mathf.Max(0, GameManager.Instance.GuiltyPercent - guiltReduction);
 
-        Debug.Log($"Exchanged {ballCost} balls for {guiltReduction}% guilt reduction. New Guilt: {GameManager.Instance.GuiltyPercent}");
-
-        _isProcessing = false;
-    }
-
-    private void OnDestroy()
-    {
-        if (_smallMoneyButton != null)
-            _smallMoneyButton.onClick.RemoveAllListeners();
-        if (_largeMoneyButton != null)
-            _largeMoneyButton.onClick.RemoveAllListeners();
-        if (_smallGuiltButton != null)
-            _smallGuiltButton.onClick.RemoveAllListeners();
-        if (_largeGuiltButton != null)
-            _largeGuiltButton.onClick.RemoveAllListeners();
+        Debug.Log($"Exchanged {ballCost} balls for {guiltReduction}% guilt reduction. Balls: {ballsBefore}->{GameManager.Instance.Balls}, Guilt: {guiltBefore}->{GameManager.Instance.GuiltyPercent}");
     }
 }
