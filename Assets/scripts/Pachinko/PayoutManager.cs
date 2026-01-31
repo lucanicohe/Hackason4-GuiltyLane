@@ -84,10 +84,11 @@ public class PayoutManager : MonoBehaviour
             return;
         }
 
+        int oldGold = GameManager.Instance.Gold;
         GameManager.Instance.Balls -= ballCost;
-        GameManager.Instance.Gold = GameManager.Instance.Gold + moneyGain;
+        GameManager.Instance.Gold += moneyGain;
 
-        Debug.Log($"Exchanged {ballCost} balls for {moneyGain} money");
+        Debug.Log($"Exchanged {ballCost} balls for {moneyGain} money. Gold: {oldGold} -> {GameManager.Instance.Gold}");
     }
 
     private void ExchangeForGuiltReduction(int ballCost, int guiltReduction)
