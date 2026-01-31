@@ -23,13 +23,11 @@ public class PayoutManager : MonoBehaviour
     {
         if (_smallMoneyButton != null)
             _smallMoneyButton.onClick.AddListener(() => ExchangeForMoney(10, 1));
-
         if (_largeMoneyButton != null)
             _largeMoneyButton.onClick.AddListener(() => ExchangeForMoney(100, 10));
 
         if (_smallGuiltButton != null)
             _smallGuiltButton.onClick.AddListener(() => ExchangeForGuiltReduction(10, 1));
-
         if (_largeGuiltButton != null)
             _largeGuiltButton.onClick.AddListener(() => ExchangeForGuiltReduction(100, 10));
 
@@ -87,7 +85,7 @@ public class PayoutManager : MonoBehaviour
         }
 
         GameManager.Instance.Balls -= ballCost;
-        GameManager.Instance.Gold += moneyGain;
+        GameManager.Instance.Gold = GameManager.Instance.Gold + moneyGain;
 
         Debug.Log($"Exchanged {ballCost} balls for {moneyGain} money");
     }
@@ -106,7 +104,6 @@ public class PayoutManager : MonoBehaviour
         {
             Debug.LogWarning("Guilt is already at 0");
             return;
-            
         }
 
         GameManager.Instance.Balls -= ballCost;
@@ -119,13 +116,10 @@ public class PayoutManager : MonoBehaviour
     {
         if (_smallMoneyButton != null)
             _smallMoneyButton.onClick.RemoveAllListeners();
-
         if (_largeMoneyButton != null)
             _largeMoneyButton.onClick.RemoveAllListeners();
-
         if (_smallGuiltButton != null)
             _smallGuiltButton.onClick.RemoveAllListeners();
-
         if (_largeGuiltButton != null)
             _largeGuiltButton.onClick.RemoveAllListeners();
     }
