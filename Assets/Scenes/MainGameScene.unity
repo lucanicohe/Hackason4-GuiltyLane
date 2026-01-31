@@ -9171,6 +9171,10 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 4f40f074add444844a67f22f321bbd8e, type: 2}
+    - target: {fileID: 4541177365453927249, guid: 0d7aa1ebc96418f40b3e11cd3f9a3054, type: 3}
+      propertyPath: m_TagString
+      value: Untagged
+      objectReference: {fileID: 0}
     - target: {fileID: 4701810383900873372, guid: 0d7aa1ebc96418f40b3e11cd3f9a3054, type: 3}
       propertyPath: m_Width
       value: 1
@@ -9504,6 +9508,10 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 6189513861108863467, guid: 0d7aa1ebc96418f40b3e11cd3f9a3054, type: 3}
+      propertyPath: m_TagString
+      value: Untagged
+      objectReference: {fileID: 0}
     - target: {fileID: 6233859449530989273, guid: 0d7aa1ebc96418f40b3e11cd3f9a3054, type: 3}
       propertyPath: _shopManager
       value: 
@@ -9512,6 +9520,14 @@ PrefabInstance:
       propertyPath: _inventoryManager
       value: 
       objectReference: {fileID: 1685961403020146056}
+    - target: {fileID: 6321893567784912510, guid: 0d7aa1ebc96418f40b3e11cd3f9a3054, type: 3}
+      propertyPath: m_TagString
+      value: Untagged
+      objectReference: {fileID: 0}
+    - target: {fileID: 6347352545697826080, guid: 0d7aa1ebc96418f40b3e11cd3f9a3054, type: 3}
+      propertyPath: m_TagString
+      value: Untagged
+      objectReference: {fileID: 0}
     - target: {fileID: 6382561707613917460, guid: 0d7aa1ebc96418f40b3e11cd3f9a3054, type: 3}
       propertyPath: m_Volume
       value: 0.877
@@ -9695,6 +9711,10 @@ PrefabInstance:
     - target: {fileID: 7243806122432658881, guid: 0d7aa1ebc96418f40b3e11cd3f9a3054, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7244948038623571585, guid: 0d7aa1ebc96418f40b3e11cd3f9a3054, type: 3}
+      propertyPath: m_TagString
+      value: TypingEnd
       objectReference: {fileID: 0}
     - target: {fileID: 7269881098678838262, guid: 0d7aa1ebc96418f40b3e11cd3f9a3054, type: 3}
       propertyPath: _shopManager
@@ -10043,6 +10063,10 @@ PrefabInstance:
     - target: {fileID: 8172456687157170274, guid: 0d7aa1ebc96418f40b3e11cd3f9a3054, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8220634255948725519, guid: 0d7aa1ebc96418f40b3e11cd3f9a3054, type: 3}
+      propertyPath: m_TagString
+      value: Untagged
       objectReference: {fileID: 0}
     - target: {fileID: 8299617201975529025, guid: 0d7aa1ebc96418f40b3e11cd3f9a3054, type: 3}
       propertyPath: m_AnchorMax.y
